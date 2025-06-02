@@ -1,0 +1,120 @@
+{{/*
+  底部 Dock 组件
+
+  功能：
+  - 搜索
+  - 返回顶部
+  - 滚动到评论区域
+  - 返回
+  - 目录
+
+  样式：与 header 保持一致的遮罩效果
+  行为：默认隐藏，向上滚动时显示
+*/}}
+
+<!-- 底部 Dock -->
+<div
+  id="dock"
+  class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-fit
+         transition-all duration-300 ease-out
+         translate-y-24 opacity-0 pointer-events-none
+         sm:left-0 sm:right-0 sm:translate-x-0 sm:mx-auto"
+  role="toolbar"
+  aria-label="{{ i18n "dock.aria_label" | default "快捷操作工具栏" }}">
+
+  <nav class="border-border bg-card/80 flex items-center justify-center rounded-2xl border
+            px-4 py-3 shadow-lg backdrop-blur-sm mx-auto min-w-fit
+            max-w-[calc(100vw-2rem)] overflow-x-auto scrollbar-hide
+            sm:px-4 sm:py-3 xs:px-3 xs:py-2">
+
+    <!-- 返回按钮 - 在非首页显示 -->
+    {{ if not .IsHome }}
+      <button
+        id="dock-back"
+        class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground
+        hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:scale-105
+        transition-all duration-300 ease-out rounded-lg flex-shrink-0
+        focus:outline-none focus:ring-2 focus:ring-primary/20
+        sm:px-3 sm:py-2 xs:px-2 xs:py-1.5"
+        title="{{ i18n "dock.back" | default "返回" }}"
+        aria-label="{{ i18n "dock.back" | default "返回" }}">
+        {{ partial "icon.html" (dict "name" "arrow-left" "size" "sm" "ariaLabel" "") }}
+        <span class="hidden sm:inline">{{ i18n "dock.back" | default "返回" }}</span>
+      </button>
+
+      <!-- 分隔线 -->
+      <div class="mx-2 h-6 w-px bg-border sm:mx-2 xs:mx-1"></div>
+    {{ end }}
+
+    <!-- 目录按钮 - 只在文章页面显示 -->
+    {{ if .IsPage }}
+      <button
+        id="dock-toc"
+        class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground
+        hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:scale-105
+        transition-all duration-300 ease-out rounded-lg flex-shrink-0
+        focus:outline-none focus:ring-2 focus:ring-primary/20
+        sm:px-3 sm:py-2 xs:px-2 xs:py-1.5"
+        title="{{ i18n "dock.toc" | default "目录" }}"
+        aria-label="{{ i18n "dock.toc" | default "目录" }}">
+        {{ partial "icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
+        <span class="hidden sm:inline">{{ i18n "dock.toc" | default "目录" }}</span>
+      </button>
+
+      <!-- 分隔线 -->
+      <div class="mx-2 h-6 w-px bg-border sm:mx-2 xs:mx-1"></div>
+    {{ end }}
+
+    <!-- 搜索按钮 -->
+    <button
+      id="dock-search"
+      class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground
+      hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:scale-105
+      transition-all duration-300 ease-out rounded-lg flex-shrink-0
+      focus:outline-none focus:ring-2 focus:ring-primary/20
+      sm:px-4 sm:py-2 xs:px-3 xs:py-1.5"
+      title="{{ i18n "dock.search" | default "搜索" }}"
+      aria-label="{{ i18n "dock.search" | default "搜索" }}">
+      {{ partial "icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
+      <span class="hidden md:inline">{{ i18n "dock.search" | default "搜索" }}</span>
+    </button>
+
+    <!-- 分隔线 -->
+    <div class="mx-2 h-6 w-px bg-border sm:mx-2 xs:mx-1"></div>
+
+    <!-- 滚动到评论区域按钮 - 只在文章页面且评论启用时显示 -->
+    {{ $commentsEnabled := and .Site.Params.comments.enabled (ne .Params.comments false) }}
+    {{ if and .IsPage $commentsEnabled }}
+      <button
+        id="dock-comments"
+        class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground
+        hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:scale-105
+        transition-all duration-300 ease-out rounded-lg flex-shrink-0
+        focus:outline-none focus:ring-2 focus:ring-primary/20
+        sm:px-3 sm:py-2 xs:px-2 xs:py-1.5"
+        title="{{ i18n "dock.comments" | default "评论" }}"
+        aria-label="{{ i18n "dock.comments" | default "评论" }}">
+        {{ partial "icon.html" (dict "name" "message-circle" "size" "sm" "ariaLabel" "") }}
+        <span class="hidden sm:inline">{{ i18n "dock.comments" | default "评论" }}</span>
+      </button>
+
+      <!-- 分隔线 -->
+      <div class="mx-2 h-6 w-px bg-border sm:mx-2 xs:mx-1"></div>
+    {{ end }}
+
+    <!-- 返回顶部按钮 -->
+    <button
+      id="dock-top"
+      class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground
+      hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:scale-105
+      transition-all duration-300 ease-out rounded-lg flex-shrink-0
+      focus:outline-none focus:ring-2 focus:ring-primary/20
+      sm:px-3 sm:py-2 xs:px-2 xs:py-1.5"
+      title="{{ i18n "dock.back_to_top" | default "返回顶部" }}"
+      aria-label="{{ i18n "dock.back_to_top" | default "返回顶部" }}">
+      {{ partial "icon.html" (dict "name" "arrow-up" "size" "sm" "ariaLabel" "") }}
+      <span class="hidden sm:inline">{{ i18n "dock.top" | default "顶部" }}</span>
+    </button>
+
+  </nav>
+</div>

@@ -1,0 +1,104 @@
+{{ define "main" }}
+
+  <!-- 面包屑导航 -->
+  {{ partial "breadcrumb.html" . }}
+
+  <!-- 页面标题和描述 -->
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-foreground mb-4">
+      {{ if eq .Data.Singular "tag" }}
+        {{ i18n "nav.tags" | default "标签" }}
+      {{ else if eq .Data.Singular "category" }}
+        {{ i18n "nav.categories" | default "分类" }}
+      {{ else }}
+        {{ .Title }}
+      {{ end }}
+    </h1>
+
+    {{ if .Content }}
+      <div class="prose prose-neutral dark:prose-invert max-w-none mb-6">
+        {{ .Content }}
+      </div>
+    {{ else }}
+      <p class="text-muted-foreground mb-6">
+        {{ if eq .Data.Singular "tag" }}
+          {{ i18n "taxonomy.tags_desc" | default "浏览所有标签，发现感兴趣的内容。" }}
+        {{ else if eq .Data.Singular "category" }}
+          {{ i18n "taxonomy.categories_desc" | default "浏览所有分类，发现感兴趣的内容。" }}
+        {{ else }}
+          {{ i18n "taxonomy.desc" | default "浏览所有分类，发现感兴趣的内容。" }}
+        {{ end }}
+      </p>
+    {{ end }}
+
+    <!-- 统计信息 -->
+    <div class="flex items-center gap-4 text-sm text-muted-foreground">
+      <div class="flex items-center gap-1">
+        {{ partial "icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "taxonomy.total_terms" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个%s" (len .Data.Terms) .Data.Singular) }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 分类法术语列表 -->
+  {{ $terms := .Data.Terms.ByCount }}
+  {{ if $terms }}
+    <!-- 统一使用标签云布局 -->
+    {{ $taxonomySingular := .Data.Singular }}
+    <div class="flex flex-wrap gap-3">
+      {{ $maxCount := 0 }}
+      {{ range $terms }}
+        {{ if gt .Count $maxCount }}
+          {{ $maxCount = .Count }}
+        {{ end }}
+      {{ end }}
+
+      {{ range $terms }}
+        {{ $weight := div (mul .Count 4) $maxCount }}
+        {{ $weight = add $weight 1 }}
+        {{ $sizeClass := "" }}
+        {{ $colorClass := "" }}
+
+        {{ if eq $weight 1 }}
+          {{ $sizeClass = "text-sm" }}
+        {{ else if eq $weight 2 }}
+          {{ $sizeClass = "text-base" }}
+        {{ else if eq $weight 3 }}
+          {{ $sizeClass = "text-lg" }}
+        {{ else if eq $weight 4 }}
+          {{ $sizeClass = "text-xl" }}
+        {{ else }}
+          {{ $sizeClass = "text-2xl" }}
+        {{ end }}
+
+        <a href="{{ .Page.RelPermalink }}"
+           class="inline-flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg
+           transition-all duration-300 ease-out group {{ $sizeClass }}
+           hover:bg-primary/10 hover:text-primary hover:-translate-y-0.5 hover:scale-105 hover:border-primary/50
+           focus:outline-none focus:ring-2 focus:ring-primary/20"
+           data-taxonomy="{{ $taxonomySingular }}">
+          <span class="font-medium text-foreground group-hover:text-primary transition-colors duration-200">
+            {{ .Page.LinkTitle }}
+          </span>
+          <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs font-medium rounded-full">
+            {{ .Count }}
+          </span>
+        </a>
+      {{ end }}
+    </div>
+  {{ else }}
+    <!-- 空状态 -->
+    <div class="text-center py-16">
+      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
+        {{ partial "icon.html" (dict "name" "tag" "size" "xl" "ariaLabel" "") }}
+      </div>
+      <h2 class="text-xl font-medium text-foreground mb-3">
+        {{ i18n "taxonomy.no_terms" | default "暂无分类" }}
+      </h2>
+      <p class="text-muted-foreground mb-6">
+        {{ i18n "taxonomy.no_terms_desc" | default "还没有创建任何分类，请稍后再来查看。" }}
+      </p>
+    </div>
+  {{ end }}
+
+{{ end }}

@@ -1,0 +1,39 @@
+{{ define "main" }}
+  
+  <!-- 面包屑导航 -->
+  {{ partial "breadcrumb.html" . }}
+  
+  <!-- 文章封面 -->
+  {{ if .Params.cover }}
+    <div class="mb-8 overflow-hidden rounded-2xl">
+      <img 
+        src="{{ .Params.cover }}" 
+        alt="{{ .Title }}"
+        class="w-full h-64 md:h-80 object-cover"
+        loading="eager">
+    </div>
+  {{ end }}
+  
+  <!-- 文章头部信息 -->
+  <header class="mb-8">
+    {{ partial "post-meta.html" . }}
+  </header>
+  
+  <!-- 文章内容 -->
+  <article class="prose prose-neutral dark:prose-invert max-w-none mb-12">
+    {{ .Content }}
+  </article>
+  
+  <!-- 许可证信息 -->
+  {{ partial "post-license.html" . }}
+  
+  <!-- 上一篇/下一篇导航 -->
+  {{ partial "post-navigation.html" . }}
+  
+  <!-- 相关文章 -->
+  {{ partial "related-posts.html" . }}
+  
+  <!-- 评论组件 -->
+  {{ partial "comments.html" . }}
+  
+{{ end }}

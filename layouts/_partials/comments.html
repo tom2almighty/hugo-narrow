@@ -1,0 +1,147 @@
+{{/*
+  评论组件
+
+  支持多种评论系统：Disqus、Giscus、Utterances 等
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+{{ $showComments := .Params.comments | default .Site.Params.comments.enabled | default true }}
+{{ $commentSystem := .Params.commentSystem | default .Site.Params.comments.system | default "giscus" }}
+
+{{ if and $showComments (not .Params.draft) }}
+  <section id="comments" class="comments mb-12">
+
+    <!-- 评论标题 -->
+    <div class="flex items-center gap-3 mb-6">
+      {{ partial "icon.html" (dict "name" "message" "size" "md" "ariaLabel" "") }}
+      <h2 class="text-2xl font-bold text-foreground">
+        {{ i18n "comments.title" | default "评论" }}
+      </h2>
+    </div>
+
+    <!-- 评论容器 -->
+    <div class="comments-container p-6 bg-card border border-border rounded-xl">
+
+      {{ if eq $commentSystem "giscus" }}
+        <!-- Giscus 评论系统 -->
+        {{ if .Site.Params.comments.giscus.repo }}
+          <script src="https://giscus.app/client.js"
+                  data-repo="{{ .Site.Params.comments.giscus.repo }}"
+                  data-repo-id="{{ .Site.Params.comments.giscus.repoId }}"
+                  data-category="{{ .Site.Params.comments.giscus.category | default "General" }}"
+                  data-category-id="{{ .Site.Params.comments.giscus.categoryId }}"
+                  data-mapping="{{ .Site.Params.comments.giscus.mapping | default "pathname" }}"
+                  data-strict="{{ .Site.Params.comments.giscus.strict | default "0" }}"
+                  data-reactions-enabled="{{ .Site.Params.comments.giscus.reactionsEnabled | default "1" }}"
+                  data-emit-metadata="{{ .Site.Params.comments.giscus.emitMetadata | default "0" }}"
+                  data-input-position="{{ .Site.Params.comments.giscus.inputPosition | default "bottom" }}"
+                  data-theme="{{ .Site.Params.comments.giscus.theme | default "preferred_color_scheme" }}"
+                  data-lang="{{ .Site.Params.comments.giscus.lang | default "zh-CN" }}"
+                  crossorigin="anonymous"
+                  async>
+          </script>
+        {{ else }}
+          <div class="text-center py-8">
+            <p class="text-muted-foreground">
+              {{ i18n "comments.giscus_not_configured" | default "Giscus 评论系统未配置" }}
+            </p>
+          </div>
+        {{ end }}
+
+      {{ else if eq $commentSystem "disqus" }}
+        <!-- Disqus 评论系统 -->
+        {{ if .Site.DisqusShortname }}
+          <div id="disqus_thread"></div>
+          <script>
+            var disqus_config = function () {
+              this.page.url = "{{ .Permalink }}";
+              this.page.identifier = "{{ .RelPermalink }}";
+              this.page.title = "{{ .Title }}";
+            };
+            (function() {
+              var d = document, s = d.createElement('script');
+              s.src = 'https://{{ .Site.DisqusShortname }}.disqus.com/embed.js';
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+          <noscript>
+            <p>
+              {{ i18n "comments.disqus_noscript" | default "请启用 JavaScript 来查看评论。" }}
+              <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+            </p>
+          </noscript>
+        {{ else }}
+          <div class="text-center py-8">
+            <p class="text-muted-foreground">
+              {{ i18n "comments.disqus_not_configured" | default "Disqus 评论系统未配置" }}
+            </p>
+          </div>
+        {{ end }}
+
+      {{ else if eq $commentSystem "utterances" }}
+        <!-- Utterances 评论系统 -->
+        {{ if .Site.Params.comments.utterances.repo }}
+          <script src="https://utteranc.es/client.js"
+                  repo="{{ .Site.Params.comments.utterances.repo }}"
+                  issue-term="{{ .Site.Params.comments.utterances.issueTerm | default "pathname" }}"
+                  label="{{ .Site.Params.comments.utterances.label | default "comment" }}"
+                  theme="{{ .Site.Params.comments.utterances.theme | default "preferred-color-scheme" }}"
+                  crossorigin="anonymous"
+                  async>
+          </script>
+        {{ else }}
+          <div class="text-center py-8">
+            <p class="text-muted-foreground">
+              {{ i18n "comments.utterances_not_configured" | default "Utterances 评论系统未配置" }}
+            </p>
+          </div>
+        {{ end }}
+
+      {{ else if eq $commentSystem "waline" }}
+        <!-- Waline 评论系统 -->
+        {{ if .Site.Params.comments.waline.serverURL }}
+          <div id="waline"></div>
+          <script type="module">
+            import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+            init({
+              el: '#waline',
+              serverURL: '{{ .Site.Params.comments.waline.serverURL }}',
+              path: '{{ .RelPermalink }}',
+              lang: '{{ .Site.Params.comments.waline.lang | default "zh-CN" }}',
+              dark: '{{ .Site.Params.comments.waline.dark | default "auto" }}',
+              meta: {{ .Site.Params.comments.waline.meta | default (slice "nick" "mail" "link") | jsonify }},
+              requiredMeta: {{ .Site.Params.comments.waline.requiredMeta | default (slice "nick") | jsonify }},
+              placeholder: '{{ .Site.Params.comments.waline.placeholder | default "请留下你的足迹 ~~" }}',
+              avatar: '{{ .Site.Params.comments.waline.avatar | default "mp" }}',
+              pageSize: {{ .Site.Params.comments.waline.pageSize | default 10 }},
+            });
+          </script>
+        {{ else }}
+          <div class="text-center py-8">
+            <p class="text-muted-foreground">
+              {{ i18n "comments.waline_not_configured" | default "Waline 评论系统未配置" }}
+            </p>
+          </div>
+        {{ end }}
+
+      {{ else }}
+        <!-- 默认提示 -->
+        <div class="text-center py-8">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
+            {{ partial "icon.html" (dict "name" "message" "size" "lg" "ariaLabel" "") }}
+          </div>
+          <h3 class="text-lg font-medium text-foreground mb-2">
+            {{ i18n "comments.not_configured" | default "评论系统未配置" }}
+          </h3>
+          <p class="text-muted-foreground text-sm">
+            {{ i18n "comments.not_configured_desc" | default "请在站点配置中启用评论系统" }}
+          </p>
+        </div>
+      {{ end }}
+
+    </div>
+
+  </section>
+{{ end }}

@@ -1,0 +1,58 @@
+<footer class="mx-auto max-w-4xl px-4 py-8">
+  <div class="px-6 py-6">
+
+    <!-- 外部链接菜单 -->
+    {{ if site.Menus.footer }}
+    <nav class="mb-6">
+      <div class="flex flex-wrap items-center justify-center gap-1">
+        {{ range site.Menus.footer }}
+          <a
+            href="{{ .URL }}"
+            {{ if strings.HasPrefix .URL "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+            class="nav-link hover:text-primary hover:scale-105 hover:bg-primary/10 text-muted-foreground rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 flex items-center gap-2">
+            {{ if .Params.icon }}
+              {{ partial "icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+            {{ end }}
+            <span>{{ if hasPrefix .Name "footer." }}{{ i18n .Name }}{{ else if hasPrefix .Name "nav." }}{{ i18n .Name }}{{ else }}{{ .Name }}{{ end }}</span>
+          </a>
+        {{ end }}
+      </div>
+    </nav>
+    {{ end }}
+
+    <!-- 分隔线 -->
+    {{ if and site.Menus.footer site.Menus.social }}
+    <div class="border-border mb-6 border-t"></div>
+    {{ end }}
+
+    <!-- 底部区域：版权信息和社交媒体 -->
+    <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+
+      <!-- 版权信息 -->
+      <div class="text-muted-foreground text-sm">
+        <p>&copy; {{ now.Year }} {{ site.Title }}. {{ i18n "footer.all_rights_reserved" }}.</p>
+      </div>
+
+      <!-- 社交媒体图标 -->
+      {{ if site.Menus.social }}
+      <div class="flex items-center gap-3">
+        {{ range site.Menus.social }}
+          <a
+            href="{{ .URL }}"
+            {{ if strings.HasPrefix .URL "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+            class="text-muted-foreground hover:text-primary hover:scale-110
+            transition-all duration-300 ease-out
+            focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-lg p-1"
+            title="{{ .Name }}"
+            aria-label="{{ .Name }}">
+            {{ if .Params.icon }}
+              {{ partial "icon.html" (dict "name" .Params.icon "size" "lg" "ariaLabel" .Name) }}
+            {{ end }}
+          </a>
+        {{ end }}
+      </div>
+      {{ end }}
+
+    </div>
+  </div>
+</footer>

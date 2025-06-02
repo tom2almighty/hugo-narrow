@@ -1,0 +1,105 @@
+{{/*
+  分页导航组件
+  
+  显示分页导航，支持上一页、下一页、页码跳转
+  
+  @context {page} . 当前页面对象 (包含分页信息)
+*/}}
+
+{{ $paginator := .Paginator }}
+
+{{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination mt-12" aria-label="{{ i18n "nav.pagination" | default "分页导航" }}">
+    <div class="flex items-center justify-center gap-2">
+      
+      <!-- 上一页 -->
+      {{ if $paginator.HasPrev }}
+        <a 
+          href="{{ $paginator.Prev.URL }}" 
+          class="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent/50 hover:border-primary/20 transition-all duration-300 font-medium"
+          aria-label="{{ i18n "nav.prev_page" | default "上一页" }}">
+          {{ partial "icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
+          <span class="hidden sm:inline">{{ i18n "nav.prev" | default "上一页" }}</span>
+        </a>
+      {{ else }}
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-muted/30 border border-border/50 rounded-lg text-muted-foreground cursor-not-allowed">
+          {{ partial "icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
+          <span class="hidden sm:inline">{{ i18n "nav.prev" | default "上一页" }}</span>
+        </span>
+      {{ end }}
+      
+      <!-- 页码 -->
+      <div class="flex items-center gap-1">
+        {{ $currentPage := $paginator.PageNumber }}
+        {{ $totalPages := $paginator.TotalPages }}
+        
+        <!-- 第一页 -->
+        {{ if gt $currentPage 3 }}
+          <a 
+            href="{{ $paginator.First.URL }}" 
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-border hover:bg-accent/50 hover:border-primary/20 transition-all duration-300 font-medium">
+            1
+          </a>
+          {{ if gt $currentPage 4 }}
+            <span class="px-2 text-muted-foreground">…</span>
+          {{ end }}
+        {{ end }}
+        
+        <!-- 当前页附近的页码 -->
+        {{ range $paginator.Pagers }}
+          {{ $pageNum := .PageNumber }}
+          {{ if and (ge $pageNum (sub $currentPage 2)) (le $pageNum (add $currentPage 2)) }}
+            {{ if eq $pageNum $currentPage }}
+              <!-- 当前页 -->
+              <span class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-medium" aria-current="page">
+                {{ $pageNum }}
+              </span>
+            {{ else }}
+              <!-- 其他页 -->
+              <a 
+                href="{{ .URL }}" 
+                class="w-10 h-10 flex items-center justify-center rounded-lg border border-border hover:bg-accent/50 hover:border-primary/20 transition-all duration-300 font-medium">
+                {{ $pageNum }}
+              </a>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        
+        <!-- 最后一页 -->
+        {{ if lt $currentPage (sub $totalPages 2) }}
+          {{ if lt $currentPage (sub $totalPages 3) }}
+            <span class="px-2 text-muted-foreground">…</span>
+          {{ end }}
+          <a 
+            href="{{ $paginator.Last.URL }}" 
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-border hover:bg-accent/50 hover:border-primary/20 transition-all duration-300 font-medium">
+            {{ $totalPages }}
+          </a>
+        {{ end }}
+      </div>
+      
+      <!-- 下一页 -->
+      {{ if $paginator.HasNext }}
+        <a 
+          href="{{ $paginator.Next.URL }}" 
+          class="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent/50 hover:border-primary/20 transition-all duration-300 font-medium"
+          aria-label="{{ i18n "nav.next_page" | default "下一页" }}">
+          <span class="hidden sm:inline">{{ i18n "nav.next" | default "下一页" }}</span>
+          {{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+        </a>
+      {{ else }}
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-muted/30 border border-border/50 rounded-lg text-muted-foreground cursor-not-allowed">
+          <span class="hidden sm:inline">{{ i18n "nav.next" | default "下一页" }}</span>
+          {{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+        </span>
+      {{ end }}
+      
+    </div>
+    
+    <!-- 分页信息 -->
+    <div class="text-center mt-4 text-sm text-muted-foreground">
+      {{ i18n "nav.page_info" (dict "current" $currentPage "total" $totalPages) | default (printf "第 %d 页，共 %d 页" $currentPage $totalPages) }}
+    </div>
+    
+  </nav>
+{{ end }}

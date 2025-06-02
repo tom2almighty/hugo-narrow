@@ -1,0 +1,177 @@
+# 中文语言文件
+# 导航相关
+nav:
+  menu: "菜单"
+  home: "首页"
+  posts: "文章"
+  tags: "标签"
+  categories: "分类"
+  about: "关于"
+  contact: "联系"
+  archive: "归档"
+  archives: "归档"
+  search: "搜索"
+  breadcrumb: "面包屑导航"
+  pagination: "分页导航"
+  prev: "上一页"
+  next: "下一页"
+  prev_page: "上一页"
+  next_page: "下一页"
+  page_info: "第 {{ .current }} 页，共 {{ .total }} 页"
+  total_pages: "共 {{ .count }} 页"
+  back_home: "返回首页"
+  post_navigation: "文章导航"
+
+# 主题相关
+theme:
+  toggle: "切换主题风格"
+  light: "亮色"
+  dark: "暗色"
+  system: "跟随系统"
+  auto: "自动"
+
+# 页脚相关
+footer:
+  copyright: "版权所有"
+  all_rights_reserved: "保留所有权利"
+  about_us: "关于我们"
+  contact_us: "联系方式"
+  privacy_policy: "隐私政策"
+  terms_of_service: "服务条款"
+  rss_feed: "RSS 订阅"
+
+# 首页相关
+home:
+  recent_posts: "最近文章"
+  showing_posts: "显示最新"
+  posts: "篇文章"
+  view_all_posts: "查看所有文章"
+
+# 文章相关
+post:
+  read_more: "阅读更多"
+  published_on: "发布于"
+  updated_on: "更新于"
+  tags: "标签"
+  categories: "分类"
+  share: "分享"
+  previous: "上一篇"
+  next: "下一篇"
+  related_posts: "相关文章"
+  reading_time: "阅读时间"
+  no_posts: "暂无文章"
+  no_posts_desc: "还没有发布任何文章，请稍后再来查看。"
+  list_desc: "这里是所有已发布的文章，按时间倒序排列。"
+  total_posts: "共 {{ .count }} 篇文章"
+  author: "作者"
+  words: "字"
+  no_previous: "没有上一篇"
+  no_next: "没有下一篇"
+  no_previous_desc: "这是最新的文章"
+  no_next_desc: "这是最早的文章"
+  view_more_posts: "查看更多文章"
+
+# 分页相关
+pagination:
+  previous: "上一页"
+  next: "下一页"
+  page: "第"
+  of: "页，共"
+  pages: "页"
+
+# 搜索相关
+search:
+  placeholder: "搜索文章..."
+  no_results: "没有找到相关结果"
+  results_found: "找到 {{.Count}} 个结果"
+
+# 表单相关
+form:
+  name: "姓名"
+  email: "邮箱"
+  message: "消息"
+  subject: "主题"
+  send: "发送"
+  required: "必填"
+
+# 时间相关
+time:
+  minute: "分钟"
+  minutes: "分钟"
+  hour: "小时"
+  hours: "小时"
+  day: "天"
+  days: "天"
+  week: "周"
+  weeks: "周"
+  month: "月"
+  months: "月"
+  year: "年"
+  years: "年"
+  ago: "前"
+
+# 通用
+common:
+  loading: "加载中..."
+  error: "错误"
+  success: "成功"
+  close: "关闭"
+  open: "打开"
+  save: "保存"
+  cancel: "取消"
+  confirm: "确认"
+  delete: "删除"
+  edit: "编辑"
+  view: "查看"
+  back: "返回"
+  more: "更多"
+  language: "语言"
+  site_logo: "站点 Logo"
+
+# 许可证相关
+license:
+  title: "版权声明"
+  author: "作者"
+  link: "链接"
+  type: "许可证"
+  cc_by_nc_sa_desc: "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。转载请注明出处，非商业性使用，并保持相同的许可方式。"
+  cc_by_desc: "本作品采用知识共享署名 4.0 国际许可协议进行许可。转载请注明出处。"
+
+# 评论相关
+comments:
+  title: "评论"
+  not_configured: "评论系统未配置"
+  not_configured_desc: "请在站点配置中启用评论系统"
+  giscus_not_configured: "Giscus 评论系统未配置"
+  disqus_not_configured: "Disqus 评论系统未配置"
+  disqus_noscript: "请启用 JavaScript 来查看评论。"
+  utterances_not_configured: "Utterances 评论系统未配置"
+  waline_not_configured: "Waline 评论系统未配置"
+
+# 底部 Dock
+dock:
+  aria_label: "快捷操作工具栏"
+  back: "返回"
+  toc: "目录"
+  search: "搜索"
+  comments: "评论"
+  back_to_top: "返回顶部"
+  top: "顶部"
+
+# 提醒框相关
+alert:
+  note: "注意"
+  tip: "提示"
+  important: "重要"
+  warning: "警告"
+  caution: "小心"
+
+# 目录相关
+toc:
+  close: "关闭"
+
+# 代码块相关
+code:
+  copy: "复制"
+  copied: "已复制"
+  selected: "已选择"

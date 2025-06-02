@@ -1,0 +1,280 @@
+<header class="mx-auto max-w-4xl px-4 py-6">
+  <div
+    class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
+
+    <!-- 桌面端布局 -->
+    <div class="hidden md:flex items-center w-full">
+      <!-- 左侧：站点 Logo -->
+      <div class="flex items-center">
+        {{ if site.Params.logo }}
+          <a
+            href="{{ site.Params.logo.link | default "/" }}"
+            class="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
+            aria-label="{{ if hasPrefix site.Params.logo.alt "common." }}{{ i18n site.Params.logo.alt }}{{ else }}{{ site.Params.logo.alt | default site.Title }}{{ end }}">
+            <img
+              src="{{ site.Params.logo.image }}"
+              alt="{{ if hasPrefix site.Params.logo.alt "common." }}{{ i18n site.Params.logo.alt }}{{ else }}{{ site.Params.logo.alt | default site.Title }}{{ end }}"
+              class="w-full h-full object-cover">
+          </a>
+        {{ else }}
+          <!-- 默认 Logo：使用站点标题首字母 -->
+          <a
+            href="/"
+            class="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground font-bold text-lg transition-transform duration-200 hover:scale-105"
+            aria-label="{{ site.Title }}">
+            {{ substr site.Title 0 1 | upper }}
+          </a>
+        {{ end }}
+      </div>
+
+      <!-- 中间：桌面端导航 -->
+      <nav class="flex items-center justify-center flex-1 mx-8">
+        <div class="flex items-center space-x-1">
+          {{ $currentPage := . }}
+          {{ range site.Menus.main }}
+            {{ $isActive := eq $currentPage.RelPermalink .URL }}
+            <a
+              href="{{ .URL }}"
+              class="nav-link {{ if $isActive }}
+                nav-active-indicator bg-accent text-accent-foreground
+              {{ else }}
+                text-muted-foreground hover:text-primary hover:bg-primary/10
+              {{ end }} relative rounded-lg px-4 py-2 text-sm font-medium
+              transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105
+              focus:outline-none focus:ring-2 focus:ring-primary/20
+              flex items-center gap-2">
+              {{ if .Params.icon }}
+                {{ partial "icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+              {{ end }}
+              <span>{{ if hasPrefix .Name "nav." }}{{ i18n .Name }}{{ else }}{{ .Name }}{{ end }}</span>
+            </a>
+          {{ end }}
+        </div>
+      </nav>
+
+      <!-- 右侧：桌面端控制区域 -->
+      <div class="flex items-center space-x-2">
+        <!-- 主题风格切换按钮 -->
+        <div class="relative">
+          <button
+            id="color-scheme-toggle"
+            class="color-scheme-toggle border-border bg-background text-muted-foreground
+            hover:text-primary hover:bg-primary/10 hover:scale-105
+            flex h-10 w-10 items-center justify-center rounded-lg border
+            transition-all duration-300 ease-out
+            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            aria-label="{{ i18n "theme.toggle" }}">
+            {{ partial "icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "theme.toggle")) }}
+          </button>
+
+          <!-- 主题风格选择下拉菜单 -->
+          <div
+            id="color-scheme-dropdown"
+            class="color-scheme-dropdown border-border bg-popover/95 backdrop-blur-sm
+            absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1
+            shadow-lg transition-all duration-200 ease-out">
+            {{ $themes := site.Params.themes }}
+            {{ $sortedThemes := slice }}
+            {{ range $key, $theme := $themes }}
+              {{ $sortedThemes = $sortedThemes | append (dict "key" $key "theme" $theme) }}
+            {{ end }}
+            {{ $sortedThemes = sort $sortedThemes "theme.order" }}
+            {{ range $sortedThemes }}
+              <button
+                data-color-scheme="{{ .key }}"
+                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+                flex w-full items-center px-4 py-2 text-sm rounded-md
+                transition-all duration-200 ease-out
+                focus:outline-none focus:bg-accent focus:text-accent-foreground">
+                <span>{{ .theme.name }}</span>
+              </button>
+            {{ end }}
+          </div>
+        </div>
+
+        <!-- 明暗模式切换按钮 -->
+        <div class="relative">
+          <button
+            id="theme-toggle"
+            class="theme-toggle border-border bg-background text-muted-foreground
+            hover:text-primary hover:bg-primary/10 hover:scale-105
+            flex h-10 w-10 items-center justify-center rounded-lg border
+            transition-all duration-300 ease-out
+            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            aria-label="{{ i18n "theme.toggle" }}">
+            <!-- 太阳图标 (亮色模式) -->
+            {{ partial "icon.html" (dict "name" "sun" "id" "sun-icon" "class" "hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
+            <!-- 月亮图标 (暗色模式) -->
+            {{ partial "icon.html" (dict "name" "moon" "id" "moon-icon" "class" "hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
+            <!-- 系统图标 (跟随系统) -->
+            {{ partial "icon.html" (dict "name" "monitor" "id" "system-icon" "class" "hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.system")) }}
+          </button>
+
+          <!-- 明暗模式选择下拉菜单 -->
+          <div
+            id="theme-dropdown"
+            class="theme-dropdown border-border bg-popover/95 backdrop-blur-sm
+            absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1
+            shadow-lg transition-all duration-200 ease-out">
+            <button
+              data-theme="light"
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+              flex w-full items-center px-4 py-2 text-sm rounded-md
+              transition-all duration-200 ease-out
+              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              {{ partial "icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light")) }}
+              <span>{{ i18n "theme.light" }}</span>
+            </button>
+            <button
+              data-theme="dark"
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+              flex w-full items-center px-4 py-2 text-sm rounded-md
+              transition-all duration-200 ease-out
+              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              {{ partial "icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
+              <span>{{ i18n "theme.dark" }}</span>
+            </button>
+            <button
+              data-theme="system"
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+              flex w-full items-center px-4 py-2 text-sm rounded-md
+              transition-all duration-200 ease-out
+              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              {{ partial "icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system")) }}
+              <span>{{ i18n "theme.system" }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 移动端布局 -->
+    <div class="flex md:hidden items-center justify-between w-full">
+      <!-- 左侧：移动端菜单按钮 -->
+      <button
+        id="mobile-menu-toggle"
+        class="border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground flex h-10 w-10 items-center justify-center rounded-lg border transition-colors duration-200"
+        aria-label="{{ i18n "nav.menu" }}">
+        {{ partial "icon.html" (dict "name" "menu" "size" "md" "ariaLabel" (i18n "nav.menu")) }}
+      </button>
+
+      <!-- 右侧：移动端控制区域 -->
+      <div class="flex items-center space-x-2">
+        <!-- 主题风格切换按钮 -->
+        <div class="relative">
+          <button
+            class="color-scheme-toggle border-border bg-background text-muted-foreground
+            hover:text-primary hover:bg-primary/10 hover:scale-105
+            flex h-10 w-10 items-center justify-center rounded-lg border
+            transition-all duration-300 ease-out
+            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            aria-label="{{ i18n "theme.toggle" }}">
+            {{ partial "icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "theme.toggle")) }}
+          </button>
+
+          <!-- 主题风格选择下拉菜单 -->
+          <div
+            class="color-scheme-dropdown border-border bg-popover/95 backdrop-blur-sm
+            absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1
+            shadow-lg transition-all duration-200 ease-out">
+            {{ $themes := site.Params.themes }}
+            {{ $sortedThemes := slice }}
+            {{ range $key, $theme := $themes }}
+              {{ $sortedThemes = $sortedThemes | append (dict "key" $key "theme" $theme) }}
+            {{ end }}
+            {{ $sortedThemes = sort $sortedThemes "theme.order" }}
+            {{ range $sortedThemes }}
+              <button
+                data-color-scheme="{{ .key }}"
+                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+                flex w-full items-center px-4 py-2 text-sm rounded-md
+                transition-all duration-200 ease-out
+                focus:outline-none focus:bg-accent focus:text-accent-foreground">
+                <span>{{ .theme.name }}</span>
+              </button>
+            {{ end }}
+          </div>
+        </div>
+
+        <!-- 明暗模式切换按钮 -->
+        <div class="relative">
+          <button
+            class="theme-toggle border-border bg-background text-muted-foreground
+            hover:text-primary hover:bg-primary/10 hover:scale-105
+            flex h-10 w-10 items-center justify-center rounded-lg border
+            transition-all duration-300 ease-out
+            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            aria-label="{{ i18n "theme.toggle" }}">
+            <!-- 太阳图标 (亮色模式) -->
+            {{ partial "icon.html" (dict "name" "sun" "class" "sun-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
+            <!-- 月亮图标 (暗色模式) -->
+            {{ partial "icon.html" (dict "name" "moon" "class" "moon-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
+            <!-- 系统图标 (跟随系统) -->
+            {{ partial "icon.html" (dict "name" "monitor" "class" "system-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.system")) }}
+          </button>
+
+          <!-- 明暗模式选择下拉菜单 -->
+          <div
+            class="theme-dropdown border-border bg-popover/95 backdrop-blur-sm
+            absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1
+            shadow-lg transition-all duration-200 ease-out">
+            <button
+              data-theme="light"
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+              flex w-full items-center px-4 py-2 text-sm rounded-md
+              transition-all duration-200 ease-out
+              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              {{ partial "icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light")) }}
+              <span>{{ i18n "theme.light" }}</span>
+            </button>
+            <button
+              data-theme="dark"
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+              flex w-full items-center px-4 py-2 text-sm rounded-md
+              transition-all duration-200 ease-out
+              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              {{ partial "icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
+              <span>{{ i18n "theme.dark" }}</span>
+            </button>
+            <button
+              data-theme="system"
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
+              flex w-full items-center px-4 py-2 text-sm rounded-md
+              transition-all duration-200 ease-out
+              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              {{ partial "icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system")) }}
+              <span>{{ i18n "theme.system" }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动端导航面板 -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu border-border bg-card/80 mt-4 hidden overflow-hidden rounded-2xl border shadow-sm backdrop-blur-sm md:hidden">
+    <nav class="flex flex-col p-2">
+      {{ $currentPage := . }}
+      {{ range site.Menus.main }}
+        {{ $isActive := eq $currentPage.RelPermalink .URL }}
+        <a
+          href="{{ .URL }}"
+          class="nav-link {{ if $isActive }}
+            nav-active-indicator bg-accent text-accent-foreground
+          {{ else }}
+            text-muted-foreground hover:text-primary hover:bg-primary/10
+          {{ end }} relative rounded-lg px-4 py-3 text-sm font-medium
+          transition-all duration-200 ease-in-out hover:translate-x-1
+          focus:outline-none focus:ring-2 focus:ring-primary/20
+          flex items-center gap-3">
+          {{ if .Params.icon }}
+            {{ partial "icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+          {{ end }}
+          <span>{{ if hasPrefix .Name "nav." }}{{ i18n .Name }}{{ else }}{{ .Name }}{{ end }}</span>
+        </a>
+      {{ end }}
+    </nav>
+  </div>
+</header>

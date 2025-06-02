@@ -1,0 +1,28 @@
+{{- .Scratch.Add "pages" slice -}}
+
+{{- .Scratch.Add "posts" slice -}}
+{{- range $index, $value := (where .Site.RegularPages "Section" "==" "posts") -}}
+{{- $.Scratch.Add "posts" (dict "title" $value.Title "text" $value.Plain "link" $value.Permalink) -}}
+{{- end -}}
+
+{{- .Scratch.Add "tags" slice -}}
+{{- range .Site.Taxonomies.tags -}}
+{{- $.Scratch.Add "tags" (dict "name" .Page.Title "slug" .Page.Title "link" .Page.Permalink) -}}
+{{- end -}}
+
+{{- .Scratch.Add "categories" slice -}}
+{{- range .Site.Taxonomies.categories -}}
+{{- $.Scratch.Add "categories" (dict "name" .Page.Title "slug" .Page.Title "link" .Page.Permalink ) -}}
+{{- end -}}
+
+{{- .Scratch.SetInMap "index" "pages" (.Scratch.Get "pages") }}
+{{- .Scratch.SetInMap "index" "posts" (.Scratch.Get "posts") }}
+{{- .Scratch.SetInMap "index" "tags" (.Scratch.Get "tags") }}
+{{- .Scratch.SetInMap "index" "categories" (.Scratch.Get "categories") }}
+{{- .Scratch.Get "index" | jsonify -}}
+
+{{- .Scratch.Delete "pages" -}}
+{{- .Scratch.Delete "posts" -}}
+{{- .Scratch.Delete "tags" -}}
+{{- .Scratch.Delete "categories" -}}
+{{- .Scratch.Delete "index" -}}

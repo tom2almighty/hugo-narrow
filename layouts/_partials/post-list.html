@@ -1,0 +1,62 @@
+{{/*
+  文章列表组件
+
+  显示文章卡片列表
+
+  @context {slice} .posts 文章列表
+  @context {string} .title 列表标题 (可选)
+  @context {bool} .showTitle 是否显示标题 (默认: false)
+  @context {bool} .showViewAll 是否显示"查看所有"按钮 (默认: false)
+  @context {string} .viewAllUrl "查看所有"按钮的链接 (默认: /posts/)
+*/}}
+
+{{ $posts := .posts }}
+{{ $title := .title | default "" }}
+{{ $showTitle := .showTitle | default false }}
+{{ $showViewAll := .showViewAll | default false }}
+{{ $viewAllUrl := .viewAllUrl | default "/posts/" }}
+
+{{ if $posts }}
+  <section class="post-list">
+
+    <!-- 列表标题 -->
+    {{ if and $showTitle $title }}
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-foreground">{{ $title }}</h2>
+      </div>
+    {{ end }}
+
+    <!-- 文章卡片列表 -->
+    <div class="space-y-4">
+      {{ range $posts }}
+        {{ partial "post-card.html" . }}
+      {{ end }}
+    </div>
+
+    <!-- 查看所有文章按钮 (底部) -->
+    {{ if $showViewAll }}
+      <div class="mt-8 text-center">
+        <a
+          href="{{ $viewAllUrl | relURL }}"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium shadow-sm
+          hover:bg-primary/90 hover:-translate-y-1 hover:scale-105 hover:shadow-lg
+          transition-all duration-300 ease-out
+          focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95">
+          {{ partial "icon.html" (dict "name" "posts" "size" "md" "ariaLabel" (i18n "nav.posts")) }}
+          <span>{{ i18n "home.view_all_posts" | default "查看所有文章" }}</span>
+          {{ partial "icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
+        </a>
+      </div>
+    {{ end }}
+
+  </section>
+{{ else }}
+  <!-- 空状态 -->
+  <div class="text-center py-12">
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
+      {{ partial "icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
+    </div>
+    <h3 class="text-lg font-medium text-foreground mb-2">{{ i18n "post.no_posts" | default "暂无文章" }}</h3>
+    <p class="text-muted-foreground">{{ i18n "post.no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}</p>
+  </div>
+{{ end }}

@@ -1,0 +1,275 @@
+baseURL: https://example.org/
+languageCode: zh-cn
+defaultContentLanguage: zh-cn
+title: Hugo Narrow
+
+# 分页设置
+pagination:
+  pagerSize: 10  # 每页显示文章数量
+  path: "page"
+
+# 相关文章配置
+related:
+  includeNewer: false
+  indices:
+    - name: "tags"
+      weight: 100
+    - name: "categories"
+      weight: 80
+    - name: "keywords"
+      weight: 60
+  threshold: 80
+  toLower: true
+
+# 多语言配置
+languages:
+  zh-cn:
+    languageName: "中文"
+    weight: 1
+    title: "Hugo Narrow"
+    params:
+      description: "一个简洁的 Hugo 主题"
+  en:
+    languageName: "English"
+    weight: 2
+    title: "Hugo Narrow"
+    params:
+      description: "A clean Hugo theme"
+menus:
+  main:
+    # - name: Home
+    #   pageRef: /
+    #   weight: 10
+    #   params:
+    #     icon: home
+    - name: nav.posts
+      pageRef: /posts
+      weight: 20
+      params:
+        icon: posts
+    - name: nav.categories
+      pageRef: /categories
+      weight: 30
+      params:
+        icon: categories
+    - name: nav.tags
+      pageRef: /tags
+      weight: 40
+      params:
+        icon: tags
+    - name: nav.archives
+      pageRef: /archives
+      weight: 50
+      params:
+        icon: archive
+
+
+  # 页脚外部链接菜单
+  footer:
+    - name: footer.about_us
+      pageRef: /about
+      weight: 10
+      params:
+        icon: about
+    - name: footer.contact_us
+      pageRef: /contact
+      weight: 20
+      params:
+        icon: contact
+    - name: footer.rss_feed
+      pageRef: /index.xml
+      weight: 30
+      params:
+        icon: rss
+    - name: nav.archive
+      pageRef: /archive
+      weight: 40
+      params:
+        icon: archive
+
+  # 社交媒体菜单
+  social:
+    - name: GitHub
+      url: https://github.com/username
+      weight: 10
+      params:
+        icon: github
+    - name: Twitter
+      url: https://twitter.com/username
+      weight: 20
+      params:
+        icon: twitter
+    - name: LinkedIn
+      url: https://linkedin.com/in/username
+      weight: 30
+      params:
+        icon: linkedin
+    - name: Email
+      url: mailto:your.email@example.com
+      weight: 40
+      params:
+        icon: email
+
+params:
+  # 站点 Logo 配置
+  logo:
+    image: "/images/logo.svg"  # Logo 图片路径
+    alt: "common.site_logo"    # 图片 alt 文本 (i18n 键)
+    link: "/"                  # 点击跳转链接，默认首页
+
+  # 作者信息配置
+  author:
+    name: "Hugo Narrow"
+    title: "全栈开发者"
+    description: "专注于现代 Web 开发技术，分享编程经验和技术见解。热爱开源，致力于创造优雅的用户体验。"
+    avatar: "/images/avatar.svg"  # 头像图片路径
+    social:
+      - name: "GitHub"
+        url: "https://github.com/username"
+        icon: "github"
+      - name: "Twitter"
+        url: "https://twitter.com/username"
+        icon: "twitter"
+      - name: "Email"
+        url: "mailto:hello@example.com"
+        icon: "email"
+
+  # 首页配置
+  home:
+    recentPostsCount: 5  # 首页显示的最近文章数量
+
+  # 文章详情页配置
+  post:
+    # 许可证配置
+    license: "CC BY-NC-SA 4.0"  # 默认许可证
+    showLicense: true           # 是否显示许可证信息
+
+    # 相关文章配置
+    showRelated: true           # 是否显示相关文章
+    relatedPostsCount: 6        # 相关文章显示数量
+
+    # 文章导航配置
+    showNavigation: true        # 是否显示上一篇/下一篇导航
+
+  # 评论系统配置
+  comments:
+    enabled: true               # 是否启用评论
+    system: "giscus"           # 评论系统类型: giscus, disqus, utterances, waline
+
+    # Giscus 配置 (推荐)
+    giscus:
+      repo: ""                 # GitHub 仓库 (格式: username/repo)
+      repoId: ""               # 仓库 ID
+      category: "General"       # 讨论分类
+      categoryId: ""           # 分类 ID
+      mapping: "pathname"       # 页面映射方式
+      strict: "0"              # 严格模式
+      reactionsEnabled: "1"     # 是否启用反应
+      emitMetadata: "0"        # 是否发送元数据
+      inputPosition: "bottom"   # 输入框位置
+      theme: "preferred_color_scheme"  # 主题
+      lang: "zh-CN"            # 语言
+
+    # Disqus 配置
+    disqus:
+      shortname: ""            # Disqus 短名称
+
+    # Utterances 配置
+    utterances:
+      repo: ""                 # GitHub 仓库
+      issueTerm: "pathname"    # Issue 标题映射
+      label: "comment"         # Issue 标签
+      theme: "preferred-color-scheme"  # 主题
+
+    # Waline 配置
+    waline:
+      serverURL: ""            # Waline 服务器地址
+      lang: "zh-CN"            # 语言
+      dark: "auto"             # 深色模式
+      meta: ["nick", "mail", "link"]  # 评论者信息字段
+      requiredMeta: ["nick"]   # 必填字段
+      placeholder: "请留下你的足迹 ~~"  # 占位符
+      avatar: "mp"             # 头像类型
+      pageSize: 10             # 每页评论数
+
+  # 主题配置
+  colorScheme: "shancn" # 默认主题
+
+  # 可用主题配置 (简化版)
+  themes:
+    shadcn:
+      name: "ShadcnUI"
+      order: 1
+    claude:
+      name: "Claude"
+      order: 2
+    emerald:
+      name: "Emerald"
+      order: 3
+    rose:
+      name: "Rose"
+      order: 4
+    forest:
+      name: "Forest"
+      order: 5
+    vercel:
+      name: "Vercel"
+      order: 6
+    spotify:
+      name: "Spotify"
+      order: 7
+    airbnb:
+      name: "Airbnb"
+      order: 8
+
+
+# Markup 配置
+markup:
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+    ordered: false
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    # 启用代码高亮
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    lineNumbersInTable: false  # 使用内联形式显示行号，避免表格样式复杂性
+    noClasses: false  # 使用 CSS 类而不是内联样式
+    style: github     # 默认样式，我们会生成自定义样式
+    tabWidth: 2
+
+# 代码块折叠配置
+codeblock:
+  collapse:
+    enabled: true           # 启用折叠功能
+    defaultState: expanded  # 默认状态: expanded, collapsed
+    autoCollapseLines: 30   # 超过指定行数自动折叠
+    autoCollapseHeight: 400 # 超过指定高度(px)自动折叠
+    collapsedHeight: 120    # 折叠时显示的高度(px)
+
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+
+module:
+  hugoVersion:
+    extended: true
+    min: 0.146.0
+  mounts:
+    - source: assets
+      target: assets
+    - disableWatch: true
+      source: hugo_stats.json
+      target: assets/notwatching/hugo_stats.json
+
+build:
+  buildStats:
+    enable: true
+  cachebusters:
+    - source: assets/notwatching/hugo_stats\.json
+      target: css
+    - source: (postcss|tailwind)\.config\.js
+      target: css

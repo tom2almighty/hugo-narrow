@@ -1,0 +1,148 @@
+{{ define "main" }}
+
+  <!-- 面包屑导航 -->
+  {{ partial "breadcrumb.html" . }}
+
+  <!-- 页面标题和描述 -->
+  <header class="mb-8">
+    <div class="flex items-center gap-3 mb-4">
+      {{ partial "icon.html" (dict "name" "archive" "size" "lg" "ariaLabel" "") }}
+      <h1 class="text-3xl font-bold text-foreground">
+        {{ .Title }}
+      </h1>
+    </div>
+
+    {{ if .Content }}
+      <div class="prose prose-neutral dark:prose-invert max-w-none mb-6">
+        {{ .Content }}
+      </div>
+    {{ else }}
+      <p class="text-muted-foreground mb-6">
+        {{ i18n "archives.desc" | default "按时间顺序浏览所有文章，发现您感兴趣的内容。" }}
+      </p>
+    {{ end }}
+
+    <!-- 统计信息 -->
+    {{ $allPosts := where .Site.RegularPages "Section" "posts" }}
+    <div class="flex items-center gap-4 text-sm text-muted-foreground">
+      <div class="flex items-center gap-1">
+        {{ partial "icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "archives.total_posts" (dict "count" (len $allPosts)) | default (printf "共 %d 篇文章" (len $allPosts)) }}</span>
+      </div>
+      <div class="flex items-center gap-1">
+        {{ partial "icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "archives.timeline" | default "时间轴视图" }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 时间轴归档 -->
+  {{ if $allPosts }}
+    <div class="relative">
+      <!-- 时间轴线 -->
+      <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-border"></div>
+
+      <!-- 按年份分组 -->
+      {{ range $allPosts.GroupByDate "2006" }}
+        <div class="mb-12">
+          <!-- 年份标题 -->
+          <div class="relative flex items-center mb-8">
+            <div class="absolute left-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center z-10">
+              {{ partial "icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "" "class" "text-primary-foreground") }}
+            </div>
+            <div class="ml-12">
+              <h2 class="text-2xl font-bold text-foreground">{{ .Key }}</h2>
+              <p class="text-sm text-muted-foreground">{{ len .Pages }} {{ i18n "archives.posts_count" | default "篇文章" }}</p>
+            </div>
+          </div>
+
+          <!-- 按月份分组 -->
+          {{ range .Pages.GroupByDate "January" }}
+            <div class="relative mb-8">
+              <!-- 月份标题 -->
+              <div class="relative flex items-center mb-4">
+                <div class="absolute left-2 w-4 h-4 bg-accent border-2 border-background rounded-full z-10"></div>
+                <div class="ml-12">
+                  <h3 class="text-lg font-semibold text-foreground">{{ .Key }}</h3>
+                  <p class="text-xs text-muted-foreground">{{ len .Pages }} {{ i18n "archives.posts_count" | default "篇文章" }}</p>
+                </div>
+              </div>
+
+              <!-- 文章列表 -->
+              <div class="ml-12 space-y-3">
+                {{ range .Pages }}
+                  <article class="group p-4 bg-card border border-border rounded-lg hover:bg-accent/50 transition-all duration-300">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex-1 min-w-0">
+                        <h4 class="font-medium text-foreground group-hover:text-primary transition-colors duration-200 mb-3">
+                          <a href="{{ .RelPermalink }}" class="block">
+                            {{ .LinkTitle }}
+                          </a>
+                        </h4>
+
+                        <!-- 文章元信息 -->
+                        <div class="flex items-center gap-4 text-xs text-muted-foreground">
+                          <div class="flex items-center gap-1">
+                            {{ partial "icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
+                            <time datetime="{{ .Date.Format "2006-01-02" }}">
+                              {{ .Date.Format "01-02" }}
+                            </time>
+                          </div>
+
+                          {{ if .Params.categories }}
+                            <div class="flex items-center gap-1">
+                              {{ partial "icon.html" (dict "name" "folder" "size" "xs" "ariaLabel" "") }}
+                              <span>{{ delimit .Params.categories ", " }}</span>
+                            </div>
+                          {{ end }}
+
+                          {{ if .ReadingTime }}
+                            <div class="flex items-center gap-1">
+                              {{ partial "icon.html" (dict "name" "clock" "size" "xs" "ariaLabel" "") }}
+                              <span>{{ .ReadingTime }} {{ i18n "post.reading_time_unit" | default "分钟" }}</span>
+                            </div>
+                          {{ end }}
+                        </div>
+                      </div>
+
+                      <!-- 文章封面缩略图 -->
+                      {{ if .Params.cover }}
+                        <div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-muted">
+                          <img
+                            src="{{ .Params.cover }}"
+                            alt="{{ .Title }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy">
+                        </div>
+                      {{ end }}
+                    </div>
+                  </article>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  {{ else }}
+    <!-- 空状态 -->
+    <div class="text-center py-16">
+      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
+        {{ partial "icon.html" (dict "name" "archive" "size" "xl" "ariaLabel" "") }}
+      </div>
+      <h2 class="text-xl font-medium text-foreground mb-3">
+        {{ i18n "archives.no_posts" | default "暂无文章" }}
+      </h2>
+      <p class="text-muted-foreground mb-6">
+        {{ i18n "archives.no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
+      </p>
+      <a
+        href="{{ "/" | relURL }}"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors duration-300 font-medium">
+        {{ partial "icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>
+      </a>
+    </div>
+  {{ end }}
+
+{{ end }}

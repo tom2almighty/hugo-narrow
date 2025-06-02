@@ -1,0 +1,177 @@
+# English language file
+# Navigation related
+nav:
+  menu: "Menu"
+  home: "Home"
+  posts: "Posts"
+  tags: "Tags"
+  categories: "Categories"
+  about: "About"
+  contact: "Contact"
+  archive: "Archive"
+  archives: "Archives"
+  search: "Search"
+  breadcrumb: "Breadcrumb navigation"
+  pagination: "Pagination navigation"
+  prev: "Previous"
+  next: "Next"
+  prev_page: "Previous page"
+  next_page: "Next page"
+  page_info: "Page {{ .current }} of {{ .total }}"
+  total_pages: "{{ .count }} pages total"
+  back_home: "Back to Home"
+  post_navigation: "Post navigation"
+
+# Theme related
+theme:
+  toggle: "Toggle theme"
+  light: "Light"
+  dark: "Dark"
+  system: "System"
+  auto: "Auto"
+
+# Footer related
+footer:
+  copyright: "Copyright"
+  all_rights_reserved: "All rights reserved"
+  about_us: "About Us"
+  contact_us: "Contact Us"
+  privacy_policy: "Privacy Policy"
+  terms_of_service: "Terms of Service"
+  rss_feed: "RSS Feed"
+
+# Home related
+home:
+  recent_posts: "Recent Posts"
+  showing_posts: "Showing latest"
+  posts: "posts"
+  view_all_posts: "View All Posts"
+
+# Post related
+post:
+  read_more: "Read more"
+  published_on: "Published on"
+  updated_on: "Updated on"
+  tags: "Tags"
+  categories: "Categories"
+  share: "Share"
+  previous: "Previous"
+  next: "Next"
+  related_posts: "Related Posts"
+  reading_time: "Reading time"
+  no_posts: "No posts yet"
+  no_posts_desc: "No articles have been published yet. Please check back later."
+  list_desc: "Here are all published articles, sorted by date in descending order."
+  total_posts: "{{ .count }} posts total"
+  author: "Author"
+  words: "words"
+  no_previous: "No previous post"
+  no_next: "No next post"
+  no_previous_desc: "This is the latest post"
+  no_next_desc: "This is the earliest post"
+  view_more_posts: "View more posts"
+
+# Pagination related
+pagination:
+  previous: "Previous"
+  next: "Next"
+  page: "Page"
+  of: "of"
+  pages: "pages"
+
+# Search related
+search:
+  placeholder: "Search posts..."
+  no_results: "No results found"
+  results_found: "Found {{.Count}} results"
+
+# Form related
+form:
+  name: "Name"
+  email: "Email"
+  message: "Message"
+  subject: "Subject"
+  send: "Send"
+  required: "Required"
+
+# Time related
+time:
+  minute: "minute"
+  minutes: "minutes"
+  hour: "hour"
+  hours: "hours"
+  day: "day"
+  days: "days"
+  week: "week"
+  weeks: "weeks"
+  month: "month"
+  months: "months"
+  year: "year"
+  years: "years"
+  ago: "ago"
+
+# Common
+common:
+  loading: "Loading..."
+  error: "Error"
+  success: "Success"
+  close: "Close"
+  open: "Open"
+  save: "Save"
+  cancel: "Cancel"
+  confirm: "Confirm"
+  delete: "Delete"
+  edit: "Edit"
+  view: "View"
+  back: "Back"
+  more: "More"
+  language: "Language"
+  site_logo: "Site Logo"
+
+# License related
+license:
+  title: "Copyright Notice"
+  author: "Author"
+  link: "Link"
+  type: "License"
+  cc_by_nc_sa_desc: "This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Please attribute the source, use non-commercially, and maintain the same license."
+  cc_by_desc: "This work is licensed under a Creative Commons Attribution 4.0 International License. Please attribute the source."
+
+# Comments related
+comments:
+  title: "Comments"
+  not_configured: "Comment system not configured"
+  not_configured_desc: "Please enable comment system in site configuration"
+  giscus_not_configured: "Giscus comment system not configured"
+  disqus_not_configured: "Disqus comment system not configured"
+  disqus_noscript: "Please enable JavaScript to view the comments."
+  utterances_not_configured: "Utterances comment system not configured"
+  waline_not_configured: "Waline comment system not configured"
+
+# Bottom Dock
+dock:
+  aria_label: "Quick action toolbar"
+  back: "Back"
+  toc: "Table of Contents"
+  search: "Search"
+  comments: "Comments"
+  back_to_top: "Back to Top"
+  top: "Top"
+
+# Alert related
+alert:
+  note: "Note"
+  tip: "Tip"
+  important: "Important"
+  warning: "Warning"
+  caution: "Caution"
+
+# TOC related
+toc:
+  close: "Close"
+
+# Code block related
+code:
+  copy: "Copy"
+  copied: "Copied"
+  selected: "Selected"

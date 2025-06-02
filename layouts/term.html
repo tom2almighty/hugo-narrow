@@ -1,0 +1,81 @@
+{{ define "main" }}
+
+  <!-- 面包屑导航 -->
+  {{ partial "breadcrumb.html" . }}
+
+  <!-- 页面标题和描述 -->
+  <header class="mb-8">
+    <div class="flex items-center gap-3 mb-4">
+      {{ if eq .Data.Singular "tag" }}
+        {{ partial "icon.html" (dict "name" "tag" "size" "lg" "ariaLabel" "") }}
+      {{ else if eq .Data.Singular "category" }}
+        {{ partial "icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
+      {{ else }}
+        {{ partial "icon.html" (dict "name" "bookmark" "size" "lg" "ariaLabel" "") }}
+      {{ end }}
+      <h1 class="text-3xl font-bold text-foreground">
+        {{ .Title }}
+      </h1>
+    </div>
+
+    {{ if .Content }}
+      <div class="prose prose-neutral dark:prose-invert max-w-none mb-6">
+        {{ .Content }}
+      </div>
+    {{ else }}
+      <p class="text-muted-foreground mb-6">
+        {{ if eq .Data.Singular "tag" }}
+          {{ i18n "term.tag_desc" (dict "tag" .Title) | default (printf "标签 \"%s\" 下的所有文章" .Title) }}
+        {{ else if eq .Data.Singular "category" }}
+          {{ i18n "term.category_desc" (dict "category" .Title) | default (printf "分类 \"%s\" 下的所有文章" .Title) }}
+        {{ else }}
+          {{ i18n "term.desc" (dict "term" .Title) | default (printf "\"%s\" 下的所有文章" .Title) }}
+        {{ end }}
+      </p>
+    {{ end }}
+
+    <!-- 统计信息 -->
+    <div class="flex items-center gap-4 text-sm text-muted-foreground">
+      <div class="flex items-center gap-1">
+        {{ partial "icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "term.total_posts" (dict "count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span>
+      </div>
+      <div class="flex items-center gap-1">
+        {{ partial "icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "term.date_range" | default "按时间排序" }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 文章列表 -->
+  {{ $posts := .Pages }}
+  {{ if $posts }}
+    {{ partial "post-list.html" (dict "posts" $posts) }}
+  {{ else }}
+    <!-- 空状态 -->
+    <div class="text-center py-16">
+      <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
+        {{ partial "icon.html" (dict "name" "file-text" "size" "xl" "ariaLabel" "") }}
+      </div>
+      <h2 class="text-xl font-medium text-foreground mb-3">
+        {{ i18n "term.no_posts" | default "暂无文章" }}
+      </h2>
+      <p class="text-muted-foreground mb-6">
+        {{ if eq .Data.Singular "tag" }}
+          {{ i18n "term.no_posts_tag" | default "该标签下还没有文章。" }}
+        {{ else if eq .Data.Singular "category" }}
+          {{ i18n "term.no_posts_category" | default "该分类下还没有文章。" }}
+        {{ else }}
+          {{ i18n "term.no_posts_desc" | default "该分类下还没有文章。" }}
+        {{ end }}
+      </p>
+      <a
+        href="{{ "/" | relURL }}"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors duration-300 font-medium">
+        {{ partial "icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+        <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>
+      </a>
+    </div>
+  {{ end }}
+
+{{ end }}

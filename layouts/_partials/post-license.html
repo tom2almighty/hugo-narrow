@@ -1,0 +1,91 @@
+{{/*
+  文章许可证信息组件
+
+  显示文章的版权和许可证信息
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+{{ $license := .Params.license | default .Site.Params.post.license | default "CC BY-NC-SA 4.0" }}
+{{ $showLicense := .Params.showLicense | default .Site.Params.post.showLicense | default true }}
+
+{{ if $showLicense }}
+  <div class="post-license mb-8 p-6 bg-muted/30 border border-border rounded-xl">
+    <div class="flex items-start gap-4">
+
+      <!-- 许可证图标 -->
+      <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+        {{ partial "icon.html" (dict "name" "license" "size" "lg" "ariaLabel" "许可证") }}
+      </div>
+
+      <!-- 许可证信息 -->
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold text-foreground mb-2">
+          {{ i18n "license.title" | default "版权声明" }}
+        </h3>
+
+        <div class="text-sm text-muted-foreground space-y-2">
+
+          <!-- 作者信息 -->
+          <p>
+            <strong>{{ i18n "license.author" | default "作者" }}:</strong>
+            {{ .Params.author | default .Site.Params.author.name | default .Site.Title }}
+          </p>
+
+          <!-- 文章链接 -->
+          <p>
+            <strong>{{ i18n "license.link" | default "链接" }}:</strong>
+            <a href="{{ .Permalink }}" class="text-primary hover:text-primary/80 transition-colors duration-200">
+              {{ .Permalink }}
+            </a>
+          </p>
+
+          <!-- 许可证类型 -->
+          <p>
+            <strong>{{ i18n "license.type" | default "许可证" }}:</strong>
+            {{ if eq $license "CC BY-NC-SA 4.0" }}
+              <a
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-primary hover:text-primary/80 transition-colors duration-200">
+                知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议
+              </a>
+            {{ else if eq $license "CC BY 4.0" }}
+              <a
+                href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-primary hover:text-primary/80 transition-colors duration-200">
+                知识共享署名 4.0 国际许可协议
+              </a>
+            {{ else if eq $license "MIT" }}
+              <a
+                href="https://opensource.org/licenses/MIT"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-primary hover:text-primary/80 transition-colors duration-200">
+                MIT 许可证
+              </a>
+            {{ else }}
+              <span class="text-foreground">{{ $license }}</span>
+            {{ end }}
+          </p>
+
+          <!-- 许可证说明 -->
+          {{ if eq $license "CC BY-NC-SA 4.0" }}
+            <p class="text-xs">
+              {{ i18n "license.cc_by_nc_sa_desc" | default "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。转载请注明出处，非商业性使用，并保持相同的许可方式。" }}
+            </p>
+          {{ else if eq $license "CC BY 4.0" }}
+            <p class="text-xs">
+              {{ i18n "license.cc_by_desc" | default "本作品采用知识共享署名 4.0 国际许可协议进行许可。转载请注明出处。" }}
+            </p>
+          {{ end }}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+{{ end }}
