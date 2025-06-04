@@ -1,0 +1,88 @@
+{{/*
+  Giscus 评论系统组件
+  
+  基于 GitHub Discussions 的评论系统
+  
+  @context {page} . 当前文章页面对象
+  @param {string} id 评论容器的唯一 ID
+*/}}
+
+{{ $id := .id | default "giscus-comments" }}
+{{ $config := .Site.Params.comments.giscus }}
+
+{{ if $config.repo }}
+  <div id="{{ $id }}" class="giscus-container">
+    <script src="https://giscus.app/client.js"
+            data-repo="{{ $config.repo }}"
+            data-repo-id="{{ $config.repoId }}"
+            data-category="{{ $config.category | default "General" }}"
+            data-category-id="{{ $config.categoryId }}"
+            data-mapping="{{ $config.mapping | default "pathname" }}"
+            data-strict="{{ $config.strict | default "0" }}"
+            data-reactions-enabled="{{ $config.reactionsEnabled | default "1" }}"
+            data-emit-metadata="{{ $config.emitMetadata | default "0" }}"
+            data-input-position="{{ $config.inputPosition | default "bottom" }}"
+            data-theme="{{ $config.theme | default "preferred_color_scheme" }}"
+            data-lang="{{ $config.lang | default "zh-CN" }}"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+
+  {{/* 主题切换支持 */}}
+  <script>
+    (function() {
+      'use strict';
+      
+      // 监听主题变化
+      function updateGiscusTheme() {
+        const iframe = document.querySelector('#{{ $id }} iframe.giscus-frame');
+        if (!iframe) return;
+        
+        // 获取当前主题
+        const isDark = document.documentElement.classList.contains('dark');
+        const theme = isDark ? 'dark' : 'light';
+        
+        // 发送主题更新消息
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: theme
+            }
+          }
+        }, 'https://giscus.app');
+      }
+      
+      // 监听主题切换事件
+      document.addEventListener('themeChanged', updateGiscusTheme);
+      
+      // 监听 DOM 变化（用于检测主题切换）
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            updateGiscusTheme();
+          }
+        });
+      });
+      
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    })();
+  </script>
+
+{{ else }}
+  <div id="{{ $id }}" class="text-center py-8">
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
+      {{ partial "icon.html" (dict "name" "github" "size" "lg" "ariaLabel" "") }}
+    </div>
+    <h3 class="text-lg font-medium text-foreground mb-2">
+      {{ i18n "comments.giscus_not_configured" | default "Giscus 未配置" }}
+    </h3>
+    <p class="text-muted-foreground text-sm">
+      {{ i18n "comments.giscus_config_desc" | default "请在站点配置中设置 GitHub 仓库信息" }}
+    </p>
+  </div>
+{{ end }}

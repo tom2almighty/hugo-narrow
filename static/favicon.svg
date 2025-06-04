@@ -1,0 +1,6 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="16" cy="16" r="14" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+  <!-- 字母 H -->
+  <text x="16" y="22" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="18" font-weight="bold">H</text>
+</svg>

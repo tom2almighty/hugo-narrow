@@ -1,0 +1,28 @@
+{{- /* 简洁的基础主题色 */ -}}
+{{- $themeColor := "#09090b" -}}
+
+{{- $manifest := dict
+  "name" site.Title
+  "short_name" (site.Params.site.shortName | default site.Title)
+  "description" (site.Params.site.description | default site.Params.description | default "")
+  "start_url" "/"
+  "display" "standalone"
+  "background_color" "#ffffff"
+  "theme_color" $themeColor
+  "orientation" "portrait-primary"
+  "lang" (site.Params.site.language | default site.LanguageCode | default "zh-CN")
+  "dir" "ltr"
+  "scope" "/"
+  "categories" (slice "blog" "technology" "education")
+-}}
+
+{{- if site.Params.favicon.svg -}}
+  {{- $icons := slice (dict
+    "src" site.Params.favicon.svg
+    "sizes" "any"
+    "type" "image/svg+xml"
+  ) -}}
+  {{- $manifest = merge $manifest (dict "icons" $icons) -}}
+{{- end -}}
+
+{{- $manifest | jsonify (dict "indent" "  ") -}}

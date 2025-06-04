@@ -1,0 +1,130 @@
+{{/* SEO Meta 标签 */}}
+
+{{/* Open Graph */}}
+{{ if site.Params.seo.enableOpenGraph }}
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ site.Params.site.description }}{{ end }}{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:locale" content="{{ site.Params.site.language | default site.LanguageCode }}">
+
+{{/* Open Graph 图片 */}}
+{{ $ogImage := "" }}
+{{ if .Params.cover }}
+  {{ $ogImage = .Params.cover }}
+{{ else if .Params.image }}
+  {{ $ogImage = .Params.image }}
+{{ else if site.Params.seo.defaultImage }}
+  {{ $ogImage = site.Params.seo.defaultImage }}
+{{ end }}
+
+{{ if $ogImage }}
+  {{ if hasPrefix $ogImage "http" }}
+    <meta property="og:image" content="{{ $ogImage }}">
+  {{ else }}
+    <meta property="og:image" content="{{ $ogImage | absURL }}">
+  {{ end }}
+  <meta property="og:image:alt" content="{{ .Title }}">
+{{ end }}
+
+{{/* 文章特定的 Open Graph */}}
+{{ if not .IsHome }}
+  {{ with .Date }}<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+  {{ with .Lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+  {{ with .Params.author }}<meta property="article:author" content="{{ . }}">{{ end }}
+  {{ with .Params.categories }}
+    {{ range . }}<meta property="article:section" content="{{ . }}">{{ end }}
+  {{ end }}
+  {{ with .Params.tags }}
+    {{ range . }}<meta property="article:tag" content="{{ . }}">{{ end }}
+  {{ end }}
+{{ end }}
+{{ end }}
+
+{{/* Twitter Card */}}
+{{ if site.Params.seo.enableTwitterCard }}
+{{ $ogImage := "" }}
+{{ if .Params.cover }}
+  {{ $ogImage = .Params.cover }}
+{{ else if .Params.image }}
+  {{ $ogImage = .Params.image }}
+{{ else if site.Params.seo.defaultImage }}
+  {{ $ogImage = site.Params.seo.defaultImage }}
+{{ end }}
+
+<meta name="twitter:card" content="{{ if $ogImage }}summary_large_image{{ else }}summary{{ end }}">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ site.Params.site.description }}{{ end }}{{ end }}">
+{{ if $ogImage }}
+  {{ if hasPrefix $ogImage "http" }}
+    <meta name="twitter:image" content="{{ $ogImage }}">
+  {{ else }}
+    <meta name="twitter:image" content="{{ $ogImage | absURL }}">
+  {{ end }}
+  <meta name="twitter:image:alt" content="{{ .Title }}">
+{{ end }}
+{{ with site.Params.social.twitter }}<meta name="twitter:site" content="@{{ . }}">{{ end }}
+{{ with .Params.twitter_author }}<meta name="twitter:creator" content="@{{ . }}">{{ end }}
+{{ end }}
+
+{{/* JSON-LD 结构化数据 */}}
+{{ if site.Params.seo.enableJsonLd }}
+{{ $ogImage := "" }}
+{{ if .Params.cover }}
+  {{ $ogImage = .Params.cover }}
+{{ else if .Params.image }}
+  {{ $ogImage = .Params.image }}
+{{ else if site.Params.seo.defaultImage }}
+  {{ $ogImage = site.Params.seo.defaultImage }}
+{{ end }}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ if .IsHome }}WebSite{{ else }}Article{{ end }}",
+  "name": "{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}",
+  "headline": "{{ .Title }}",
+  "description": "{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ site.Params.site.description }}{{ end }}{{ end }}",
+  "url": "{{ .Permalink }}",
+  {{ if not .IsHome }}
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  {{ end }}
+  "author": {
+    "@type": "Person",
+    "name": "{{ with .Params.author }}{{ . }}{{ else }}{{ site.Params.site.author }}{{ end }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.Title }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ with site.Params.logo.image }}{{ . | absURL }}{{ else }}{{ "/images/logo.svg" | absURL }}{{ end }}"
+    }
+  },
+  {{ if $ogImage }}
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ if hasPrefix $ogImage "http" }}{{ $ogImage }}{{ else }}{{ $ogImage | absURL }}{{ end }}"
+  },
+  {{ end }}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ .Permalink }}"
+  }
+}
+</script>
+{{ end }}
+
+{{/* 额外的 SEO Meta */}}
+{{ if .IsHome }}
+<meta name="google-site-verification" content="{{ site.Params.seo.googleSiteVerification }}">
+<meta name="msvalidate.01" content="{{ site.Params.seo.bingVerification }}">
+<meta name="yandex-verification" content="{{ site.Params.seo.yandexVerification }}">
+{{ end }}
+
+{{/* RSS Feed */}}
+{{ with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">
+{{ end }}

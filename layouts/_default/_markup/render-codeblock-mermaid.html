@@ -1,0 +1,13 @@
+{{/*
+  Mermaid diagram render hook
+
+  Based on Hugo official documentation:
+  https://gohugo.io/content-management/diagrams/#mermaid-diagrams
+
+  Simple Mermaid rendering without extra UI elements
+*/}}
+
+<pre class="mermaid">
+  {{ .Inner | htmlEscape | safeHTML }}
+</pre>
+{{ .Page.Store.Set "hasMermaid" true }}

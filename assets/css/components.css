@@ -1,0 +1,73 @@
+/* 组件样式 - 从 main.css 提取 */
+
+@layer components {
+  /* 移动端菜单动画 - 保留关键帧 */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .mobile-menu {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .search-result-selected {
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+    color: var(--color-primary) !important;
+  }
+
+  /* Scrollbar hide utility */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 文本截断样式 */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 阅读进度条样式 */
+  .reading-progress-container {
+    height: var(--reading-progress-height);
+  }
+
+  .reading-progress-bg {
+    height: var(--reading-progress-height);
+    background-color: var(--reading-progress-bg);
+  }
+
+  .reading-progress-bar {
+    height: var(--reading-progress-height);
+    box-shadow: 0 0 8px var(--reading-progress-shadow);
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 移动端 Dock 文字隐藏 */
+  @media (max-width: 480px) {
+    #dock span {
+      display: none !important;
+    }
+  }
+}

@@ -12,21 +12,7 @@ categories: ["技术"]
 
 这篇文章用于测试新的 GitHub 风格 Alert 功能和折叠功能。
 
-## 对齐问题修复验证
-
-通过将 `.prose h4` 的 `margin-top` 从 `1.25rem` 改为 `0.5rem` 来解决 alert 中图标和标题不对齐的问题：
-
-> [!NOTE] 对齐测试
-> 图标和标题现在应该在同一水平线上。
-
-> [!TIP]+ 折叠对齐测试
-> 图标、标题和折叠箭头应该都对齐。
-
-#### 正文 h4 标题效果
-
-这个 h4 标题现在使用 `margin-top: 0.5rem`，与 `margin-bottom: 0.5rem` 保持一致，看起来更平衡。
-
-## 基础 Alert 语法
+## Alert 语法
 
 ### Note Alert
 

@@ -1,0 +1,17 @@
+{{ if .Site.Params.analytics.enabled -}}
+  {{ if .Site.Params.analytics.baidu.enabled -}}
+    {{ partial "analytics/baidu.html" . }}
+  {{- end }}
+
+  {{ if .Site.Params.analytics.clarity.enabled -}}
+    {{ partial "analytics/clarity.html" . }}
+  {{- end }}
+
+  {{ if .Site.Params.analytics.google.enabled -}}
+    {{ partial "analytics/google.html" . }}
+  {{- end }}
+
+  {{ if .Site.Params.analytics.umami.enabled -}}
+    {{ partial "analytics/umami.html" . }}
+  {{- end }}
+{{- end }}

@@ -91,9 +91,11 @@
     {{/* Collapse overlay (hidden by default) */}}
     <div class="collapse-overlay absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card/90 
                 pointer-events-none opacity-0 transition-opacity duration-300">
-      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 
-                  text-xs text-muted-foreground bg-card/80 backdrop-blur-sm 
-                  px-3 py-1.5 rounded-full border border-border/50">
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2
+                text-xs text-muted-foreground bg-card/80 backdrop-blur-sm
+                px-3 py-1.5 rounded-full border border-border/50
+                hover:bg-primary/10 hover:text-primary hover:border-primary/30
+                transition-all duration-200 cursor-pointer">
         {{ i18n "code.clickToExpand" | default "点击展开查看更多" }}
       </div>
     </div>

@@ -1,0 +1,97 @@
+{{/*
+  KaTeX 数学公式支持
+  支持全局配置和页面级配置，包括自定义 delimiter
+*/}}
+
+{{/* 获取全局配置 */}}
+{{- $globalKatex := site.Params.katex -}}
+{{- $globalEnabled := false -}}
+{{- $globalDelimiters := slice -}}
+
+{{- if $globalKatex -}}
+  {{- if eq (printf "%T" $globalKatex) "bool" -}}
+    {{- $globalEnabled = $globalKatex -}}
+  {{- else -}}
+    {{- $globalEnabled = $globalKatex.enabled | default false -}}
+    {{- $globalDelimiters = $globalKatex.delimiters -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 获取页面级配置 */}}
+{{- $pageKatex := .Params.katex -}}
+{{- $pageEnabled := false -}}
+{{- $pageDelimiters := slice -}}
+
+{{- if $pageKatex -}}
+  {{- if eq (printf "%T" $pageKatex) "bool" -}}
+    {{- $pageEnabled = $pageKatex -}}
+  {{- else -}}
+    {{- $pageEnabled = $pageKatex.enabled | default false -}}
+    {{- $pageDelimiters = $pageKatex.delimiters -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 检查是否需要加载 KaTeX */}}
+{{- $shouldLoad := false -}}
+{{- if $globalEnabled -}}
+  {{- $shouldLoad = true -}}
+{{- else if $pageEnabled -}}
+  {{- $shouldLoad = true -}}
+{{- end -}}
+
+{{- if $shouldLoad -}}
+<!-- KaTeX 数学公式支持 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+
+<script>
+    // 等待 KaTeX 脚本完全加载
+    function initKaTeX() {
+        if (typeof renderMathInElement === 'undefined') {
+            setTimeout(initKaTeX, 100);
+            return;
+        }
+        
+        {{/* 构建 delimiters 配置 */}}
+        {{- $delimiters := slice -}}
+        
+        {{/* 优先使用页面级配置，否则使用全局配置 */}}
+        {{- $activeDelimiters := $pageDelimiters | default $globalDelimiters -}}
+        
+        {{- if $activeDelimiters -}}
+            {{/* 使用自定义 delimiters */}}
+            {{- range $activeDelimiters -}}
+                {{- $delimiters = $delimiters | append . -}}
+            {{- end -}}
+        {{- else -}}
+            {{/* 使用默认 delimiters */}}
+            {{- $defaultDelimiters := slice 
+                (dict "left" "$$" "right" "$$" "display" true)
+                (dict "left" "$" "right" "$" "display" false)
+                (dict "left" "\\(" "right" "\\)" "display" false)
+                (dict "left" "\\[" "right" "\\]" "display" true)
+            -}}
+            {{- $delimiters = $defaultDelimiters -}}
+        {{- end -}}
+        
+        var delimiters = {{ $delimiters | jsonify | safeJS }};
+        
+        renderMathInElement(document.body, {
+            delimiters: delimiters,
+            throwOnError: false,
+            errorColor: '#cc0000',
+            fleqn: false,
+            leqno: false,
+            trust: false
+        });
+    }
+    
+    // DOM 加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initKaTeX);
+    } else {
+        initKaTeX();
+    }
+</script>
+{{- end -}}

@@ -1,0 +1,75 @@
+/* 目录 (Table of Contents) 样式 - Tailwind CSS 4.0 优化版 */
+
+/* 目录组件样式 - 使用 Tailwind CSS 4.0 最佳实践 */
+@layer components {
+  /* Hugo 生成的目录样式 */
+  #toc-content nav {
+    @apply text-sm leading-6;
+  }
+
+  #toc-content ul {
+    @apply list-none m-0 p-0;
+  }
+
+  #toc-content li {
+    @apply my-1 p-0;
+  }
+
+  #toc-content a {
+    @apply block px-4 py-3 text-muted-foreground no-underline rounded-lg
+           transition-all duration-200 ease-out border-l-2 border-transparent
+           relative hover:text-primary hover:bg-primary/10
+           hover:translate-x-0.5 hover:-translate-y-px hover:scale-[1.02];
+  }
+
+  /* Gumshoe 添加的 active 类样式 - 与 hover 样式保持一致 */
+  #toc-content a.active,
+  #toc-content li.active > a {
+    @apply text-primary bg-primary/10 translate-x-0.5 -translate-y-px scale-[1.02] font-medium;
+  }
+
+  /* 嵌套目录缩进 - 使用 Tailwind 工具类 */
+  #toc-content ul ul a {
+    @apply pl-6;
+  }
+
+  #toc-content ul ul ul a {
+    @apply pl-8;
+  }
+
+  #toc-content ul ul ul ul a {
+    @apply pl-10;
+  }
+
+  #toc-content ul ul ul ul ul a {
+    @apply pl-12;
+  }
+
+  #toc-content ul ul ul ul ul ul a {
+    @apply pl-14;
+  }
+}
+
+/* 目录滚动条样式 - 使用自定义工具类 */
+@utility toc-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.toc-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.toc-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toc-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.toc-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-muted-foreground);
+}

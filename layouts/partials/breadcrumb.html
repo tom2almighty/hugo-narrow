@@ -1,0 +1,131 @@
+{{/*
+  面包屑导航组件
+  
+  显示当前页面的导航路径
+  
+  @context {page} . 当前页面对象
+*/}}
+
+<nav class="breadcrumb mb-6" aria-label="{{ i18n "nav.breadcrumb" | default "面包屑导航" }}">
+  <ol class="flex items-center space-x-2 text-sm text-muted-foreground">
+    
+    <!-- 首页链接 -->
+    <li>
+      <a href="{{ "/" | relURL }}" class="text-muted-foreground hover:text-primary hover:bg-primary/10
+         transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105
+         flex items-center gap-1 rounded-lg px-2 py-1">
+        {{ partial "icon.html" (dict "name" "home" "size" "sm" "ariaLabel" (i18n "nav.home")) }}
+        <span>{{ i18n "nav.home" | default "首页" }}</span>
+      </a>
+    </li>
+    
+    <!-- 分隔符和当前页面 -->
+    {{ if not .IsHome }}
+      <li class="flex items-center gap-2">
+        <span class="text-muted-foreground/50">{{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span>
+        
+        {{ if .IsSection }}
+          <!-- 分区页面 (如 posts 列表页) -->
+          <span class="font-medium text-foreground flex items-center gap-1">
+            {{ if eq .Section "posts" }}
+              {{ partial "icon.html" (dict "name" "posts" "size" "sm" "ariaLabel" "") }}
+              {{ i18n "nav.posts" | default "文章" }}
+
+            {{ else if eq .Section "archives" }}
+              {{ partial "icon.html" (dict "name" "archive" "size" "sm" "ariaLabel" "") }}
+              {{ i18n "nav.archives" | default "归档" }}
+            {{ else if eq .Section "tags" }}
+              {{ partial "icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
+              {{ i18n "nav.tags" | default "标签" }}
+            {{ else if eq .Section "categories" }}
+              {{ partial "icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+              {{ i18n "nav.categories" | default "分类" }}
+            {{ else }}
+              {{ partial "icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+              {{ .Title }}
+            {{ end }}
+          </span>
+        {{ else if .Data.Singular }}
+          <!-- 分类法页面 (标签/分类列表页或术语页) -->
+          {{ if eq .Data.Singular "tag" }}
+            <!-- 标签相关页面 -->
+            {{ if .IsNode }}
+              <!-- 标签列表页 (/tags/) -->
+              <span class="font-medium text-foreground flex items-center gap-1">
+                {{ partial "icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
+                {{ i18n "nav.tags" | default "标签" }}
+              </span>
+            {{ else }}
+              <!-- 特定标签页 (/tags/hugo/) -->
+              <a href="{{ "/tags/" | relURL }}" class="text-muted-foreground hover:text-primary hover:bg-primary/10
+                 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105
+                 rounded-lg px-2 py-1 flex items-center gap-1">
+                {{ partial "icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
+                {{ i18n "nav.tags" | default "标签" }}
+              </a>
+              <span class="text-muted-foreground/50 mx-2">{{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span>
+              <span class="font-medium text-foreground line-clamp-1">{{ .Title }}</span>
+            {{ end }}
+          {{ else if eq .Data.Singular "category" }}
+            <!-- 分类相关页面 -->
+            {{ if .IsNode }}
+              <!-- 分类列表页 (/categories/) -->
+              <span class="font-medium text-foreground flex items-center gap-1">
+                {{ partial "icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+                {{ i18n "nav.categories" | default "分类" }}
+              </span>
+            {{ else }}
+              <!-- 特定分类页 (/categories/tech/) -->
+              <a href="{{ "/categories/" | relURL }}" class="text-muted-foreground hover:text-primary hover:bg-primary/10
+                 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105
+                 rounded-lg px-2 py-1 flex items-center gap-1">
+                {{ partial "icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+                {{ i18n "nav.categories" | default "分类" }}
+              </a>
+              <span class="text-muted-foreground/50 mx-2">{{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span>
+              <span class="font-medium text-foreground line-clamp-1">{{ .Title }}</span>
+            {{ end }}
+          {{ else }}
+            <!-- 其他分类法 -->
+            <span class="font-medium text-foreground">{{ .Title }}</span>
+          {{ end }}
+        {{ else if .IsPage }}
+          <!-- 单页面 -->
+          {{ if ne .Section "" }}
+            <!-- 有分区的页面，先显示分区链接 -->
+            <a href="{{ .Section | relURL }}" class="text-muted-foreground hover:text-primary hover:bg-primary/10
+               transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105
+               rounded-lg px-2 py-1 flex items-center gap-1">
+              {{ if eq .Section "posts" }}
+                {{ partial "icon.html" (dict "name" "posts" "size" "sm" "ariaLabel" "") }}
+                {{ i18n "nav.posts" | default "文章" }}
+              {{ else if eq .Section "archives" }}
+                {{ partial "icon.html" (dict "name" "archive" "size" "sm" "ariaLabel" "") }}
+                {{ i18n "nav.archives" | default "归档" }}
+              {{ else }}
+                {{ partial "icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+                {{ .Section | title }}
+              {{ end }}
+            </a>
+            <span class="text-muted-foreground/50 mx-2">{{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span>
+          {{ end }}
+          <span class="font-medium text-foreground line-clamp-1 flex items-center gap-1">
+            {{ if eq .Section "posts" }}
+              {{ partial "icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
+            {{ else }}
+              {{ partial "icon.html" (dict "name" "file" "size" "sm" "ariaLabel" "") }}
+            {{ end }}
+            {{ .Title }}
+          </span>
+        {{ else if .IsNode }}
+          <!-- 其他节点页面 -->
+          <span class="font-medium text-foreground flex items-center gap-1">
+            {{ partial "icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+            {{ .Title }}
+          </span>
+        {{ end }}
+      </li>
+    {{ end }}
+    
+  </ol>
+</nav>

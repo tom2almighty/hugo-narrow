@@ -70,6 +70,7 @@ post:
   no_previous_desc: "这是最新的文章"
   no_next_desc: "这是最早的文章"
   view_more_posts: "查看更多文章"
+  reading_time_unit: "分钟"
 
 # 分页相关
 pagination:
@@ -109,6 +110,40 @@ time:
   year: "年"
   years: "年"
   ago: "前"
+  date_format: "2006 年 01 月 02 日"
+  date_format_short: "01 月 02 日"
+  month_format: "2006 年 01 月"
+
+# 归档相关
+archives:
+  posts_count: "篇文章"
+  no_posts: "暂无文章"
+  no_posts_desc: "还没有发布任何文章，请稍后再来查看。"
+  total_posts: "共 {{ .count }} 篇文章"
+  timeline: "时间轴视图"
+
+# 分类法相关
+taxonomy:
+  total_tags: "共 {{ .count }} 个标签"
+  total_categories: "共 {{ .count }} 个分类"
+  total_terms: "共 {{ .count }} 个项目"
+  tags_desc: "浏览所有标签，发现感兴趣的内容。"
+  categories_desc: "浏览所有分类，发现感兴趣的内容。"
+  desc: "浏览所有分类，发现感兴趣的内容。"
+  no_terms: "暂无分类"
+  no_terms_desc: "还没有创建任何分类，请稍后再来查看。"
+
+# 分类法术语页面
+term:
+  tag_desc: "标签 \"{{ .tag }}\" 下的所有文章"
+  category_desc: "分类 \"{{ .category }}\" 下的所有文章"
+  desc: "\"{{ .term }}\" 下的所有文章"
+  total_posts: "共 {{ .count }} 篇文章"
+  date_range: "按时间排序"
+  no_posts: "暂无文章"
+  no_posts_tag: "该标签下还没有文章。"
+  no_posts_category: "该分类下还没有文章。"
+  no_posts_desc: "该分类下还没有文章。"
 
 # 通用
 common:
@@ -175,3 +210,6 @@ code:
   copy: "复制"
   copied: "已复制"
   selected: "已选择"
+  collapse: "折叠"
+  expand: "展开"
+  clickToExpand: "点击展开查看更多"

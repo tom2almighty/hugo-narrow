@@ -1,0 +1,104 @@
+{{/*
+  Mermaid 图表支持
+  基于配置控制是否加载 Mermaid 库
+*/}}
+
+{{/* 获取全局配置 */}}
+{{- $globalMermaid := site.Params.mermaid -}}
+{{- $globalEnabled := false -}}
+
+{{- if $globalMermaid -}}
+  {{- if eq (printf "%T" $globalMermaid) "bool" -}}
+    {{- $globalEnabled = $globalMermaid -}}
+  {{- else -}}
+    {{- $globalEnabled = $globalMermaid.enabled | default false -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 获取页面级配置 */}}
+{{- $pageMermaid := .Params.mermaid -}}
+{{- $pageEnabled := false -}}
+
+{{- if $pageMermaid -}}
+  {{- if eq (printf "%T" $pageMermaid) "bool" -}}
+    {{- $pageEnabled = $pageMermaid -}}
+  {{- else -}}
+    {{- $pageEnabled = $pageMermaid.enabled | default false -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 检查是否需要加载 Mermaid */}}
+{{- $shouldLoad := false -}}
+{{- if $globalEnabled -}}
+  {{- $shouldLoad = true -}}
+{{- else if $pageEnabled -}}
+  {{- $shouldLoad = true -}}
+{{- end -}}
+
+{{/* 如果页面包含 Mermaid 图表且配置允许，则加载库 */}}
+{{- if and $shouldLoad (.Store.Get "hasMermaid") -}}
+<!-- Mermaid 图表支持 -->
+<style>
+  /* Mermaid SVG 居中样式 */
+  svg[id^="mermaid-"] {
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  // 获取当前主题
+  function getCurrentTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    return isDark ? 'dark' : 'default';
+  }
+
+  // 初始化 Mermaid
+  const theme = getCurrentTheme();
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: theme,
+    securityLevel: 'loose'
+  });
+
+  // 在 Mermaid 渲染之前保存原始代码
+  document.querySelectorAll('.mermaid').forEach(element => {
+    if (!element.getAttribute('data-original-code')) {
+      // 保存原始的纯文本内容
+      const originalCode = element.textContent.trim();
+      element.setAttribute('data-original-code', originalCode);
+    }
+  });
+
+  // 监听主题变化事件
+  window.addEventListener('themeChanged', async () => {
+    const newTheme = getCurrentTheme();
+
+    try {
+      // 清除所有已渲染的图表并恢复原始代码
+      document.querySelectorAll('.mermaid').forEach(element => {
+        const originalCode = element.getAttribute('data-original-code');
+        if (originalCode) {
+          // 清除处理状态
+          element.removeAttribute('data-processed');
+          // 恢复为纯文本内容
+          element.textContent = originalCode;
+        }
+      });
+
+      // 重新初始化
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: newTheme,
+        securityLevel: 'loose'
+      });
+
+      // 重新渲染所有图表
+      await mermaid.run();
+    } catch (error) {
+      console.error('Mermaid 主题更新失败:', error);
+    }
+  });
+</script>
+{{- end -}}

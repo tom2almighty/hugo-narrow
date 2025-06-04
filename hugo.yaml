@@ -1,11 +1,11 @@
-baseURL: https://example.org/
+baseURL: http://localhost:1313/
 languageCode: zh-cn
 defaultContentLanguage: zh-cn
 title: Hugo Narrow
 
 # 分页设置
 pagination:
-  pagerSize: 10  # 每页显示文章数量
+  pagerSize: 6
   path: "page"
 
 # 相关文章配置
@@ -21,27 +21,8 @@ related:
   threshold: 80
   toLower: true
 
-# 多语言配置
-languages:
-  zh-cn:
-    languageName: "中文"
-    weight: 1
-    title: "Hugo Narrow"
-    params:
-      description: "一个简洁的 Hugo 主题"
-  en:
-    languageName: "English"
-    weight: 2
-    title: "Hugo Narrow"
-    params:
-      description: "A clean Hugo theme"
 menus:
   main:
-    # - name: Home
-    #   pageRef: /
-    #   weight: 10
-    #   params:
-    #     icon: home
     - name: nav.posts
       pageRef: /posts
       weight: 20
@@ -111,11 +92,27 @@ menus:
         icon: email
 
 params:
+  # 站点基本信息配置
+  site:
+    description: "一个简洁优雅的 Hugo 主题，专注于内容展示和用户体验"
+    keywords: ["Hugo", "博客", "主题", "技术", "编程"]
+    author: "Hugo Narrow"
+
   # 站点 Logo 配置
   logo:
     image: "/images/logo.svg"  # Logo 图片路径
-    alt: "common.site_logo"    # 图片 alt 文本 (i18n 键)
     link: "/"                  # 点击跳转链接，默认首页
+
+  # Favicon 配置 (仅使用现代 SVG 格式)
+  favicon:
+    svg: "/favicon.svg"        # SVG 格式 favicon (推荐)
+
+  # SEO 配置
+  seo:
+    enableOpenGraph: true      # 启用 Open Graph
+    enableTwitterCard: true    # 启用 Twitter Card
+    enableJsonLd: true         # 启用 JSON-LD 结构化数据
+    defaultImage: "/images/og-default.avif"  # 默认分享图片
 
   # 作者信息配置
   author:
@@ -141,8 +138,12 @@ params:
   # 文章详情页配置
   post:
     # 许可证配置
-    license: "CC BY-NC-SA 4.0"  # 默认许可证
     showLicense: true           # 是否显示许可证信息
+    license:
+      name: "CC BY-NC-SA 4.0"  # 许可证名称
+      description: "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。转载请注明出处，非商业性使用，并保持相同的许可方式。"
+      url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+      displayName: "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议"
 
     # 相关文章配置
     showRelated: true           # 是否显示相关文章
@@ -153,8 +154,8 @@ params:
 
   # 评论系统配置
   comments:
-    enabled: true               # 是否启用评论
-    system: "giscus"           # 评论系统类型: giscus, disqus, utterances, waline
+    enabled: false               # 评论系统总开关
+    system: "twikoo"           # 评论系统类型: giscus, disqus, utterances, waline, artalk, twikoo
 
     # Giscus 配置 (推荐)
     giscus:
@@ -183,44 +184,97 @@ params:
 
     # Waline 配置
     waline:
-      serverURL: ""            # Waline 服务器地址
+      serverURL: ""  # Waline 服务器地址
       lang: "zh-CN"            # 语言
-      dark: "auto"             # 深色模式
       meta: ["nick", "mail", "link"]  # 评论者信息字段
       requiredMeta: ["nick"]   # 必填字段
       placeholder: "请留下你的足迹 ~~"  # 占位符
       avatar: "mp"             # 头像类型
       pageSize: 10             # 每页评论数
 
-  # 主题配置
-  colorScheme: "shancn" # 默认主题
+    # Artalk 配置
+    artalk:
+      server: ""               # Artalk 服务器地址
+      site: ""                 # 站点名称
+      placeholder: "请留下你的足迹 ~~"  # 占位符
+      noComment: "暂无评论"     # 无评论时的提示
+      sendBtn: "发送"          # 发送按钮文字
+      darkMode: "auto"         # 深色模式: auto, light, dark
+      gravatar:
+        mirror: "https://cravatar.cn/avatar/"  # Gravatar 镜像
+      pagination:
+        pageSize: 20           # 每页评论数
+        autoLoad: true         # 自动加载
+      heightLimit:
+        content: 300           # 评论内容高度限制
+        children: 400          # 子评论高度限制
+      imgUpload: false         # 是否允许上传图片
+      preview: true            # 是否显示预览
+      countEl: "#ArtalkCount"  # 评论数显示元素
 
-  # 可用主题配置 (简化版)
+    # Twikoo 配置
+    twikoo:
+      envId: ""                # 环境 ID (腾讯云) 或服务器地址 (Vercel/自建)
+      region: "ap-shanghai"    # 环境地域 (仅腾讯云需要)
+      path: ""                 # 自定义路径 (默认使用 location.pathname)
+      lang: "zh-CN"            # 语言
+      placeholder: "请留下你的足迹 ~~"  # 占位符
+      avatar: "mp"             # 头像类型
+      visitor: true            # 是否显示访客统计
+      highlight: true          # 是否启用代码高亮
+
+
+  analytics:
+    enabled: false
+    baidu:
+      enabled: false
+      id: "your-baidu-analytics-id"
+    clarity:
+      enabled: false
+      analytics: "your-clarity-analytics-id"
+    google:
+      enabled: false
+      id: "your-google-analytics-id"
+    umami: 
+      enabled: false
+      id: "your-umami-website-id"
+      src: "https://umami.com/myscript.js"
+      domains: "example.domain.com"
+
+  # 主题配置
+  colorScheme: "default" # 默认主题
+
+  # 可用主题配置
   themes:
-    shadcn:
-      name: "ShadcnUI"
+    default:
+      name: "Default"
       order: 1
     claude:
       name: "Claude"
       order: 2
-    emerald:
-      name: "Emerald"
-      order: 3
-    rose:
-      name: "Rose"
-      order: 4
-    forest:
-      name: "Forest"
-      order: 5
-    vercel:
-      name: "Vercel"
-      order: 6
-    spotify:
-      name: "Spotify"
-      order: 7
-    airbnb:
-      name: "Airbnb"
-      order: 8
+
+
+
+
+  katex:
+    enabled: true
+    delimiters:
+      - left: "$$"
+        right: "$$"
+        display: true
+      - left: "$"
+        right: "$"
+        display: false
+      - left: "\\("
+        right: "\\)"
+        display: false
+      - left: "\\["
+        right: "\\]"
+        display: true
+      
+  mermaid:
+    enabled: true
+
 
 
 # Markup 配置
@@ -233,13 +287,12 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    # 启用代码高亮
     codeFences: true
     guessSyntax: true
     lineNos: false
-    lineNumbersInTable: false  # 使用内联形式显示行号，避免表格样式复杂性
-    noClasses: false  # 使用 CSS 类而不是内联样式
-    style: github     # 默认样式，我们会生成自定义样式
+    lineNumbersInTable: false #请设置为 false
+    noClasses: false
+    style: github # 无需设置
     tabWidth: 2
 
 # 代码块折叠配置
@@ -251,8 +304,26 @@ codeblock:
     autoCollapseHeight: 400 # 超过指定高度(px)自动折叠
     collapsedHeight: 120    # 折叠时显示的高度(px)
 
+# 阅读进度条配置
+readingProgress:
+  enabled: true             # 启用阅读进度条
+  height: 3                 # 进度条高度(px)
+  showOnHomepage: false     # 是否在首页显示
+  smoothScroll: true        # 是否启用平滑滚动效果
+  hideOnComplete: false     # 阅读完成后是否隐藏
+
+
+
+
 outputs:
-  home: ["HTML", "RSS", "JSON"]
+  home: ["HTML", "RSS", "JSON", "WebAppManifest"]
+
+# 自定义输出格式
+outputFormats:
+  WebAppManifest:
+    mediaType: "application/manifest+json"
+    baseName: "site"
+    isPlainText: true
 
 module:
   hugoVersion:

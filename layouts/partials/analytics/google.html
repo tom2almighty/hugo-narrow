@@ -1,0 +1,12 @@
+<script src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.analytics.google.id }}"></script>
+<script data-pjax>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', '{{ .Site.Params.analytics.google.id }}');
+</script>

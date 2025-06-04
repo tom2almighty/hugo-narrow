@@ -301,7 +301,6 @@
     if (searchData) return searchData;
 
     try {
-      console.log('开始加载搜索数据...');
       const response = await fetch('/index.json');
 
       if (!response.ok) {
@@ -309,7 +308,6 @@
       }
 
       const data = await response.json();
-      console.log('搜索数据加载成功:', data);
 
       // 适配 insight.js 的数据结构
       if (data && typeof data === 'object') {
@@ -324,15 +322,12 @@
           categories: [],
           tags: []
         }));
-        console.log('转换后的搜索数据:', searchData);
       } else {
-        console.error('搜索数据格式错误，期望对象，得到:', typeof data);
         searchData = [];
       }
 
       return searchData;
     } catch (error) {
-      console.error('加载搜索数据失败:', error);
       return [];
     }
   }
@@ -356,7 +351,6 @@
         showResultsList();
       }
     } catch (error) {
-      console.error('搜索失败:', error);
       showNoResultsState();
     }
   }
@@ -421,17 +415,7 @@
       return [];
     }
 
-    console.log('搜索数据:', data.length, '条记录');
-    console.log('搜索关键词:', query);
-
-    // 检查数据结构
-    if (data.length > 0) {
-      console.log('数据示例:', data[0]);
-    }
-
     const keywords = parseKeywords(query);
-    console.log('解析后的关键词:', keywords);
-
     const results = [];
 
     data.forEach((item, index) => {
@@ -446,21 +430,18 @@
         if (item.title && item.title.toLowerCase().includes(keywordLower)) {
           score += 10;
           hasMatch = true;
-          console.log(`标题匹配: "${item.title}" 包含 "${keyword}"`);
         }
 
         // 检查内容 (insight.js 使用 content 字段)
         if (item.content && item.content.toLowerCase().includes(keywordLower)) {
           score += 1;
           hasMatch = true;
-          console.log(`内容匹配: "${item.title}" 内容包含 "${keyword}"`);
         }
 
         // 检查摘要 (如果有的话)
         if (item.summary && item.summary.toLowerCase().includes(keywordLower)) {
           score += 5;
           hasMatch = true;
-          console.log(`摘要匹配: "${item.title}" 摘要包含 "${keyword}"`);
         }
       });
 
@@ -470,13 +451,11 @@
           score,
           keywords
         });
-        console.log(`添加结果 ${index + 1}: "${item.title}" 分数: ${score}`);
       }
     });
 
     // 按分数排序
     const sortedResults = results.sort((a, b) => b.score - a.score);
-    console.log('最终结果数量:', sortedResults.length);
 
     return sortedResults;
   }

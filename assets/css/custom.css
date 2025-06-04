@@ -1,0 +1,115 @@
+/* 自定义样式入口文件 */
+/* 
+  这个文件用于添加你的自定义样式
+  它会在所有其他样式之后加载，因此可以覆盖默认样式
+  
+  遵循 Tailwind CSS 4.0 最佳实践：
+  - 使用 CSS 变量来保持主题一致性
+  - 使用 @layer 指令来控制样式优先级
+  - 使用 @apply 指令来复用 Tailwind 工具类
+*/
+
+/* 示例：自定义主题变量 */
+/*
+:root {
+  --color-custom-primary: oklch(0.61 0.15 280);
+  --color-custom-secondary: oklch(0.92 0.02 280);
+  --font-custom: "Your Custom Font", sans-serif;
+}
+*/
+
+/* 示例：自定义组件样式 */
+/*
+@layer components {
+  .custom-button {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
+    color: var(--color-primary-foreground);
+  }
+
+  .custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+}
+*/
+
+/* 示例：自定义工具类 */
+/*
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--color-background) 80%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  }
+}
+*/
+
+/* 示例：覆盖现有组件样式 */
+/*
+.prose h1 {
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+*/
+
+/* 示例：响应式自定义样式 */
+/*
+@media (max-width: 768px) {
+  .custom-mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .custom-desktop-only {
+    display: block;
+  }
+}
+*/
+
+/* 示例：暗色模式自定义样式 */
+/*
+.dark .custom-dark-style {
+  background: color-mix(in srgb, var(--color-background) 90%, transparent);
+  color: var(--color-foreground);
+}
+*/
+
+/* 示例：自定义动画 */
+/*
+@keyframes customFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .animate-custom-fade-in {
+    animation: customFadeIn 0.6s ease-out;
+  }
+}
+*/
+
+/* 
+  在这里添加你的自定义样式
+  记住使用 CSS 变量来保持主题一致性
+*/

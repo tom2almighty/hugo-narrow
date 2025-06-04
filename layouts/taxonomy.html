@@ -35,7 +35,15 @@
     <div class="flex items-center gap-4 text-sm text-muted-foreground">
       <div class="flex items-center gap-1">
         {{ partial "icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "taxonomy.total_terms" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个%s" (len .Data.Terms) .Data.Singular) }}</span>
+        <span>
+          {{ if eq .Data.Singular "tag" }}
+            {{ i18n "taxonomy.total_tags" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个标签" (len .Data.Terms)) }}
+          {{ else if eq .Data.Singular "category" }}
+            {{ i18n "taxonomy.total_categories" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个分类" (len .Data.Terms)) }}
+          {{ else }}
+            {{ i18n "taxonomy.total_terms" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个%s" (len .Data.Terms) .Data.Singular) }}
+          {{ end }}
+        </span>
       </div>
     </div>
   </header>

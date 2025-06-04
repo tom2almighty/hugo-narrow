@@ -70,6 +70,7 @@ post:
   no_previous_desc: "This is the latest post"
   no_next_desc: "This is the earliest post"
   view_more_posts: "View more posts"
+  reading_time_unit: "min"
 
 # Pagination related
 pagination:
@@ -109,6 +110,40 @@ time:
   year: "year"
   years: "years"
   ago: "ago"
+  date_format: "January 02, 2006"
+  date_format_short: "Jan 02"
+  month_format: "January 2006"
+
+# Archives related
+archives:
+  posts_count: "posts"
+  no_posts: "No posts yet"
+  no_posts_desc: "No posts have been published yet. Please check back later."
+  total_posts: "{{ .count }} posts total"
+  timeline: "Timeline view"
+
+# Taxonomy related
+taxonomy:
+  total_tags: "{{ .count }} tags total"
+  total_categories: "{{ .count }} categories total"
+  total_terms: "{{ .count }} terms total"
+  tags_desc: "Browse all tags to discover interesting content."
+  categories_desc: "Browse all categories to discover interesting content."
+  desc: "Browse all categories to discover interesting content."
+  no_terms: "No categories yet"
+  no_terms_desc: "No categories have been created yet. Please check back later."
+
+# Taxonomy term pages
+term:
+  tag_desc: "All posts under tag \"{{ .tag }}\""
+  category_desc: "All posts under category \"{{ .category }}\""
+  desc: "All posts under \"{{ .term }}\""
+  total_posts: "{{ .count }} posts total"
+  date_range: "Sorted by date"
+  no_posts: "No posts yet"
+  no_posts_tag: "No posts under this tag yet."
+  no_posts_category: "No posts under this category yet."
+  no_posts_desc: "No posts under this category yet."
 
 # Common
 common:
@@ -175,3 +210,6 @@ code:
   copy: "Copy"
   copied: "Copied"
   selected: "Selected"
+  collapse: "Collapse"
+  expand: "Expand"
+  clickToExpand: "Click to expand and view more"

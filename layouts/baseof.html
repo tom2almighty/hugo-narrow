@@ -1,10 +1,10 @@
 <!doctype html>
 <html
   lang="{{ site.LanguageCode }}"
-  data-theme="{{ site.Params.colorScheme | default "shadcn" }}">
+  data-theme="{{ site.Params.colorScheme | default "default" }}">
   <head>
     {{ partial "head.html" . }}
-    {{/*  <script>
+    <script>
       // 主题初始化脚本
       (function() {
         const theme = localStorage.getItem('theme') || 'system';
@@ -29,12 +29,14 @@
           window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
         }
       })();
-    </script>  */}}
+    </script>
   </head>
 
   <body class="bg-background text-foreground min-h-screen antialiased">
-    {{ partial "header.html" . }}
+    <!-- 阅读进度条 -->
+    {{ partial "reading-progress.html" . }}
 
+    {{ partial "header.html" . }}
 
     <main class="mx-auto max-w-4xl px-4 py-8">
       {{ block "main" . }}{{ end }}
@@ -49,6 +51,8 @@
     {{- if and .IsPage .TableOfContents }}
       {{ partial "toc-card.html" . }}
     {{- end }}
+    {{ partial "katex.html" . }}
+    {{ partial "mermaid.html" . }}
 
     <!-- 搜索组件 -->
     {{ partial "search-modal.html" . }}
