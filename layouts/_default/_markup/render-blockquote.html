@@ -61,8 +61,7 @@
       {{ if $isCollapsible }}
         onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
         aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
-        onkeydown="if(event.key==='Enter'||event.key==='
-        '){toggleAlert('{{ $alertId }}');event.preventDefault();}"
+        onkeydown="if(event.key==='Enter'||event.key===' '){toggleAlert('{{ $alertId }}');event.preventDefault();}"
       {{ end }}>
       <div class="flex items-center gap-3">
         {{/* Alert icon */}}
