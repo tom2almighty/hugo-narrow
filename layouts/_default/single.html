@@ -1,15 +1,15 @@
 {{ define "main" }}
-
   <!-- 面包屑导航 -->
   {{ partial "breadcrumb.html" . }}
 
+
   <!-- 页面标题 -->
   <header class="mb-8">
-    <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+    <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
       {{ .Title }}
     </h1>
     {{ if .Summary }}
-      <div class="text-lg text-muted-foreground leading-relaxed">
+      <div class="text-muted-foreground text-lg leading-relaxed">
         {{ .Summary | plainify }}
       </div>
     {{ end }}
@@ -19,5 +19,4 @@
   <article class="prose prose-neutral dark:prose-invert max-w-none">
     {{ .Content }}
   </article>
-
 {{ end }}

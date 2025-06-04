@@ -38,14 +38,17 @@
 
     {{ partial "header.html" . }}
 
+
     <main class="mx-auto max-w-4xl px-4 py-8">
       {{ block "main" . }}{{ end }}
     </main>
 
     {{ partial "footer.html" . }}
 
+
     <!-- 底部 Dock -->
     {{ partial "dock.html" . }}
+
 
     <!-- 目录卡片 - 只在有目录的页面显示 -->
     {{- if and .IsPage .TableOfContents }}
@@ -53,6 +56,7 @@
     {{- end }}
     {{ partial "katex.html" . }}
     {{ partial "mermaid.html" . }}
+
 
     <!-- 搜索组件 -->
     {{ partial "search-modal.html" . }}

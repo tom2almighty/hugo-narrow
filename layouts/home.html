@@ -1,77 +1,75 @@
 {{ define "main" }}
   <div class="mx-auto max-w-4xl">
-
     <!-- 作者信息区域 -->
     {{ if site.Params.author }}
-    <section class="author-section mb-12">
-      <div class="bg-card border-border rounded-xl border p-8 shadow-sm">
-        <div class="flex flex-col items-center text-center md:flex-row md:text-left md:items-start gap-6">
+      <section class="author-section mb-12">
+        <div class="bg-card border-border rounded-xl border p-8 shadow-sm">
+          <div
+            class="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:text-left">
+            <!-- 头像 -->
+            <div class="flex-shrink-0">
+              {{ if site.Params.author.avatar }}
+                <img
+                  src="{{ site.Params.author.avatar }}"
+                  alt="{{ site.Params.author.name | default site.Title }}"
+                  class="border-primary/20 h-24 w-24 rounded-full border-4 object-cover shadow-lg" />
+              {{ else }}
+                <!-- 默认头像：使用作者姓名首字母 -->
+                <div
+                  class="bg-primary text-primary-foreground flex h-24 w-24 items-center justify-center rounded-full text-2xl font-bold shadow-lg">
+                  {{ substr (site.Params.author.name | default site.Title) 0 1 | upper }}
+                </div>
+              {{ end }}
+            </div>
 
-          <!-- 头像 -->
-          <div class="flex-shrink-0">
-            {{ if site.Params.author.avatar }}
-              <img
-                src="{{ site.Params.author.avatar }}"
-                alt="{{ site.Params.author.name | default site.Title }}"
-                class="w-24 h-24 rounded-full object-cover border-4 border-primary/20 shadow-lg">
-            {{ else }}
-              <!-- 默认头像：使用作者姓名首字母 -->
-              <div class="w-24 h-24 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold shadow-lg">
-                {{ substr (site.Params.author.name | default site.Title) 0 1 | upper }}
-              </div>
-            {{ end }}
-          </div>
+            <!-- 作者信息 -->
+            <div class="min-w-0 flex-1">
+              <h1 class="text-foreground mb-2 text-3xl font-bold">
+                {{ site.Params.author.name | default site.Title }}
+              </h1>
 
-          <!-- 作者信息 -->
-          <div class="flex-1 min-w-0">
-            <h1 class="text-3xl font-bold text-foreground mb-2">
-              {{ site.Params.author.name | default site.Title }}
-            </h1>
+              {{ if site.Params.author.title }}
+                <p class="text-muted-foreground mb-3 text-lg">
+                  {{ site.Params.author.title }}
+                </p>
+              {{ end }}
 
-            {{ if site.Params.author.title }}
-              <p class="text-lg text-muted-foreground mb-3">
-                {{ site.Params.author.title }}
-              </p>
-            {{ end }}
+              {{ if site.Params.author.description }}
+                <p class="text-foreground mb-4 leading-relaxed">
+                  {{ site.Params.author.description }}
+                </p>
+              {{ end }}
 
-            {{ if site.Params.author.description }}
-              <p class="text-foreground leading-relaxed mb-4">
-                {{ site.Params.author.description }}
-              </p>
-            {{ end }}
 
-            <!-- 社交链接 -->
-            {{ if site.Params.author.social }}
-              <div class="flex flex-wrap gap-3 justify-center md:justify-start">
-                {{ range site.Params.author.social }}
-                  <a
-                    href="{{ .url }}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-muted text-muted-foreground
-                    hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:scale-105
-                    transition-all duration-300 ease-out
-                    focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    title="{{ .name }}">
-                    {{ if .icon }}
-                      {{ partial "icon.html" (dict "name" .icon "size" "sm" "ariaLabel" .name) }}
-                    {{ end }}
-                    <span class="text-sm font-medium">{{ .name }}</span>
-                  </a>
-                {{ end }}
-              </div>
-            {{ end }}
+              <!-- 社交链接 -->
+              {{ if site.Params.author.social }}
+                <div
+                  class="flex flex-wrap justify-center gap-3 md:justify-start">
+                  {{ range site.Params.author.social }}
+                    <a
+                      href="{{ .url }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="bg-muted text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-3 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
+                      title="{{ .name }}">
+                      {{ if .icon }}
+                        {{ partial "icon.html" (dict "name" .icon "size" "sm" "ariaLabel" .name) }}
+                      {{ end }}
+                      <span class="text-sm font-medium">{{ .name }}</span>
+                    </a>
+                  {{ end }}
+                </div>
+              {{ end }}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     {{ end }}
+
 
     <!-- 最近文章区域 -->
     {{ $recentPostsCount := site.Params.home.recentPostsCount | default 5 }}
     {{ $posts := where site.RegularPages "Section" "posts" | first $recentPostsCount }}
-
-
 
     {{ partial "post-list.html" (dict
       "posts" $posts
@@ -79,7 +77,9 @@
       "showTitle" true
       "showViewAll" true
       "viewAllUrl" "/posts/"
-    ) }}
+      )
+    }}
+
 
     <!-- 页面内容 -->
     {{ if .Content }}

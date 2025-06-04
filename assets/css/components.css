@@ -18,7 +18,11 @@
   }
 
   .search-result-selected {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary) 10%,
+      transparent
+    ) !important;
     color: var(--color-primary) !important;
   }
 

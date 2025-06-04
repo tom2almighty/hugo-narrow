@@ -1,6 +1,5 @@
-{{/*
-  阅读进度条组件
-  
+{{/* 阅读进度条组件
+
   功能:
   - 显示页面阅读进度
   - 根据滚动位置动态更新
@@ -25,111 +24,111 @@
 {{- end -}}
 
 {{- if $shouldShow -}}
-<!-- 阅读进度条 -->
-<div id="reading-progress-container"
-     class="fixed top-0 left-0 right-0 z-50 pointer-events-none
-            transition-opacity duration-300 ease-out
-            reading-progress-container"
-     data-height="{{ $height }}"
-     data-smooth-scroll="{{ $smoothScroll }}"
-     data-hide-on-complete="{{ $hideOnComplete }}">
+  <!-- 阅读进度条 -->
+  <div
+    id="reading-progress-container"
+    class="reading-progress-container pointer-events-none fixed top-0 right-0 left-0 z-50 transition-opacity duration-300 ease-out"
+    data-height="{{ $height }}"
+    data-smooth-scroll="{{ $smoothScroll }}"
+    data-hide-on-complete="{{ $hideOnComplete }}">
+    <!-- 进度条背景 -->
+    <div class="reading-progress-bg w-full"></div>
 
-  <!-- 进度条背景 -->
-  <div class="w-full reading-progress-bg"></div>
+    <!-- 进度条 -->
+    <div
+      id="reading-progress-bar"
+      class="from-primary to-primary/80 reading-progress-bar {{ if $smoothScroll }}
+        transition-all duration-150 ease-out
+      {{ end }} absolute top-0 left-0 w-0 bg-gradient-to-r"></div>
+  </div>
 
-  <!-- 进度条 -->
-  <div id="reading-progress-bar"
-       class="absolute top-0 left-0 w-0
-              bg-gradient-to-r from-primary to-primary/80
-              reading-progress-bar
-              {{ if $smoothScroll }}transition-all duration-150 ease-out{{ end }}"></div>
-</div>
+  <script>
+    (function () {
+      "use strict";
 
-<script>
-(function() {
-  'use strict';
+      const progressContainer = document.getElementById(
+        "reading-progress-container",
+      );
+      const progressBar = document.getElementById("reading-progress-bar");
 
-  const progressContainer = document.getElementById('reading-progress-container');
-  const progressBar = document.getElementById('reading-progress-bar');
+      if (!progressContainer || !progressBar) return;
 
-  if (!progressContainer || !progressBar) return;
+      // 获取配置
+      const config = {
+        smoothScroll: progressContainer.dataset.smoothScroll === "true",
+        hideOnComplete: progressContainer.dataset.hideOnComplete === "true",
+      };
 
-  // 获取配置
-  const config = {
-    smoothScroll: progressContainer.dataset.smoothScroll === 'true',
-    hideOnComplete: progressContainer.dataset.hideOnComplete === 'true'
-  };
+      let isVisible = true;
+      let gumshoeInstance = null;
 
-  let isVisible = true;
-  let gumshoeInstance = null;
-  
-  // 计算阅读进度
-  function calculateProgress() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const documentHeight = document.documentElement.scrollHeight;
-    const windowHeight = window.innerHeight;
-    const scrollableHeight = documentHeight - windowHeight;
+      // 计算阅读进度
+      function calculateProgress() {
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        const documentHeight = document.documentElement.scrollHeight;
+        const windowHeight = window.innerHeight;
+        const scrollableHeight = documentHeight - windowHeight;
 
-    if (scrollableHeight <= 0) return 0;
+        if (scrollableHeight <= 0) return 0;
 
-    return Math.min(Math.max(scrollTop / scrollableHeight * 100, 0), 100);
-  }
-
-  // 更新进度条
-  function updateProgress() {
-    const progress = calculateProgress();
-    progressBar.style.width = progress + '%';
-
-    // 处理完成时隐藏
-    if (config.hideOnComplete && progress >= 99.5) {
-      if (isVisible) {
-        progressContainer.style.opacity = '0';
-        isVisible = false;
+        return Math.min(Math.max((scrollTop / scrollableHeight) * 100, 0), 100);
       }
-    } else if (!isVisible) {
-      progressContainer.style.opacity = '1';
-      isVisible = true;
-    }
-  }
 
-  // 节流处理
-  let ticking = false;
-  function requestTick() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        updateProgress();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-  
-  // 初始化
-  function init() {
-    // 绑定事件
-    window.addEventListener('scroll', requestTick, { passive: true });
-    window.addEventListener('resize', requestTick, { passive: true });
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) requestTick();
-    });
+      // 更新进度条
+      function updateProgress() {
+        const progress = calculateProgress();
+        progressBar.style.width = progress + "%";
 
-    // 初始更新
-    requestTick();
+        // 处理完成时隐藏
+        if (config.hideOnComplete && progress >= 99.5) {
+          if (isVisible) {
+            progressContainer.style.opacity = "0";
+            isVisible = false;
+          }
+        } else if (!isVisible) {
+          progressContainer.style.opacity = "1";
+          isVisible = true;
+        }
+      }
 
-    // 页面卸载时清理
-    window.addEventListener('beforeunload', () => {
-      window.removeEventListener('scroll', requestTick);
-      window.removeEventListener('resize', requestTick);
-    });
-  }
+      // 节流处理
+      let ticking = false;
+      function requestTick() {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateProgress();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
 
-  // 启动
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-  
-})();
-</script>
+      // 初始化
+      function init() {
+        // 绑定事件
+        window.addEventListener("scroll", requestTick, { passive: true });
+        window.addEventListener("resize", requestTick, { passive: true });
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden) requestTick();
+        });
+
+        // 初始更新
+        requestTick();
+
+        // 页面卸载时清理
+        window.addEventListener("beforeunload", () => {
+          window.removeEventListener("scroll", requestTick);
+          window.removeEventListener("resize", requestTick);
+        });
+      }
+
+      // 启动
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 {{- end -}}

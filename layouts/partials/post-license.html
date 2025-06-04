@@ -1,5 +1,4 @@
-{{/*
-  文章许可证信息组件
+{{/* 文章许可证信息组件
 
   显示文章的版权和许可证信息
 
@@ -22,22 +21,22 @@
 {{ $licenseDisplayName := $licenseConfig.displayName | default "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议" }}
 
 {{ if $showLicense }}
-  <div class="post-license mb-8 p-6 bg-muted/30 border border-border rounded-xl">
+  <div
+    class="post-license bg-muted/30 border-border mb-8 rounded-xl border p-6">
     <div class="flex items-start gap-4">
-
       <!-- 许可证图标 -->
-      <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+      <div
+        class="bg-primary/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg">
         {{ partial "icon.html" (dict "name" "license" "size" "lg" "ariaLabel" "许可证") }}
       </div>
 
       <!-- 许可证信息 -->
       <div class="flex-1">
-        <h3 class="text-lg font-semibold text-foreground mb-2">
+        <h3 class="text-foreground mb-2 text-lg font-semibold">
           {{ i18n "license.title" | default "版权声明" }}
         </h3>
 
-        <div class="text-sm text-muted-foreground space-y-2">
-
+        <div class="text-muted-foreground space-y-2 text-sm">
           <!-- 作者信息 -->
           <p>
             <strong>{{ i18n "license.author" | default "作者" }}:</strong>
@@ -47,7 +46,9 @@
           <!-- 文章链接 -->
           <p>
             <strong>{{ i18n "license.link" | default "链接" }}:</strong>
-            <a href="{{ .Permalink }}" class="text-primary hover:text-primary/80 transition-colors duration-200">
+            <a
+              href="{{ .Permalink }}"
+              class="text-primary hover:text-primary/80 transition-colors duration-200">
               {{ .Permalink }}
             </a>
           </p>
@@ -77,7 +78,6 @@
 
         </div>
       </div>
-
     </div>
   </div>
 {{ end }}

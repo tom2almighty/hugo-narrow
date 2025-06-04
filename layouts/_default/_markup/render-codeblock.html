@@ -1,5 +1,4 @@
-{{/*
-  Code block render hook with header, copy button, collapse functionality, and Hugo Chroma syntax highlighting
+{{/* Code block render hook with header, copy button, collapse functionality, and Hugo Chroma syntax highlighting
 
   Features:
   - Language display or filename
@@ -26,20 +25,18 @@
 {{/* 使用 Hugo 的 transform.HighlightCodeBlock 进行语法高亮 */}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
 
-<div class="code-block-container my-6 rounded-xl border border-border overflow-hidden
-            bg-card shadow-sm transition-all duration-200 ease-out
-            hover:shadow-md hover:-translate-y-0.5">
 
+<div
+  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-xl border shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md">
   {{/* Code block header */}}
-  <div class="code-block-header flex items-center justify-between px-4 py-3
-              bg-muted/30 border-b border-border">
-
+  <div
+    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3">
     {{/* Language/filename display */}}
     <div class="flex items-center gap-2">
-      <div class="flex-shrink-0 text-muted-foreground">
+      <div class="text-muted-foreground flex-shrink-0">
         {{ partial "icon.html" (dict "name" "code" "size" "sm" "ariaLabel" "") }}
       </div>
-      <span class="text-sm font-medium text-muted-foreground">
+      <span class="text-muted-foreground text-sm font-medium">
         {{ $displayLang }}
       </span>
     </div>
@@ -48,39 +45,37 @@
     <div class="flex items-center gap-2">
       {{/* Collapse button (if collapse is enabled) */}}
       {{- if $collapseEnabled -}}
-      <button
-        class="collapse-code-btn flex items-center gap-1.5 px-2 py-1 text-xs font-medium
-               text-muted-foreground hover:text-primary hover:bg-primary/10
-               transition-all duration-200 ease-out rounded-md
-               focus:outline-none focus:ring-2 focus:ring-primary/20"
-        data-code-id="{{ $codeId }}"
-        data-default-state="{{ $defaultState }}"
-        data-collapsed="{{ $collapsed }}"
-        data-auto-collapse-lines="{{ $autoCollapseLines }}"
-        data-auto-collapse-height="{{ $autoCollapseHeight }}"
-        data-collapsed-height="{{ $collapsedHeight }}"
-        title="{{ i18n "code.collapse" | default "折叠代码" }}"
-        aria-label="{{ i18n "code.collapse" | default "折叠代码" }}">
-        <span class="collapse-icon">
-          {{ partial "icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
-        </span>
-        <span class="collapse-text hidden sm:inline">{{ i18n "code.collapse" | default "折叠" }}</span>
-      </button>
+        <button
+          class="collapse-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+          data-code-id="{{ $codeId }}"
+          data-default-state="{{ $defaultState }}"
+          data-collapsed="{{ $collapsed }}"
+          data-auto-collapse-lines="{{ $autoCollapseLines }}"
+          data-auto-collapse-height="{{ $autoCollapseHeight }}"
+          data-collapsed-height="{{ $collapsedHeight }}"
+          title="{{ i18n "code.collapse" | default "折叠代码" }}"
+          aria-label="{{ i18n "code.collapse" | default "折叠代码" }}">
+          <span class="collapse-icon">
+            {{ partial "icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
+          </span>
+          <span class="collapse-text hidden sm:inline"
+            >{{ i18n "code.collapse" | default "折叠" }}</span
+          >
+        </button>
       {{- end -}}
-      
+
       {{/* Copy button */}}
       <button
-        class="copy-code-btn flex items-center gap-1.5 px-2 py-1 text-xs font-medium
-               text-muted-foreground hover:text-primary hover:bg-primary/10
-               transition-all duration-200 ease-out rounded-md
-               focus:outline-none focus:ring-2 focus:ring-primary/20"
+        class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
         data-code-id="{{ $codeId }}"
         title="{{ i18n "code.copy" | default "复制代码" }}"
         aria-label="{{ i18n "code.copy" | default "复制代码" }}">
         <span class="copy-icon">
           {{ partial "icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") }}
         </span>
-        <span class="copy-text hidden sm:inline">{{ i18n "code.copy" | default "复制" }}</span>
+        <span class="copy-text hidden sm:inline"
+          >{{ i18n "code.copy" | default "复制" }}</span
+        >
       </button>
     </div>
   </div>
@@ -89,13 +84,10 @@
   <div class="code-block-content relative" id="{{ $codeId }}">
     {{ $highlighted.Wrapped }}
     {{/* Collapse overlay (hidden by default) */}}
-    <div class="collapse-overlay absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card/90 
-                pointer-events-none opacity-0 transition-opacity duration-300">
-    <div class="absolute bottom-4 left-1/2 -translate-x-1/2
-                text-xs text-muted-foreground bg-card/80 backdrop-blur-sm
-                px-3 py-1.5 rounded-full border border-border/50
-                hover:bg-primary/10 hover:text-primary hover:border-primary/30
-                transition-all duration-200 cursor-pointer">
+    <div
+      class="collapse-overlay to-card/90 pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent opacity-0 transition-opacity duration-300">
+      <div
+        class="text-muted-foreground bg-card/80 border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-full border px-3 py-1.5 text-xs backdrop-blur-sm transition-all duration-200">
         {{ i18n "code.clickToExpand" | default "点击展开查看更多" }}
       </div>
     </div>
@@ -109,7 +101,7 @@
   const copyBtn = document.querySelector('.copy-code-btn[data-code-id="' + codeId + '"]');
   const collapseBtn = document.querySelector('.collapse-code-btn[data-code-id="' + codeId + '"]');
   const codeContainer = document.getElementById(codeId);
-  
+
   if (!codeContainer) return;
 
   // Copy functionality
@@ -213,7 +205,7 @@
     const collapseText = collapseBtn.querySelector('.collapse-text');
     const collapseOverlay = codeContainer.querySelector('.collapse-overlay');
     const codeElement = codeContainer.querySelector('pre.chroma');
-    
+
     const defaultState = collapseBtn.dataset.defaultState || 'expanded';
     const isCollapsedAttr = collapseBtn.dataset.collapsed === 'true';
     const autoCollapseLines = parseInt(collapseBtn.dataset.autoCollapseLines) || 30;
@@ -227,8 +219,8 @@
       if (!codeElement) return;
 
       // Check if should be collapsed initially
-      const shouldCollapse = isCollapsedAttr || 
-                           defaultState === 'collapsed' || 
+      const shouldCollapse = isCollapsedAttr ||
+                           defaultState === 'collapsed' ||
                            shouldAutoCollapse();
 
       if (shouldCollapse) {
@@ -238,39 +230,39 @@
 
     function shouldAutoCollapse() {
       if (!codeElement) return false;
-      
+
       const lines = codeElement.querySelectorAll('.line, .cl');
       const height = codeElement.offsetHeight;
-      
+
       return lines.length > autoCollapseLines || height > autoCollapseHeight;
     }
 
     function setCollapsed(collapsed, animate = true) {
       if (!codeElement || !collapseOverlay) return;
-      
+
       isCollapsed = collapsed;
-      
+
       if (collapsed) {
         // Collapse
         codeContainer.style.maxHeight = collapsedHeight + 'px';
         codeContainer.style.overflow = 'hidden';
         collapseOverlay.style.opacity = '1';
         collapseOverlay.style.pointerEvents = 'auto';
-        
+
         // Update button
         collapseIcon.innerHTML = `{{ partial "icon.html" (dict "name" "chevron-down" "size" "xs" "ariaLabel" "") | safeJS }}`;
         if (collapseText) {
           collapseText.textContent = '{{ i18n "code.expand" | default "展开" }}';
         }
         collapseBtn.title = '{{ i18n "code.expand" | default "展开代码" }}';
-        
+
       } else {
         // Expand
         codeContainer.style.maxHeight = '';
         codeContainer.style.overflow = '';
         collapseOverlay.style.opacity = '0';
         collapseOverlay.style.pointerEvents = 'none';
-        
+
         // Update button
         collapseIcon.innerHTML = `{{ partial "icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") | safeJS }}`;
         if (collapseText) {
@@ -278,7 +270,7 @@
         }
         collapseBtn.title = '{{ i18n "code.collapse" | default "折叠代码" }}';
       }
-      
+
       // Add transition class if animating
       if (animate) {
         codeContainer.style.transition = 'max-height 0.3s ease-out';
@@ -294,7 +286,7 @@
 
     // Event listeners
     collapseBtn.addEventListener('click', toggleCollapse);
-    
+
     // Click overlay to expand
     if (collapseOverlay) {
       collapseOverlay.addEventListener('click', () => {

@@ -18,10 +18,12 @@
   {{- end }}
 {{- end }}
 
+
 <!-- Gumshoe 库 - 只在文章页面加载 -->
 {{- if .IsPage }}
   <script src="{{ "js/gumshoe.polyfills.min.js" | relURL }}"></script>
 {{- end }}
+
 
 <!-- 目录功能脚本 - 只在文章页面加载，需要在 dock.js 之前加载 -->
 {{- if .IsPage }}
@@ -47,6 +49,7 @@
   {{- end }}
 {{- end }}
 
+
 <!-- 搜索功能脚本 -->
 {{- with resources.Get "js/search.js" }}
   {{- $opts := dict
@@ -68,6 +71,7 @@
     {{- end }}
   {{- end }}
 {{- end }}
+
 
 <!-- Dock 控制脚本 -->
 {{- with resources.Get "js/dock.js" }}
@@ -91,7 +95,6 @@
   {{- end }}
 {{- end }}
 
-
 {{ if .Site.Params.analytics.enabled -}}
-{{ partial "analytics.html" . }}
+  {{ partial "analytics.html" . }}
 {{- end }}

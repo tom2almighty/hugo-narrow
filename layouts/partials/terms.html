@@ -13,7 +13,15 @@
 {{- with $page.GetTerms $taxonomy }}
   {{- $label := (index . 0).Parent.LinkTitle }}
   <div>
-    <div>{{ if eq $taxonomy "tags" }}{{ i18n "post.tags" }}{{ else if eq $taxonomy "categories" }}{{ i18n "post.categories" }}{{ else }}{{ $label }}{{ end }}:</div>
+    <div>
+      {{ if eq $taxonomy "tags" }}
+        {{ i18n "post.tags" }}
+      {{ else if eq $taxonomy "categories" }}
+        {{ i18n "post.categories" }}
+      {{ else }}
+        {{ $label }}
+      {{ end }}:
+    </div>
     <ul>
       {{- range . }}
         <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>

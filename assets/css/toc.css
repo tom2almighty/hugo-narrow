@@ -8,7 +8,7 @@
   }
 
   #toc-content ul {
-    @apply list-none m-0 p-0;
+    @apply m-0 list-none p-0;
   }
 
   #toc-content li {
@@ -16,10 +16,7 @@
   }
 
   #toc-content a {
-    @apply block px-4 py-3 text-muted-foreground no-underline rounded-lg
-           transition-all duration-200 ease-out border-l-2 border-transparent
-           relative hover:text-primary hover:bg-primary/10
-           hover:translate-x-0.5 hover:-translate-y-px hover:scale-[1.02];
+    @apply text-muted-foreground hover:text-primary hover:bg-primary/10 relative block rounded-lg border-l-2 border-transparent px-4 py-3 no-underline transition-all duration-200 ease-out hover:translate-x-0.5 hover:-translate-y-px hover:scale-[1.02];
   }
 
   /* Gumshoe 添加的 active 类样式 - 与 hover 样式保持一致 */

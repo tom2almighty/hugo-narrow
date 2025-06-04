@@ -6,20 +6,21 @@
  * - 基础的按钮点击事件处理
  */
 
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   let lastScrollTop = 0;
   let isScrollingUp = false;
   let scrollThreshold = 100; // 滚动阈值
 
-  const dock = document.getElementById('dock');
+  const dock = document.getElementById("dock");
 
   if (!dock) return;
 
   // 滚动事件处理
   function handleScroll() {
-    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const currentScrollTop =
+      window.pageYOffset || document.documentElement.scrollTop;
 
     // 判断滚动方向
     if (currentScrollTop < lastScrollTop) {
@@ -42,39 +43,43 @@
 
   // 显示 dock
   function showDock() {
-    dock.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
-    dock.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+    dock.classList.remove("translate-y-24", "opacity-0", "pointer-events-none");
+    dock.classList.add("translate-y-0", "opacity-100", "pointer-events-auto");
   }
 
   // 隐藏 dock
   function hideDock() {
-    dock.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
-    dock.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+    dock.classList.remove(
+      "translate-y-0",
+      "opacity-100",
+      "pointer-events-auto",
+    );
+    dock.classList.add("translate-y-24", "opacity-0", "pointer-events-none");
   }
 
   // 节流函数
   function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
       const args = arguments;
       const context = this;
       if (!inThrottle) {
         func.apply(context, args);
         inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
+        setTimeout(() => (inThrottle = false), limit);
       }
-    }
+    };
   }
 
   // 绑定滚动事件（使用节流）
-  window.addEventListener('scroll', throttle(handleScroll, 16)); // ~60fps
+  window.addEventListener("scroll", throttle(handleScroll, 16)); // ~60fps
 
   // 基础按钮事件处理（占位符，后续实现具体功能）
 
   // 返回按钮 - 只在非首页存在
-  const backBtn = document.getElementById('dock-back');
+  const backBtn = document.getElementById("dock-back");
   if (backBtn) {
-    backBtn.addEventListener('click', function(e) {
+    backBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       // 实现智能返回功能
@@ -87,26 +92,26 @@
 
           if (referrerUrl.origin === currentUrl.origin) {
             window.history.back();
-            console.log('返回按钮点击 - 浏览器返回');
+            console.log("返回按钮点击 - 浏览器返回");
             return;
           }
         }
 
         // 否则跳转到首页
-        window.location.href = '/';
-        console.log('返回按钮点击 - 跳转首页');
+        window.location.href = "/";
+        console.log("返回按钮点击 - 跳转首页");
       } catch (error) {
         // 如果出现错误，默认跳转到首页
-        console.warn('返回功能出错，跳转到首页:', error);
-        window.location.href = '/';
+        console.warn("返回功能出错，跳转到首页:", error);
+        window.location.href = "/";
       }
     });
   }
 
   // 目录按钮 - 只在文章页面存在
-  const tocBtn = document.getElementById('dock-toc');
+  const tocBtn = document.getElementById("dock-toc");
   if (tocBtn) {
-    tocBtn.addEventListener('click', function(e) {
+    tocBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       // 调用目录功能，带重试机制
@@ -125,9 +130,9 @@
   }
 
   // 搜索按钮
-  const searchBtn = document.getElementById('dock-search');
+  const searchBtn = document.getElementById("dock-search");
   if (searchBtn) {
-    searchBtn.addEventListener('click', function(e) {
+    searchBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       // 调用搜索功能，带重试机制
@@ -144,28 +149,28 @@
   }
 
   // 评论按钮 - 只在文章页面且评论启用时存在
-  const commentsBtn = document.getElementById('dock-comments');
+  const commentsBtn = document.getElementById("dock-comments");
   if (commentsBtn) {
-    commentsBtn.addEventListener('click', function(e) {
+    commentsBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       // 实现滚动到评论区域功能
       try {
         // 尝试多种可能的评论区域选择器
         const commentSelectors = [
-          '#comments',           // 通用评论区域 ID
-          '.comments',           // 通用评论区域类
-          '#giscus-container',   // Giscus 评论系统
-          '.giscus',             // Giscus 评论系统类
-          '#disqus_thread',      // Disqus 评论系统
-          '.disqus',             // Disqus 评论系统类
-          '#utterances',         // Utterances 评论系统
-          '.utterances',         // Utterances 评论系统类
-          '#waline',             // Waline 评论系统
-          '.waline',             // Waline 评论系统类
-          '[data-comments]',     // 带有 data-comments 属性的元素
-          '.comment-section',    // 评论区域类
-          '.post-comments'       // 文章评论类
+          "#comments", // 通用评论区域 ID
+          ".comments", // 通用评论区域类
+          "#giscus-container", // Giscus 评论系统
+          ".giscus", // Giscus 评论系统类
+          "#disqus_thread", // Disqus 评论系统
+          ".disqus", // Disqus 评论系统类
+          "#utterances", // Utterances 评论系统
+          ".utterances", // Utterances 评论系统类
+          "#waline", // Waline 评论系统
+          ".waline", // Waline 评论系统类
+          "[data-comments]", // 带有 data-comments 属性的元素
+          ".comment-section", // 评论区域类
+          ".post-comments", // 文章评论类
         ];
 
         let commentElement = null;
@@ -182,38 +187,38 @@
         if (commentElement) {
           // 平滑滚动到评论区域
           commentElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest'
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest",
           });
-          console.log('评论按钮点击 - 滚动到评论区域');
+          console.log("评论按钮点击 - 滚动到评论区域");
         } else {
           // 如果找不到评论区域，滚动到页面底部
           window.scrollTo({
             top: document.documentElement.scrollHeight,
-            behavior: 'smooth'
+            behavior: "smooth",
           });
-          console.log('评论按钮点击 - 未找到评论区域，滚动到页面底部');
+          console.log("评论按钮点击 - 未找到评论区域，滚动到页面底部");
         }
       } catch (error) {
-        console.warn('滚动到评论区域失败:', error);
+        console.warn("滚动到评论区域失败:", error);
         // 出错时滚动到页面底部
         window.scrollTo({
           top: document.documentElement.scrollHeight,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     });
   }
 
   // 返回顶部按钮
-  const topBtn = document.getElementById('dock-top');
+  const topBtn = document.getElementById("dock-top");
   if (topBtn) {
-    topBtn.addEventListener('click', function() {
+    topBtn.addEventListener("click", function () {
       // 平滑滚动到顶部
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     });
   }
@@ -222,8 +227,12 @@
   hideDock();
 
   // 调试信息
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    console.log('Dock initialized successfully - positioned at perfect center bottom');
+  if (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  ) {
+    console.log(
+      "Dock initialized successfully - positioned at perfect center bottom",
+    );
   }
-
 })();

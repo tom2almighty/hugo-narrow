@@ -1,5 +1,4 @@
-{{/*
-  简洁的图像渲染模板
+{{/* 简洁的图像渲染模板
   基于 https://www.brycewray.com/posts/2023/05/better-code-image-processing-hugo-render-hook-edition/
   使用 Tailwind CSS 4.0 和主题变量优化
 */}}
@@ -16,80 +15,90 @@
 {{- $dest := .Destination | safeURL -}}
 {{- $dest = path.Join (path.Dir $dest) (path.Base $dest) -}}
 
+
 <div class="not-prose my-8">
   {{/* 检查是否为页面资源 */}}
   {{- if and (.Page.Resources.Get $dest) (ne (.Page.Resources.Get $dest).MediaType.SubType "svg") -}}
-    
+
     {{/* 页面资源处理 */}}
     {{- $src := .Page.Resources.Get $dest -}}
     {{- $dataSizes := "(min-width: 1024px) 960px, (min-width: 768px) 720px, 100vw" -}}
     {{- $actualImg := $src.Resize (printf "960x q85 %s" $filter) -}}
-    
+
+
     <figure class="text-center">
-      <div class="inline-block overflow-hidden rounded-xl shadow-lg 
-                  transition-all duration-300 ease-out hover:shadow-xl">
+      <div
+        class="inline-block overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-out hover:shadow-xl">
         <picture>
           {{/* WebP 格式 */}}
-          <source type="image/webp" 
-                  srcset="{{- range $i, $size := $respSizes -}}
-                    {{- if ge $src.Width (int $size) -}}
-                      {{- if $i }}, {{ end -}}
-                      {{- ($src.Resize (printf "%sx webp q85 %s %s" $size $hint $filter)).RelPermalink }} {{ $size }}w
-                    {{- end -}}
-                  {{- end -}}" 
-                  sizes="{{ $dataSizes }}">
-          
+          <source
+            type="image/webp"
+            srcset="
+              {{- range $i, $size := $respSizes -}}
+                {{- if ge $src.Width (int $size) -}}
+                  {{- if $i }},{{ end -}}
+                  {{- ($src.Resize (printf "%sx webp q85 %s %s" $size $hint $filter)).RelPermalink }}
+                  {{ $size }}w
+                {{- end -}}
+              {{- end -}}
+            "
+            sizes="{{ $dataSizes }}" />
+
           {{/* JPEG 格式降级 */}}
-          <source type="image/jpeg" 
-                  srcset="{{- range $i, $size := $respSizes -}}
-                    {{- if ge $src.Width (int $size) -}}
-                      {{- if $i }}, {{ end -}}
-                      {{- ($src.Resize (printf "%sx jpeg q85 %s" $size $filter)).RelPermalink }} {{ $size }}w
-                    {{- end -}}
-                  {{- end -}}" 
-                  sizes="{{ $dataSizes }}">
-          
+          <source
+            type="image/jpeg"
+            srcset="
+              {{- range $i, $size := $respSizes -}}
+                {{- if ge $src.Width (int $size) -}}
+                  {{- if $i }},{{ end -}}
+                  {{- ($src.Resize (printf "%sx jpeg q85 %s" $size $filter)).RelPermalink }}
+                  {{ $size }}w
+                {{- end -}}
+              {{- end -}}
+            "
+            sizes="{{ $dataSizes }}" />
+
           {{/* 降级图像 */}}
-          <img src="{{ $actualImg.RelPermalink }}" 
-               alt="{{ $alt }}" 
-               {{ with $alt }}title="{{ . }}"{{ end }}
-               width="{{ $src.Width }}" 
-               height="{{ $src.Height }}"
-               class="w-full h-auto transition-transform duration-300 ease-out hover:scale-105" 
-               loading="lazy" 
-               decoding="async">
+          <img
+            src="{{ $actualImg.RelPermalink }}"
+            alt="{{ $alt }}"
+            {{ with $alt }}title="{{ . }}"{{ end }}
+            width="{{ $src.Width }}"
+            height="{{ $src.Height }}"
+            class="h-auto w-full transition-transform duration-300 ease-out hover:scale-105"
+            loading="lazy"
+            decoding="async" />
         </picture>
       </div>
-      
+
       {{/* 图片说明 */}}
       {{- if $caption -}}
-        <figcaption class="mt-3 text-sm text-muted-foreground italic">
+        <figcaption class="text-muted-foreground mt-3 text-sm italic">
           {{ $caption | .Page.RenderString }}
         </figcaption>
       {{- end -}}
     </figure>
-    
   {{- else -}}
-    
+
     {{/* 外部图像或 SVG 处理 */}}
     <figure class="text-center">
-      <div class="inline-block overflow-hidden rounded-xl shadow-lg 
-                  transition-all duration-300 ease-out hover:shadow-xl">
-        <img src="{{ $dest }}" 
-             alt="{{ $alt }}" 
-             {{ with .Title }}title="{{ . }}"{{ end }}
-             class="w-full h-auto max-w-full transition-transform duration-300 ease-out hover:scale-105" 
-             loading="lazy" 
-             decoding="async">
+      <div
+        class="inline-block overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-out hover:shadow-xl">
+        <img
+          src="{{ $dest }}"
+          alt="{{ $alt }}"
+          {{ with .Title }}title="{{ . }}"{{ end }}
+          class="h-auto w-full max-w-full transition-transform duration-300 ease-out hover:scale-105"
+          loading="lazy"
+          decoding="async" />
       </div>
-      
+
       {{/* 图片说明 */}}
       {{- if $caption -}}
-        <figcaption class="mt-3 text-sm text-muted-foreground italic">
+        <figcaption class="text-muted-foreground mt-3 text-sm italic">
           {{ $caption | .Page.RenderString }}
         </figcaption>
       {{- end -}}
     </figure>
-    
   {{- end -}}
 </div>

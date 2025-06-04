@@ -38,7 +38,7 @@
   }
 
   .prose h1::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -0.5rem;
     left: 0;
@@ -58,7 +58,7 @@
   }
 
   .prose h2::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0.25rem;
@@ -81,7 +81,7 @@
     margin-bottom: 0.75rem;
     color: var(--tw-prose-headings);
   }
-  .prose h4[id^="alert-"]{
+  .prose h4[id^="alert-"] {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
@@ -216,7 +216,7 @@
   }
 
   .prose a::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
@@ -250,7 +250,7 @@
   }
 
   .prose ul li::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0.75rem;
@@ -327,7 +327,7 @@
   }
 
   .prose ul li.task-list-item input[type="checkbox"]:checked::after {
-    content: '✓';
+    content: "✓";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -339,7 +339,8 @@
 
   .prose ul li.task-list-item input[type="checkbox"]:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+    box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--color-primary) 20%, transparent);
   }
 
   /* 定义列表 */
@@ -357,7 +358,7 @@
   }
 
   .prose dt::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0.5rem;
@@ -372,7 +373,8 @@
     margin-bottom: 0.75rem;
     color: var(--tw-prose-body);
     padding-left: 1rem;
-    border-left: 2px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+    border-left: 2px solid
+      color-mix(in srgb, var(--color-border) 50%, transparent);
   }
 
   /* 嵌套列表样式改进 */
@@ -394,7 +396,7 @@
 
   /* 三级无序列表使用三角形标记 */
   .prose ul ul ul li::before {
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     border-left: 3px solid var(--color-accent);
@@ -422,7 +424,7 @@
 
   /* 代码样式 */
   .prose code {
-    @apply rounded bg-muted px-1.5 py-0.5 text-sm font-mono;
+    @apply bg-muted rounded px-1.5 py-0.5 font-mono text-sm;
     color: var(--tw-prose-code);
     font-weight: 600;
   }
@@ -434,7 +436,7 @@
 
   /* Chroma 生成的代码块样式 */
   .code-block-content .chroma {
-    @apply p-4 overflow-x-auto text-sm font-mono;
+    @apply overflow-x-auto p-4 font-mono text-sm;
     margin: 0;
     border: none;
     border-radius: 0;
@@ -458,7 +460,7 @@
 
   /* 内联行号样式 */
   .code-block-content .chroma .ln {
-    user-select: none;  /* 行号不可选择 */
+    user-select: none; /* 行号不可选择 */
     margin-right: 0.4em;
     padding: 0 0.4em 0 0.4em;
     color: var(--chroma-ln, #7f7f7f);
@@ -497,14 +499,14 @@
 
   /* 内联代码样式保持不变 */
   .prose code:not(.chroma code) {
-    @apply rounded bg-muted px-1.5 py-0.5 text-sm font-mono;
+    @apply bg-muted rounded px-1.5 py-0.5 font-mono text-sm;
     color: var(--tw-prose-code);
     font-weight: 600;
   }
 
   /* 传统 pre 样式（作为后备） */
   .prose pre:not(.chroma) {
-    @apply rounded-lg p-4 overflow-x-auto;
+    @apply overflow-x-auto rounded-lg p-4;
     background: var(--tw-prose-pre-bg);
     border: 1px solid var(--color-border);
     margin: 1.5rem 0;
@@ -524,7 +526,8 @@
     border-radius: 0.5rem;
     overflow: hidden;
     border: 1px solid var(--color-border);
-    box-shadow: 0 1px 3px 0 color-mix(in srgb, var(--color-foreground) 10%, transparent);
+    box-shadow: 0 1px 3px 0
+      color-mix(in srgb, var(--color-foreground) 10%, transparent);
   }
 
   .prose th {
@@ -535,7 +538,7 @@
   }
 
   .prose td {
-    @apply px-4 py-3 border-b;
+    @apply border-b px-4 py-3;
     border-bottom-color: var(--tw-prose-td-borders);
     color: var(--tw-prose-body);
   }
@@ -550,12 +553,12 @@
 
   /* 分隔线 */
   .prose hr {
-    @apply my-8 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent;
+    @apply via-border my-8 h-px border-0 bg-gradient-to-r from-transparent to-transparent;
   }
 
   /* 图片样式 */
   .prose img {
-    @apply rounded-lg mx-auto shadow-md;
+    @apply mx-auto rounded-lg shadow-md;
     margin: 0;
     max-width: 100%;
     height: auto;
@@ -566,7 +569,7 @@
   }
 
   .prose figcaption {
-    @apply text-center text-sm mt-2;
+    @apply mt-2 text-center text-sm;
     color: var(--tw-prose-captions);
     font-style: italic;
   }
@@ -592,7 +595,8 @@
 
   /* 高亮文本 */
   .prose mark {
-    background: linear-gradient(135deg,
+    background: linear-gradient(
+      135deg,
       color-mix(in srgb, var(--color-primary) 20%, transparent),
       color-mix(in srgb, var(--color-accent) 20%, transparent)
     );
@@ -621,11 +625,12 @@
 
   /* 键盘按键 */
   .prose kbd {
-    @apply inline-flex items-center px-2 py-1 text-xs font-mono font-semibold rounded border;
+    @apply inline-flex items-center rounded border px-2 py-1 font-mono text-xs font-semibold;
     background: var(--color-muted);
     color: var(--tw-prose-body);
     border-color: var(--color-border);
-    box-shadow: 0 1px 2px color-mix(in srgb, var(--color-foreground) 10%, transparent);
+    box-shadow: 0 1px 2px
+      color-mix(in srgb, var(--color-foreground) 10%, transparent);
     min-height: 1.5rem;
   }
 
@@ -659,7 +664,11 @@
   }
 
   .prose details summary:hover {
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-muted));
+    background: color-mix(
+      in srgb,
+      var(--color-primary) 10%,
+      var(--color-muted)
+    );
     color: var(--color-primary);
   }
 
@@ -668,7 +677,7 @@
   }
 
   .prose details summary::before {
-    content: '▶';
+    content: "▶";
     position: absolute;
     right: 1.5rem;
     top: 50%;

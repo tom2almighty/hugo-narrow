@@ -1,5 +1,4 @@
-{{/*
-  Artalk 评论系统组件
+{{/* Artalk 评论系统组件
 
   自托管的评论系统，功能丰富且可定制
 
@@ -13,7 +12,9 @@
 {{ if $config.server }}
   <div id="{{ $id }}" class="artalk-container">
     {{/* 加载 Artalk CSS */}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
 
     <script type="module">
       import Artalk from 'https://esm.sh/artalk@2.9.1'
@@ -75,13 +76,13 @@
       updateArtalkTheme();
     </script>
   </div>
-
 {{ else }}
-  <div id="{{ $id }}" class="text-center py-8">
-    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
+  <div id="{{ $id }}" class="py-8 text-center">
+    <div
+      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
       {{ partial "icon.html" (dict "name" "server" "size" "lg" "ariaLabel" "") }}
     </div>
-    <h3 class="text-lg font-medium text-foreground mb-2">
+    <h3 class="text-foreground mb-2 text-lg font-medium">
       {{ i18n "comments.artalk_not_configured" | default "Artalk 未配置" }}
     </h3>
     <p class="text-muted-foreground text-sm">

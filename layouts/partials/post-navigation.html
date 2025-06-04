@@ -1,5 +1,4 @@
-{{/*
-  文章导航组件
+{{/* 文章导航组件
 
   显示上一篇和下一篇文章的导航链接
 
@@ -10,45 +9,44 @@
 {{ $next := .NextInSection }}
 
 {{ if or $prev $next }}
-  <nav class="post-navigation mb-12" aria-label="{{ i18n "nav.post_navigation" | default "文章导航" }}">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+  <nav
+    class="post-navigation mb-12"
+    aria-label="{{ i18n "nav.post_navigation" | default "文章导航" }}">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <!-- 上一篇文章 -->
       <div class="nav-item">
         {{ if $prev }}
           <a
             href="{{ $prev.RelPermalink }}"
-            class="group p-6 bg-card border border-border rounded-xl
-            hover:bg-primary/5 hover:border-primary/20 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg
-            transition-all duration-300 ease-out min-h-[140px] flex flex-col justify-between
-            focus:outline-none focus:ring-2 focus:ring-primary/20">
-
+            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex min-h-[140px] flex-col justify-between rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
             <div>
-              <div class="flex items-center gap-3 mb-3">
+              <div class="mb-3 flex items-center gap-3">
                 {{ partial "icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
-                <span class="text-sm font-medium text-muted-foreground">
+                <span class="text-muted-foreground text-sm font-medium">
                   {{ i18n "post.previous" | default "上一篇" }}
                 </span>
               </div>
 
-              <h3 class="text-lg font-semibold text-foreground group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-tight mb-3">
+              <h3
+                class="text-foreground group-hover:text-primary mb-3 line-clamp-2 text-lg leading-tight font-semibold transition-colors duration-200">
                 {{ $prev.Title }}
               </h3>
             </div>
 
-            <div class="flex items-center gap-2 text-xs text-muted-foreground mt-auto">
+            <div
+              class="text-muted-foreground mt-auto flex items-center gap-2 text-xs">
               {{ partial "icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
               <time datetime="{{ $prev.Date.Format "2006-01-02" }}">
                 {{ $prev.Date.Format "01月02日" }}
               </time>
             </div>
-
           </a>
         {{ else }}
-          <div class="p-6 bg-muted/30 border border-border/50 rounded-xl min-h-[140px] flex flex-col justify-center">
-            <div class="flex items-center gap-3 mb-3">
+          <div
+            class="bg-muted/30 border-border/50 flex min-h-[140px] flex-col justify-center rounded-xl border p-6">
+            <div class="mb-3 flex items-center gap-3">
               {{ partial "icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
-              <span class="text-sm font-medium text-muted-foreground/50">
+              <span class="text-muted-foreground/50 text-sm font-medium">
                 {{ i18n "post.no_previous" | default "没有上一篇" }}
               </span>
             </div>
@@ -64,47 +62,44 @@
         {{ if $next }}
           <a
             href="{{ $next.RelPermalink }}"
-            class="group p-6 bg-card border border-border rounded-xl
-            hover:bg-primary/5 hover:border-primary/20 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg
-            transition-all duration-300 ease-out min-h-[140px] flex flex-col justify-between
-            focus:outline-none focus:ring-2 focus:ring-primary/20">
-
+            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex min-h-[140px] flex-col justify-between rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
             <div>
-              <div class="flex items-center justify-end gap-3 mb-3">
-                <span class="text-sm font-medium text-muted-foreground">
+              <div class="mb-3 flex items-center justify-end gap-3">
+                <span class="text-muted-foreground text-sm font-medium">
                   {{ i18n "post.next" | default "下一篇" }}
                 </span>
                 {{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
               </div>
 
-              <h3 class="text-lg font-semibold text-foreground group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-tight mb-3 text-right">
+              <h3
+                class="text-foreground group-hover:text-primary mb-3 line-clamp-2 text-right text-lg leading-tight font-semibold transition-colors duration-200">
                 {{ $next.Title }}
               </h3>
             </div>
 
-            <div class="flex items-center justify-end gap-2 text-xs text-muted-foreground mt-auto">
+            <div
+              class="text-muted-foreground mt-auto flex items-center justify-end gap-2 text-xs">
               <time datetime="{{ $next.Date.Format "2006-01-02" }}">
                 {{ $next.Date.Format "01月02日" }}
               </time>
               {{ partial "icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
             </div>
-
           </a>
         {{ else }}
-          <div class="p-6 bg-muted/30 border border-border/50 rounded-xl min-h-[140px] flex flex-col justify-center">
-            <div class="flex items-center justify-end gap-3 mb-3">
-              <span class="text-sm font-medium text-muted-foreground/50">
+          <div
+            class="bg-muted/30 border-border/50 flex min-h-[140px] flex-col justify-center rounded-xl border p-6">
+            <div class="mb-3 flex items-center justify-end gap-3">
+              <span class="text-muted-foreground/50 text-sm font-medium">
                 {{ i18n "post.no_next" | default "没有下一篇" }}
               </span>
               {{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
             </div>
-            <p class="text-muted-foreground/50 text-sm text-right">
+            <p class="text-muted-foreground/50 text-right text-sm">
               {{ i18n "post.no_next_desc" | default "这是最早的文章" }}
             </p>
           </div>
         {{ end }}
       </div>
-
     </div>
   </nav>
 {{ end }}

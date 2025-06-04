@@ -1,6 +1,6 @@
 /* Default 主题 (基础主题) */
 :root {
-  --color-primary: oklch(0.55 0.15 252.5); 
+  --color-primary: oklch(0.55 0.15 252.5);
   --color-primary-foreground: oklch(0.985 0 0);
   --color-secondary: oklch(0.97 0 0);
   --color-secondary-foreground: oklch(0.205 0 0);
@@ -53,20 +53,20 @@
 /* Claude 主题 */
 [data-theme="claude"] {
   --color-primary: oklch(0.62 0.14 39.04);
-  --color-primary-foreground: oklch(1.00 0 0);
+  --color-primary-foreground: oklch(1 0 0);
   --color-secondary: oklch(0.92 0.01 92.99);
   --color-secondary: oklch(0.92 0.01 92.99);
-  --color-secondary-foreground: oklch(0.43 0.02 98.60);
+  --color-secondary-foreground: oklch(0.43 0.02 98.6);
   --color-accent: oklch(0.92 0.01 92.99);
   --color-accent-foreground: oklch(0.27 0.02 98.94);
-  --color-background: oklch(0.98 0.01 95.10);
+  --color-background: oklch(0.98 0.01 95.1);
   --color-foreground: oklch(0.34 0.03 95.72);
   --color-muted: oklch(0.93 0.02 90.24);
   --color-muted-foreground: oklch(0.61 0.01 97.42);
   --color-border: oklch(0.88 0.01 97.36);
-  --color-card: oklch(0.98 0.01 95.10);
-  --color-card-foreground: oklch(0.19 0.00 106.59);
-  --color-popover: oklch(1.00 0 0);
+  --color-card: oklch(0.98 0.01 95.1);
+  --color-card-foreground: oklch(0.19 0 106.59);
+  --color-popover: oklch(1 0 0);
   --color-popover-foreground: oklch(0.27 0.02 98.94);
 
   /* Alert 颜色变量 - Claude 主题 */
@@ -79,20 +79,20 @@
 
 [data-theme="claude"].dark {
   --color-primary: oklch(0.67 0.13 38.76);
-  --color-primary-foreground: oklch(1.00 0 0);
-  --color-secondary: oklch(0.98 0.01 95.10);
-  --color-secondary-foreground: oklch(0.31 0.00 106.60);
+  --color-primary-foreground: oklch(1 0 0);
+  --color-secondary: oklch(0.98 0.01 95.1);
+  --color-secondary-foreground: oklch(0.31 0 106.6);
   --color-accent: oklch(0.21 0.01 95.42);
   --color-accent-foreground: oklch(0.97 0.01 98.88);
-  --color-background: oklch(0.27 0.00 106.64);
+  --color-background: oklch(0.27 0 106.64);
   --color-foreground: oklch(0.81 0.01 93.01);
-  --color-muted: oklch(0.22 0.00 106.71);
+  --color-muted: oklch(0.22 0 106.71);
   --color-muted-foreground: oklch(0.77 0.02 99.07);
   --color-border: oklch(0.36 0.01 106.89);
-  --color-card: oklch(0.27 0.00 106.64);
-  --color-card-foreground: oklch(0.98 0.01 95.10);
-  --color-popover: oklch(0.31 0.00 106.60);
-  --color-popover-foreground: oklch(0.92 0.00 106.48);
+  --color-card: oklch(0.27 0 106.64);
+  --color-card-foreground: oklch(0.98 0.01 95.1);
+  --color-popover: oklch(0.31 0 106.6);
+  --color-popover-foreground: oklch(0.92 0 106.48);
 
   /* Alert 颜色变量 - Claude 暗色模式 */
   --color-note: oklch(0.67 0.15 252.5);
@@ -101,11 +101,6 @@
   --color-warning: oklch(0.67 0.15 85.87);
   --color-caution: oklch(0.67 0.15 12.57);
 }
-
-
-
-
-
 
 /* Tailwind 主题变量映射 - 确保 Tailwind 工具类可以访问动态主题变量 */
 @theme inline {
@@ -133,7 +128,15 @@
   --color-caution: var(--color-caution);
 
   /* 阅读进度条主题变量 */
-  --reading-progress-bg: color-mix(in srgb, var(--color-border) 30%, transparent);
-  --reading-progress-shadow: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --reading-progress-bg: color-mix(
+    in srgb,
+    var(--color-border) 30%,
+    transparent
+  );
+  --reading-progress-shadow: color-mix(
+    in srgb,
+    var(--color-primary) 30%,
+    transparent
+  );
   --reading-progress-height: 3px;
 }

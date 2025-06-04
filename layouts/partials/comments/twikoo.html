@@ -1,5 +1,4 @@
-{{/*
-  Twikoo 评论系统组件
+{{/* Twikoo 评论系统组件
 
   简洁、安全的评论系统
 
@@ -61,13 +60,13 @@
       });
     })();
   </script>
-
 {{ else }}
-  <div id="{{ $id }}" class="text-center py-8">
-    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
+  <div id="{{ $id }}" class="py-8 text-center">
+    <div
+      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
       {{ partial "icon.html" (dict "name" "cloud" "size" "lg" "ariaLabel" "") }}
     </div>
-    <h3 class="text-lg font-medium text-foreground mb-2">
+    <h3 class="text-foreground mb-2 text-lg font-medium">
       {{ i18n "comments.twikoo_not_configured" | default "Twikoo 未配置" }}
     </h3>
     <p class="text-muted-foreground text-sm">

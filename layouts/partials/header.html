@@ -1,26 +1,25 @@
 <header class="mx-auto max-w-4xl px-4 py-6">
   <div
     class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
-
     <!-- 桌面端布局 -->
-    <div class="hidden md:flex items-center w-full">
+    <div class="hidden w-full items-center md:flex">
       <!-- 左侧：站点 Logo -->
       <div class="flex items-center">
         {{ if site.Params.logo }}
           <a
             href="{{ site.Params.logo.link | default "/" }}"
-            class="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
+            class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
             aria-label="{{ site.Title }}">
             <img
               src="{{ site.Params.logo.image }}"
               alt="{{ site.Title }}"
-              class="w-full h-full object-cover">
+              class="h-full w-full object-cover" />
           </a>
         {{ else }}
           <!-- 默认 Logo：使用站点标题首字母 -->
           <a
             href="/"
-            class="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground font-bold text-lg transition-transform duration-200 hover:scale-105 hover:bg-primary/90"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
             aria-label="{{ site.Title }}">
             {{ substr site.Title 0 1 | upper }}
           </a>
@@ -28,7 +27,7 @@
       </div>
 
       <!-- 中间：桌面端导航 -->
-      <nav class="flex items-center justify-center flex-1 mx-8">
+      <nav class="mx-8 flex flex-1 items-center justify-center">
         <div class="flex items-center space-x-1">
           {{ $currentPage := . }}
           {{ range site.Menus.main }}
@@ -39,14 +38,17 @@
                 nav-active-indicator bg-accent text-accent-foreground
               {{ else }}
                 text-muted-foreground hover:text-primary hover:bg-primary/10
-              {{ end }} relative rounded-lg px-4 py-2 text-sm font-medium
-              transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105
-              focus:outline-none focus:ring-2 focus:ring-primary/20
-              flex items-center gap-2">
+              {{ end }} focus:ring-primary/20 relative flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
               {{ if .Params.icon }}
                 {{ partial "icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
               {{ end }}
-              <span>{{ if hasPrefix .Name "nav." }}{{ i18n .Name }}{{ else }}{{ .Name }}{{ end }}</span>
+              <span
+                >{{ if hasPrefix .Name "nav." }}
+                  {{ i18n .Name }}
+                {{ else }}
+                  {{ .Name }}
+                {{ end }}</span
+              >
             </a>
           {{ end }}
         </div>
@@ -58,11 +60,7 @@
         <div class="relative">
           <button
             id="color-scheme-toggle"
-            class="color-scheme-toggle border-border bg-background text-muted-foreground
-            hover:text-primary hover:bg-primary/10 hover:scale-105
-            flex h-10 w-10 items-center justify-center rounded-lg border
-            transition-all duration-300 ease-out
-            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            class="color-scheme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
             aria-label="{{ i18n "theme.toggle" }}">
             {{ partial "icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "theme.toggle")) }}
           </button>
@@ -70,9 +68,7 @@
           <!-- 主题风格选择下拉菜单 -->
           <div
             id="color-scheme-dropdown"
-            class="color-scheme-dropdown border-border bg-popover/95 backdrop-blur-sm
-            absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1
-            shadow-lg transition-all duration-200 ease-out">
+            class="color-scheme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
             {{ $themes := site.Params.themes }}
             {{ $sortedThemes := slice }}
             {{ range $key, $theme := $themes }}
@@ -82,10 +78,7 @@
             {{ range $sortedThemes }}
               <button
                 data-color-scheme="{{ .key }}"
-                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-                flex w-full items-center px-4 py-2 text-sm rounded-md
-                transition-all duration-200 ease-out
-                focus:outline-none focus:bg-accent focus:text-accent-foreground">
+                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
                 <span>{{ .theme.name }}</span>
               </button>
             {{ end }}
@@ -96,11 +89,7 @@
         <div class="relative">
           <button
             id="theme-toggle"
-            class="theme-toggle border-border bg-background text-muted-foreground
-            hover:text-primary hover:bg-primary/10 hover:scale-105
-            flex h-10 w-10 items-center justify-center rounded-lg border
-            transition-all duration-300 ease-out
-            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            class="theme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
             aria-label="{{ i18n "theme.toggle" }}">
             <!-- 太阳图标 (亮色模式) -->
             {{ partial "icon.html" (dict "name" "sun" "id" "sun-icon" "class" "hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
@@ -113,33 +102,22 @@
           <!-- 明暗模式选择下拉菜单 -->
           <div
             id="theme-dropdown"
-            class="theme-dropdown border-border bg-popover/95 backdrop-blur-sm
-            absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1
-            shadow-lg transition-all duration-200 ease-out">
+            class="theme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
             <button
               data-theme="light"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-              flex w-full items-center px-4 py-2 text-sm rounded-md
-              transition-all duration-200 ease-out
-              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light")) }}
               <span>{{ i18n "theme.light" }}</span>
             </button>
             <button
               data-theme="dark"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-              flex w-full items-center px-4 py-2 text-sm rounded-md
-              transition-all duration-200 ease-out
-              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
               <span>{{ i18n "theme.dark" }}</span>
             </button>
             <button
               data-theme="system"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-              flex w-full items-center px-4 py-2 text-sm rounded-md
-              transition-all duration-200 ease-out
-              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system")) }}
               <span>{{ i18n "theme.system" }}</span>
             </button>
@@ -149,7 +127,7 @@
     </div>
 
     <!-- 移动端布局 -->
-    <div class="flex md:hidden items-center justify-between w-full">
+    <div class="flex w-full items-center justify-between md:hidden">
       <!-- 左侧：移动端菜单按钮 -->
       <button
         id="mobile-menu-toggle"
@@ -163,20 +141,14 @@
         <!-- 主题风格切换按钮 -->
         <div class="relative">
           <button
-            class="color-scheme-toggle border-border bg-background text-muted-foreground
-            hover:text-primary hover:bg-primary/10 hover:scale-105
-            flex h-10 w-10 items-center justify-center rounded-lg border
-            transition-all duration-300 ease-out
-            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            class="color-scheme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
             aria-label="{{ i18n "theme.toggle" }}">
             {{ partial "icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "theme.toggle")) }}
           </button>
 
           <!-- 主题风格选择下拉菜单 -->
           <div
-            class="color-scheme-dropdown border-border bg-popover/95 backdrop-blur-sm
-            absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1
-            shadow-lg transition-all duration-200 ease-out">
+            class="color-scheme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
             {{ $themes := site.Params.themes }}
             {{ $sortedThemes := slice }}
             {{ range $key, $theme := $themes }}
@@ -186,10 +158,7 @@
             {{ range $sortedThemes }}
               <button
                 data-color-scheme="{{ .key }}"
-                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-                flex w-full items-center px-4 py-2 text-sm rounded-md
-                transition-all duration-200 ease-out
-                focus:outline-none focus:bg-accent focus:text-accent-foreground">
+                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
                 <span>{{ .theme.name }}</span>
               </button>
             {{ end }}
@@ -199,11 +168,7 @@
         <!-- 明暗模式切换按钮 -->
         <div class="relative">
           <button
-            class="theme-toggle border-border bg-background text-muted-foreground
-            hover:text-primary hover:bg-primary/10 hover:scale-105
-            flex h-10 w-10 items-center justify-center rounded-lg border
-            transition-all duration-300 ease-out
-            focus:outline-none focus:ring-2 focus:ring-primary/20 active:scale-95"
+            class="theme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
             aria-label="{{ i18n "theme.toggle" }}">
             <!-- 太阳图标 (亮色模式) -->
             {{ partial "icon.html" (dict "name" "sun" "class" "sun-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
@@ -215,33 +180,22 @@
 
           <!-- 明暗模式选择下拉菜单 -->
           <div
-            class="theme-dropdown border-border bg-popover/95 backdrop-blur-sm
-            absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1
-            shadow-lg transition-all duration-200 ease-out">
+            class="theme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
             <button
               data-theme="light"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-              flex w-full items-center px-4 py-2 text-sm rounded-md
-              transition-all duration-200 ease-out
-              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light")) }}
               <span>{{ i18n "theme.light" }}</span>
             </button>
             <button
               data-theme="dark"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-              flex w-full items-center px-4 py-2 text-sm rounded-md
-              transition-all duration-200 ease-out
-              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
               <span>{{ i18n "theme.dark" }}</span>
             </button>
             <button
               data-theme="system"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground
-              flex w-full items-center px-4 py-2 text-sm rounded-md
-              transition-all duration-200 ease-out
-              focus:outline-none focus:bg-accent focus:text-accent-foreground">
+              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system")) }}
               <span>{{ i18n "theme.system" }}</span>
             </button>
@@ -265,14 +219,17 @@
             nav-active-indicator bg-accent text-accent-foreground
           {{ else }}
             text-muted-foreground hover:text-primary hover:bg-primary/10
-          {{ end }} relative rounded-lg px-4 py-3 text-sm font-medium
-          transition-all duration-200 ease-in-out hover:translate-x-1
-          focus:outline-none focus:ring-2 focus:ring-primary/20
-          flex items-center gap-3">
+          {{ end }} focus:ring-primary/20 relative flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-in-out hover:translate-x-1 focus:ring-2 focus:outline-none">
           {{ if .Params.icon }}
             {{ partial "icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
           {{ end }}
-          <span>{{ if hasPrefix .Name "nav." }}{{ i18n .Name }}{{ else }}{{ .Name }}{{ end }}</span>
+          <span
+            >{{ if hasPrefix .Name "nav." }}
+              {{ i18n .Name }}
+            {{ else }}
+              {{ .Name }}
+            {{ end }}</span
+          >
         </a>
       {{ end }}
     </nav>
