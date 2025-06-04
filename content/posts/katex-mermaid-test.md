@@ -36,7 +36,6 @@ katex:
 
 mermaid:
   enabled: false  # 全局禁用，但页面可单独启用
-  theme: "default"
 ```
 
 ## KaTeX 数学公式测试
