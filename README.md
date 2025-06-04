@@ -69,7 +69,8 @@ pnpm add -D tailwindcss @tailwindcss/cli
 ```bash
 hugo server -D
 ```
-
+### 在线部署(Vercel)
+需配置环境变量 HUGO_VERSION = 0.146.0
 
 
 ## ⚙️ 配置说明

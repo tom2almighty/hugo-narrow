@@ -67,6 +67,9 @@ pnpm add -D tailwindcss @tailwindcss/cli
 hugo server -D
 ```
 
+### Online Deployment (Vercel)
+Need to configure environment variable HUGO_VERSION = 0.146.0
+
 ## ⚙️ Configuration
 
 ### Footer & Social Icon Settings
