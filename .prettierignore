@@ -4,7 +4,6 @@ resources/
 
 # 静态文件目录
 static/
-assets/js/**
 # Markdown 文件（Hugo 内容）
 content/**/*.md
 *.md
