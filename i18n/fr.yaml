@@ -1,0 +1,219 @@
+# Fichier de langue française
+# Navigation
+nav:
+  menu: "Menu"
+  home: "Accueil"
+  posts: "Articles"
+  tags: "Étiquettes"
+  categories: "Catégories"
+  about: "À propos"
+  contact: "Contact"
+  archive: "Archive"
+  archives: "Archives"
+  search: "Recherche"
+  breadcrumb: "Fil d'Ariane"
+  pagination: "Navigation par pages"
+  prev: "Précédent"
+  next: "Suivant"
+  prev_page: "Page précédente"
+  next_page: "Page suivante"
+  page_info: "Page {{ .current }} sur {{ .total }}"
+  total_pages: "{{ .count }} pages au total"
+  back_home: "Retour à l'accueil"
+  post_navigation: "Navigation des articles"
+
+# Thème
+theme:
+  toggle: "Changer de thème"
+  light: "Clair"
+  dark: "Sombre"
+  system: "Système"
+  auto: "Auto"
+
+# Pied de page
+footer:
+  copyright: "Droits d'auteur"
+  all_rights_reserved: "Tous droits réservés"
+  about_us: "À propos de nous"
+  contact_us: "Nous contacter"
+  privacy_policy: "Politique de confidentialité"
+  terms_of_service: "Conditions d'utilisation"
+  rss_feed: "Flux RSS"
+
+# Accueil
+home:
+  recent_posts: "Articles récents"
+  showing_posts: "Affichage des derniers"
+  posts: "articles"
+  view_all_posts: "Voir tous les articles"
+
+# Articles
+post:
+  read_more: "Lire la suite"
+  published_on: "Publié le"
+  updated_on: "Mis à jour le"
+  tags: "Étiquettes"
+  categories: "Catégories"
+  share: "Partager"
+  previous: "Précédent"
+  next: "Suivant"
+  related_posts: "Articles connexes"
+  reading_time: "Temps de lecture"
+  no_posts: "Aucun article"
+  no_posts_desc: "Aucun article n'a encore été publié. Revenez plus tard."
+  list_desc: "Voici tous les articles publiés, triés par date décroissante."
+  total_posts: "{{ .count }} articles au total"
+  author: "Auteur"
+  words: "mots"
+  no_previous: "Aucun article précédent"
+  no_next: "Aucun article suivant"
+  no_previous_desc: "Ceci est l'article le plus récent"
+  no_next_desc: "Ceci est l'article le plus ancien"
+  view_more_posts: "Voir plus d'articles"
+  reading_time_unit: "min"
+
+# Pagination
+pagination:
+  previous: "Précédent"
+  next: "Suivant"
+  page: "Page"
+  of: "sur"
+  pages: "pages"
+
+# Recherche
+search:
+  placeholder: "Rechercher des articles..."
+  no_results: "Aucun résultat trouvé"
+  results_found: "{{.Count}} résultats trouvés"
+
+# Formulaire
+form:
+  name: "Nom"
+  email: "E-mail"
+  message: "Message"
+  subject: "Sujet"
+  send: "Envoyer"
+  required: "Obligatoire"
+
+# Temps
+time:
+  minute: "minute"
+  minutes: "minutes"
+  hour: "heure"
+  hours: "heures"
+  day: "jour"
+  days: "jours"
+  week: "semaine"
+  weeks: "semaines"
+  month: "mois"
+  months: "mois"
+  year: "année"
+  years: "années"
+  ago: "il y a"
+  date_format: "02 janvier 2006"
+  date_format_short: "02 jan"
+  month_format: "janvier 2006"
+
+# Archives
+archives:
+  posts_count: "articles"
+  no_posts: "Aucun article"
+  no_posts_desc: "Aucun article n'a encore été publié. Revenez plus tard."
+  total_posts: "{{ .count }} articles au total"
+  timeline: "Vue chronologique"
+
+# Taxonomie
+taxonomy:
+  total_tags: "{{ .count }} étiquettes au total"
+  total_categories: "{{ .count }} catégories au total"
+  total_terms: "{{ .count }} termes au total"
+  tags_desc: "Parcourez toutes les étiquettes pour découvrir du contenu intéressant."
+  categories_desc: "Parcourez toutes les catégories pour découvrir du contenu intéressant."
+  desc: "Parcourez toutes les catégories pour découvrir du contenu intéressant."
+  no_terms: "Aucune catégorie"
+  no_terms_desc: "Aucune catégorie n'a encore été créée. Revenez plus tard."
+
+# Pages de termes taxonomiques
+term:
+  tag_desc: "Tous les articles sous l'étiquette \"{{ .tag }}\""
+  category_desc: "Tous les articles sous la catégorie \"{{ .category }}\""
+  desc: "Tous les articles sous \"{{ .term }}\""
+  total_posts: "{{ .count }} articles au total"
+  date_range: "Triés par date"
+  no_posts: "Aucun article"
+  no_posts_tag: "Aucun article sous cette étiquette pour le moment."
+  no_posts_category: "Aucun article sous cette catégorie pour le moment."
+  no_posts_desc: "Aucun article sous cette catégorie pour le moment."
+
+# Commun
+common:
+  loading: "Chargement..."
+  error: "Erreur"
+  success: "Succès"
+  close: "Fermer"
+  open: "Ouvrir"
+  save: "Enregistrer"
+  cancel: "Annuler"
+  confirm: "Confirmer"
+  delete: "Supprimer"
+  edit: "Modifier"
+  view: "Voir"
+  back: "Retour"
+  more: "Plus"
+  language: "Langue"
+  site_logo: "Logo du site"
+
+# Licence
+license:
+  title: "Avis de droits d'auteur"
+  author: "Auteur"
+  link: "Lien"
+  type: "Licence"
+  cc_by_nc_sa_desc: "Cette œuvre est sous licence Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Veuillez attribuer la source, utiliser à des fins non commerciales et maintenir la même licence."
+  cc_by_desc: "Cette œuvre est sous licence Creative Commons Attribution 4.0 International. Veuillez attribuer la source."
+
+# Commentaires
+comments:
+  title: "Commentaires"
+  not_configured: "Système de commentaires non configuré"
+  not_configured_desc: "Veuillez activer le système de commentaires dans la configuration du site"
+  giscus_not_configured: "Système de commentaires Giscus non configuré"
+  disqus_not_configured: "Système de commentaires Disqus non configuré"
+  disqus_noscript: "Veuillez activer JavaScript pour voir les commentaires."
+  utterances_not_configured: "Système de commentaires Utterances non configuré"
+  waline_not_configured: "Système de commentaires Waline non configuré"
+
+# Dock inférieur
+dock:
+  aria_label: "Barre d'outils d'actions rapides"
+  back: "Retour"
+  toc: "Table des matières"
+  search: "Recherche"
+  comments: "Commentaires"
+  back_to_top: "Retour en haut"
+  top: "Haut"
+
+# Alertes
+alert:
+  note: "Note"
+  tip: "Conseil"
+  important: "Important"
+  warning: "Avertissement"
+  caution: "Attention"
+
+# Table des matières
+toc:
+  close: "Fermer"
+  title: "Table des matières"
+  navigation: "Navigation de la table des matières"
+  empty: "Aucun titre dans cet article"
+  tip: "Cliquez pour aller à la section"
+
+# Blocs de code
+code:
+  copy: "Copier"
+  copied: "Copié"
+  selected: "Sélectionné"
+  collapse: "Réduire"
+  expand: "Développer"
+  clickToExpand: "Cliquez pour développer et voir plus"

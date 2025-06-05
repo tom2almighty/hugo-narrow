@@ -204,6 +204,10 @@ alert:
 # 目录相关
 toc:
   close: "关闭"
+  title: "目录"
+  navigation: "文章目录导航"
+  empty: "此文章没有标题"
+  tip: "点击标题快速跳转"
 
 # 代码块相关
 code:

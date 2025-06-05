@@ -1,0 +1,219 @@
+# Archivo de idioma español
+# Navegación
+nav:
+  menu: "Menú"
+  home: "Inicio"
+  posts: "Artículos"
+  tags: "Etiquetas"
+  categories: "Categorías"
+  about: "Acerca de"
+  contact: "Contacto"
+  archive: "Archivo"
+  archives: "Archivos"
+  search: "Buscar"
+  breadcrumb: "Navegación de migas de pan"
+  pagination: "Navegación de páginas"
+  prev: "Anterior"
+  next: "Siguiente"
+  prev_page: "Página anterior"
+  next_page: "Página siguiente"
+  page_info: "Página {{ .current }} de {{ .total }}"
+  total_pages: "{{ .count }} páginas en total"
+  back_home: "Volver al inicio"
+  post_navigation: "Navegación de artículos"
+
+# Tema
+theme:
+  toggle: "Cambiar tema"
+  light: "Claro"
+  dark: "Oscuro"
+  system: "Sistema"
+  auto: "Auto"
+
+# Pie de página
+footer:
+  copyright: "Derechos de autor"
+  all_rights_reserved: "Todos los derechos reservados"
+  about_us: "Acerca de nosotros"
+  contact_us: "Contáctanos"
+  privacy_policy: "Política de privacidad"
+  terms_of_service: "Términos de servicio"
+  rss_feed: "Feed RSS"
+
+# Inicio
+home:
+  recent_posts: "Artículos recientes"
+  showing_posts: "Mostrando los últimos"
+  posts: "artículos"
+  view_all_posts: "Ver todos los artículos"
+
+# Artículos
+post:
+  read_more: "Leer más"
+  published_on: "Publicado el"
+  updated_on: "Actualizado el"
+  tags: "Etiquetas"
+  categories: "Categorías"
+  share: "Compartir"
+  previous: "Anterior"
+  next: "Siguiente"
+  related_posts: "Artículos relacionados"
+  reading_time: "Tiempo de lectura"
+  no_posts: "No hay artículos"
+  no_posts_desc: "Aún no se han publicado artículos. Vuelve más tarde."
+  list_desc: "Aquí están todos los artículos publicados, ordenados por fecha descendente."
+  total_posts: "{{ .count }} artículos en total"
+  author: "Autor"
+  words: "palabras"
+  no_previous: "No hay artículo anterior"
+  no_next: "No hay artículo siguiente"
+  no_previous_desc: "Este es el artículo más reciente"
+  no_next_desc: "Este es el artículo más antiguo"
+  view_more_posts: "Ver más artículos"
+  reading_time_unit: "min"
+
+# Paginación
+pagination:
+  previous: "Anterior"
+  next: "Siguiente"
+  page: "Página"
+  of: "de"
+  pages: "páginas"
+
+# Búsqueda
+search:
+  placeholder: "Buscar artículos..."
+  no_results: "No se encontraron resultados"
+  results_found: "Se encontraron {{.Count}} resultados"
+
+# Formulario
+form:
+  name: "Nombre"
+  email: "Correo electrónico"
+  message: "Mensaje"
+  subject: "Asunto"
+  send: "Enviar"
+  required: "Requerido"
+
+# Tiempo
+time:
+  minute: "minuto"
+  minutes: "minutos"
+  hour: "hora"
+  hours: "horas"
+  day: "día"
+  days: "días"
+  week: "semana"
+  weeks: "semanas"
+  month: "mes"
+  months: "meses"
+  year: "año"
+  years: "años"
+  ago: "hace"
+  date_format: "02 de enero de 2006"
+  date_format_short: "02 ene"
+  month_format: "enero de 2006"
+
+# Archivos
+archives:
+  posts_count: "artículos"
+  no_posts: "No hay artículos"
+  no_posts_desc: "Aún no se han publicado artículos. Vuelve más tarde."
+  total_posts: "{{ .count }} artículos en total"
+  timeline: "Vista de línea de tiempo"
+
+# Taxonomía
+taxonomy:
+  total_tags: "{{ .count }} etiquetas en total"
+  total_categories: "{{ .count }} categorías en total"
+  total_terms: "{{ .count }} términos en total"
+  tags_desc: "Explora todas las etiquetas para descubrir contenido interesante."
+  categories_desc: "Explora todas las categorías para descubrir contenido interesante."
+  desc: "Explora todas las categorías para descubrir contenido interesante."
+  no_terms: "No hay categorías"
+  no_terms_desc: "Aún no se han creado categorías. Vuelve más tarde."
+
+# Páginas de términos taxonómicos
+term:
+  tag_desc: "Todos los artículos bajo la etiqueta \"{{ .tag }}\""
+  category_desc: "Todos los artículos bajo la categoría \"{{ .category }}\""
+  desc: "Todos los artículos bajo \"{{ .term }}\""
+  total_posts: "{{ .count }} artículos en total"
+  date_range: "Ordenados por fecha"
+  no_posts: "No hay artículos"
+  no_posts_tag: "Aún no hay artículos bajo esta etiqueta."
+  no_posts_category: "Aún no hay artículos bajo esta categoría."
+  no_posts_desc: "Aún no hay artículos bajo esta categoría."
+
+# Común
+common:
+  loading: "Cargando..."
+  error: "Error"
+  success: "Éxito"
+  close: "Cerrar"
+  open: "Abrir"
+  save: "Guardar"
+  cancel: "Cancelar"
+  confirm: "Confirmar"
+  delete: "Eliminar"
+  edit: "Editar"
+  view: "Ver"
+  back: "Volver"
+  more: "Más"
+  language: "Idioma"
+  site_logo: "Logo del sitio"
+
+# Licencia
+license:
+  title: "Aviso de derechos de autor"
+  author: "Autor"
+  link: "Enlace"
+  type: "Licencia"
+  cc_by_nc_sa_desc: "Esta obra está bajo una Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional. Por favor, atribuye la fuente, úsala con fines no comerciales y mantén la misma licencia."
+  cc_by_desc: "Esta obra está bajo una Licencia Creative Commons Atribución 4.0 Internacional. Por favor, atribuye la fuente."
+
+# Comentarios
+comments:
+  title: "Comentarios"
+  not_configured: "Sistema de comentarios no configurado"
+  not_configured_desc: "Por favor, habilita el sistema de comentarios en la configuración del sitio"
+  giscus_not_configured: "Sistema de comentarios Giscus no configurado"
+  disqus_not_configured: "Sistema de comentarios Disqus no configurado"
+  disqus_noscript: "Por favor, habilita JavaScript para ver los comentarios."
+  utterances_not_configured: "Sistema de comentarios Utterances no configurado"
+  waline_not_configured: "Sistema de comentarios Waline no configurado"
+
+# Dock inferior
+dock:
+  aria_label: "Barra de herramientas de acciones rápidas"
+  back: "Volver"
+  toc: "Tabla de contenidos"
+  search: "Buscar"
+  comments: "Comentarios"
+  back_to_top: "Volver arriba"
+  top: "Arriba"
+
+# Alertas
+alert:
+  note: "Nota"
+  tip: "Consejo"
+  important: "Importante"
+  warning: "Advertencia"
+  caution: "Precaución"
+
+# Tabla de contenidos
+toc:
+  close: "Cerrar"
+  title: "Tabla de contenidos"
+  navigation: "Navegación de tabla de contenidos"
+  empty: "No hay encabezados en este artículo"
+  tip: "Haz clic para ir a la sección"
+
+# Bloques de código
+code:
+  copy: "Copiar"
+  copied: "Copiado"
+  selected: "Seleccionado"
+  collapse: "Contraer"
+  expand: "Expandir"
+  clickToExpand: "Haz clic para expandir y ver más"

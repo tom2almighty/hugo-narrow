@@ -1,0 +1,219 @@
+# Deutsche Sprachdatei
+# Navigation
+nav:
+  menu: "Menü"
+  home: "Startseite"
+  posts: "Beiträge"
+  tags: "Tags"
+  categories: "Kategorien"
+  about: "Über"
+  contact: "Kontakt"
+  archive: "Archiv"
+  archives: "Archive"
+  search: "Suche"
+  breadcrumb: "Brotkrümel-Navigation"
+  pagination: "Seitennavigation"
+  prev: "Zurück"
+  next: "Weiter"
+  prev_page: "Vorherige Seite"
+  next_page: "Nächste Seite"
+  page_info: "Seite {{ .current }} von {{ .total }}"
+  total_pages: "{{ .count }} Seiten insgesamt"
+  back_home: "Zurück zur Startseite"
+  post_navigation: "Beitragsnavigation"
+
+# Theme
+theme:
+  toggle: "Theme wechseln"
+  light: "Hell"
+  dark: "Dunkel"
+  system: "System"
+  auto: "Auto"
+
+# Fußzeile
+footer:
+  copyright: "Urheberrecht"
+  all_rights_reserved: "Alle Rechte vorbehalten"
+  about_us: "Über uns"
+  contact_us: "Kontaktieren Sie uns"
+  privacy_policy: "Datenschutzrichtlinie"
+  terms_of_service: "Nutzungsbedingungen"
+  rss_feed: "RSS-Feed"
+
+# Startseite
+home:
+  recent_posts: "Neueste Beiträge"
+  showing_posts: "Zeige neueste"
+  posts: "Beiträge"
+  view_all_posts: "Alle Beiträge anzeigen"
+
+# Beiträge
+post:
+  read_more: "Weiterlesen"
+  published_on: "Veröffentlicht am"
+  updated_on: "Aktualisiert am"
+  tags: "Tags"
+  categories: "Kategorien"
+  share: "Teilen"
+  previous: "Vorheriger"
+  next: "Nächster"
+  related_posts: "Verwandte Beiträge"
+  reading_time: "Lesezeit"
+  no_posts: "Keine Beiträge"
+  no_posts_desc: "Es wurden noch keine Artikel veröffentlicht. Schauen Sie später wieder vorbei."
+  list_desc: "Hier sind alle veröffentlichten Artikel, sortiert nach Datum in absteigender Reihenfolge."
+  total_posts: "{{ .count }} Beiträge insgesamt"
+  author: "Autor"
+  words: "Wörter"
+  no_previous: "Kein vorheriger Beitrag"
+  no_next: "Kein nächster Beitrag"
+  no_previous_desc: "Dies ist der neueste Beitrag"
+  no_next_desc: "Dies ist der älteste Beitrag"
+  view_more_posts: "Mehr Beiträge anzeigen"
+  reading_time_unit: "Min"
+
+# Pagination
+pagination:
+  previous: "Zurück"
+  next: "Weiter"
+  page: "Seite"
+  of: "von"
+  pages: "Seiten"
+
+# Suche
+search:
+  placeholder: "Beiträge suchen..."
+  no_results: "Keine Ergebnisse gefunden"
+  results_found: "{{.Count}} Ergebnisse gefunden"
+
+# Formular
+form:
+  name: "Name"
+  email: "E-Mail"
+  message: "Nachricht"
+  subject: "Betreff"
+  send: "Senden"
+  required: "Erforderlich"
+
+# Zeit
+time:
+  minute: "Minute"
+  minutes: "Minuten"
+  hour: "Stunde"
+  hours: "Stunden"
+  day: "Tag"
+  days: "Tage"
+  week: "Woche"
+  weeks: "Wochen"
+  month: "Monat"
+  months: "Monate"
+  year: "Jahr"
+  years: "Jahre"
+  ago: "vor"
+  date_format: "02. Januar 2006"
+  date_format_short: "02. Jan"
+  month_format: "Januar 2006"
+
+# Archive
+archives:
+  posts_count: "Beiträge"
+  no_posts: "Keine Beiträge"
+  no_posts_desc: "Es wurden noch keine Beiträge veröffentlicht. Schauen Sie später wieder vorbei."
+  total_posts: "{{ .count }} Beiträge insgesamt"
+  timeline: "Zeitleisten-Ansicht"
+
+# Taxonomie
+taxonomy:
+  total_tags: "{{ .count }} Tags insgesamt"
+  total_categories: "{{ .count }} Kategorien insgesamt"
+  total_terms: "{{ .count }} Begriffe insgesamt"
+  tags_desc: "Durchsuchen Sie alle Tags, um interessante Inhalte zu entdecken."
+  categories_desc: "Durchsuchen Sie alle Kategorien, um interessante Inhalte zu entdecken."
+  desc: "Durchsuchen Sie alle Kategorien, um interessante Inhalte zu entdecken."
+  no_terms: "Keine Kategorien"
+  no_terms_desc: "Es wurden noch keine Kategorien erstellt. Schauen Sie später wieder vorbei."
+
+# Taxonomie-Begriffseiten
+term:
+  tag_desc: "Alle Beiträge unter Tag \"{{ .tag }}\""
+  category_desc: "Alle Beiträge unter Kategorie \"{{ .category }}\""
+  desc: "Alle Beiträge unter \"{{ .term }}\""
+  total_posts: "{{ .count }} Beiträge insgesamt"
+  date_range: "Nach Datum sortiert"
+  no_posts: "Keine Beiträge"
+  no_posts_tag: "Noch keine Beiträge unter diesem Tag."
+  no_posts_category: "Noch keine Beiträge unter dieser Kategorie."
+  no_posts_desc: "Noch keine Beiträge unter dieser Kategorie."
+
+# Allgemein
+common:
+  loading: "Lädt..."
+  error: "Fehler"
+  success: "Erfolg"
+  close: "Schließen"
+  open: "Öffnen"
+  save: "Speichern"
+  cancel: "Abbrechen"
+  confirm: "Bestätigen"
+  delete: "Löschen"
+  edit: "Bearbeiten"
+  view: "Anzeigen"
+  back: "Zurück"
+  more: "Mehr"
+  language: "Sprache"
+  site_logo: "Website-Logo"
+
+# Lizenz
+license:
+  title: "Urheberrechtshinweis"
+  author: "Autor"
+  link: "Link"
+  type: "Lizenz"
+  cc_by_nc_sa_desc: "Dieses Werk ist unter einer Creative Commons Namensnennung-Nicht kommerziell-Weitergabe unter gleichen Bedingungen 4.0 International Lizenz lizenziert. Bitte nennen Sie die Quelle, verwenden Sie es nicht kommerziell und behalten Sie dieselbe Lizenz bei."
+  cc_by_desc: "Dieses Werk ist unter einer Creative Commons Namensnennung 4.0 International Lizenz lizenziert. Bitte nennen Sie die Quelle."
+
+# Kommentare
+comments:
+  title: "Kommentare"
+  not_configured: "Kommentarsystem nicht konfiguriert"
+  not_configured_desc: "Bitte aktivieren Sie das Kommentarsystem in der Website-Konfiguration"
+  giscus_not_configured: "Giscus-Kommentarsystem nicht konfiguriert"
+  disqus_not_configured: "Disqus-Kommentarsystem nicht konfiguriert"
+  disqus_noscript: "Bitte aktivieren Sie JavaScript, um die Kommentare zu sehen."
+  utterances_not_configured: "Utterances-Kommentarsystem nicht konfiguriert"
+  waline_not_configured: "Waline-Kommentarsystem nicht konfiguriert"
+
+# Unteres Dock
+dock:
+  aria_label: "Schnellaktions-Symbolleiste"
+  back: "Zurück"
+  toc: "Inhaltsverzeichnis"
+  search: "Suche"
+  comments: "Kommentare"
+  back_to_top: "Nach oben"
+  top: "Oben"
+
+# Warnungen
+alert:
+  note: "Hinweis"
+  tip: "Tipp"
+  important: "Wichtig"
+  warning: "Warnung"
+  caution: "Vorsicht"
+
+# Inhaltsverzeichnis
+toc:
+  close: "Schließen"
+  title: "Inhaltsverzeichnis"
+  navigation: "Inhaltsverzeichnis-Navigation"
+  empty: "Keine Überschriften in diesem Artikel"
+  tip: "Klicken Sie, um zum Abschnitt zu springen"
+
+# Code-Blöcke
+code:
+  copy: "Kopieren"
+  copied: "Kopiert"
+  selected: "Ausgewählt"
+  collapse: "Einklappen"
+  expand: "Erweitern"
+  clickToExpand: "Klicken Sie zum Erweitern und mehr anzeigen"

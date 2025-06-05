@@ -1,0 +1,219 @@
+# Файл русского языка
+# Навигация
+nav:
+  menu: "Меню"
+  home: "Главная"
+  posts: "Статьи"
+  tags: "Теги"
+  categories: "Категории"
+  about: "О нас"
+  contact: "Контакты"
+  archive: "Архив"
+  archives: "Архивы"
+  search: "Поиск"
+  breadcrumb: "Хлебные крошки"
+  pagination: "Навигация по страницам"
+  prev: "Назад"
+  next: "Далее"
+  prev_page: "Предыдущая страница"
+  next_page: "Следующая страница"
+  page_info: "Страница {{ .current }} из {{ .total }}"
+  total_pages: "Всего {{ .count }} страниц"
+  back_home: "Вернуться на главную"
+  post_navigation: "Навигация по статьям"
+
+# Тема
+theme:
+  toggle: "Переключить тему"
+  light: "Светлая"
+  dark: "Тёмная"
+  system: "Системная"
+  auto: "Авто"
+
+# Подвал
+footer:
+  copyright: "Авторские права"
+  all_rights_reserved: "Все права защищены"
+  about_us: "О нас"
+  contact_us: "Связаться с нами"
+  privacy_policy: "Политика конфиденциальности"
+  terms_of_service: "Условия использования"
+  rss_feed: "RSS лента"
+
+# Главная
+home:
+  recent_posts: "Последние статьи"
+  showing_posts: "Показаны последние"
+  posts: "статей"
+  view_all_posts: "Посмотреть все статьи"
+
+# Статьи
+post:
+  read_more: "Читать далее"
+  published_on: "Опубликовано"
+  updated_on: "Обновлено"
+  tags: "Теги"
+  categories: "Категории"
+  share: "Поделиться"
+  previous: "Предыдущая"
+  next: "Следующая"
+  related_posts: "Похожие статьи"
+  reading_time: "Время чтения"
+  no_posts: "Нет статей"
+  no_posts_desc: "Статьи ещё не опубликованы. Загляните позже."
+  list_desc: "Здесь все опубликованные статьи, отсортированные по дате по убыванию."
+  total_posts: "Всего {{ .count }} статей"
+  author: "Автор"
+  words: "слов"
+  no_previous: "Нет предыдущей статьи"
+  no_next: "Нет следующей статьи"
+  no_previous_desc: "Это самая новая статья"
+  no_next_desc: "Это самая старая статья"
+  view_more_posts: "Посмотреть больше статей"
+  reading_time_unit: "мин"
+
+# Пагинация
+pagination:
+  previous: "Назад"
+  next: "Далее"
+  page: "Страница"
+  of: "из"
+  pages: "страниц"
+
+# Поиск
+search:
+  placeholder: "Поиск статей..."
+  no_results: "Результаты не найдены"
+  results_found: "Найдено {{.Count}} результатов"
+
+# Форма
+form:
+  name: "Имя"
+  email: "Электронная почта"
+  message: "Сообщение"
+  subject: "Тема"
+  send: "Отправить"
+  required: "Обязательно"
+
+# Время
+time:
+  minute: "минута"
+  minutes: "минут"
+  hour: "час"
+  hours: "часов"
+  day: "день"
+  days: "дней"
+  week: "неделя"
+  weeks: "недель"
+  month: "месяц"
+  months: "месяцев"
+  year: "год"
+  years: "лет"
+  ago: "назад"
+  date_format: "02 января 2006"
+  date_format_short: "02 янв"
+  month_format: "январь 2006"
+
+# Архивы
+archives:
+  posts_count: "статей"
+  no_posts: "Нет статей"
+  no_posts_desc: "Статьи ещё не опубликованы. Загляните позже."
+  total_posts: "Всего {{ .count }} статей"
+  timeline: "Временная шкала"
+
+# Таксономия
+taxonomy:
+  total_tags: "Всего {{ .count }} тегов"
+  total_categories: "Всего {{ .count }} категорий"
+  total_terms: "Всего {{ .count }} терминов"
+  tags_desc: "Просмотрите все теги, чтобы найти интересный контент."
+  categories_desc: "Просмотрите все категории, чтобы найти интересный контент."
+  desc: "Просмотрите все категории, чтобы найти интересный контент."
+  no_terms: "Нет категорий"
+  no_terms_desc: "Категории ещё не созданы. Загляните позже."
+
+# Страницы терминов таксономии
+term:
+  tag_desc: "Все статьи с тегом \"{{ .tag }}\""
+  category_desc: "Все статьи в категории \"{{ .category }}\""
+  desc: "Все статьи в \"{{ .term }}\""
+  total_posts: "Всего {{ .count }} статей"
+  date_range: "Сортировка по дате"
+  no_posts: "Нет статей"
+  no_posts_tag: "Пока нет статей с этим тегом."
+  no_posts_category: "Пока нет статей в этой категории."
+  no_posts_desc: "Пока нет статей в этой категории."
+
+# Общее
+common:
+  loading: "Загрузка..."
+  error: "Ошибка"
+  success: "Успех"
+  close: "Закрыть"
+  open: "Открыть"
+  save: "Сохранить"
+  cancel: "Отмена"
+  confirm: "Подтвердить"
+  delete: "Удалить"
+  edit: "Редактировать"
+  view: "Просмотр"
+  back: "Назад"
+  more: "Больше"
+  language: "Язык"
+  site_logo: "Логотип сайта"
+
+# Лицензия
+license:
+  title: "Уведомление об авторских правах"
+  author: "Автор"
+  link: "Ссылка"
+  type: "Лицензия"
+  cc_by_nc_sa_desc: "Это произведение лицензировано по лицензии Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Пожалуйста, указывайте источник, используйте в некоммерческих целях и сохраняйте ту же лицензию."
+  cc_by_desc: "Это произведение лицензировано по лицензии Creative Commons Attribution 4.0 International. Пожалуйста, указывайте источник."
+
+# Комментарии
+comments:
+  title: "Комментарии"
+  not_configured: "Система комментариев не настроена"
+  not_configured_desc: "Пожалуйста, включите систему комментариев в настройках сайта"
+  giscus_not_configured: "Система комментариев Giscus не настроена"
+  disqus_not_configured: "Система комментариев Disqus не настроена"
+  disqus_noscript: "Пожалуйста, включите JavaScript для просмотра комментариев."
+  utterances_not_configured: "Система комментариев Utterances не настроена"
+  waline_not_configured: "Система комментариев Waline не настроена"
+
+# Нижняя панель
+dock:
+  aria_label: "Панель быстрых действий"
+  back: "Назад"
+  toc: "Содержание"
+  search: "Поиск"
+  comments: "Комментарии"
+  back_to_top: "Наверх"
+  top: "Верх"
+
+# Предупреждения
+alert:
+  note: "Заметка"
+  tip: "Совет"
+  important: "Важно"
+  warning: "Предупреждение"
+  caution: "Осторожно"
+
+# Содержание
+toc:
+  close: "Закрыть"
+  title: "Содержание"
+  navigation: "Навигация по содержанию"
+  empty: "В этой статье нет заголовков"
+  tip: "Нажмите, чтобы перейти к разделу"
+
+# Блоки кода
+code:
+  copy: "Копировать"
+  copied: "Скопировано"
+  selected: "Выбрано"
+  collapse: "Свернуть"
+  expand: "Развернуть"
+  clickToExpand: "Нажмите, чтобы развернуть и увидеть больше"

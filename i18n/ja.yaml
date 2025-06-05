@@ -1,0 +1,219 @@
+# 日本語言語ファイル
+# ナビゲーション関連
+nav:
+  menu: "メニュー"
+  home: "ホーム"
+  posts: "記事"
+  tags: "タグ"
+  categories: "カテゴリー"
+  about: "について"
+  contact: "お問い合わせ"
+  archive: "アーカイブ"
+  archives: "アーカイブ"
+  search: "検索"
+  breadcrumb: "パンくずナビゲーション"
+  pagination: "ページネーション"
+  prev: "前へ"
+  next: "次へ"
+  prev_page: "前のページ"
+  next_page: "次のページ"
+  page_info: "{{ .current }} / {{ .total }} ページ"
+  total_pages: "全 {{ .count }} ページ"
+  back_home: "ホームに戻る"
+  post_navigation: "記事ナビゲーション"
+
+# テーマ関連
+theme:
+  toggle: "テーマを切り替え"
+  light: "ライト"
+  dark: "ダーク"
+  system: "システム"
+  auto: "自動"
+
+# フッター関連
+footer:
+  copyright: "著作権"
+  all_rights_reserved: "全著作権所有"
+  about_us: "私たちについて"
+  contact_us: "お問い合わせ"
+  privacy_policy: "プライバシーポリシー"
+  terms_of_service: "利用規約"
+  rss_feed: "RSS フィード"
+
+# ホーム関連
+home:
+  recent_posts: "最新記事"
+  showing_posts: "最新"
+  posts: "件の記事を表示"
+  view_all_posts: "すべての記事を見る"
+
+# 記事関連
+post:
+  read_more: "続きを読む"
+  published_on: "公開日"
+  updated_on: "更新日"
+  tags: "タグ"
+  categories: "カテゴリー"
+  share: "シェア"
+  previous: "前の記事"
+  next: "次の記事"
+  related_posts: "関連記事"
+  reading_time: "読了時間"
+  no_posts: "記事がありません"
+  no_posts_desc: "まだ記事が公開されていません。後でもう一度確認してください。"
+  list_desc: "公開されたすべての記事を日付の降順で表示しています。"
+  total_posts: "全 {{ .count }} 件の記事"
+  author: "著者"
+  words: "文字"
+  no_previous: "前の記事はありません"
+  no_next: "次の記事はありません"
+  no_previous_desc: "これが最新の記事です"
+  no_next_desc: "これが最初の記事です"
+  view_more_posts: "もっと記事を見る"
+  reading_time_unit: "分"
+
+# ページネーション関連
+pagination:
+  previous: "前へ"
+  next: "次へ"
+  page: "ページ"
+  of: "/"
+  pages: "ページ"
+
+# 検索関連
+search:
+  placeholder: "記事を検索..."
+  no_results: "結果が見つかりませんでした"
+  results_found: "{{.Count}} 件の結果が見つかりました"
+
+# フォーム関連
+form:
+  name: "名前"
+  email: "メールアドレス"
+  message: "メッセージ"
+  subject: "件名"
+  send: "送信"
+  required: "必須"
+
+# 時間関連
+time:
+  minute: "分"
+  minutes: "分"
+  hour: "時間"
+  hours: "時間"
+  day: "日"
+  days: "日"
+  week: "週"
+  weeks: "週"
+  month: "ヶ月"
+  months: "ヶ月"
+  year: "年"
+  years: "年"
+  ago: "前"
+  date_format: "2006年01月02日"
+  date_format_short: "01月02日"
+  month_format: "2006年01月"
+
+# アーカイブ関連
+archives:
+  posts_count: "件の記事"
+  no_posts: "記事がありません"
+  no_posts_desc: "まだ記事が公開されていません。後でもう一度確認してください。"
+  total_posts: "全 {{ .count }} 件の記事"
+  timeline: "タイムライン表示"
+
+# タクソノミー関連
+taxonomy:
+  total_tags: "全 {{ .count }} 個のタグ"
+  total_categories: "全 {{ .count }} 個のカテゴリー"
+  total_terms: "全 {{ .count }} 個の項目"
+  tags_desc: "すべてのタグを閲覧して、興味のあるコンテンツを見つけてください。"
+  categories_desc: "すべてのカテゴリーを閲覧して、興味のあるコンテンツを見つけてください。"
+  desc: "すべてのカテゴリーを閲覧して、興味のあるコンテンツを見つけてください。"
+  no_terms: "カテゴリーがありません"
+  no_terms_desc: "まだカテゴリーが作成されていません。後でもう一度確認してください。"
+
+# タクソノミー用語ページ
+term:
+  tag_desc: "タグ \"{{ .tag }}\" の記事一覧"
+  category_desc: "カテゴリー \"{{ .category }}\" の記事一覧"
+  desc: "\"{{ .term }}\" の記事一覧"
+  total_posts: "全 {{ .count }} 件の記事"
+  date_range: "日付順"
+  no_posts: "記事がありません"
+  no_posts_tag: "このタグの記事はまだありません。"
+  no_posts_category: "このカテゴリーの記事はまだありません。"
+  no_posts_desc: "このカテゴリーの記事はまだありません。"
+
+# 共通
+common:
+  loading: "読み込み中..."
+  error: "エラー"
+  success: "成功"
+  close: "閉じる"
+  open: "開く"
+  save: "保存"
+  cancel: "キャンセル"
+  confirm: "確認"
+  delete: "削除"
+  edit: "編集"
+  view: "表示"
+  back: "戻る"
+  more: "もっと見る"
+  language: "言語"
+  site_logo: "サイトロゴ"
+
+# ライセンス関連
+license:
+  title: "著作権表示"
+  author: "著者"
+  link: "リンク"
+  type: "ライセンス"
+  cc_by_nc_sa_desc: "この作品はクリエイティブ・コモンズ 表示-非営利-継承 4.0 国際ライセンスの下に提供されています。出典を明記し、非営利目的で使用し、同じライセンスを維持してください。"
+  cc_by_desc: "この作品はクリエイティブ・コモンズ 表示 4.0 国際ライセンスの下に提供されています。出典を明記してください。"
+
+# コメント関連
+comments:
+  title: "コメント"
+  not_configured: "コメントシステムが設定されていません"
+  not_configured_desc: "サイト設定でコメントシステムを有効にしてください"
+  giscus_not_configured: "Giscus コメントシステムが設定されていません"
+  disqus_not_configured: "Disqus コメントシステムが設定されていません"
+  disqus_noscript: "コメントを表示するには JavaScript を有効にしてください。"
+  utterances_not_configured: "Utterances コメントシステムが設定されていません"
+  waline_not_configured: "Waline コメントシステムが設定されていません"
+
+# ボトムドック
+dock:
+  aria_label: "クイックアクションツールバー"
+  back: "戻る"
+  toc: "目次"
+  search: "検索"
+  comments: "コメント"
+  back_to_top: "トップに戻る"
+  top: "トップ"
+
+# アラート関連
+alert:
+  note: "注意"
+  tip: "ヒント"
+  important: "重要"
+  warning: "警告"
+  caution: "注意"
+
+# 目次関連
+toc:
+  close: "閉じる"
+  title: "目次"
+  navigation: "目次ナビゲーション"
+  empty: "この記事には見出しがありません"
+  tip: "クリックしてセクションにジャンプ"
+
+# コードブロック関連
+code:
+  copy: "コピー"
+  copied: "コピーしました"
+  selected: "選択済み"
+  collapse: "折りたたむ"
+  expand: "展開"
+  clickToExpand: "クリックして展開し、詳細を表示"

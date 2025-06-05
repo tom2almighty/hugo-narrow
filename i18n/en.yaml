@@ -116,6 +116,7 @@ time:
 
 # Archives related
 archives:
+  desc: "Browse all articles in chronological order and discover what interests you."
   posts_count: "posts"
   no_posts: "No posts yet"
   no_posts_desc: "No posts have been published yet. Please check back later."
@@ -204,6 +205,10 @@ alert:
 # TOC related
 toc:
   close: "Close"
+  title: "Table of Contents"
+  navigation: "Table of Contents Navigation"
+  empty: "No headings in this article"
+  tip: "Click to jump to the section"
 
 # Code block related
 code:
