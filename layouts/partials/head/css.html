@@ -5,7 +5,7 @@
       {{ if hugo.IsDevelopment }}
         <link rel="stylesheet" href="{{ .RelPermalink }}" />
       {{ else }}
-        {{ with . | minify | fingerprint }}
+        {{ with . | fingerprint }}
           <link
             rel="stylesheet"
             href="{{ .RelPermalink }}"
@@ -18,7 +18,7 @@
 {{ end }}
 
 {{/* 语法高亮样式 */}}
-{{ range (resources.Match "css/syntax/*.css") }}
+{{ with resources.Get "css/chroma.css" }}
   {{ if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}" />
   {{ else }}
