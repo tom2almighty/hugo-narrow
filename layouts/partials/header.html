@@ -63,7 +63,8 @@
         <div class="relative">
           <button
             id="color-scheme-toggle"
-            class="color-scheme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            class="dropdown-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            data-dropdown-type="color-scheme"
             aria-label="{{ i18n "theme.toggle" }}">
             {{ partial "icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "theme.toggle")) }}
           </button>
@@ -71,7 +72,8 @@
           <!-- 主题风格选择下拉菜单 -->
           <div
             id="color-scheme-dropdown"
-            class="color-scheme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
+            class="dropdown-menu border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+            data-dropdown-type="color-scheme">
             {{ $themes := site.Params.themes }}
             {{ $sortedThemes := slice }}
             {{ range $key, $theme := $themes }}
@@ -92,7 +94,8 @@
         <div class="relative">
           <button
             id="theme-toggle"
-            class="theme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            class="dropdown-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            data-dropdown-type="theme"
             aria-label="{{ i18n "theme.toggle" }}">
             <!-- 太阳图标 (亮色模式) -->
             {{ partial "icon.html" (dict "name" "sun" "id" "sun-icon" "class" "hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
@@ -105,7 +108,8 @@
           <!-- 明暗模式选择下拉菜单 -->
           <div
             id="theme-dropdown"
-            class="theme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
+            class="dropdown-menu border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+            data-dropdown-type="theme">
             <button
               data-theme="light"
               class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
@@ -147,14 +151,16 @@
         <!-- 主题风格切换按钮 -->
         <div class="relative">
           <button
-            class="color-scheme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            class="dropdown-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            data-dropdown-type="color-scheme"
             aria-label="{{ i18n "theme.toggle" }}">
             {{ partial "icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "theme.toggle")) }}
           </button>
 
           <!-- 主题风格选择下拉菜单 -->
           <div
-            class="color-scheme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
+            class="dropdown-menu border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-44 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+            data-dropdown-type="color-scheme">
             {{ $themes := site.Params.themes }}
             {{ $sortedThemes := slice }}
             {{ range $key, $theme := $themes }}
@@ -174,7 +180,8 @@
         <!-- 明暗模式切换按钮 -->
         <div class="relative">
           <button
-            class="theme-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            class="dropdown-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+            data-dropdown-type="theme"
             aria-label="{{ i18n "theme.toggle" }}">
             <!-- 太阳图标 (亮色模式) -->
             {{ partial "icon.html" (dict "name" "sun" "class" "sun-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
@@ -186,7 +193,8 @@
 
           <!-- 明暗模式选择下拉菜单 -->
           <div
-            class="theme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
+            class="dropdown-menu border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+            data-dropdown-type="theme">
             <button
               data-theme="light"
               class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">

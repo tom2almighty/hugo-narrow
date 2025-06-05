@@ -1,5 +1,5 @@
-// 主题管理器
-class ThemeManager {
+// UI管理器 - 管理主题、下拉菜单等界面交互
+class UIManager {
   constructor() {
     this.theme = localStorage.getItem("theme") || "system";
     this.colorScheme =
@@ -14,6 +14,49 @@ class ThemeManager {
     this.updateUI();
   }
 
+  // 通用下拉菜单处理函数
+  setupDropdown(type) {
+    const toggleSelector = `.dropdown-toggle[data-dropdown-type="${type}"]`;
+    const dropdownSelector = `.dropdown-menu[data-dropdown-type="${type}"]`;
+
+    const toggles = document.querySelectorAll(toggleSelector);
+    const dropdowns = document.querySelectorAll(dropdownSelector);
+
+    toggles.forEach((toggle, index) => {
+      const dropdown = dropdowns[index] || dropdowns[0];
+      if (toggle && dropdown) {
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // 关闭其他类型的下拉菜单
+          this.closeOtherDropdowns(type);
+          // 关闭同类型的其他下拉菜单
+          document.querySelectorAll(dropdownSelector).forEach(d => {
+            if (d !== dropdown) d.classList.add("hidden");
+          });
+          // 切换当前下拉菜单
+          dropdown.classList.toggle("hidden");
+        });
+      }
+    });
+  }
+
+  // 关闭其他类型的下拉菜单
+  closeOtherDropdowns(currentType) {
+    const allTypes = ['color-scheme', 'theme', 'language'];
+    allTypes.forEach(type => {
+      if (type !== currentType) {
+        document.querySelectorAll(`.dropdown-menu[data-dropdown-type="${type}"]`)
+          .forEach(d => d.classList.add("hidden"));
+      }
+    });
+  }
+
+  // 关闭所有下拉菜单
+  closeAllDropdowns() {
+    document.querySelectorAll(".dropdown-menu")
+      .forEach(d => d.classList.add("hidden"));
+  }
+
   setupEventListeners() {
     // 移动端菜单切换
     const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
@@ -25,39 +68,15 @@ class ThemeManager {
       });
     }
 
-    // 主题风格切换 - 支持多个按钮
-    const colorSchemeToggles = document.querySelectorAll(
-      ".color-scheme-toggle, #color-scheme-toggle",
-    );
+    // 设置所有下拉菜单
+    this.setupDropdown("color-scheme");
+    this.setupDropdown("theme");
+    this.setupDropdown("language");
+
+    // 主题风格选择事件
     const colorSchemeDropdowns = document.querySelectorAll(
-      ".color-scheme-dropdown, #color-scheme-dropdown",
+      '.dropdown-menu[data-dropdown-type="color-scheme"]',
     );
-
-    colorSchemeToggles.forEach((toggle, index) => {
-      const dropdown = colorSchemeDropdowns[index] || colorSchemeDropdowns[0];
-      if (toggle && dropdown) {
-        toggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          // 关闭其他下拉菜单
-          document
-            .querySelectorAll(".theme-dropdown, #theme-dropdown")
-            .forEach((d) => d.classList.add("hidden"));
-          document
-            .querySelectorAll(".language-dropdown, #language-dropdown")
-            .forEach((d) => d.classList.add("hidden"));
-          // 关闭其他主题风格下拉菜单
-          document
-            .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
-            .forEach((d) => {
-              if (d !== dropdown) d.classList.add("hidden");
-            });
-          // 打开当前下拉菜单
-          dropdown.classList.toggle("hidden");
-        });
-      }
-    });
-
-    // 主题风格选择 - 支持所有下拉菜单
     colorSchemeDropdowns.forEach((dropdown) => {
       if (dropdown) {
         dropdown.addEventListener("click", (e) => {
@@ -65,53 +84,16 @@ class ThemeManager {
           if (button) {
             const newColorScheme = button.getAttribute("data-color-scheme");
             this.setColorScheme(newColorScheme);
-            // 关闭所有下拉菜单
-            document
-              .querySelectorAll(
-                ".color-scheme-dropdown, #color-scheme-dropdown",
-              )
-              .forEach((d) => d.classList.add("hidden"));
-            document
-              .querySelectorAll(".language-dropdown, #language-dropdown")
-              .forEach((d) => d.classList.add("hidden"));
+            this.closeAllDropdowns();
           }
         });
       }
     });
 
-    // 明暗模式切换 - 支持多个按钮
-    const themeToggles = document.querySelectorAll(
-      ".theme-toggle, #theme-toggle",
-    );
+    // 明暗模式选择事件
     const themeDropdowns = document.querySelectorAll(
-      ".theme-dropdown, #theme-dropdown",
+      '.dropdown-menu[data-dropdown-type="theme"]',
     );
-
-    themeToggles.forEach((toggle, index) => {
-      const dropdown = themeDropdowns[index] || themeDropdowns[0];
-      if (toggle && dropdown) {
-        toggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          // 关闭其他下拉菜单
-          document
-            .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
-            .forEach((d) => d.classList.add("hidden"));
-          document
-            .querySelectorAll(".language-dropdown, #language-dropdown")
-            .forEach((d) => d.classList.add("hidden"));
-          // 关闭其他主题下拉菜单
-          document
-            .querySelectorAll(".theme-dropdown, #theme-dropdown")
-            .forEach((d) => {
-              if (d !== dropdown) d.classList.add("hidden");
-            });
-          // 打开当前下拉菜单
-          dropdown.classList.toggle("hidden");
-        });
-      }
-    });
-
-    // 明暗模式选择 - 支持所有下拉菜单
     themeDropdowns.forEach((dropdown) => {
       if (dropdown) {
         dropdown.addEventListener("click", (e) => {
@@ -119,72 +101,20 @@ class ThemeManager {
           if (button) {
             const newTheme = button.getAttribute("data-theme");
             this.setTheme(newTheme);
-            // 关闭所有下拉菜单
-            document
-              .querySelectorAll(".theme-dropdown, #theme-dropdown")
-              .forEach((d) => d.classList.add("hidden"));
-            document
-              .querySelectorAll(".language-dropdown, #language-dropdown")
-              .forEach((d) => d.classList.add("hidden"));
+            this.closeAllDropdowns();
           }
-        });
-      }
-    });
-
-    // 语言切换 - 支持多个按钮
-    const languageToggles = document.querySelectorAll(
-      ".language-toggle, #language-toggle",
-    );
-    const languageDropdowns = document.querySelectorAll(
-      ".language-dropdown, #language-dropdown",
-    );
-
-    languageToggles.forEach((toggle, index) => {
-      const dropdown = languageDropdowns[index] || languageDropdowns[0];
-      if (toggle && dropdown) {
-        toggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          // 关闭其他下拉菜单
-          document
-            .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
-            .forEach((d) => d.classList.add("hidden"));
-          document
-            .querySelectorAll(".theme-dropdown, #theme-dropdown")
-            .forEach((d) => d.classList.add("hidden"));
-          // 关闭其他语言下拉菜单
-          document
-            .querySelectorAll(".language-dropdown, #language-dropdown")
-            .forEach((d) => {
-              if (d !== dropdown) d.classList.add("hidden");
-            });
-          // 打开当前下拉菜单
-          dropdown.classList.toggle("hidden");
         });
       }
     });
 
     // 点击外部关闭下拉菜单
     document.addEventListener("click", (e) => {
-      // 检查点击目标是否在任何下拉菜单相关元素内
-      const isClickInsideColorScheme = e.target.closest('.color-scheme-toggle, .color-scheme-dropdown, #color-scheme-toggle, #color-scheme-dropdown');
-      const isClickInsideTheme = e.target.closest('.theme-toggle, .theme-dropdown, #theme-toggle, #theme-dropdown');
-      const isClickInsideLanguage = e.target.closest('.language-toggle, .language-dropdown, #language-toggle, #language-dropdown');
+      // 检查是否点击在任何下拉菜单相关元素内
+      const isClickInsideAnyDropdown = e.target.closest('.dropdown-toggle, .dropdown-menu');
 
-      // 只关闭不相关的下拉菜单
-      if (!isClickInsideColorScheme) {
-        document
-          .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
-          .forEach((d) => d.classList.add("hidden"));
-      }
-      if (!isClickInsideTheme) {
-        document
-          .querySelectorAll(".theme-dropdown, #theme-dropdown")
-          .forEach((d) => d.classList.add("hidden"));
-      }
-      if (!isClickInsideLanguage) {
-        document
-          .querySelectorAll(".language-dropdown, #language-dropdown")
-          .forEach((d) => d.classList.add("hidden"));
+      // 如果点击在外部，关闭所有下拉菜单
+      if (!isClickInsideAnyDropdown) {
+        this.closeAllDropdowns();
       }
     });
 
@@ -281,9 +211,9 @@ class ThemeManager {
   }
 }
 
-// 页面加载完成后初始化主题管理器
+// 页面加载完成后初始化UI管理器
 document.addEventListener("DOMContentLoaded", () => {
-  new ThemeManager();
+  new UIManager();
 });
 
-console.log("Hugo site with advanced theme management loaded.");
+console.log("Hugo site with advanced UI management loaded.");

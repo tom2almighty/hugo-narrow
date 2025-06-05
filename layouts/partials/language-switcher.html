@@ -6,7 +6,8 @@
 <div class="relative">
   <button
     id="language-toggle"
-    class="language-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+    class="dropdown-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+    data-dropdown-type="language"
     aria-label="{{ i18n "language.toggle" }}"
     aria-expanded="false"
     aria-haspopup="true">
@@ -16,7 +17,8 @@
   <!-- 语言选择下拉菜单 -->
   <div
     id="language-dropdown"
-    class="language-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+    class="dropdown-menu border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+    data-dropdown-type="language"
     role="menu"
     aria-labelledby="language-toggle">
     
