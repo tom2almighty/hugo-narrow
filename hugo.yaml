@@ -1,25 +1,35 @@
-baseURL: http://localhost:1313/
-languageCode: zh-cn
-defaultContentLanguage: zh-cn
+baseURL: https://hugo-narrow.vercel.app/
+languageCode: en
+defaultContentLanguage: en
 title: Hugo Narrow
 
-# 分页设置
+# pagination
 pagination:
   pagerSize: 6
   path: "page"
 
-# 相关文章配置
-related:
-  includeNewer: false
-  indices:
-    - name: "tags"
-      weight: 100
-    - name: "categories"
-      weight: 80
-    - name: "keywords"
-      weight: 60
-  threshold: 80
-  toLower: true
+languages:
+  zh-cn:
+    languageName: "简体中文"
+    weight: 1
+  en:
+    languageName: "English"
+    weight: 2
+  ja:
+    languageName: "日本語"
+    weight: 3
+  fr:
+    languageName: "Français"
+    weight: 4
+  de:
+    languageName: "Deutsch"
+    weight: 5
+  es:
+    languageName: "Español"
+    weight: 6
+  ru:
+    languageName: "Русский"
+    weight: 7
 
 menus:
   main:
@@ -45,30 +55,25 @@ menus:
         icon: archive
 
 
-  # 页脚外部链接菜单
+  # footer menu
   footer:
-    - name: footer.about_us
+    - name: About
       pageRef: /about
       weight: 10
       params:
         icon: about
-    - name: footer.contact_us
-      pageRef: /contact
+    - name: Contact
+      url: https://google.com
       weight: 20
       params:
         icon: contact
-    - name: footer.rss_feed
+    - name: RSS Feed
       pageRef: /index.xml
       weight: 30
       params:
         icon: rss
-    - name: nav.archive
-      pageRef: /archive
-      weight: 40
-      params:
-        icon: archive
 
-  # 社交媒体菜单
+  # footer social link
   social:
     - name: GitHub
       url: https://github.com/username
@@ -92,34 +97,29 @@ menus:
         icon: email
 
 params:
-  # 站点基本信息配置
   site:
-    description: "一个简洁优雅的 Hugo 主题，专注于内容展示和用户体验"
-    keywords: ["Hugo", "博客", "主题", "技术", "编程"]
+    description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
+    keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
     author: "Hugo Narrow"
 
-  # 站点 Logo 配置
   logo:
-    image: "/images/logo.svg"  # Logo 图片路径
-    link: "/"                  # 点击跳转链接，默认首页
-
-  # Favicon 配置 (仅使用现代 SVG 格式)
+    image: "/images/logo.svg"  # Logo path rel to static folder
+    link: "/"                  # click to home page
+  
   favicon:
-    svg: "/favicon.svg"        # SVG 格式 favicon (推荐)
+    svg: "/favicon.svg"        # SVG format favicon (recommended)
 
-  # SEO 配置
   seo:
-    enableOpenGraph: true      # 启用 Open Graph
-    enableTwitterCard: true    # 启用 Twitter Card
-    enableJsonLd: true         # 启用 JSON-LD 结构化数据
-    defaultImage: "/images/og-default.avif"  # 默认分享图片
+    enableOpenGraph: true
+    enableTwitterCard: true
+    enableJsonLd: true
+    defaultImage: "/images/og-default.avif"
 
-  # 作者信息配置
   author:
     name: "Hugo Narrow"
-    title: "全栈开发者"
-    description: "专注于现代 Web 开发技术，分享编程经验和技术见解。热爱开源，致力于创造优雅的用户体验。"
-    avatar: "/images/avatar.svg"  # 头像图片路径
+    title: "A Clean and Minimal Hugo Theme"
+    description: "Focused on content and user experience."
+    avatar: "/images/avatar.svg"
     social:
       - name: "GitHub"
         url: "https://github.com/username"
@@ -131,97 +131,117 @@ params:
         url: "mailto:hello@example.com"
         icon: "email"
 
-  # 首页配置
+  # default color scheme
+  colorScheme: "default"
+  themes:
+    default:
+      name: "Default"
+      order: 1
+    claude:
+      name: "Claude"
+      order: 2
+    bumblebee:
+      name: "Bumblebee"
+      order: 3
+    emerald:
+      name: "Emerald"
+      order: 4
+    nord:
+      name: "Nord"
+      order: 5
+    sunset:
+      name: "Sunset"
+      order: 6
+    abyss:
+      name: "Abyss"
+      order: 7
+    dracula:
+      name: "Dracula"
+      order: 8
+
+
   home:
-    recentPostsCount: 5  # 首页显示的最近文章数量
+    recentPostsCount: 5 # Number of recent posts to show on the home page
 
-  # 文章详情页配置
   post:
-    # 许可证配置
-    showLicense: true           # 是否显示许可证信息
+    showRelated: true           # show related posts
+    relatedPostsCount: 3        # posts number
+  
+    showLicense: true
     license:
-      name: "CC BY-NC-SA 4.0"  # 许可证名称
-      description: "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。转载请注明出处，非商业性使用，并保持相同的许可方式。"
+      name: "CC BY-NC-SA 4.0"
+      description: "This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Please attribute the source, use non-commercially, and maintain the same license."
       url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
-      displayName: "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议"
+      displayName: "CC BY-NC-SA 4.0"
 
-    # 相关文章配置
-    showRelated: true           # 是否显示相关文章
-    relatedPostsCount: 6        # 相关文章显示数量
-
-    # 文章导航配置
-    showNavigation: true        # 是否显示上一篇/下一篇导航
-
-  # 评论系统配置
+  # comments
   comments:
-    enabled: false               # 评论系统总开关
-    system: "twikoo"           # 评论系统类型: giscus, disqus, utterances, waline, artalk, twikoo
+    enabled: true
+    # giscus, disqus, utterances, waline, artalk, twikoo
+    system: "giscus"
 
-    # Giscus 配置 (推荐)
     giscus:
-      repo: ""                 # GitHub 仓库 (格式: username/repo)
-      repoId: ""               # 仓库 ID
-      category: "General"       # 讨论分类
-      categoryId: ""           # 分类 ID
-      mapping: "pathname"       # 页面映射方式
-      strict: "0"              # 严格模式
-      reactionsEnabled: "1"     # 是否启用反应
-      emitMetadata: "0"        # 是否发送元数据
-      inputPosition: "bottom"   # 输入框位置
-      theme: "preferred_color_scheme"  # 主题
-      lang: "zh-CN"            # 语言
+      repo: "tom2almighty/hugo-narrow-giscus"
+      repoId: "R_kgDOO2gwLg"
+      category: "General"
+      categoryId: "DIC_kwDOO2gwLs4CrEaf"
+      mapping: "pathname"
+      strict: "0"
+      reactionsEnabled: "1"
+      emitMetadata: "0"
+      inputPosition: "bottom"
+      theme: "preferred_color_scheme"
+      lang: "en"
 
-    # Disqus 配置
     disqus:
-      shortname: ""            # Disqus 短名称
+      shortname: ""
 
-    # Utterances 配置
+
     utterances:
-      repo: ""                 # GitHub 仓库
-      issueTerm: "pathname"    # Issue 标题映射
-      label: "comment"         # Issue 标签
-      theme: "preferred-color-scheme"  # 主题
+      repo: "" 
+      issueTerm: "pathname"
+      label: "comment"
+      theme: "preferred-color-scheme"
 
-    # Waline 配置
+
     waline:
-      serverURL: ""  # Waline 服务器地址
-      lang: "zh-CN"            # 语言
-      meta: ["nick", "mail", "link"]  # 评论者信息字段
-      requiredMeta: ["nick"]   # 必填字段
-      placeholder: "请留下你的足迹 ~~"  # 占位符
-      avatar: "mp"             # 头像类型
-      pageSize: 10             # 每页评论数
+      serverURL: ""
+      lang: "zh-CN"
+      meta: ["nick", "mail", "link"]
+      requiredMeta: ["nick"]
+      placeholder: ""
+      avatar: "mp"
+      pageSize: 10
 
-    # Artalk 配置
+
     artalk:
-      server: ""               # Artalk 服务器地址
-      site: ""                 # 站点名称
-      placeholder: "请留下你的足迹 ~~"  # 占位符
-      noComment: "暂无评论"     # 无评论时的提示
-      sendBtn: "发送"          # 发送按钮文字
-      darkMode: "auto"         # 深色模式: auto, light, dark
+      server: ""
+      site: ""
+      placeholder: "" 
+      noComment: "" 
+      sendBtn: ""
+      darkMode: "auto"
       gravatar:
-        mirror: "https://cravatar.cn/avatar/"  # Gravatar 镜像
+        mirror: "https://cravatar.cn/avatar/"
       pagination:
-        pageSize: 20           # 每页评论数
-        autoLoad: true         # 自动加载
+        pageSize: 20
+        autoLoad: true
       heightLimit:
-        content: 300           # 评论内容高度限制
-        children: 400          # 子评论高度限制
-      imgUpload: false         # 是否允许上传图片
-      preview: true            # 是否显示预览
-      countEl: "#ArtalkCount"  # 评论数显示元素
+        content: 300
+        children: 400
+      imgUpload: false
+      preview: true 
+      countEl: "#ArtalkCount"
 
-    # Twikoo 配置
+
     twikoo:
-      envId: ""                # 环境 ID (腾讯云) 或服务器地址 (Vercel/自建)
-      region: "ap-shanghai"    # 环境地域 (仅腾讯云需要)
-      path: ""                 # 自定义路径 (默认使用 location.pathname)
-      lang: "zh-CN"            # 语言
-      placeholder: "请留下你的足迹 ~~"  # 占位符
-      avatar: "mp"             # 头像类型
-      visitor: true            # 是否显示访客统计
-      highlight: true          # 是否启用代码高亮
+      envId: ""
+      region: "ap-shanghai"
+      lang: "zh-CN"
+      placeholder: "" 
+      avatar: "mp"
+      visitor: true 
+      highlight: true 
 
 
   analytics:
@@ -241,23 +261,9 @@ params:
       src: "https://umami.com/myscript.js"
       domains: "example.domain.com"
 
-  # 主题配置
-  colorScheme: "default" # 默认主题
-
-  # 可用主题配置
-  themes:
-    default:
-      name: "Default"
-      order: 1
-    claude:
-      name: "Claude"
-      order: 2
-
-
-
 
   katex:
-    enabled: true
+    enabled: false
     delimiters:
       - left: "$$"
         right: "$$"
@@ -273,11 +279,10 @@ params:
         display: true
       
   mermaid:
-    enabled: true
+    enabled: false
 
 
 
-# Markup 配置
 markup:
   tableOfContents:
     startLevel: 2
@@ -288,29 +293,28 @@ markup:
       unsafe: true
   highlight:
     codeFences: true
-    guessSyntax: true
+    guessSyntax: false
     lineNos: false
-    lineNumbersInTable: false #请设置为 false
+    lineNumbersInTable: false # Set to false
     noClasses: false
-    style: github # 无需设置
+    style: github # No need to change
     tabWidth: 2
 
-# 代码块折叠配置
+
 codeblock:
   collapse:
-    enabled: true           # 启用折叠功能
-    defaultState: expanded  # 默认状态: expanded, collapsed
-    autoCollapseLines: 30   # 超过指定行数自动折叠
-    autoCollapseHeight: 400 # 超过指定高度(px)自动折叠
-    collapsedHeight: 120    # 折叠时显示的高度(px)
+    enabled: true
+    defaultState: expanded  # expanded, collapsed
+    autoCollapseLines: 30
+    autoCollapseHeight: 400
+    collapsedHeight: 120
 
-# 阅读进度条配置
 readingProgress:
-  enabled: true             # 启用阅读进度条
-  height: 3                 # 进度条高度(px)
-  showOnHomepage: false     # 是否在首页显示
-  smoothScroll: true        # 是否启用平滑滚动效果
-  hideOnComplete: false     # 阅读完成后是否隐藏
+  enabled: true
+  height: 3
+  showOnHomepage: false
+  smoothScroll: true
+  hideOnComplete: false
 
 
 
