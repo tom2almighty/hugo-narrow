@@ -164,6 +164,10 @@ common:
   language: "Language"
   site_logo: "Site Logo"
 
+# Language switching
+language:
+  toggle: "Switch language"
+
 # License related
 license:
   title: "Copyright Notice"

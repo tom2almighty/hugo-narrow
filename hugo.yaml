@@ -9,11 +9,11 @@ pagination:
   path: "page"
 
 languages:
-  zh-cn:
-    languageName: "简体中文"
-    weight: 1
   en:
     languageName: "English"
+    weight: 1
+  zh-cn:
+    languageName: "简体中文"
     weight: 2
   ja:
     languageName: "日本語"
@@ -130,6 +130,9 @@ params:
       - name: "Email"
         url: "mailto:hello@example.com"
         icon: "email"
+
+  # Language switcher
+  showLanguageSwitch: true  # Set to false to hide language switcher
 
   # default color scheme
   colorScheme: "default"

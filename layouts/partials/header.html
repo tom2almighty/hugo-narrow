@@ -56,6 +56,9 @@
 
       <!-- 右侧：桌面端控制区域 -->
       <div class="flex items-center space-x-2">
+        <!-- 语言切换按钮 -->
+        {{ partial "language-switcher.html" . }}
+
         <!-- 主题风格切换按钮 -->
         <div class="relative">
           <button
@@ -138,6 +141,9 @@
 
       <!-- 右侧：移动端控制区域 -->
       <div class="flex items-center space-x-2">
+        <!-- 语言切换按钮 -->
+        {{ partial "language-switcher.html" . }}
+
         <!-- 主题风格切换按钮 -->
         <div class="relative">
           <button

@@ -163,6 +163,10 @@ common:
   language: "语言"
   site_logo: "站点 Logo"
 
+# 语言切换
+language:
+  toggle: "切换语言"
+
 # 许可证相关
 license:
   title: "版权声明"

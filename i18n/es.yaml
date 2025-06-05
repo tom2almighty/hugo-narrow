@@ -163,6 +163,10 @@ common:
   language: "Idioma"
   site_logo: "Logo del sitio"
 
+# Cambio de idioma
+language:
+  toggle: "Cambiar idioma"
+
 # Licencia
 license:
   title: "Aviso de derechos de autor"

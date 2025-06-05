@@ -163,6 +163,10 @@ common:
   language: "言語"
   site_logo: "サイトロゴ"
 
+# 言語切り替え
+language:
+  toggle: "言語を切り替え"
+
 # ライセンス関連
 license:
   title: "著作権表示"

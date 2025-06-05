@@ -1,0 +1,55 @@
+{{- if and hugo.IsMultilingual (site.Params.showLanguageSwitch | default true) -}}
+{{- $currentLang := .Language.Lang -}}
+{{- $currentPage := . -}}
+
+<!-- 语言切换按钮 -->
+<div class="relative">
+  <button
+    id="language-toggle"
+    class="language-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+    aria-label="{{ i18n "language.toggle" }}"
+    aria-expanded="false"
+    aria-haspopup="true">
+    {{ partial "icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "language.toggle")) }}
+  </button>
+
+  <!-- 语言选择下拉菜单 -->
+  <div
+    id="language-dropdown"
+    class="language-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+    role="menu"
+    aria-labelledby="language-toggle">
+    
+    {{- range site.Languages -}}
+      {{- $lang := .Lang -}}
+      {{- $langName := .LanguageName -}}
+      {{- $isCurrent := eq $lang $currentLang -}}
+      
+      {{- /* 获取当前页面在目标语言下的URL */ -}}
+      {{- $targetURL := "/" -}}
+      {{- if $currentPage.IsTranslated -}}
+        {{- range $currentPage.Translations -}}
+          {{- if eq .Language.Lang $lang -}}
+            {{- $targetURL = .RelPermalink -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if eq $targetURL "/" -}}
+          {{- $targetURL = printf "/%s/" $lang -}}
+        {{- end -}}
+      {{- else -}}
+        {{- $targetURL = printf "/%s/" $lang -}}
+      {{- end -}}
+
+      <a
+        href="{{ $targetURL }}"
+        class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground {{ if $isCurrent }}bg-accent/50{{ end }} flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none"
+        role="menuitem"
+        {{ if $isCurrent }}aria-current="true"{{ end }}>
+        <span class="font-medium">{{ $langName }}</span>
+      </a>
+    {{- end -}}
+  </div>
+</div>
+
+
+{{- end -}}

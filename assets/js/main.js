@@ -38,13 +38,19 @@ class ThemeManager {
       if (toggle && dropdown) {
         toggle.addEventListener("click", (e) => {
           e.stopPropagation();
-          // 关闭所有下拉菜单
+          // 关闭其他下拉菜单
           document
             .querySelectorAll(".theme-dropdown, #theme-dropdown")
             .forEach((d) => d.classList.add("hidden"));
           document
-            .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
+            .querySelectorAll(".language-dropdown, #language-dropdown")
             .forEach((d) => d.classList.add("hidden"));
+          // 关闭其他主题风格下拉菜单
+          document
+            .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
+            .forEach((d) => {
+              if (d !== dropdown) d.classList.add("hidden");
+            });
           // 打开当前下拉菜单
           dropdown.classList.toggle("hidden");
         });
@@ -65,6 +71,9 @@ class ThemeManager {
                 ".color-scheme-dropdown, #color-scheme-dropdown",
               )
               .forEach((d) => d.classList.add("hidden"));
+            document
+              .querySelectorAll(".language-dropdown, #language-dropdown")
+              .forEach((d) => d.classList.add("hidden"));
           }
         });
       }
@@ -83,13 +92,19 @@ class ThemeManager {
       if (toggle && dropdown) {
         toggle.addEventListener("click", (e) => {
           e.stopPropagation();
-          // 关闭所有下拉菜单
+          // 关闭其他下拉菜单
           document
             .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
             .forEach((d) => d.classList.add("hidden"));
           document
-            .querySelectorAll(".theme-dropdown, #theme-dropdown")
+            .querySelectorAll(".language-dropdown, #language-dropdown")
             .forEach((d) => d.classList.add("hidden"));
+          // 关闭其他主题下拉菜单
+          document
+            .querySelectorAll(".theme-dropdown, #theme-dropdown")
+            .forEach((d) => {
+              if (d !== dropdown) d.classList.add("hidden");
+            });
           // 打开当前下拉菜单
           dropdown.classList.toggle("hidden");
         });
@@ -108,19 +123,69 @@ class ThemeManager {
             document
               .querySelectorAll(".theme-dropdown, #theme-dropdown")
               .forEach((d) => d.classList.add("hidden"));
+            document
+              .querySelectorAll(".language-dropdown, #language-dropdown")
+              .forEach((d) => d.classList.add("hidden"));
           }
         });
       }
     });
 
+    // 语言切换 - 支持多个按钮
+    const languageToggles = document.querySelectorAll(
+      ".language-toggle, #language-toggle",
+    );
+    const languageDropdowns = document.querySelectorAll(
+      ".language-dropdown, #language-dropdown",
+    );
+
+    languageToggles.forEach((toggle, index) => {
+      const dropdown = languageDropdowns[index] || languageDropdowns[0];
+      if (toggle && dropdown) {
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // 关闭其他下拉菜单
+          document
+            .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
+            .forEach((d) => d.classList.add("hidden"));
+          document
+            .querySelectorAll(".theme-dropdown, #theme-dropdown")
+            .forEach((d) => d.classList.add("hidden"));
+          // 关闭其他语言下拉菜单
+          document
+            .querySelectorAll(".language-dropdown, #language-dropdown")
+            .forEach((d) => {
+              if (d !== dropdown) d.classList.add("hidden");
+            });
+          // 打开当前下拉菜单
+          dropdown.classList.toggle("hidden");
+        });
+      }
+    });
+
     // 点击外部关闭下拉菜单
-    document.addEventListener("click", () => {
-      document
-        .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
-        .forEach((d) => d.classList.add("hidden"));
-      document
-        .querySelectorAll(".theme-dropdown, #theme-dropdown")
-        .forEach((d) => d.classList.add("hidden"));
+    document.addEventListener("click", (e) => {
+      // 检查点击目标是否在任何下拉菜单相关元素内
+      const isClickInsideColorScheme = e.target.closest('.color-scheme-toggle, .color-scheme-dropdown, #color-scheme-toggle, #color-scheme-dropdown');
+      const isClickInsideTheme = e.target.closest('.theme-toggle, .theme-dropdown, #theme-toggle, #theme-dropdown');
+      const isClickInsideLanguage = e.target.closest('.language-toggle, .language-dropdown, #language-toggle, #language-dropdown');
+
+      // 只关闭不相关的下拉菜单
+      if (!isClickInsideColorScheme) {
+        document
+          .querySelectorAll(".color-scheme-dropdown, #color-scheme-dropdown")
+          .forEach((d) => d.classList.add("hidden"));
+      }
+      if (!isClickInsideTheme) {
+        document
+          .querySelectorAll(".theme-dropdown, #theme-dropdown")
+          .forEach((d) => d.classList.add("hidden"));
+      }
+      if (!isClickInsideLanguage) {
+        document
+          .querySelectorAll(".language-dropdown, #language-dropdown")
+          .forEach((d) => d.classList.add("hidden"));
+      }
     });
 
     // 监听系统主题变化

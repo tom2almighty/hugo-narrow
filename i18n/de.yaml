@@ -163,6 +163,10 @@ common:
   language: "Sprache"
   site_logo: "Website-Logo"
 
+# Sprachwechsel
+language:
+  toggle: "Sprache wechseln"
+
 # Lizenz
 license:
   title: "Urheberrechtshinweis"

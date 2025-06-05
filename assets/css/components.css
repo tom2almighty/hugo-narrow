@@ -68,6 +68,34 @@
     overflow: hidden;
   }
 
+  /* 语言切换组件样式 */
+  .language-dropdown {
+    min-width: 10rem;
+    max-height: 20rem;
+    overflow-y: auto;
+  }
+
+  .language-dropdown a[aria-current="true"] {
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent) 50%,
+      transparent
+    );
+    color: var(--color-accent-foreground);
+  }
+
+  .language-dropdown a:hover {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  .language-dropdown a:focus {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
   /* 移动端 Dock 文字隐藏 */
   @media (max-width: 480px) {
     #dock span {
