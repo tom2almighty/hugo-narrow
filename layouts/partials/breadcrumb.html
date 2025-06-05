@@ -1,20 +1,12 @@
-{{/* 面包屑导航组件
-
-  显示当前页面的导航路径
-
-  @context {page} . 当前页面对象
-*/}}
-
-
 <nav
   class="breadcrumb mb-6"
   aria-label="{{ i18n "nav.breadcrumb" | default "面包屑导航" }}">
-  <ol class="text-muted-foreground flex items-center space-x-2 text-sm">
+  <ol class="text-muted-foreground flex items-center text-sm overflow-hidden">
     <!-- 首页链接 -->
-    <li>
+    <li class="flex-shrink-0">
       <a
         href="{{ "/" | relURL }}"
-        class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-1 rounded-lg px-2 py-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105">
+        class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-1 rounded-lg px-2 py-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 mr-2">
         {{ partial "icon.html" (dict "name" "home" "size" "sm" "ariaLabel" (i18n "nav.home")) }}
         <span>{{ i18n "nav.home" | default "首页" }}</span>
       </a>
@@ -22,7 +14,7 @@
 
     <!-- 分隔符和当前页面 -->
     {{ if not .IsHome }}
-      <li class="flex items-center gap-2">
+      <li class="flex items-center gap-2 min-w-0 flex-shrink-0">
         <span class="text-muted-foreground/50"
           >{{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
         </span>
@@ -68,7 +60,7 @@
               <span class="text-muted-foreground/50 mx-2"
                 >{{ partial "icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span
               >
-              <span class="text-foreground line-clamp-1 font-medium"
+              <span class="text-foreground truncate max-w-24 font-medium"
                 >{{ .Title }}</span
               >
             {{ end }}
@@ -122,7 +114,7 @@
             >
           {{ end }}
           <span
-            class="text-foreground line-clamp-1 flex items-center gap-1 font-medium">
+            class="text-foreground flex-1 truncate flex items-center gap-1 font-medium min-w-0">
             {{ if eq .Section "posts" }}
               {{ partial "icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
             {{ else }}
