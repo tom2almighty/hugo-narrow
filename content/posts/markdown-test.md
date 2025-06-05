@@ -1,100 +1,100 @@
 ---
-title: "Markdown 语法测试文档"
+title: "Markdown Syntax Test Document"
 date: 2024-01-15T10:00:00+08:00
 draft: false
-summary: "这是一个包含各种 Markdown 语法的测试文档，用于验证 prose 样式的完整性。"
-categories: ["测试"]
-tags: ["markdown", "prose", "样式"]
+summary: "This is a test document containing various Markdown syntax to verify the completeness of prose styles."
+categories: ["Test"]
+tags: ["markdown", "prose", "style"]
 ---
 
-# 一级标题
+# Heading 1
 
-这是一个一级标题下的段落内容。
+This is a paragraph under a level 1 heading.
 
-## 二级标题
+## Heading 2
 
-这是一个二级标题下的段落内容。
+This is a paragraph under a level 2 heading.
 
-### 三级标题
+### Heading 3
 
-这是一个三级标题下的段落内容。
+This is a paragraph under a level 3 heading.
 
-#### 四级标题
+#### Heading 4
 
-这是一个四级标题下的段落内容。
+This is a paragraph under a level 4 heading.
 
-##### 五级标题
+##### Heading 5
 
-这是一个五级标题下的段落内容。
+This is a paragraph under a level 5 heading.
 
-###### 六级标题
+###### Heading 6
 
-这是一个六级标题下的段落内容。
+This is a paragraph under a level 6 heading.
 
-## 段落和文本格式
+## Paragraphs and Text Formatting
 
-这是一个普通段落。段落中可以包含**粗体文本**、*斜体文本*、***粗斜体文本***、~~删除线文本~~、`行内代码`、以及[链接文本](https://example.com)。
+This is a normal paragraph. It can contain **bold text**, *italic text*, ***bold italic text***, ~~strikethrough~~, `inline code`, and [link text](https://example.com).
 
-这是另一个段落，用来测试段落之间的间距。
+This is another paragraph to test spacing between paragraphs.
 
-## 引用块
+## Blockquotes
 
-> 这是一个简单的引用块。
+> This is a simple blockquote.
 > 
-> 引用块可以包含多个段落。
+> Blockquotes can contain multiple paragraphs.
 
-> 这是一个嵌套引用的例子：
+> This is an example of a nested blockquote:
 > 
-> > 这是嵌套的引用内容。
+> > This is nested quote content.
 > > 
-> > 可以有多层嵌套。
+> > Multiple levels of nesting are possible.
 
-## 列表
+## Lists
 
-### 无序列表
+### Unordered List
 
-- 第一项
-- 第二项
-  - 嵌套项目 1
-  - 嵌套项目 2
-    - 更深层的嵌套
-- 第三项
+- First item
+- Second item
+  - Nested item 1
+  - Nested item 2
+    - Even deeper nested item
+- Third item
 
-### 有序列表
+### Ordered List
 
-1. 第一项
-2. 第二项
-   1. 嵌套有序项目 1
-   2. 嵌套有序项目 2
-      1. 更深层的嵌套
-3. 第三项
+1. First item
+2. Second item
+   1. Nested ordered item 1
+   2. Nested ordered item 2
+      1. Even deeper nested item
+3. Third item
 
-### 任务列表 (Checkbox)
+### Task List (Checkbox)
 
-- [x] 已完成的任务
-- [ ] 未完成的任务
-- [x] 另一个已完成的任务
-- [ ] 嵌套任务列表
-  - [x] 子任务 1 (已完成)
-  - [ ] 子任务 2 (未完成)
-  - [x] 子任务 3 (已完成)
+- [x] Completed task
+- [ ] Incomplete task
+- [x] Another completed task
+- [ ] Nested task list
+  - [x] Subtask 1 (done)
+  - [ ] Subtask 2 (not done)
+  - [x] Subtask 3 (done)
 
-### 定义列表
+### Definition List
 
-术语 1
-: 这是术语 1 的定义。
+Term 1
+: This is the definition for term 1.
 
-术语 2
-: 这是术语 2 的定义。
-: 术语可以有多个定义。
+Term 2
+: This is the definition for term 2.
+: Terms can have multiple definitions.
 
-## 代码
+## Code
 
-### 行内代码
+### Inline Code
 
-这是一个包含 `console.log('Hello World')` 的段落。
+This is a paragraph with `console.log('Hello World')` inside.
 
-### 代码块
+### Code Blocks
 
 ```javascript
 function greet(name) {
@@ -125,126 +125,127 @@ print(fibonacci(10))
 }
 ```
 
-## 表格
+## Tables
 
-| 左对齐 | 居中对齐 | 右对齐 |
-|:-------|:--------:|-------:|
-| 内容 1 | 内容 2   | 内容 3 |
-| 较长的内容 | 中等长度 | 短 |
-| 数据 A | 数据 B   | 数据 C |
+| Left Align | Center Align | Right Align |
+|:-----------|:------------:|------------:|
+| Content 1  | Content 2    | Content 3   |
+| Longer content | Medium    | Short       |
+| Data A     | Data B       | Data C      |
 
-## 分隔线
+## Horizontal Rule
 
 ---
 
-## 图片
+## Images
 
-![示例图片](https://via.placeholder.com/600x300/0066cc/ffffff?text=示例图片)
+![Sample Image](https://via.placeholder.com/600x300/0066cc/ffffff?text=Sample+Image)
 
-## 链接
+## Links
 
-这是一个[普通链接](https://example.com)。
+This is a [regular link](https://example.com).
 
-这是一个[带标题的链接](https://example.com "链接标题")。
+This is a [link with title](https://example.com "Link Title").
 
-这是一个参考式链接：[参考链接][1]
+This is a reference-style link: [Reference Link][1]
 
-[1]: https://example.com "参考链接标题"
+[1]: https://example.com "Reference Link Title"
 
-## 脚注
+## Footnotes
 
-这是一个包含脚注的段落[^1]。
+This is a paragraph with a footnote[^1].
 
-这是另一个脚注[^note]。
+Here is another footnote[^note].
 
-[^1]: 这是第一个脚注的内容。
+[^1]: This is the content of the first footnote.
 
-[^note]: 这是一个命名脚注的内容。
+[^note]: This is the content of a named footnote.
 
-## 高亮文本
+## Highlighted Text
 
-这是一个包含==高亮文本==的段落。
+This is a paragraph with ==highlighted text==.
 
-## 上标和下标
+## Superscript and Subscript
 
-H~2~O 是水的化学式。
+H~2~O is the chemical formula for water.
 
-E = mc^2^ 是爱因斯坦的质能方程。
+E = mc^2^ is Einstein's mass-energy equation.
 
-## 键盘按键
+## Keyboard Keys
 
-按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 复制文本。
+Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy text.
 
-## 缩写
+## Abbreviations
 
-HTML 是 *HyperText Markup Language* 的缩写。
+HTML is the abbreviation for *HyperText Markup Language*.
 
 *[HTML]: HyperText Markup Language
 
-## 数学公式 (如果支持 KaTeX)
+## Math Formula (if KaTeX supported)
 
-行内公式：$E = mc^2$
+Inline formula: $E = mc^2$
 
-块级公式：
+Block formula:
 
 $$
 \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
 $$
 
-## 警告框 (如果支持)
+## Admonitions (if supported)
 
 > [!NOTE]
-> 这是一个注意事项。
+> This is a note.
 
 > [!TIP]
-> 这是一个提示。
+> This is a tip.
 
 > [!IMPORTANT]
-> 这是重要信息。
+> This is important information.
 
 > [!WARNING]
-> 这是一个警告。
+> This is a warning.
 
 > [!CAUTION]
-> 这是一个注意事项。
+> This is a caution.
 
-## 详情折叠 (如果支持)
+## Details (if supported)
 
 <details>
-<summary>点击展开详情</summary>
+<summary>Click to expand details</summary>
 
-这是折叠的详细内容。
+This is the collapsed detailed content.
 
-可以包含任何 Markdown 语法：
+You can include any Markdown syntax here:
 
-- 列表项目
-- **粗体文本**
-- `代码`
+- List item
+- **Bold text**
+- `Code`
 
 </details>
 
-## 混合内容测试
+## Mixed Content Test
 
-这个段落包含了多种格式：**粗体**、*斜体*、`代码`、[链接](https://example.com)、~~删除线~~、==高亮==。
+This paragraph contains multiple formats: **bold**, *italic*, `code`, [link](https://example.com), ~~strikethrough~~, ==highlight==.
 
-### 复杂列表
+### Complex List
 
-1. 第一项包含**粗体**文本
-   - 嵌套项目包含`代码`
-   - 另一个嵌套项目包含[链接](https://example.com)
-2. 第二项包含*斜体*文本
-   1. 有序嵌套项目
-   2. 另一个有序嵌套项目
-3. 第三项包含~~删除线~~文本
+1. First item with **bold** text
+   - Nested item with `code`
+   - Another nested item with [link](https://example.com)
+2. Second item with *italic* text
+   1. Ordered nested item
+   2. Another ordered nested item
+3. Third item with ~~strikethrough~~ text
 
-### 复杂表格
+### Complex Table
 
-| 功能 | 状态 | 描述 |
-|------|:----:|------|
-| **粗体** | ✅ | 支持粗体文本 |
-| *斜体* | ✅ | 支持斜体文本 |
-| `代码` | ✅ | 支持行内代码 |
-| [链接](https://example.com) | ✅ | 支持链接 |
-| ~~删除线~~ | ❌ | 需要测试 |
+| Feature | Status | Description         |
+|---------|:------:|--------------------|
+| **Bold** | ✅    | Supports bold text |
+| *Italic* | ✅    | Supports italic    |
+| `Code`   | ✅    | Supports inline code |
+| [Link](https://example.com) | ✅ | Supports links |
+| ~~Strikethrough~~ | ❌ | Needs testing   |
 
-这个测试文档涵盖了大部分常用的 Markdown 语法，可以用来验证 prose 样式的完整性和美观度。
+This test document covers most common Markdown syntax and can be used to verify the completeness and aesthetics of prose styles.
+

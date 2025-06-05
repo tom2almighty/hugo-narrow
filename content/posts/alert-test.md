@@ -1,140 +1,129 @@
 ---
-title: "GitHub Style Alert 测试"
+title: "GitHub Style Alert Test"
 date: 2025-06-01T10:00:00+08:00
 slug: test-alert
 draft: false
-description: "测试 GitHub 风格的 Alert 和折叠功能"
+description: "Testing GitHub-style Alert and folding features"
 tags: ["test", "alert", "markdown"]
-categories: ["技术"]
+categories: ["Github"]
 ---
 
-# GitHub Style Alert 测试
+# GitHub Style Alert Testing
 
-这篇文章用于测试新的 GitHub 风格 Alert 功能和折叠功能。
+This article is used to test the new GitHub-style Alert feature and folding functionality.
 
-## Alert 语法
+## Alert Syntax
 
 ### Note Alert
 
 > [!NOTE]
-> 这是一个注意提示框。用于显示用户应该知道的有用信息，即使在快速浏览内容时也应该注意。
+> This is a note alert box. Used to display useful information that users should be aware of, even when quickly browsing the content.
 
 ### Tip Alert
 
 > [!TIP]
-> 这是一个提示框。提供有助于更好或更轻松地完成任务的建议。
+> This is a tip alert box. Provides suggestions that help complete tasks better or more easily.
 
 ### Important Alert
 
 > [!IMPORTANT]
-> 这是一个重要提示框。显示用户需要知道的关键信息以实现其目标。
+> This is an important alert box. Displays critical information users need to know to achieve their goals.
 
 ### Warning Alert
 
 > [!WARNING]
-> 这是一个警告框。需要用户立即注意的紧急信息，以避免问题。
+> This is a warning box. Urgent information that requires immediate user attention to avoid problems.
 
 ### Caution Alert
 
 > [!CAUTION]
-> 这是一个小心提示框。建议用户注意某些行为的风险或负面后果。
+> This is a caution alert box. Advises users to be aware of the risks or negative consequences of certain behaviors.
 
-## 扩展语法 - 带自定义标题
+## Extended Syntax - Custom Titles
 
-### 带自定义标题的 Note
+### Note with Custom Title
 
-> [!NOTE] 自定义标题
-> 这是一个带有自定义标题的注意提示框。
+> [!NOTE] Custom Title
+> This is a note alert box with a custom title.
 
-### 带自定义标题的 Warning
+### Warning with Custom Title
 
-> [!WARNING] 辐射危险
-> 请勿在没有防护装备的情况下接近或处理。
+> [!WARNING] Radiation Hazard
+> Do not approach or handle without protective equipment.
 
-## 折叠功能
+## Folding Feature
 
-### 默认展开的折叠 Alert
+### Expanded Foldable Alert by Default
 
-> [!TIP]+ 点击可折叠
-> 这是一个默认展开的可折叠提示框。点击标题可以折叠内容。
+> [!TIP]+ Click to Collapse
+> This is an expanded foldable alert box by default. Click the title to collapse the content.
 > 
-> 支持多行内容：
-> - 列表项 1
-> - 列表项 2
-> - 列表项 3
+> Supports multi-line content:
+> - List item 1
+> - List item 2
+> - List item 3
 
-### 默认折叠的 Alert
+### Collapsed Alert by Default
 
-> [!IMPORTANT]- 重要信息（默认折叠）
-> 这是一个默认折叠的重要信息框。点击标题可以展开查看内容。
+> [!IMPORTANT]- Important Information (Collapsed by Default)
+> This is an important information box collapsed by default. Click the title to expand and view the content.
 > 
-> 这里可以包含：
-> 1. 有序列表
-> 2. **粗体文字**
-> 3. *斜体文字*
-> 4. `代码片段`
+> Can include:
+> 1. Ordered list
+> 2. **Bold text**
+> 3. *Italic text*
+> 4. `Code snippet`
 
-### 复杂内容的折叠 Alert
+### Foldable Alert with Complex Content
 
-> [!CAUTION]+ 复杂内容示例
-> 这个折叠框包含复杂的 Markdown 内容：
+> [!CAUTION]+ Complex Content Example
+> This foldable box contains complex Markdown content:
 > 
-> #### 子标题
+> #### Subheading
 > 
-> 这是一个段落，包含 [链接](https://example.com) 和其他格式。
+> This is a paragraph containing a [link](https://example.com) and other formatting.
 > 
 > ```javascript
-> // 代码块示例
+> // Code block example
 > function hello() {
 >   console.log("Hello, World!");
 > }
 > ```
 > 
-> | 表格 | 示例 |
+> | Table | Example |
 > |------|------|
-> | 行1  | 数据1 |
-> | 行2  | 数据2 |
+> | Row1 | Data1 |
+> | Row2 | Data2 |
 
-## 常规引用块
+## Regular Blockquote
 
-这是一个常规的引用块，不是 Alert：
+This is a regular blockquote, not an Alert:
 
-> 这是一个普通的引用块。它不会被渲染为 Alert，而是使用标准的引用块样式。
+> This is a standard blockquote. It won't be rendered as an Alert but will use the standard blockquote styling.
 > 
-> 支持多行内容和 **格式化文字**。
+> Supports multi-line content and **formatted text**.
 
-## 多语言支持
+## Multilingual Support
 
-Alert 支持多语言，标题会根据当前语言自动显示：
+Alerts support multiple languages, and titles will automatically display in the current language:
 
 > [!NOTE]
-> 在中文环境下，这个标题会显示为"注意"。
+> In a Chinese environment, this title will display as "注意" (Note).
 
 > [!TIP]
-> 在中文环境下，这个标题会显示为"提示"。
+> In a Chinese environment, this title will display as "提示" (Tip).
 
-## 嵌套内容测试
+## Nested Content Test
 
-> [!WARNING]+ 嵌套内容测试
-> 这个 Alert 包含嵌套的内容：
+> [!WARNING]+ Nested Content Test
+> This Alert contains nested content:
 > 
-> > 这是一个嵌套的引用块
+> > This is a nested blockquote
 > 
-> - 列表项
->   - 嵌套列表项
->   - 另一个嵌套项
+> - List item
+>   - Nested list item
+>   - Another nested item
 > 
-> 1. 有序列表
->    1. 嵌套有序列表
->    2. 另一个嵌套项
-
----
-
-以上就是 GitHub Style Alert 的完整测试。这些 Alert 应该：
-
-1. 支持所有 5 种类型（NOTE, TIP, IMPORTANT, WARNING, CAUTION）
-2. 支持自定义标题
-3. 支持折叠功能（+ 默认展开，- 默认折叠）
-4. 支持多语言
-5. 与主题系统集成，颜色会根据当前主题变化
-6. 在移动端正确显示
+> 1. Ordered list
+>    1. Nested ordered list
+>    2. Another nested item
