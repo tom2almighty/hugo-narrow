@@ -78,7 +78,7 @@
             {{ range $sortedThemes }}
               <button
                 data-color-scheme="{{ .key }}"
-                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+                class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
                 <span>{{ .theme.name }}</span>
               </button>
             {{ end }}
@@ -105,19 +105,19 @@
             class="theme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
             <button
               data-theme="light"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+              class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light")) }}
               <span>{{ i18n "theme.light" }}</span>
             </button>
             <button
               data-theme="dark"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+              class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
               <span>{{ i18n "theme.dark" }}</span>
             </button>
             <button
               data-theme="system"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+              class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system")) }}
               <span>{{ i18n "theme.system" }}</span>
             </button>
@@ -158,7 +158,7 @@
             {{ range $sortedThemes }}
               <button
                 data-color-scheme="{{ .key }}"
-                class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+                class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
                 <span>{{ .theme.name }}</span>
               </button>
             {{ end }}
@@ -183,19 +183,19 @@
             class="theme-dropdown border-border bg-popover/95 absolute top-12 right-0 z-50 hidden w-40 rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out">
             <button
               data-theme="light"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+              class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light")) }}
               <span>{{ i18n "theme.light" }}</span>
             </button>
             <button
               data-theme="dark"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+              class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
               <span>{{ i18n "theme.dark" }}</span>
             </button>
             <button
               data-theme="system"
-              class="text-popover-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
+              class="text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none">
               {{ partial "icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system")) }}
               <span>{{ i18n "theme.system" }}</span>
             </button>
