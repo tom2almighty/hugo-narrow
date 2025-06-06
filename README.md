@@ -104,7 +104,7 @@ Create a new file in the `~/assets/css/custom/` folder and add your desired them
 
 > [!NOTE]
 >
-> You can also add custom configurations in the `~/assets/css/custom.css` file, but you need to install `tailwindcss`, `@tailwindcss/cli`, and `@tailwindcss/typography` locally.Then run `npx tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css` to generate the CSS file.
+> You can also add custom configurations in the `~/assets/css/custom.css` file, but you need to install `tailwindcss`, `@tailwindcss/cli`, and `@tailwindcss/typography` locally. Then run `npx tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css` to generate the CSS file.
 
 ```css
 [data-theme="dracula"] {
