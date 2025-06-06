@@ -1,4 +1,4 @@
-{{ with (templates.Defer (dict "key" "global")) }}
+{{/*  {{ with (templates.Defer (dict "key" "global")) }}
   {{ with resources.Get "css/main.css" }}
     {{ $opts := dict "minify" (not hugo.IsDevelopment) }}
     {{ with . | css.TailwindCSS $opts }}
@@ -15,10 +15,42 @@
       {{ end }}
     {{ end }}
   {{ end }}
+{{ end }}  */}}
+
+{{/* main css */}}
+{{ with resources.Get "css/compiled.css" }}
+  {{ if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" />
+  {{ else }}
+    {{ with . | minify | fingerprint }}
+      <link
+        rel="stylesheet"
+        href="{{ .RelPermalink }}"
+        integrity="{{ .Data.Integrity }}"
+        crossorigin="anonymous" />
+    {{ end }}
+  {{ end }}
 {{ end }}
 
-{{/* 语法高亮样式 */}}
+
+{{/* chroma styles */}}
 {{ with resources.Get "css/chroma.css" }}
+  {{ if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" />
+  {{ else }}
+    {{ with . | minify | fingerprint }}
+      <link
+        rel="stylesheet"
+        href="{{ .RelPermalink }}"
+        integrity="{{ .Data.Integrity }}"
+        crossorigin="anonymous" />
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+
+{{/* custom styles */}}
+{{ range (resources.Match "css/custom/*.css") }}
   {{ if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}" />
   {{ else }}
