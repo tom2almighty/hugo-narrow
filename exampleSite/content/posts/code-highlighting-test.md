@@ -12,7 +12,7 @@ slug: code-highlighting-test
 
 This article is used to test the new code highlighting feature, including syntax highlighting, copy button, language display, etc.
 
-## JavaScript 代码
+## JavaScript
 
 ```javascript
 
