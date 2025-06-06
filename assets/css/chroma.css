@@ -111,7 +111,6 @@
 
 /* Chroma 样式应用 */
 .chroma { 
-  background-color: var(--chroma-wrapper-bg); 
   color: var(--chroma-color, inherit);
 }
 
