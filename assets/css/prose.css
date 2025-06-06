@@ -506,10 +506,9 @@
 
   /* 传统 pre 样式（作为后备） */
   .prose pre:not(.chroma) {
-    @apply overflow-x-auto rounded-lg p-4;
+    @apply overflow-x-auto p-4;
     background: var(--tw-prose-pre-bg);
-    border: 1px solid var(--color-border);
-    margin: 1.5rem 0;
+    margin: 0;
     position: relative;
   }
 
