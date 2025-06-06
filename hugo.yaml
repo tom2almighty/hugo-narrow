@@ -134,6 +134,9 @@ params:
   # Language switcher
   showLanguageSwitch: true  # Set to false to hide language switcher
 
+  # Header sticky effect
+  stickyHeader: true  # Set to true to enable sticky navigation bar
+
   # default color scheme
   colorScheme: "default"
   themes:
