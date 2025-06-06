@@ -27,15 +27,9 @@ A modern, clean Hugo theme built with Tailwind CSS 4.0, featuring customizable t
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- **Hugo Extended** >= 0.146.0
-- **Node.js** >= 18.0.0
-- **npm** >= 8.0.0
-
 ### Install Theme
 
-#### Method 1: Git Submodule (Recommended)
+If you already have a Hugo site, it's recommended to add the theme as a git submodule. After completion, copy the contents from the `~/themes/hugo-narrow/exampleSite` directory to your root directory.
 
 ```bash
 # Add theme as submodule
@@ -45,32 +39,14 @@ git submodule add https://github.com/tom2almighty/hugo-narrow.git themes/hugo-na
 git submodule update --init --recursive
 ```
 
-#### Method 2: Direct Download
-
-```bash
-# Download and extract theme
-wget https://github.com/tom2almighty/hugo-narrow/archive/main.zip
-unzip main.zip -d themes/
-mv themes/hugo-narrow-main themes/hugo-narrow
-```
-
-### Install Dependencies
-
-> [!NOTE]
-> Since this theme uses Hugo's built-in css.tailwind function, local preview requires installing tailwindcss and @tailwindcss/cli.
-
-```bash
-pnpm install
-```
-
 ### Local Preview
 
 ```bash
 hugo server -D
 ```
-### Online Deployment (Vercel)
+### Online Preview (Vercel)
 
-Need to configure environment variable: `HUGO_VERSION=0.146.0`
+You can directly fork this repository. When building on Vercel, replace the `Build Command` with `cp exampleSite/hugo.yaml . && cp -r exampleSite/content . && sed -i 's/theme:.*//' hugo.yaml && hugo --minify --gc`, and configure the environment variable `HUGO_VERSION=0.146.0`.
 
 ## ⚙️ Configuration
 
@@ -124,7 +100,11 @@ The following custom fields are available in `frontmatter` (all optional):
 
 ### Site Themes
 
-You can add your desired themes in `~assets/css/theme.css` or `~/assets/css/custom.css`. Theme variables need to include styles for both light and dark modes:
+Create a new file in the `~/assets/css/custom/` folder and add your desired themes. Theme variables need to include styles for both light and dark modes.
+
+> [!NOTE]
+>
+> You can also add custom configurations in the `~/assets/css/custom.css` file, but you need to install `tailwindcss`, `@tailwindcss/cli`, and `@tailwindcss/typography` locally.
 
 ```css
 [data-theme="dracula"] {
@@ -217,6 +197,7 @@ This project is open source under the [MIT License](LICENSE).
 - [Hugo](https://gohugo.io/) - Static site generator.
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework.
 - [KaTeX](https://katex.org/) - Math formula rendering.
+- [gumshoe](https://github.com/cferdinandi/gumshoe) - TOC scrollspy.
 - [Mermaid](https://mermaid.js.org/) - Chart library.
 - [Daisyui](https://daisyui.com/) - Theme color reference.
 - [Hexo theme icarus](https://github.com/ppoffice/hexo-theme-icarus) - Search functionality reference.

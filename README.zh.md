@@ -27,15 +27,9 @@
 
 ## 🚀 快速开始
 
-### 前置要求
-
-- **Hugo Extended** >= 0.146.0
-- **Node.js** >= 18.0.0
-- **npm** >= 8.0.0
-
 ### 安装主题
 
-#### 方法一：Git Submodule（推荐）
+如果你已有 Hugo 站点，推荐作为 git 子模块方式引入主题，完成后将 `~/themes/hugo-narrow/exampleSite` 目录下的内容复制到根目录下。
 
 ```bash
 # 添加主题作为子模块
@@ -45,32 +39,14 @@ git submodule add https://github.com/tom2almighty/hugo-narrow.git themes/hugo-na
 git submodule update --init --recursive
 ```
 
-#### 方法二：直接下载
-
-```bash
-# 下载并解压主题
-wget https://github.com/tom2almighty/hugo-narrow/archive/main.zip
-unzip main.zip -d themes/
-mv themes/hugo-narrow-main themes/hugo-narrow
-```
-
-### 安装依赖
-
-> [!NOTE]
-> 由于使用了 Hugo 内置的 css.tailwind 函数，因此本地预览需要安装 tailwindcss 和 @tailwindcss/cli。
-
-```bash
-pnpm install
-```
-
 ### 本地预览
 
 ```bash
 hugo server -D
 ```
-### 在线部署(Vercel)
+### 在线预览(Vercel)
 
-需配置环境变量：`HUGO_VERSION=0.146.0`
+你可以直接 fork 本仓库，在 vercel 构建时，将 `Build Command` 替换为 `cp exampleSite/hugo.yaml . && cp -r exampleSite/content . && sed -i 's/theme:.*//' hugo.yaml && hugo --minify --gc`， 同时配置环境变量 `HUGO_VERSION=0.146.0`。
 
 ## ⚙️ 配置说明
 
@@ -124,7 +100,12 @@ menus:
 
 ### 站点主题
 
-你可以在 `~assets/css/theme.css` 或 `~/assets/css/custom.css` 中添加你想要的主题，主题变量需包含 light 和 dark 下的样式：
+在 `~/assets/css/custom/`文件夹下新建文件，添加你想要的主题，主题变量需包含 light 和 dark 下的样式。
+
+> [!NOTE]
+>
+> 你也可以在 `~/assets/css/custom.css` 文件中添加自定义配置，但是你需要本地安装 `tailwindcss` 和 `@tailwindcss/cli` 以及`@tailwindcss/typography`。
+
 
 ```css
 [data-theme="dracula"] {
@@ -217,6 +198,7 @@ hugo gen chromastyles --style=github-dark > ./github-dark.css
 - [Hugo](https://gohugo.io/) - 静态站点生成器。
 - [Tailwind CSS](https://tailwindcss.com/) - CSS 框架。
 - [KaTeX](https://katex.org/) - 数学公式渲染。
+- [gumshoe](https://github.com/cferdinandi/gumshoe) - 目录滚动监听。
 - [Mermaid](https://mermaid.js.org/) - 图表库。
 - [Daisyui](https://daisyui.com/) - 主题颜色参考。
 - [Hexo theme icarus](https://github.com/ppoffice/hexo-theme-icarus) - 搜索功能参考。
