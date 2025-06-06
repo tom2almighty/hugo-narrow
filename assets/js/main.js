@@ -27,6 +27,8 @@ class UIManager {
       if (toggle && dropdown) {
         toggle.addEventListener("click", (e) => {
           e.stopPropagation();
+          // 关闭移动端菜单
+          this.closeMobileMenu();
           // 关闭其他类型的下拉菜单
           this.closeOtherDropdowns(type);
           // 关闭同类型的其他下拉菜单
@@ -57,16 +59,39 @@ class UIManager {
       .forEach(d => d.classList.add("hidden"));
   }
 
-  setupEventListeners() {
-    // 移动端菜单切换
+  // 关闭移动端菜单
+  closeMobileMenu() {
+    const mobileMenu = document.getElementById("mobile-menu");
+    if (mobileMenu) {
+      mobileMenu.classList.add("hidden");
+    }
+  }
+
+  // 关闭所有菜单（包括下拉菜单和移动端菜单）
+  closeAllMenus() {
+    this.closeAllDropdowns();
+    this.closeMobileMenu();
+  }
+
+  // 设置移动端菜单
+  setupMobileMenu() {
     const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
 
     if (mobileMenuToggle && mobileMenu) {
-      mobileMenuToggle.addEventListener("click", () => {
+      mobileMenuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // 关闭所有下拉菜单
+        this.closeAllDropdowns();
+        // 切换移动端菜单
         mobileMenu.classList.toggle("hidden");
       });
     }
+  }
+
+  setupEventListeners() {
+    // 移动端菜单切换
+    this.setupMobileMenu();
 
     // 设置所有下拉菜单
     this.setupDropdown("color-scheme");
@@ -84,7 +109,7 @@ class UIManager {
           if (button) {
             const newColorScheme = button.getAttribute("data-color-scheme");
             this.setColorScheme(newColorScheme);
-            this.closeAllDropdowns();
+            this.closeAllMenus();
           }
         });
       }
@@ -101,20 +126,21 @@ class UIManager {
           if (button) {
             const newTheme = button.getAttribute("data-theme");
             this.setTheme(newTheme);
-            this.closeAllDropdowns();
+            this.closeAllMenus();
           }
         });
       }
     });
 
-    // 点击外部关闭下拉菜单
+    // 点击外部关闭所有菜单
     document.addEventListener("click", (e) => {
-      // 检查是否点击在任何下拉菜单相关元素内
-      const isClickInsideAnyDropdown = e.target.closest('.dropdown-toggle, .dropdown-menu');
+      // 检查是否点击在任何菜单相关元素内
+      const isClickInsideDropdown = e.target.closest('.dropdown-toggle, .dropdown-menu');
+      const isClickInsideMobileMenu = e.target.closest('#mobile-menu-toggle, #mobile-menu');
 
-      // 如果点击在外部，关闭所有下拉菜单
-      if (!isClickInsideAnyDropdown) {
-        this.closeAllDropdowns();
+      // 如果点击在外部，关闭所有菜单
+      if (!isClickInsideDropdown && !isClickInsideMobileMenu) {
+        this.closeAllMenus();
       }
     });
 
