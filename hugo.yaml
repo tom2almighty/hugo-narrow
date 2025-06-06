@@ -131,8 +131,10 @@ params:
         url: "mailto:hello@example.com"
         icon: "email"
 
-  # Language switcher
-  showLanguageSwitch: true  # Set to false to hide language switcher
+  # UI Components Control
+  showThemeSwitch: true      # Set to false to hide theme style switcher (palette icon)
+  showDarkModeSwitch: true   # Set to false to hide dark mode switcher (sun/moon icon)
+  showLanguageSwitch: true   # Set to false to hide language switcher
 
   # Header sticky effect
   stickyHeader: true  # Set to true to enable sticky navigation bar
