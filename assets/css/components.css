@@ -1,20 +1,27 @@
 /* 组件样式 - 从 main.css 提取 */
 
 @layer components {
-  /* 移动端菜单动画 - 保留关键帧 */
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  /* 移动端菜单特殊样式 - 仅保留尺寸相关样式 */
+  .mobile-menu.dropdown-menu {
+    /* 确保在小屏幕上不会超出视口 */
+    max-width: calc(100vw - 2rem);
+    /* 移动端菜单的最小宽度 */
+    min-width: 20rem;
+  }
+
+  /* 移动端菜单在超小屏幕上的适配 */
+  @media (max-width: 480px) {
+    .mobile-menu.dropdown-menu {
+      min-width: 18rem;
+      max-width: calc(100vw - 1rem);
     }
   }
 
-  .mobile-menu {
-    animation: slideDown 0.3s ease-out;
+  /* 通用下拉菜单基础样式 - 仅保留必要的布局样式 */
+  .dropdown-menu {
+    min-width: 10rem;
+    max-height: 20rem;
+    overflow-y: auto;
   }
 
   .search-result-selected {
@@ -66,13 +73,6 @@
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  /* 通用下拉菜单组件样式 */
-  .dropdown-menu {
-    min-width: 10rem;
-    max-height: 20rem;
-    overflow-y: auto;
   }
 
   /* 移动端 Dock 文字隐藏 */

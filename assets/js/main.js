@@ -14,7 +14,7 @@ class UIManager {
     this.updateUI();
   }
 
-  // 通用下拉菜单处理函数
+  // 通用下拉菜单处理函数 - 统一处理所有类型的菜单
   setupDropdown(type) {
     const toggleSelector = `.dropdown-toggle[data-dropdown-type="${type}"]`;
     const dropdownSelector = `.dropdown-menu[data-dropdown-type="${type}"]`;
@@ -27,28 +27,52 @@ class UIManager {
       if (toggle && dropdown) {
         toggle.addEventListener("click", (e) => {
           e.stopPropagation();
-          // 关闭移动端菜单
-          this.closeMobileMenu();
-          // 关闭其他类型的下拉菜单
-          this.closeOtherDropdowns(type);
+
+          // 关闭其他所有类型的菜单
+          this.closeOtherMenus(type);
+
           // 关闭同类型的其他下拉菜单
           document.querySelectorAll(dropdownSelector).forEach(d => {
-            if (d !== dropdown) d.classList.add("hidden");
+            if (d !== dropdown) {
+              d.classList.add("hidden");
+              // 更新对应按钮的 aria-expanded
+              const correspondingToggle = document.querySelector(`${toggleSelector}[aria-labelledby="${d.getAttribute('aria-labelledby')}"], ${toggleSelector}[aria-controls="${d.id}"]`);
+              if (correspondingToggle) {
+                correspondingToggle.setAttribute("aria-expanded", "false");
+              }
+            }
           });
+
           // 切换当前下拉菜单
+          const isHidden = dropdown.classList.contains("hidden");
           dropdown.classList.toggle("hidden");
+
+          // 更新当前按钮的 aria-expanded 属性
+          toggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+
+          // 如果是移动端菜单，添加特殊处理
+          if (type === "mobile-menu") {
+            this.handleMobileMenuClick(dropdown, toggle);
+          }
         });
       }
     });
   }
 
-  // 关闭其他类型的下拉菜单
-  closeOtherDropdowns(currentType) {
-    const allTypes = ['color-scheme', 'theme', 'language'];
+  // 关闭其他类型的菜单 - 统一处理所有菜单类型
+  closeOtherMenus(currentType) {
+    const allTypes = ['color-scheme', 'theme', 'language', 'mobile-menu'];
     allTypes.forEach(type => {
       if (type !== currentType) {
         document.querySelectorAll(`.dropdown-menu[data-dropdown-type="${type}"]`)
-          .forEach(d => d.classList.add("hidden"));
+          .forEach(d => {
+            d.classList.add("hidden");
+            // 更新对应按钮的 aria-expanded
+            const toggle = document.querySelector(`.dropdown-toggle[data-dropdown-type="${type}"]`);
+            if (toggle) {
+              toggle.setAttribute("aria-expanded", "false");
+            }
+          });
       }
     });
   }
@@ -56,44 +80,63 @@ class UIManager {
   // 关闭所有下拉菜单
   closeAllDropdowns() {
     document.querySelectorAll(".dropdown-menu")
-      .forEach(d => d.classList.add("hidden"));
+      .forEach(d => {
+        d.classList.add("hidden");
+        // 更新对应按钮的 aria-expanded
+        const dropdownType = d.getAttribute("data-dropdown-type");
+        if (dropdownType) {
+          const toggle = document.querySelector(`.dropdown-toggle[data-dropdown-type="${dropdownType}"]`);
+          if (toggle) {
+            toggle.setAttribute("aria-expanded", "false");
+          }
+        }
+      });
   }
 
-  // 关闭移动端菜单
+  // 关闭移动端菜单 - 保持向后兼容
   closeMobileMenu() {
     const mobileMenu = document.getElementById("mobile-menu");
+    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+
     if (mobileMenu) {
       mobileMenu.classList.add("hidden");
+    }
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.setAttribute("aria-expanded", "false");
     }
   }
 
   // 关闭所有菜单（包括下拉菜单和移动端菜单）
   closeAllMenus() {
     this.closeAllDropdowns();
-    this.closeMobileMenu();
   }
 
-  // 设置移动端菜单
-  setupMobileMenu() {
-    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
+  // 移动端菜单特殊处理 - 点击菜单项后自动关闭
+  handleMobileMenuClick(dropdown, toggle) {
+    // 点击菜单项后关闭菜单
+    dropdown.addEventListener("click", (e) => {
+      const link = e.target.closest('a[href]');
+      if (link) {
+        // 延迟关闭，让导航有时间完成
+        setTimeout(() => {
+          dropdown.classList.add("hidden");
+          toggle.setAttribute("aria-expanded", "false");
+        }, 100);
+      }
+    });
+  }
 
-    if (mobileMenuToggle && mobileMenu) {
-      mobileMenuToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        // 关闭所有下拉菜单
-        this.closeAllDropdowns();
-        // 切换移动端菜单
-        mobileMenu.classList.toggle("hidden");
-      });
-    }
+  // 设置移动端菜单 - 保持向后兼容，但现在使用统一的 setupDropdown
+  setupMobileMenu() {
+    // 这个方法现在主要用于向后兼容
+    // 实际的事件处理由 setupDropdown("mobile-menu") 完成
+    console.log("移动端菜单使用统一的下拉菜单处理逻辑");
   }
 
   setupEventListeners() {
-    // 移动端菜单切换
-    this.setupMobileMenu();
-
-    // 设置所有下拉菜单
+    // 设置所有下拉菜单，包括移动端菜单
+    this.setupDropdown("mobile-menu");
     this.setupDropdown("color-scheme");
     this.setupDropdown("theme");
     this.setupDropdown("language");
@@ -132,14 +175,20 @@ class UIManager {
       }
     });
 
-    // 点击外部关闭所有菜单
+    // 点击外部关闭所有菜单 - 统一处理
     document.addEventListener("click", (e) => {
       // 检查是否点击在任何菜单相关元素内
-      const isClickInsideDropdown = e.target.closest('.dropdown-toggle, .dropdown-menu');
-      const isClickInsideMobileMenu = e.target.closest('#mobile-menu-toggle, #mobile-menu');
+      const isClickInsideMenu = e.target.closest('.dropdown-toggle, .dropdown-menu');
 
       // 如果点击在外部，关闭所有菜单
-      if (!isClickInsideDropdown && !isClickInsideMobileMenu) {
+      if (!isClickInsideMenu) {
+        this.closeAllMenus();
+      }
+    });
+
+    // 键盘导航支持 - ESC键关闭所有菜单
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         this.closeAllMenus();
       }
     });

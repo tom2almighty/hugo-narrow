@@ -70,12 +70,7 @@
     <!-- 移动端布局 -->
     <div class="flex w-full items-center justify-between md:hidden">
       <!-- 左侧：移动端菜单按钮 -->
-      <button
-        id="mobile-menu-toggle"
-        class="border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground flex h-10 w-10 items-center justify-center rounded-lg border transition-colors duration-200"
-        aria-label="{{ i18n "nav.menu" }}">
-        {{ partial "icon.html" (dict "name" "menu" "size" "md" "ariaLabel" (i18n "nav.menu")) }}
-      </button>
+      {{ partial "mobile-menu-toggle.html" . }}
 
       <!-- 右侧：移动端控制区域 -->
       <div class="flex items-center space-x-2">
@@ -83,41 +78,11 @@
         {{ partial "language-switcher.html" . }}
 
         <!-- 主题风格切换按钮 -->
-        {{ partial "theme-switcher-mobile.html" . }}
+        {{ partial "theme-switcher.html" . }}
 
         <!-- 明暗模式切换按钮 -->
-        {{ partial "dark-mode-switcher-mobile.html" . }}
+        {{ partial "dark-mode-switcher.html" . }}
       </div>
     </div>
-  </div>
-
-  <!-- 移动端导航面板 -->
-  <div
-    id="mobile-menu"
-    class="mobile-menu border-border bg-card/80 mt-4 hidden overflow-hidden rounded-2xl border shadow-sm backdrop-blur-sm md:hidden">
-    <nav class="flex flex-col p-2">
-      {{ $currentPage := . }}
-      {{ range site.Menus.main }}
-        {{ $isActive := eq $currentPage.RelPermalink .URL }}
-        <a
-          href="{{ .URL }}"
-          class="nav-link {{ if $isActive }}
-            nav-active-indicator bg-accent text-accent-foreground
-          {{ else }}
-            text-muted-foreground hover:text-primary hover:bg-primary/10
-          {{ end }} focus:ring-primary/20 relative flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-in-out hover:translate-x-1 focus:ring-2 focus:outline-none">
-          {{ if .Params.icon }}
-            {{ partial "icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
-          {{ end }}
-          <span
-            >{{ if hasPrefix .Name "nav." }}
-              {{ i18n .Name }}
-            {{ else }}
-              {{ .Name }}
-            {{ end }}</span
-          >
-        </a>
-      {{ end }}
-    </nav>
   </div>
 </header>
