@@ -9,28 +9,30 @@ categories: ["image-rendering"]
 
 # Image Rendering Test
 
+All images are from [Lorem Picsum](https://picsum.photos/)
+
 ## Testing Image Rendering
 
 ### Basic Image
-![Test Image](https://picsum.photos/800/400?random=1)
+![Test Image](/images/basic-image.jpg)
 
 ### Image with Caption
-![Image with Caption](https://picsum.photos/600/400?random=2 "This is an image with a caption.")
+![Image with Caption](/images/caption-image.jpg "This is an image with a caption.")
 
 ### Different Sizes
 
 #### Small Image
-![Small Image](https://picsum.photos/400/300?random=3 "Small Image")
+![Small Image](/images/small-image.jpg "Small Image")
 
 #### Medium Image
-![Medium Image](https://picsum.photos/1200/600?random=4 "Medium Image")
+![Medium Image](/images/medium-image.jpg "Medium Image")
 
 ### Different Aspect Ratios
 #### Horizontal Image
-![Horizontal Image](https://picsum.photos/800/400?random=5 "Horizontal Image")
+![Horizontal Image](/images/horizontal-image.jpg "Horizontal Image")
 
 #### Vertical Image
-![Vertical Image](https://picsum.photos/400/600?random=6 "Vertical Image")
+![Vertical Image](/images/vertical-image.jpg "Vertical Image")
 
 #### Square Image
-![Square Image](https://picsum.photos/500/500?random=7 "Square Image")
+![Square Image](/images/square-image.jpg "Square Image")
