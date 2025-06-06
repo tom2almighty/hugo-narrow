@@ -342,18 +342,3 @@ module:
   hugoVersion:
     extended: true
     min: 0.146.0
-  mounts:
-    - source: assets
-      target: assets
-    - disableWatch: true
-      source: hugo_stats.json
-      target: assets/notwatching/hugo_stats.json
-
-build:
-  buildStats:
-    enable: true
-  cachebusters:
-    - source: assets/notwatching/hugo_stats\.json
-      target: css
-    - source: (postcss|tailwind)\.config\.js
-      target: css

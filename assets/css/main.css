@@ -3,7 +3,6 @@
 /* Tailwind CSS 4.0 基础导入 */
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@source "hugo_stats.json";
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* 主题变量配置 */
