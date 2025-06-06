@@ -1,0 +1,359 @@
+baseURL: https://hugo-narrow.vercel.app/
+languageCode: en
+defaultContentLanguage: en
+title: Hugo Narrow
+theme: "hugo-narrow"
+
+# pagination
+pagination:
+  pagerSize: 6
+  path: "page"
+
+languages:
+  en:
+    languageName: "English"
+    weight: 1
+  zh-cn:
+    languageName: "简体中文"
+    weight: 2
+  ja:
+    languageName: "日本語"
+    weight: 3
+  fr:
+    languageName: "Français"
+    weight: 4
+  de:
+    languageName: "Deutsch"
+    weight: 5
+  es:
+    languageName: "Español"
+    weight: 6
+  ru:
+    languageName: "Русский"
+    weight: 7
+
+menus:
+  main:
+    - name: nav.posts
+      pageRef: /posts
+      weight: 20
+      params:
+        icon: posts
+    - name: nav.categories
+      pageRef: /categories
+      weight: 30
+      params:
+        icon: categories
+    - name: nav.tags
+      pageRef: /tags
+      weight: 40
+      params:
+        icon: tags
+    - name: nav.archives
+      pageRef: /archives
+      weight: 50
+      params:
+        icon: archive
+
+
+  # footer menu
+  footer:
+    - name: About
+      pageRef: /about
+      weight: 10
+      params:
+        icon: about
+    - name: Contact
+      url: https://google.com
+      weight: 20
+      params:
+        icon: contact
+    - name: RSS Feed
+      pageRef: /index.xml
+      weight: 30
+      params:
+        icon: rss
+
+  # footer social link
+  social:
+    - name: GitHub
+      url: https://github.com/username
+      weight: 10
+      params:
+        icon: github
+    - name: Twitter
+      url: https://twitter.com/username
+      weight: 20
+      params:
+        icon: twitter
+    - name: LinkedIn
+      url: https://linkedin.com/in/username
+      weight: 30
+      params:
+        icon: linkedin
+    - name: Email
+      url: mailto:your.email@example.com
+      weight: 40
+      params:
+        icon: email
+
+params:
+  site:
+    description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
+    keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
+    author: "Hugo Narrow"
+
+  logo:
+    image: "/images/logo.svg"  # Logo path rel to static folder
+    link: "/"                  # click to home page
+  
+  favicon:
+    svg: "/favicon.svg"        # SVG format favicon (recommended)
+
+  seo:
+    enableOpenGraph: true
+    enableTwitterCard: true
+    enableJsonLd: true
+    defaultImage: "/images/og-default.avif"
+
+  author:
+    name: "Hugo Narrow"
+    title: "A Clean and Minimal Hugo Theme"
+    description: "Focused on content and user experience."
+    avatar: "/images/avatar.svg"
+    social:
+      - name: "GitHub"
+        url: "https://github.com/username"
+        icon: "github"
+      - name: "Twitter"
+        url: "https://twitter.com/username"
+        icon: "twitter"
+      - name: "Email"
+        url: "mailto:hello@example.com"
+        icon: "email"
+
+  # UI Components Control
+  showThemeSwitch: true      # Set to false to hide theme style switcher (palette icon)
+  showDarkModeSwitch: true   # Set to false to hide dark mode switcher (sun/moon icon)
+  showLanguageSwitch: true   # Set to false to hide language switcher
+
+  # Header sticky effect
+  stickyHeader: true  # Set to true to enable sticky navigation bar
+
+  # default color scheme
+  colorScheme: "default"
+  themes:
+    default:
+      name: "Default"
+      order: 1
+    claude:
+      name: "Claude"
+      order: 2
+    bumblebee:
+      name: "Bumblebee"
+      order: 3
+    emerald:
+      name: "Emerald"
+      order: 4
+    nord:
+      name: "Nord"
+      order: 5
+    sunset:
+      name: "Sunset"
+      order: 6
+    abyss:
+      name: "Abyss"
+      order: 7
+    dracula:
+      name: "Dracula"
+      order: 8
+
+
+  home:
+    recentPostsCount: 5 # Number of recent posts to show on the home page
+
+  post:
+    showRelated: true           # show related posts
+    relatedPostsCount: 3        # posts number
+  
+    showLicense: true
+    license:
+      name: "CC BY-NC-SA 4.0"
+      description: "This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Please attribute the source, use non-commercially, and maintain the same license."
+      url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+      displayName: "CC BY-NC-SA 4.0"
+
+  # comments
+  comments:
+    enabled: true
+    # giscus, disqus, utterances, waline, artalk, twikoo
+    system: "giscus"
+
+    giscus:
+      repo: "tom2almighty/hugo-narrow-giscus"
+      repoId: "R_kgDOO2gwLg"
+      category: "General"
+      categoryId: "DIC_kwDOO2gwLs4CrEaf"
+      mapping: "pathname"
+      strict: "0"
+      reactionsEnabled: "1"
+      emitMetadata: "0"
+      inputPosition: "bottom"
+      theme: "preferred_color_scheme"
+      lang: "en"
+
+    disqus:
+      shortname: ""
+
+
+    utterances:
+      repo: "" 
+      issueTerm: "pathname"
+      label: "comment"
+      theme: "preferred-color-scheme"
+
+
+    waline:
+      serverURL: ""
+      lang: "zh-CN"
+      meta: ["nick", "mail", "link"]
+      requiredMeta: ["nick"]
+      placeholder: ""
+      avatar: "mp"
+      pageSize: 10
+
+
+    artalk:
+      server: ""
+      site: ""
+      placeholder: "" 
+      noComment: "" 
+      sendBtn: ""
+      darkMode: "auto"
+      gravatar:
+        mirror: "https://cravatar.cn/avatar/"
+      pagination:
+        pageSize: 20
+        autoLoad: true
+      heightLimit:
+        content: 300
+        children: 400
+      imgUpload: false
+      preview: true 
+      countEl: "#ArtalkCount"
+
+
+    twikoo:
+      envId: ""
+      region: "ap-shanghai"
+      lang: "zh-CN"
+      placeholder: "" 
+      avatar: "mp"
+      visitor: true 
+      highlight: true 
+
+
+  analytics:
+    enabled: false
+    baidu:
+      enabled: false
+      id: "your-baidu-analytics-id"
+    clarity:
+      enabled: false
+      analytics: "your-clarity-analytics-id"
+    google:
+      enabled: false
+      id: "your-google-analytics-id"
+    umami: 
+      enabled: false
+      id: "your-umami-website-id"
+      src: "https://umami.com/myscript.js"
+      domains: "example.domain.com"
+
+
+  katex:
+    enabled: false
+    delimiters:
+      - left: "$$"
+        right: "$$"
+        display: true
+      - left: "$"
+        right: "$"
+        display: false
+      - left: "\\("
+        right: "\\)"
+        display: false
+      - left: "\\["
+        right: "\\]"
+        display: true
+      
+  mermaid:
+    enabled: false
+
+
+
+markup:
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+    ordered: false
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    codeFences: true
+    guessSyntax: false
+    lineNos: false
+    lineNumbersInTable: false # Set to false
+    noClasses: false
+    style: github # No need to change
+    tabWidth: 2
+
+
+codeblock:
+  collapse:
+    enabled: true
+    defaultState: expanded  # expanded, collapsed
+    autoCollapseLines: 30
+    autoCollapseHeight: 400
+    collapsedHeight: 120
+
+readingProgress:
+  enabled: true
+  height: 3
+  showOnHomepage: false
+  smoothScroll: true
+  hideOnComplete: false
+
+
+
+
+outputs:
+  home: ["HTML", "RSS", "JSON", "WebAppManifest"]
+
+# 自定义输出格式
+outputFormats:
+  WebAppManifest:
+    mediaType: "application/manifest+json"
+    baseName: "site"
+    isPlainText: true
+
+module:
+  hugoVersion:
+    extended: true
+    min: 0.146.0
+  mounts:
+    - source: assets
+      target: assets
+    - disableWatch: true
+      source: hugo_stats.json
+      target: assets/notwatching/hugo_stats.json
+
+build:
+  buildStats:
+    enable: true
+  cachebusters:
+    - source: assets/notwatching/hugo_stats\.json
+      target: css
+    - source: (postcss|tailwind)\.config\.js
+      target: css
