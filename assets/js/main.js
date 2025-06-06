@@ -234,6 +234,28 @@ class UIManager {
       button.classList.toggle("bg-accent", isSelected);
       button.classList.toggle("text-accent-foreground", isSelected);
     });
+
+    // 更新语言切换选择状态
+    const currentLang = document.documentElement.lang || 'en';
+    document.querySelectorAll('.dropdown-menu[data-dropdown-type="language"] a[role="menuitem"]').forEach((link) => {
+      // 从链接的href中提取语言代码
+      const href = link.getAttribute('href');
+      const isSelected = this.isCurrentLanguageLink(href, currentLang);
+      link.classList.toggle("bg-accent", isSelected);
+      link.classList.toggle("text-accent-foreground", isSelected);
+    });
+  }
+
+  // 辅助方法：判断链接是否为当前语言
+  isCurrentLanguageLink(href, currentLang) {
+    // 处理根路径的情况
+    if (href === '/' && currentLang === 'en') {
+      return true;
+    }
+
+    // 处理语言前缀路径的情况 (如 /zh/, /en/)
+    const langPattern = new RegExp(`^/${currentLang}(/|$)`);
+    return langPattern.test(href);
   }
 }
 
