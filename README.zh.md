@@ -104,7 +104,7 @@ menus:
 
 > [!NOTE]
 >
-> 你也可以在 `~/assets/css/custom.css` 文件中添加自定义配置，但是你需要本地安装 `tailwindcss` 和 `@tailwindcss/cli` 以及`@tailwindcss/typography`。
+> 你也可以在 `~/assets/css/custom.css` 文件中添加自定义配置，但是你需要本地安装 `tailwindcss` 和 `@tailwindcss/cli` 以及`@tailwindcss/typography`。之后执行命令 `npx tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css` 生成 CSS 文件。
 
 
 ```css
