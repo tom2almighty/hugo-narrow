@@ -7,6 +7,7 @@ Thumbs.db
 npm-debug.log
 node_modules
 builds
+package.json
 package-lock.json
 pnpm-lock.yaml
 public
