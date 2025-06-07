@@ -69,7 +69,7 @@ menus:
       params:
         icon: contact
     - name: RSS Feed
-      pageRef: /index.xml
+      url: /index.xml
       weight: 30
       params:
         icon: rss
