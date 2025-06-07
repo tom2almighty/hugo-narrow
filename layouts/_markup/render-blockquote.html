@@ -1,0 +1,134 @@
+{{/* Blockquote render hook for GitHub-style alerts and regular blockquotes
+
+  Supports:
+  - GitHub-style alerts: [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION]
+  - Extended syntax with + - for collapsible alerts
+  - Custom titles
+  - Multilingual support
+*/}}
+
+{{- if eq .Type "alert" -}}
+  {{/* Alert type configuration */}}
+  {{- $alertConfig := dict
+    "note" (dict
+    "icon" "info-circle"
+    "colorVar" "note"
+    "defaultTitle" (i18n "alert.note" | default "Note")
+    )
+    "tip" (dict
+    "icon" "lightbulb"
+    "colorVar" "tip"
+    "defaultTitle" (i18n "alert.tip" | default "Tip")
+    )
+    "important" (dict
+    "icon" "exclamation-triangle"
+    "colorVar" "important"
+    "defaultTitle" (i18n "alert.important" | default "Important")
+    )
+    "warning" (dict
+    "icon" "alert-triangle"
+    "colorVar" "warning"
+    "defaultTitle" (i18n "alert.warning" | default "Warning")
+    )
+    "caution" (dict
+    "icon" "alert-circle"
+    "colorVar" "caution"
+    "defaultTitle" (i18n "alert.caution" | default "Caution")
+    )
+    -}}
+
+  {{- $config := index $alertConfig .AlertType -}}
+  {{- $isCollapsible := or (eq .AlertSign "+") (eq .AlertSign "-") -}}
+  {{- $isExpanded := eq .AlertSign "+" -}}
+  {{- $alertId := printf "alert-%d" .Ordinal -}}
+  {{- $title := .AlertTitle | default $config.defaultTitle -}}
+
+
+  <div
+    class="alert alert-{{ .AlertType }} my-6 overflow-hidden rounded-lg border-l-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
+    style="background-color: color-mix(in srgb, var(--color-{{ $config.colorVar }}) 10%, transparent);
+              border-left-color: var(--color-{{ $config.colorVar }});
+              --hover-bg: color-mix(in srgb, var(--color-{{ $config.colorVar }}) 15%, transparent);"
+    onmouseover="this.style.backgroundColor = this.style.getPropertyValue('--hover-bg')"
+    onmouseout="this.style.backgroundColor = 'color-mix(in srgb, var(--color-{{ $config.colorVar }}) 10%, transparent)'"
+    role="alert"
+    aria-labelledby="{{ $alertId }}-title">
+    {{/* Alert header */}}
+    <div
+      class="{{ if $isCollapsible }}
+        cursor-pointer
+      {{ end }} flex items-center justify-between p-4"
+      {{ if $isCollapsible }}
+        onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
+        aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
+        onkeydown="if(event.key==='Enter'||event.key===' '){toggleAlert('{{ $alertId }}');event.preventDefault();}"
+      {{ end }}>
+      <div class="flex items-center gap-3">
+        {{/* Alert icon */}}
+        <div
+          class="flex-shrink-0"
+          style="color: var(--color-{{ $config.colorVar }});">
+          {{ partial "features/icon.html" (dict "name" $config.icon "size" "md" "ariaLabel" "") }}
+        </div>
+
+        {{/* Alert title */}}
+        <h4
+          id="{{ $alertId }}-title"
+          class="m-0 font-semibold"
+          style="color: var(--color-{{ $config.colorVar }});">
+          {{ $title }}
+        </h4>
+      </div>
+
+      {{/* Collapse indicator */}}
+      {{ if $isCollapsible }}
+        <div
+          class="flex-shrink-0 transition-transform duration-200"
+          style="color: var(--color-{{ $config.colorVar }});"
+          id="{{ $alertId }}-chevron">
+          {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
+        </div>
+      {{ end }}
+    </div>
+
+    {{/* Alert content */}}
+    <div
+      id="{{ $alertId }}-content"
+      class="alert-content {{ if and $isCollapsible (not $isExpanded) }}
+        hidden
+      {{ end }} px-4 pb-4">
+      <div class="prose prose-sm text-foreground/90 max-w-none">
+        {{ .Text }}
+      </div>
+    </div>
+  </div>
+{{- else -}}
+  {{/* Regular blockquote */}}
+  <blockquote
+    class="border-primary bg-muted/30 hover:bg-muted/40 my-6 rounded-r-lg border-l-4 py-4 pr-4 pl-6 italic transition-all duration-200 ease-out hover:translate-x-1">
+    <div class="prose prose-sm max-w-none">
+      {{ .Text }}
+    </div>
+  </blockquote>
+{{- end -}}
+
+{{/* JavaScript for collapsible alerts */}}
+{{ if eq .Type "alert" }}
+  <script>
+    function toggleAlert(alertId) {
+      const content = document.getElementById(alertId + "-content");
+      const chevron = document.getElementById(alertId + "-chevron");
+      const header = content.previousElementSibling;
+
+      if (content.classList.contains("hidden")) {
+        content.classList.remove("hidden");
+        chevron.style.transform = "rotate(180deg)";
+        header.setAttribute("aria-expanded", "true");
+      } else {
+        content.classList.add("hidden");
+        chevron.style.transform = "rotate(0deg)";
+        header.setAttribute("aria-expanded", "false");
+      }
+    }
+  </script>
+{{ end }}

@@ -1,0 +1,303 @@
+{{/* Code block render hook with header, copy button, collapse functionality, and Hugo Chroma syntax highlighting
+
+  Features:
+  - Language display or filename
+  - Copy button with feedback
+  - Collapse/expand functionality
+  - Hugo Chroma syntax highlighting (preserves all Hugo config options)
+  - Theme-adaptive styling
+  - Responsive design
+*/}}
+
+{{- $lang := .Type | default "plaintext" -}}
+{{- $filename := .Attributes.filename | default "" -}}
+{{- $displayLang := $filename | default ($lang | upper) -}}
+{{- $codeId := printf "code-%d" .Ordinal -}}
+
+{{/* 折叠功能相关参数 */}}
+{{- $collapsed := .Attributes.collapsed | default false -}}
+{{- $defaultState := .Attributes.defaultState | default (site.Params.codeblock.collapse.defaultState | default "expanded") -}}
+{{- $autoCollapseLines := site.Params.codeblock.collapse.autoCollapseLines | default 30 -}}
+{{- $autoCollapseHeight := site.Params.codeblock.collapse.autoCollapseHeight | default 400 -}}
+{{- $collapsedHeight := site.Params.codeblock.collapse.collapsedHeight | default 120 -}}
+{{- $collapseEnabled := site.Params.codeblock.collapse.enabled | default true -}}
+
+{{/* 使用 Hugo 的 transform.HighlightCodeBlock 进行语法高亮 */}}
+{{- $highlighted := transform.HighlightCodeBlock . -}}
+
+
+<div
+  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-xl border shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md">
+  {{/* Code block header */}}
+  <div
+    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3">
+    {{/* Language/filename display */}}
+    <div class="flex items-center gap-2">
+      <div class="text-muted-foreground flex-shrink-0">
+        {{ partial "features/icon.html" (dict "name" "code" "size" "sm" "ariaLabel" "") }}
+      </div>
+      <span class="text-muted-foreground text-sm font-medium">
+        {{ $displayLang }}
+      </span>
+    </div>
+
+    {{/* Action buttons */}}
+    <div class="flex items-center gap-2">
+      {{/* Collapse button (if collapse is enabled) */}}
+      {{- if $collapseEnabled -}}
+        <button
+          class="collapse-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+          data-code-id="{{ $codeId }}"
+          data-default-state="{{ $defaultState }}"
+          data-collapsed="{{ $collapsed }}"
+          data-auto-collapse-lines="{{ $autoCollapseLines }}"
+          data-auto-collapse-height="{{ $autoCollapseHeight }}"
+          data-collapsed-height="{{ $collapsedHeight }}"
+          title="{{ i18n "code.collapse" | default "折叠代码" }}"
+          aria-label="{{ i18n "code.collapse" | default "折叠代码" }}">
+          <span class="collapse-icon">
+            {{ partial "features/icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
+          </span>
+          <span class="collapse-text hidden sm:inline"
+            >{{ i18n "code.collapse" | default "折叠" }}</span
+          >
+        </button>
+      {{- end -}}
+
+      {{/* Copy button */}}
+      <button
+        class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+        data-code-id="{{ $codeId }}"
+        title="{{ i18n "code.copy" | default "复制代码" }}"
+        aria-label="{{ i18n "code.copy" | default "复制代码" }}">
+        <span class="copy-icon">
+          {{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") }}
+        </span>
+        <span class="copy-text hidden sm:inline"
+          >{{ i18n "code.copy" | default "复制" }}</span
+        >
+      </button>
+    </div>
+  </div>
+
+  {{/* Code content with Hugo Chroma highlighting */}}
+  <div class="code-block-content relative" id="{{ $codeId }}">
+    {{ $highlighted.Wrapped }}
+    {{/* Collapse overlay (hidden by default) */}}
+    <div
+      class="collapse-overlay to-card/90 pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent opacity-0 transition-opacity duration-300">
+      <div
+        class="text-muted-foreground bg-card/80 border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-full border px-3 py-1.5 text-xs backdrop-blur-sm transition-all duration-200">
+        {{ i18n "code.clickToExpand" | default "点击展开查看更多" }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{/* JavaScript for copy and collapse functionality */}}
+<script>
+(function() {
+  const codeId = '{{ $codeId }}';
+  const copyBtn = document.querySelector('.copy-code-btn[data-code-id="' + codeId + '"]');
+  const collapseBtn = document.querySelector('.collapse-code-btn[data-code-id="' + codeId + '"]');
+  const codeContainer = document.getElementById(codeId);
+
+  if (!codeContainer) return;
+
+  // Copy functionality
+  if (copyBtn) {
+    const copyIcon = copyBtn.querySelector('.copy-icon');
+    const copyText = copyBtn.querySelector('.copy-text');
+
+    copyBtn.addEventListener('click', async function() {
+      try {
+        // 智能获取代码文本，排除行号
+        let codeText = '';
+
+        // 方法1: 表格形式行号 (lineNumbersInTable: true)
+        const codeTableCell = codeContainer.querySelector('.lntd:last-child code');
+        if (codeTableCell) {
+          codeText = codeTableCell.textContent || codeTableCell.innerText;
+        } else {
+          // 方法2: 内联行号 (lineNumbersInTable: false)
+          const codeElement = codeContainer.querySelector('code');
+          if (codeElement) {
+            // 检查是否有内联行号 (.ln 类)
+            const hasInlineLineNumbers = codeElement.querySelector('.ln');
+            if (hasInlineLineNumbers) {
+              // 从 .cl 元素中提取代码内容，排除 .ln 行号
+              const codeLines = codeElement.querySelectorAll('.cl');
+              if (codeLines.length > 0) {
+                codeText = Array.from(codeLines)
+                  .map(line => {
+                    const text = line.textContent || line.innerText;
+                    // 移除每行末尾的换行符，但保留行内的空白字符和缩进
+                    return text.replace(/\n+$/, '');
+                  })
+                  .join('\n')
+                  .replace(/\n+$/, ''); // 移除最后的多余换行符
+              } else {
+                // 降级：手动过滤行号
+                const allText = codeElement.textContent || codeElement.innerText;
+                codeText = allText.replace(/^\d+/gm, '').replace(/^\s+/gm, '');
+              }
+            } else {
+              // 无行号，直接获取代码内容
+              codeText = codeElement.textContent || codeElement.innerText;
+            }
+          } else {
+            // 方法3: 降级方案 - 直接从容器获取
+            codeText = codeContainer.textContent || codeContainer.innerText;
+          }
+        }
+
+        // 清理可能的多余空白
+        codeText = codeText.trim();
+
+        // 复制到剪贴板
+        await navigator.clipboard.writeText(codeText);
+
+        // 更新按钮状态
+        copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") | safeJS }}`;
+        if (copyText) {
+          copyText.textContent = '{{ i18n "code.copied" | default "已复制" }}';
+        }
+        copyBtn.classList.add('text-green-600');
+
+        // 2秒后恢复原状
+        setTimeout(() => {
+          copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") | safeJS }}`;
+          if (copyText) {
+            copyText.textContent = '{{ i18n "code.copy" | default "复制" }}';
+          }
+          copyBtn.classList.remove('text-green-600');
+        }, 2000);
+
+      } catch (err) {
+        console.error('复制失败:', err);
+
+        // 降级方案：选择文本
+        const range = document.createRange();
+        const codeElement = codeContainer.querySelector('code') || codeContainer;
+        range.selectNodeContents(codeElement);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        // 更新按钮状态
+        if (copyText) {
+          copyText.textContent = '{{ i18n "code.selected" | default "已选择" }}';
+        }
+
+        setTimeout(() => {
+          if (copyText) {
+            copyText.textContent = '{{ i18n "code.copy" | default "复制" }}';
+          }
+          selection.removeAllRanges();
+        }, 2000);
+      }
+    });
+  }
+
+  // Collapse functionality
+  if (collapseBtn) {
+    const collapseIcon = collapseBtn.querySelector('.collapse-icon');
+    const collapseText = collapseBtn.querySelector('.collapse-text');
+    const collapseOverlay = codeContainer.querySelector('.collapse-overlay');
+    const codeElement = codeContainer.querySelector('pre.chroma');
+
+    const defaultState = collapseBtn.dataset.defaultState || 'expanded';
+    const isCollapsedAttr = collapseBtn.dataset.collapsed === 'true';
+    const autoCollapseLines = parseInt(collapseBtn.dataset.autoCollapseLines) || 30;
+    const autoCollapseHeight = parseInt(collapseBtn.dataset.autoCollapseHeight) || 400;
+    const collapsedHeight = parseInt(collapseBtn.dataset.collapsedHeight) || 120;
+
+    let isCollapsed = false;
+
+    // Initialize collapse state
+    function initCollapse() {
+      if (!codeElement) return;
+
+      // Check if should be collapsed initially
+      const shouldCollapse = isCollapsedAttr ||
+                           defaultState === 'collapsed' ||
+                           shouldAutoCollapse();
+
+      if (shouldCollapse) {
+        setCollapsed(true, false); // true = collapsed, false = no animation
+      }
+    }
+
+    function shouldAutoCollapse() {
+      if (!codeElement) return false;
+
+      const lines = codeElement.querySelectorAll('.line, .cl');
+      const height = codeElement.offsetHeight;
+
+      return lines.length > autoCollapseLines || height > autoCollapseHeight;
+    }
+
+    function setCollapsed(collapsed, animate = true) {
+      if (!codeElement || !collapseOverlay) return;
+
+      isCollapsed = collapsed;
+
+      if (collapsed) {
+        // Collapse
+        codeContainer.style.maxHeight = collapsedHeight + 'px';
+        codeContainer.style.overflow = 'hidden';
+        collapseOverlay.style.opacity = '1';
+        collapseOverlay.style.pointerEvents = 'auto';
+
+        // Update button
+        collapseIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "chevron-down" "size" "xs" "ariaLabel" "") | safeJS }}`;
+        if (collapseText) {
+          collapseText.textContent = '{{ i18n "code.expand" | default "展开" }}';
+        }
+        collapseBtn.title = '{{ i18n "code.expand" | default "展开代码" }}';
+
+      } else {
+        // Expand
+        codeContainer.style.maxHeight = '';
+        codeContainer.style.overflow = '';
+        collapseOverlay.style.opacity = '0';
+        collapseOverlay.style.pointerEvents = 'none';
+
+        // Update button
+        collapseIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") | safeJS }}`;
+        if (collapseText) {
+          collapseText.textContent = '{{ i18n "code.collapse" | default "折叠" }}';
+        }
+        collapseBtn.title = '{{ i18n "code.collapse" | default "折叠代码" }}';
+      }
+
+      // Add transition class if animating
+      if (animate) {
+        codeContainer.style.transition = 'max-height 0.3s ease-out';
+        setTimeout(() => {
+          codeContainer.style.transition = '';
+        }, 300);
+      }
+    }
+
+    function toggleCollapse() {
+      setCollapsed(!isCollapsed, true);
+    }
+
+    // Event listeners
+    collapseBtn.addEventListener('click', toggleCollapse);
+
+    // Click overlay to expand
+    if (collapseOverlay) {
+      collapseOverlay.addEventListener('click', () => {
+        if (isCollapsed) {
+          setCollapsed(false, true);
+        }
+      });
+    }
+
+    // Initialize
+    initCollapse();
+  }
+})();
+</script>

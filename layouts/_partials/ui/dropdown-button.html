@@ -1,0 +1,62 @@
+{{/*
+  统一的下拉菜单按钮组件
+  
+  参数说明：
+  - .type: 下拉菜单类型 (language|theme|color-scheme)
+  - .icon: 按钮图标名称
+  - .ariaLabel: 按钮的aria-label
+  - .buttonId: 按钮ID (可选，主要用于桌面端)
+  - .dropdownId: 下拉菜单ID (可选，主要用于桌面端)
+  - .menuWidth: 菜单宽度类名 (如 w-40, w-44)
+  - .showCondition: 显示条件 (如 site.Params.showLanguageSwitch)
+  - .content: 下拉菜单内容 (通过 block 传入)
+*/}}
+
+{{- $type := .type -}}
+{{- $icon := .icon -}}
+{{- $ariaLabel := .ariaLabel -}}
+{{- $buttonId := .buttonId | default "" -}}
+{{- $dropdownId := .dropdownId | default "" -}}
+{{- $menuWidth := .menuWidth | default "w-40" -}}
+{{- $showCondition := .showCondition | default true -}}
+
+{{- if $showCondition -}}
+<!-- {{ $type }} 切换按钮 -->
+<div class="relative">
+  <button
+    {{- if $buttonId }} id="{{ $buttonId }}"{{ end }}
+    class="dropdown-toggle border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+    data-dropdown-type="{{ $type }}"
+    aria-label="{{ $ariaLabel }}"
+    aria-expanded="false"
+    aria-haspopup="true">
+    
+    {{- if eq $type "theme" -}}
+      <!-- 暗色模式切换按钮的多图标 -->
+      <!-- 太阳图标 (亮色模式) -->
+      {{ partial "features/icon.html" (dict "name" "sun" "class" "sun-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
+      <!-- 月亮图标 (暗色模式) -->
+      {{ partial "features/icon.html" (dict "name" "moon" "class" "moon-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
+      <!-- 系统图标 (跟随系统) -->
+      {{ partial "features/icon.html" (dict "name" "monitor" "class" "system-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.system")) }}
+    {{- else -}}
+      <!-- 单图标 -->
+      {{ partial "features/icon.html" (dict "name" $icon "class" "relative z-10" "size" "md" "ariaLabel" $ariaLabel) }}
+    {{- end -}}
+  </button>
+
+  <!-- 下拉菜单 -->
+  <div
+    {{- if $dropdownId }} id="{{ $dropdownId }}"{{ end }}
+    class="dropdown-menu border-border bg-popover/95 absolute top-12 right-0 z-[60] hidden {{ $menuWidth }} rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out"
+    data-dropdown-type="{{ $type }}"
+    {{- if eq $type "language" }}
+    role="menu"
+    aria-labelledby="{{ $buttonId }}"
+    {{- end }}>
+    
+    {{- /* 这里通过 block 机制传入具体的菜单内容 */ -}}
+    {{- .content -}}
+  </div>
+</div>
+{{- end -}}

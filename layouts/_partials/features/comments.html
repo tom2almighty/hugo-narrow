@@ -1,0 +1,63 @@
+{{/* 评论系统组件
+
+  支持多种评论系统：
+  - Giscus (基于 GitHub Discussions)
+  - Disqus (传统评论系统)
+  - Utterances (基于 GitHub Issues)
+  - Waline (简洁评论系统)
+  - Artalk (自托管评论系统)
+  - Twikoo (简洁评论系统)
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+{{- $commentsConfig := .Site.Params.comments -}}
+{{- $commentSystem := $commentsConfig.system | default "giscus" -}}
+
+{{- if and $commentsConfig.enabled (not .Params.comments_disabled) -}}
+  <section
+    id="comments"
+    class="bg-card border-border mx-auto mt-12 max-w-4xl rounded-2xl border p-8 px-4 shadow-sm">
+    <div class="bg-card">
+      <h2
+        class="text-foreground mb-6 flex items-center gap-3 text-2xl font-bold">
+        {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
+        {{ i18n "comments.title" | default "评论" }}
+      </h2>
+
+      <div class="comments-container">
+        {{- if eq $commentSystem "giscus" -}}
+          {{ partial "features/comments/giscus.html" (dict "Site" $.Site "Page" $ "id" "giscus-comments") }}
+        {{- else if eq $commentSystem "disqus" -}}
+          {{ partial "features/comments/disqus.html" (dict "Site" $.Site "Page" $ "id" "disqus-comments") }}
+        {{- else if eq $commentSystem "utterances" -}}
+          {{ partial "features/comments/utterances.html" (dict "Site" $.Site "Page" $ "id" "utterances-comments") }}
+        {{- else if eq $commentSystem "waline" -}}
+          {{ partial "features/comments/waline.html" (dict "Site" $.Site "Page" $ "id" "waline-comments") }}
+        {{- else if eq $commentSystem "artalk" -}}
+          {{ partial "features/comments/artalk.html" (dict "Site" $.Site "Page" $ "id" "artalk-comments") }}
+        {{- else if eq $commentSystem "twikoo" -}}
+          {{ partial "features/comments/twikoo.html" (dict "Site" $.Site "Page" $ "id" "twikoo-comments") }}
+        {{- else -}}
+          {{- /* 不支持的评论系统 */ -}}
+          <div class="py-8 text-center">
+            <div
+              class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+              {{ partial "features/icon.html" (dict "name" "alert-circle" "size" "lg" "ariaLabel" "") }}
+            </div>
+            <h3 class="text-foreground mb-2 text-lg font-medium">
+              {{ i18n "comments.unsupported_system" | default "不支持的评论系统" }}
+            </h3>
+            <p class="text-muted-foreground text-sm">
+              {{ i18n "comments.unsupported_system_desc" | default "请检查配置中的评论系统类型" }}
+            </p>
+            <p class="text-muted-foreground mt-2 text-xs">
+              当前配置:
+              {{ $commentSystem }}
+            </p>
+          </div>
+        {{- end -}}
+      </div>
+    </div>
+  </section>
+{{- end -}}

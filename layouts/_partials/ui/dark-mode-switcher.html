@@ -1,0 +1,21 @@
+{{- if site.Params.showDarkModeSwitch | default true -}}
+
+{{- /* 准备暗色模式菜单内容 */ -}}
+{{- $darkModeMenuContent := "" -}}
+{{- $darkModeMenuContent = printf "%s<button data-theme=\"light\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\">%s<span>%s</span></button>" $darkModeMenuContent (partial "features/icon.html" (dict "name" "sun" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.light"))) (i18n "theme.light") -}}
+{{- $darkModeMenuContent = printf "%s<button data-theme=\"dark\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\">%s<span>%s</span></button>" $darkModeMenuContent (partial "features/icon.html" (dict "name" "moon" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.dark"))) (i18n "theme.dark") -}}
+{{- $darkModeMenuContent = printf "%s<button data-theme=\"system\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\">%s<span>%s</span></button>" $darkModeMenuContent (partial "features/icon.html" (dict "name" "monitor" "class" "mr-3 h-4 w-4" "size" "md" "ariaLabel" (i18n "theme.system"))) (i18n "theme.system") -}}
+
+{{- /* 使用统一的下拉菜单组件 */ -}}
+{{- partial "ui/dropdown-button.html" (dict
+  "type" "theme"
+  "icon" ""
+  "ariaLabel" (i18n "theme.toggle")
+  "buttonId" "theme-toggle"
+  "dropdownId" "theme-dropdown"
+  "menuWidth" "w-40"
+  "showCondition" true
+  "content" (safeHTML $darkModeMenuContent)
+) -}}
+
+{{- end -}}

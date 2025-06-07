@@ -3,7 +3,7 @@
   lang="{{ site.LanguageCode }}"
   data-theme="{{ site.Params.colorScheme | default "default" }}">
   <head>
-    {{ partial "head.html" . }}
+    {{ partial "layout/head.html" . }}
     <script>
       // 主题初始化脚本
       (function() {
@@ -34,31 +34,27 @@
 
   <body class="bg-background text-foreground min-h-screen antialiased">
     <!-- 阅读进度条 -->
-    {{ partial "reading-progress.html" . }}
+    {{ partial "ui/reading-progress.html" . }}
 
-    {{ partial "header.html" . }}
-
+    {{ partial "navigation/header.html" . }}
 
     <main class="mx-auto max-w-4xl px-4 py-6">
       {{ block "main" . }}{{ end }}
     </main>
 
-    {{ partial "footer.html" . }}
-
+    {{ partial "layout/footer.html" . }}
 
     <!-- 底部 Dock -->
-    {{ partial "dock.html" . }}
-
+    {{ partial "ui/dock.html" . }}
 
     <!-- 目录卡片 - 只在有目录的页面显示 -->
     {{- if and .IsPage .TableOfContents }}
-      {{ partial "toc-card.html" . }}
+      {{ partial "ui/toc-card.html" . }}
     {{- end }}
-    {{ partial "katex.html" . }}
-    {{ partial "mermaid.html" . }}
-
+    {{ partial "features/katex.html" . }}
+    {{ partial "features/mermaid.html" . }}
 
     <!-- 搜索组件 -->
-    {{ partial "search-modal.html" . }}
+    {{ partial "ui/search-modal.html" . }}
   </body>
 </html>

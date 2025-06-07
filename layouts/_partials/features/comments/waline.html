@@ -1,0 +1,43 @@
+{{/* Waline 评论系统组件
+
+  简洁、安全的评论系统
+
+  @context {page} . 当前文章页面对象
+  @param {string} id 评论容器的唯一 ID
+*/}}
+
+{{ $id := .id | default "waline-comments" }}
+{{ $config := .Site.Params.comments.waline }}
+
+{{ if $config.serverURL }}
+  <div id="{{ $id }}" class="waline-container"></div>
+
+  {{/* 加载 Waline CSS */}}
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
+
+  {{/* 加载 Waline JS */}}
+  <script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+
+    init({
+      el: '#{{ $id }}',
+      serverURL: '{{ $config.serverURL }}',
+      dark: "html[class='dark']",
+    });
+  </script>
+{{ else }}
+  <div id="{{ $id }}" class="py-8 text-center">
+    <div
+      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+      {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
+    </div>
+    <h3 class="text-foreground mb-2 text-lg font-medium">
+      {{ i18n "comments.waline_not_configured" | default "Waline 未配置" }}
+    </h3>
+    <p class="text-muted-foreground text-sm">
+      {{ i18n "comments.waline_config_desc" | default "请在站点配置中设置 Waline 服务器地址" }}
+    </p>
+  </div>
+{{ end }}

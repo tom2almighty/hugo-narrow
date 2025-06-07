@@ -1,0 +1,92 @@
+{{/* Artalk 评论系统组件
+
+  自托管的评论系统，功能丰富且可定制
+
+  @context {page} . 当前文章页面对象
+  @param {string} id 评论容器的唯一 ID
+*/}}
+
+{{ $id := .id | default "artalk-comments" }}
+{{ $config := .Site.Params.comments.artalk }}
+
+{{ if $config.server }}
+  <div id="{{ $id }}" class="artalk-container">
+    {{/* 加载 Artalk CSS */}}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
+
+    <script type="module">
+      import Artalk from 'https://esm.sh/artalk@2.9.1'
+
+      // 初始化 Artalk
+      const artalk = Artalk.init({
+        el: '#{{ $id }}',
+        pageKey: '{{ .Page.RelPermalink }}',
+        pageTitle: '{{ .Page.Title | safeJS }}',
+        server: '{{ $config.server }}',
+        site: '{{ $config.site | default .Site.Title }}',
+        placeholder: '{{ $config.placeholder | default "请留下你的足迹 ~~" }}',
+        noComment: '{{ $config.noComment | default "暂无评论" }}',
+        sendBtn: '{{ $config.sendBtn | default "发送" }}',
+        darkMode: '{{ $config.darkMode | default "auto" }}',
+        gravatar: {
+          mirror: '{{ $config.gravatar.mirror | default "https://cravatar.cn/avatar/" }}'
+        },
+        pagination: {
+          pageSize: {{ $config.pagination.pageSize | default 20 }},
+          autoLoad: {{ $config.pagination.autoLoad | default true }}
+        },
+        heightLimit: {
+          content: {{ $config.heightLimit.content | default 300 }},
+          children: {{ $config.heightLimit.children | default 400 }}
+        },
+        imgUpload: {{ $config.imgUpload | default false }},
+        preview: {{ $config.preview | default true }},
+        countEl: '{{ $config.countEl | default "#ArtalkCount" }}'
+      });
+
+      // 主题切换支持
+      function updateArtalkTheme() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const theme = isDark ? 'dark' : 'light';
+
+        // 更新 Artalk 主题
+        artalk.setDarkMode(theme);
+      }
+
+      // 监听主题切换事件
+      document.addEventListener('themeChanged', updateArtalkTheme);
+
+      // 监听 DOM 变化（用于检测主题切换）
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            updateArtalkTheme();
+          }
+        });
+      });
+
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+
+      // 初始化时设置主题
+      updateArtalkTheme();
+    </script>
+  </div>
+{{ else }}
+  <div id="{{ $id }}" class="py-8 text-center">
+    <div
+      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+      {{ partial "features/icon.html" (dict "name" "server" "size" "lg" "ariaLabel" "") }}
+    </div>
+    <h3 class="text-foreground mb-2 text-lg font-medium">
+      {{ i18n "comments.artalk_not_configured" | default "Artalk 未配置" }}
+    </h3>
+    <p class="text-muted-foreground text-sm">
+      {{ i18n "comments.artalk_config_desc" | default "请在站点配置中设置 Artalk 服务器地址和站点名称" }}
+    </p>
+  </div>
+{{ end }}

@@ -1,0 +1,88 @@
+<header class="{{- if site.Params.stickyHeader -}}sticky top-0 z-50{{ end }} mx-auto max-w-4xl px-4 py-6">
+  <div
+    class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
+    <!-- 桌面端布局 -->
+    <div class="hidden w-full items-center md:flex">
+      <!-- 左侧：站点 Logo -->
+      <div class="flex items-center">
+        {{ if site.Params.logo }}
+          <a
+            href="{{ site.Params.logo.link | default "/" }}"
+            class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
+            aria-label="{{ site.Title }}">
+            <img
+              src="{{ site.Params.logo.image }}"
+              alt="{{ site.Title }}"
+              class="h-full w-full object-cover" />
+          </a>
+        {{ else }}
+          <!-- 默认 Logo：使用站点标题首字母 -->
+          <a
+            href="/"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
+            aria-label="{{ site.Title }}">
+            {{ substr site.Title 0 1 | upper }}
+          </a>
+        {{ end }}
+      </div>
+
+      <!-- 中间：桌面端导航 -->
+      <nav class="mx-8 flex flex-1 items-center justify-center">
+        <div class="flex items-center space-x-1">
+          {{ $currentPage := . }}
+          {{ range site.Menus.main }}
+            {{ $isActive := eq $currentPage.RelPermalink .URL }}
+            <a
+              href="{{ .URL }}"
+              class="nav-link {{ if $isActive }}
+                nav-active-indicator bg-accent text-accent-foreground
+              {{ else }}
+                text-muted-foreground hover:text-primary hover:bg-primary/10
+              {{ end }} focus:ring-primary/20 relative flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
+              {{ if .Params.icon }}
+                {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+              {{ end }}
+              <span
+                >{{ if hasPrefix .Name "nav." }}
+                  {{ i18n .Name }}
+                {{ else }}
+                  {{ .Name }}
+                {{ end }}</span
+              >
+            </a>
+          {{ end }}
+        </div>
+      </nav>
+
+      <!-- 右侧：桌面端控制区域 -->
+      <div class="flex items-center space-x-2">
+        <!-- 语言切换按钮 -->
+        {{ partial "ui/language-switcher.html" . }}
+
+        <!-- 主题风格切换按钮 -->
+        {{ partial "ui/theme-switcher.html" . }}
+
+        <!-- 明暗模式切换按钮 -->
+        {{ partial "ui/dark-mode-switcher.html" . }}
+      </div>
+    </div>
+
+    <!-- 移动端布局 -->
+    <div class="flex w-full items-center justify-between md:hidden">
+      <!-- 左侧：移动端菜单按钮 -->
+      {{ partial "navigation/mobile-menu-toggle.html" . }}
+
+      <!-- 右侧：移动端控制区域 -->
+      <div class="flex items-center space-x-2">
+        <!-- 语言切换按钮 -->
+        {{ partial "ui/language-switcher.html" . }}
+
+        <!-- 主题风格切换按钮 -->
+        {{ partial "ui/theme-switcher.html" . }}
+
+        <!-- 明暗模式切换按钮 -->
+        {{ partial "ui/dark-mode-switcher.html" . }}
+      </div>
+    </div>
+  </div>
+</header>

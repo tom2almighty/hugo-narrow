@@ -1,6 +1,6 @@
 {{ define "main" }}
   <!-- 面包屑导航 -->
-  {{ partial "breadcrumb.html" . }}
+  {{ partial "navigation/breadcrumb.html" . }}
 
 
   <!-- 页面标题和描述 -->
@@ -35,7 +35,7 @@
     <!-- 统计信息 -->
     <div class="text-muted-foreground flex items-center gap-4 text-sm">
       <div class="flex items-center gap-1">
-        {{ partial "icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
         <span>
           {{ if eq .Data.Singular "tag" }}
             {{ i18n "taxonomy.total_tags" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个标签" (len .Data.Terms)) }}
@@ -101,7 +101,7 @@
     <div class="py-16 text-center">
       <div
         class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
-        {{ partial "icon.html" (dict "name" "tag" "size" "xl" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "tag" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
         {{ i18n "taxonomy.no_terms" | default "暂无分类" }}

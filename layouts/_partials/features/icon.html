@@ -1,0 +1,79 @@
+{{/*
+  Icon partial template
+
+  Usage:
+  {{ partial "features/icon.html" (dict "name" "sun" "class" "h-5 w-5" "id" "sun-icon") }}
+
+  Parameters:
+  - name: Icon name (required) - corresponds to SVG file in assets/icons/
+  - class: CSS classes to apply to the SVG (optional)
+  - id: HTML id attribute (optional)
+  - size: Predefined size (optional) - "xs", "sm", "md", "lg", "xl", "2xl"
+  - ariaLabel: Accessibility label (optional)
+  - hidden: Whether to add aria-hidden="true" (optional, defaults to false)
+*/}}
+
+{{- $name := .name -}}
+{{- $class := .class | default "" -}}
+{{- $id := .id | default "" -}}
+{{- $size := .size | default "" -}}
+{{- $ariaLabel := .ariaLabel | default "" -}}
+{{- $hidden := .hidden | default false -}}
+
+{{/* Size presets */}}
+{{- $sizeClasses := dict
+  "xs" "h-3 w-3"
+  "sm" "h-4 w-4"
+  "md" "h-5 w-5"
+  "lg" "h-6 w-6"
+  "xl" "h-8 w-8"
+  "2xl" "h-10 w-10"
+-}}
+
+{{/* Build CSS classes */}}
+{{- $finalClass := $class -}}
+{{- if $size -}}
+  {{- $sizeClass := index $sizeClasses $size -}}
+  {{- if $sizeClass -}}
+    {{- $finalClass = printf "%s %s" $sizeClass $class -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Get the SVG file */}}
+{{- $iconPath := printf "icons/%s.svg" $name -}}
+{{- $icon := resources.Get $iconPath -}}
+
+{{- if $icon -}}
+  {{/* Get the SVG content and process it */}}
+  {{- $content := $icon.Content -}}
+  {{- $content = replaceRE `<svg[^>]*>` "" $content -}}
+  {{- $content = replaceRE `</svg>` "" $content -}}
+
+  {{/* Build the final SVG with our attributes */}}
+  <svg
+    {{- if $id }} id="{{ $id }}"{{ end }}
+    {{- if $finalClass }} class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    {{- if $ariaLabel }} aria-label="{{ $ariaLabel }}"{{ end }}
+    {{- if $hidden }} aria-hidden="true"{{ end }}>
+    {{- $content | safeHTML -}}
+  </svg>
+{{- else -}}
+  {{/* Fallback if icon not found */}}
+  <svg
+    {{- if $id }} id="{{ $id }}"{{ end }}
+    {{- if $finalClass }} class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    {{- if $ariaLabel }} aria-label="{{ $ariaLabel }}"{{ end }}
+    {{- if $hidden }} aria-hidden="true"{{ end }}>
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+  {{/* Log warning in development */}}
+  {{- if hugo.IsDevelopment -}}
+    {{- warnf "Icon '%s' not found at %s" $name $iconPath -}}
+  {{- end -}}
+{{- end -}}

@@ -1,0 +1,80 @@
+{{/* Disqus 评论系统组件
+
+  传统的评论系统，支持多种功能
+
+  @context {page} . 当前文章页面对象
+  @param {string} id 评论容器的唯一 ID
+*/}}
+
+{{ $id := .id | default "disqus-comments" }}
+{{ $config := .Site.Params.comments.disqus }}
+
+{{ if $config.shortname }}
+  <div id="{{ $id }}" class="disqus-container">
+    <div id="disqus_thread"></div>
+
+    <script>
+      (function() {
+        'use strict';
+
+        // Disqus 配置
+        var disqus_config = function () {
+          this.page.url = '{{ .Permalink }}';
+          this.page.identifier = '{{ .RelPermalink }}';
+          this.page.title = '{{ .Title | safeJS }}';
+        };
+
+        // 加载 Disqus
+        function loadDisqus() {
+          var d = document, s = d.createElement('script');
+          s.src = 'https://{{ $config.shortname }}.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        }
+
+        // 立即加载或延迟加载
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', loadDisqus);
+        } else {
+          loadDisqus();
+        }
+      })();
+    </script>
+
+    <noscript>
+      <div class="py-8 text-center">
+        <div
+          class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+          {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
+        </div>
+        <h3 class="text-foreground mb-2 text-lg font-medium">
+          {{ i18n "comments.javascript_required" | default "需要启用 JavaScript" }}
+        </h3>
+        <p class="text-muted-foreground text-sm">
+          {{ i18n "comments.disqus_noscript" | default "请启用 JavaScript 以查看评论" }}
+        </p>
+        <a
+          href="https://disqus.com/?ref_noscript"
+          class="text-primary hover:text-primary/80 mt-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors"
+          target="_blank"
+          rel="noopener">
+          {{ i18n "comments.powered_by_disqus" | default "由 Disqus 提供支持" }}
+          {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "ariaLabel" "") }}
+        </a>
+      </div>
+    </noscript>
+  </div>
+{{ else }}
+  <div id="{{ $id }}" class="py-8 text-center">
+    <div
+      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+      {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
+    </div>
+    <h3 class="text-foreground mb-2 text-lg font-medium">
+      {{ i18n "comments.disqus_not_configured" | default "Disqus 未配置" }}
+    </h3>
+    <p class="text-muted-foreground text-sm">
+      {{ i18n "comments.disqus_config_desc" | default "请在站点配置中设置 Disqus shortname" }}
+    </p>
+  </div>
+{{ end }}

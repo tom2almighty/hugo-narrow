@@ -1,0 +1,93 @@
+{{/* 
+  文章卡片图片组件 - 处理封面图片和占位图的统一逻辑
+  
+  参数：
+  - .page: 页面对象
+  - .type: 图片类型 ("mobile", "desktop", "related")
+  - .coverImage: 封面图片URL
+  - .gradients: 渐变色数组
+  - .colorIndex: 颜色索引
+*/}}
+
+{{ $page := .page }}
+{{ $type := .type }}
+{{ $coverImage := .coverImage }}
+{{ $gradients := .gradients }}
+{{ $colorIndex := .colorIndex }}
+
+{{/* 根据类型设置不同的样式参数 */}}
+{{ $containerClass := "" }}
+{{ $aspectClass := "" }}
+{{ $iconSize := "" }}
+{{ $iconTextSize := "" }}
+{{ $decorSize1 := "" }}
+{{ $decorSize2 := "" }}
+{{ $decorPos1 := "" }}
+{{ $decorPos2 := "" }}
+
+{{ if eq $type "mobile" }}
+  {{ $containerClass = "aspect-[2/1] overflow-hidden" }}
+  {{ $aspectClass = "relative aspect-[2/1] overflow-hidden bg-gradient-to-br" }}
+  {{ $iconSize = "h-16 w-16" }}
+  {{ $iconTextSize = "text-xl" }}
+  {{ $decorSize1 = "h-8 w-8" }}
+  {{ $decorSize2 = "h-6 w-6" }}
+  {{ $decorPos1 = "absolute top-4 right-4" }}
+  {{ $decorPos2 = "absolute bottom-4 left-4" }}
+{{ else if eq $type "desktop" }}
+  {{ $containerClass = "h-full w-full" }}
+  {{ $aspectClass = "relative h-full w-full bg-gradient-to-br" }}
+  {{ $iconSize = "h-20 w-20" }}
+  {{ $iconTextSize = "text-2xl" }}
+  {{ $decorSize1 = "h-16 w-16" }}
+  {{ $decorSize2 = "h-12 w-12" }}
+  {{ $decorPos1 = "absolute top-8 right-8" }}
+  {{ $decorPos2 = "absolute bottom-8 left-8" }}
+{{ else if eq $type "related" }}
+  {{ $containerClass = "relative aspect-[16/9] flex-shrink-0 overflow-hidden" }}
+  {{ $aspectClass = "flex h-full w-full items-center justify-center bg-gradient-to-br" }}
+  {{ $iconSize = "h-12 w-12" }}
+  {{ $iconTextSize = "text-lg" }}
+  {{ $decorSize1 = "" }}
+  {{ $decorSize2 = "" }}
+  {{ $decorPos1 = "" }}
+  {{ $decorPos2 = "" }}
+{{ end }}
+
+<div class="{{ $containerClass }}">
+  {{ if $coverImage }}
+    <img
+      src="{{ $coverImage }}"
+      alt="{{ $page.Title }}"
+      class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
+      loading="lazy"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type "related" }}flex{{ else }}block{{ end }}';" />
+    <!-- 图片加载失败时的占位图 -->
+    <div class="{{ index $gradients $colorIndex }} {{ $aspectClass }}" style="display: none;">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="flex {{ $iconSize }} items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-sm">
+          <span class="{{ $iconTextSize }} font-bold text-white">{{ substr $page.Title 0 1 | upper }}</span>
+        </div>
+      </div>
+      {{ if and $decorSize1 $decorSize2 }}
+        <!-- 装饰元素 -->
+        <div class="{{ $decorPos1 }} {{ $decorSize1 }} rounded-full bg-white/10"></div>
+        <div class="{{ $decorPos2 }} {{ $decorSize2 }} rounded-full bg-white/15"></div>
+      {{ end }}
+    </div>
+  {{ else }}
+    <!-- 统一占位图 -->
+    <div class="{{ index $gradients $colorIndex }} {{ $aspectClass }}">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="flex {{ $iconSize }} items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-sm">
+          <span class="{{ $iconTextSize }} font-bold text-white">{{ substr $page.Title 0 1 | upper }}</span>
+        </div>
+      </div>
+      {{ if and $decorSize1 $decorSize2 }}
+        <!-- 装饰元素 -->
+        <div class="{{ $decorPos1 }} {{ $decorSize1 }} rounded-full bg-white/10"></div>
+        <div class="{{ $decorPos2 }} {{ $decorSize2 }} rounded-full bg-white/15"></div>
+      {{ end }}
+    </div>
+  {{ end }}
+</div>

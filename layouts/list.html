@@ -1,43 +1,55 @@
 {{ define "main" }}
-  <div class="mx-auto max-w-4xl">
+  <div class="mx-auto max-w-4xl px-4 py-6">
     <!-- 面包屑导航 -->
-    {{ partial "navigation/breadcrumb.html" . }}
+    {{ partial "breadcrumb.html" . }}
 
 
     <!-- 页面标题和描述 -->
     <header class="mb-8">
       <h1 class="text-foreground mb-4 text-3xl font-bold">
-        {{ i18n "nav.posts" | default "文章" }}
+        {{ if eq .Section "posts" }}
+          {{ i18n "nav.posts" | default "文章" }}
+        {{ else if eq .Section "archives" }}
+          {{ i18n "nav.archives" | default "归档" }}
+        {{ else if eq .Section "tags" }}
+          {{ i18n "nav.tags" | default "标签" }}
+        {{ else if eq .Section "categories" }}
+          {{ i18n "nav.categories" | default "分类" }}
+        {{ else }}
+          {{ .Title }}
+        {{ end }}
       </h1>
 
       {{ if .Content }}
-        <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">
+        <div class="prose prose-neutral dark:prose-invert max-w-none">
           {{ .Content }}
         </div>
-      {{ else }}
-        <p class="text-muted-foreground mb-6">
+      {{ else if eq .Section "posts" }}
+        <p class="text-muted-foreground">
           {{ i18n "post.list_desc" | default "这里是所有已发布的文章，按时间倒序排列。" }}
         </p>
       {{ end }}
 
 
       <!-- 文章统计信息 -->
-      <div class="text-muted-foreground flex items-center gap-4 text-sm">
-        <div class="flex items-center gap-1">
-          {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-          <span
-            >{{ i18n "post.total_posts" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 篇文章" .Paginator.TotalNumberOfElements) }}</span
-          >
-        </div>
-        {{ if gt .Paginator.TotalPages 1 }}
+      {{ if eq .Section "posts" }}
+        <div class="text-muted-foreground mt-4 flex items-center gap-4 text-sm">
           <div class="flex items-center gap-1">
-            {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
+            {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
             <span
-              >{{ i18n "nav.total_pages" (dict "count" .Paginator.TotalPages) | default (printf "共 %d 页" .Paginator.TotalPages) }}</span
+              >{{ i18n "post.total_posts" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 篇文章" .Paginator.TotalNumberOfElements) }}</span
             >
           </div>
-        {{ end }}
-      </div>
+          {{ if gt .Paginator.TotalPages 1 }}
+            <div class="flex items-center gap-1">
+              {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
+              <span
+                >{{ i18n "nav.total_pages" (dict "count" .Paginator.TotalPages) | default (printf "共 %d 页" .Paginator.TotalPages) }}</span
+              >
+            </div>
+          {{ end }}
+        </div>
+      {{ end }}
     </header>
 
     <!-- 文章列表 -->

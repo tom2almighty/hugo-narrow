@@ -1,17 +1,17 @@
 {{ define "main" }}
   <!-- 面包屑导航 -->
-  {{ partial "breadcrumb.html" . }}
+  {{ partial "navigation/breadcrumb.html" . }}
 
 
   <!-- 页面标题和描述 -->
   <header class="mb-8">
     <div class="mb-4 flex items-center gap-3">
       {{ if eq .Data.Singular "tag" }}
-        {{ partial "icon.html" (dict "name" "tag" "size" "lg" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "tag" "size" "lg" "ariaLabel" "") }}
       {{ else if eq .Data.Singular "category" }}
-        {{ partial "icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
       {{ else }}
-        {{ partial "icon.html" (dict "name" "bookmark" "size" "lg" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "bookmark" "size" "lg" "ariaLabel" "") }}
       {{ end }}
       <h1 class="text-foreground text-3xl font-bold">
         {{ .Title }}
@@ -38,13 +38,13 @@
     <!-- 统计信息 -->
     <div class="text-muted-foreground flex items-center gap-4 text-sm">
       <div class="flex items-center gap-1">
-        {{ partial "icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
         <span
           >{{ i18n "term.total_posts" (dict "count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span
         >
       </div>
       <div class="flex items-center gap-1">
-        {{ partial "icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
         <span>{{ i18n "term.date_range" | default "按时间排序" }}</span>
       </div>
     </div>
@@ -53,13 +53,13 @@
   <!-- 文章列表 -->
   {{ $posts := .Pages }}
   {{ if $posts }}
-    {{ partial "post-list.html" (dict "posts" $posts) }}
+    {{ partial "content/post-list.html" (dict "posts" $posts) }}
   {{ else }}
     <!-- 空状态 -->
     <div class="py-16 text-center">
       <div
         class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
-        {{ partial "icon.html" (dict "name" "file-text" "size" "xl" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "file-text" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
         {{ i18n "term.no_posts" | default "暂无文章" }}
@@ -76,7 +76,7 @@
       <a
         href="{{ "/" | relURL }}"
         class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300">
-        {{ partial "icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
         <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>
       </a>
     </div>

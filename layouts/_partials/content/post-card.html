@@ -1,0 +1,62 @@
+{{/* 文章卡片组件 - 附件风格设计
+
+  Cover 在右侧作为装饰，不影响左侧内容展示
+
+  @context {page} . 文章页面对象
+*/}}
+
+{{/* 使用共享的图片处理器 */}}
+{{ partial "content/cover-image-processor.html" . }}
+{{ $coverImage := .Scratch.Get "coverImage" }}
+{{ $coverProcessed := .Scratch.Get "coverProcessed" }}
+{{ $gradients := .Scratch.Get "gradients" }}
+{{ $colorIndex := .Scratch.Get "colorIndex" }}
+
+<article class="post-card group">
+  <a href="{{ .RelPermalink }}" class="post-card-link block">
+    <div
+      class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex min-h-[200px] flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
+      <!-- 移动端顶部封面 -->
+      <div class="block md:hidden">
+        {{ partial "content/card-image.html" (dict "page" . "type" "mobile" "coverImage" $coverImage "gradients" $gradients "colorIndex" $colorIndex) }}
+      </div>
+
+      <!-- 桌面端右侧封面 -->
+      <div
+        class="absolute top-0 right-0 hidden h-full w-64 transition-opacity duration-300 group-hover:opacity-90 md:block">
+        {{ partial "content/card-image.html" (dict "page" . "type" "desktop" "coverImage" $coverImage "gradients" $gradients "colorIndex" $colorIndex) }}
+      </div>
+
+      <!-- 桌面端悬浮时的填充颜色遮罩 -->
+      <div
+        class="post-card-overlay absolute top-0 right-0 hidden h-full w-64 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block"></div>
+
+      <!-- 文章内容区域 -->
+      <div
+        class="relative z-10 flex flex-1 flex-col justify-between p-6 md:pr-72">
+        <!-- 主要内容 -->
+        <div class="space-y-3">
+          <!-- 发布日期 -->
+          {{ partial "content/card-meta.html" (dict "page" . "type" "main" "config" (dict "showReadingTime" false "showCategories" false "showTags" false "datePosition" "top")) }}
+
+          <!-- 文章标题 -->
+          <h3
+            class="text-foreground group-hover:text-primary line-clamp-2 text-lg leading-tight font-semibold transition-colors duration-200">
+            {{ .Title }}
+          </h3>
+
+          <!-- 文章摘要 -->
+          {{ if .Summary }}
+            <p
+              class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
+              {{ .Summary | plainify | truncate 160 }}
+            </p>
+          {{ end }}
+        </div>
+
+        <!-- 底部元信息 -->
+        {{ partial "content/card-meta.html" (dict "page" . "type" "main" "config" (dict "showDate" false "datePosition" "meta")) }}
+      </div>
+    </div>
+  </a>
+</article>

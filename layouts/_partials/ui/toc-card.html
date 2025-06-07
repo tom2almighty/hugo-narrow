@@ -1,0 +1,79 @@
+{{/* 目录卡片组件
+
+  显示文章目录，支持当前阅读位置高亮和点击跳转
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+
+<!-- 目录卡片遮罩层 -->
+<div
+  id="toc-overlay"
+  class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 backdrop-blur-sm transition-all duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="toc-title"></div>
+
+<!-- 目录卡片 -->
+<div
+  id="toc-card"
+  class="pointer-events-none fixed inset-4 z-50 flex w-auto scale-95 items-center justify-center opacity-0 transition-all duration-300 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:block sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="toc-title">
+  <div
+    class="bg-card border-border w-full max-w-sm overflow-hidden rounded-xl border shadow-xl sm:max-w-md">
+    <!-- 卡片头部 -->
+    <div
+      class="border-border bg-muted/30 flex items-center justify-between border-b p-4">
+      <div class="flex items-center gap-3">
+        {{ partial "features/icon.html" (dict "name" "list" "size" "md" "ariaLabel" "") }}
+        <h2 id="toc-title" class="text-foreground text-lg font-semibold">
+          {{ i18n "toc.title" | default "目录" }}
+        </h2>
+      </div>
+
+      <!-- 关闭按钮 -->
+      <button
+        id="toc-close"
+        class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 rounded-lg p-2 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
+        title="{{ i18n "toc.close" | default "关闭" }}"
+        aria-label="{{ i18n "toc.close" | default "关闭目录" }}">
+        {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
+      </button>
+    </div>
+
+    <!-- 目录内容 -->
+    <div class="max-h-96 overflow-y-auto p-4">
+      <nav
+        id="toc-nav"
+        class="toc-scrollbar"
+        aria-label="{{ i18n "toc.navigation" | default "文章目录导航" }}">
+        {{- if .TableOfContents }}
+          <!-- Hugo 生成的目录 -->
+          <div id="toc-content">
+            {{ .TableOfContents }}
+          </div>
+        {{- else }}
+          <!-- 空状态 -->
+          <div class="text-muted-foreground py-8 text-center">
+            <div
+              class="bg-muted/50 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
+              {{ partial "features/icon.html" (dict "name" "text" "size" "md" "ariaLabel" "") }}
+            </div>
+            <p class="text-sm">
+              {{ i18n "toc.empty" | default "此文章没有标题" }}
+            </p>
+          </div>
+        {{- end }}
+      </nav>
+    </div>
+
+    <!-- 卡片底部 -->
+    <div class="border-border bg-muted/20 border-t px-4 py-3">
+      <div class="text-muted-foreground text-center text-xs">
+        <span>{{ i18n "toc.tip" | default "点击标题快速跳转" }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+{{/* Twikoo 评论系统组件
+
+  简洁、安全的评论系统
+
+  @context {page} . 当前文章页面对象
+  @param {string} id 评论容器的唯一 ID
+*/}}
+
+{{ $id := .id | default "twikoo-comments" }}
+{{ $config := .Site.Params.comments.twikoo }}
+
+{{ if $config.envId }}
+  <div id="{{ $id }}" class="twikoo-container"></div>
+
+  {{/* 加载 Twikoo JS */}}
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // 初始化 Twikoo
+      twikoo.init({
+        envId: '{{ $config.envId }}',
+        el: '#{{ $id }}',
+        {{ if $config.region }}region: '{{ $config.region }}',{{ end }}
+        {{ if $config.path }}path: '{{ $config.path }}',{{ else }}path: '{{ .Page.RelPermalink }}',{{ end }}
+        lang: '{{ $config.lang | default "zh-CN" }}',
+        {{ if $config.placeholder }}placeholder: '{{ $config.placeholder }}',{{ end }}
+        {{ if $config.avatar }}avatar: '{{ $config.avatar }}',{{ end }}
+        {{ if $config.visitor }}visitor: {{ $config.visitor }},{{ end }}
+        {{ if $config.highlight }}highlight: {{ $config.highlight }},{{ end }}
+      });
+
+      // 主题切换支持
+      function updateTwikooTheme() {
+        const isDark = document.documentElement.classList.contains('dark');
+
+        // Twikoo 会自动检测系统主题，但我们可以手动触发更新
+        if (window.twikoo && window.twikoo.update) {
+          window.twikoo.update();
+        }
+      }
+
+      // 监听主题切换事件
+      document.addEventListener('themeChanged', updateTwikooTheme);
+
+      // 监听 DOM 变化（用于检测主题切换）
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            updateTwikooTheme();
+          }
+        });
+      });
+
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    })();
+  </script>
+{{ else }}
+  <div id="{{ $id }}" class="py-8 text-center">
+    <div
+      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+      {{ partial "features/icon.html" (dict "name" "cloud" "size" "lg" "ariaLabel" "") }}
+    </div>
+    <h3 class="text-foreground mb-2 text-lg font-medium">
+      {{ i18n "comments.twikoo_not_configured" | default "Twikoo 未配置" }}
+    </h3>
+    <p class="text-muted-foreground text-sm">
+      {{ i18n "comments.twikoo_config_desc" | default "请在站点配置中设置 Twikoo 环境 ID" }}
+    </p>
+  </div>
+{{ end }}

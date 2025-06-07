@@ -53,7 +53,7 @@
                       class="bg-muted text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-3 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
                       title="{{ .name }}">
                       {{ if .icon }}
-                        {{ partial "icon.html" (dict "name" .icon "size" "sm" "ariaLabel" .name) }}
+                        {{ partial "features/icon.html" (dict "name" .icon "size" "sm" "ariaLabel" .name) }}
                       {{ end }}
                       <span class="text-sm font-medium">{{ .name }}</span>
                     </a>
@@ -71,7 +71,7 @@
     {{ $recentPostsCount := site.Params.home.recentPostsCount | default 5 }}
     {{ $posts := where site.RegularPages "Section" "posts" | first $recentPostsCount }}
 
-    {{ partial "post-list.html" (dict
+    {{ partial "content/post-list.html" (dict
       "posts" $posts
       "title" (i18n "home.recent_posts" | default "最近文章")
       "showTitle" true

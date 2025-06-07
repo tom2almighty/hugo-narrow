@@ -1,0 +1,27 @@
+{{- if site.Params.showThemeSwitch | default true -}}
+
+{{- /* 准备主题菜单内容 */ -}}
+{{- $themeMenuContent := "" -}}
+{{- $themes := site.Params.themes -}}
+{{- $sortedThemes := slice -}}
+{{- range $key, $theme := $themes -}}
+  {{- $sortedThemes = $sortedThemes | append (dict "key" $key "theme" $theme) -}}
+{{- end -}}
+{{- $sortedThemes = sort $sortedThemes "theme.order" -}}
+{{- range $sortedThemes -}}
+  {{- $themeMenuContent = printf "%s<button data-color-scheme=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\"><span>%s</span></button>" $themeMenuContent .key .theme.name -}}
+{{- end -}}
+
+{{- /* 使用统一的下拉菜单组件 */ -}}
+{{- partial "ui/dropdown-button.html" (dict
+  "type" "color-scheme"
+  "icon" "palette"
+  "ariaLabel" (i18n "theme.toggle")
+  "buttonId" "color-scheme-toggle"
+  "dropdownId" "color-scheme-dropdown"
+  "menuWidth" "w-44"
+  "showCondition" true
+  "content" (safeHTML $themeMenuContent)
+) -}}
+
+{{- end -}}
