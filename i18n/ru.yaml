@@ -83,8 +83,23 @@ pagination:
 # Поиск
 search:
   placeholder: "Поиск статей..."
-  no_results: "Результаты не найдены"
+  clear: "Очистить"
+  close: "Закрыть"
+  loading: "Поиск..."
+  empty:
+    title: "Начать поиск"
+    description: "Введите ключевые слова для поиска статей"
+  no_results:
+    title: "Результаты не найдены"
+    description: "Попробуйте использовать другие ключевые слова"
   results_found: "Найдено {{.Count}} результатов"
+  results_count: "Найдено %d результатов"
+  match_score: "Релевантность"
+  hint:
+    navigate: "Навигация"
+    select: "Выбрать"
+    close: "Закрыть"
+    shortcut: "Горячая клавиша"
 
 # Форма
 form:

@@ -83,8 +83,23 @@ pagination:
 # Search related
 search:
   placeholder: "Search posts..."
-  no_results: "No results found"
+  clear: "Clear"
+  close: "Close"
+  loading: "Searching..."
+  empty:
+    title: "Start searching"
+    description: "Enter keywords to search articles"
+  no_results:
+    title: "No results found"
+    description: "Try using different keywords"
   results_found: "Found {{.Count}} results"
+  results_count: "Found %d results"
+  match_score: "Relevance"
+  hint:
+    navigate: "Navigate"
+    select: "Select"
+    close: "Close"
+    shortcut: "Shortcut"
 
 # Form related
 form:

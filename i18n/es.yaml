@@ -83,8 +83,23 @@ pagination:
 # Búsqueda
 search:
   placeholder: "Buscar artículos..."
-  no_results: "No se encontraron resultados"
+  clear: "Limpiar"
+  close: "Cerrar"
+  loading: "Buscando..."
+  empty:
+    title: "Comenzar búsqueda"
+    description: "Ingrese palabras clave para buscar artículos"
+  no_results:
+    title: "No se encontraron resultados"
+    description: "Intente con palabras clave diferentes"
   results_found: "Se encontraron {{.Count}} resultados"
+  results_count: "Se encontraron %d resultados"
+  match_score: "Relevancia"
+  hint:
+    navigate: "Navegar"
+    select: "Seleccionar"
+    close: "Cerrar"
+    shortcut: "Atajo"
 
 # Formulario
 form:

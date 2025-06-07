@@ -83,8 +83,23 @@ pagination:
 # Suche
 search:
   placeholder: "Beiträge suchen..."
-  no_results: "Keine Ergebnisse gefunden"
+  clear: "Löschen"
+  close: "Schließen"
+  loading: "Suche läuft..."
+  empty:
+    title: "Suche starten"
+    description: "Geben Sie Schlüsselwörter ein, um Artikel zu suchen"
+  no_results:
+    title: "Keine Ergebnisse gefunden"
+    description: "Versuchen Sie es mit anderen Schlüsselwörtern"
   results_found: "{{.Count}} Ergebnisse gefunden"
+  results_count: "%d Ergebnisse gefunden"
+  match_score: "Relevanz"
+  hint:
+    navigate: "Navigieren"
+    select: "Auswählen"
+    close: "Schließen"
+    shortcut: "Tastenkürzel"
 
 # Formular
 form:

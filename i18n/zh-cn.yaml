@@ -83,8 +83,23 @@ pagination:
 # 搜索相关
 search:
   placeholder: "搜索文章..."
-  no_results: "没有找到相关结果"
+  clear: "清空"
+  close: "关闭"
+  loading: "搜索中..."
+  empty:
+    title: "开始搜索"
+    description: "输入关键词搜索文章内容"
+  no_results:
+    title: "未找到结果"
+    description: "尝试使用不同的关键词"
   results_found: "找到 {{.Count}} 个结果"
+  results_count: "找到 %d 个结果"
+  match_score: "匹配度"
+  hint:
+    navigate: "导航"
+    select: "选择"
+    close: "关闭"
+    shortcut: "快捷键"
 
 # 表单相关
 form:

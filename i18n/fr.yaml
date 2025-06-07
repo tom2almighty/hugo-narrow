@@ -83,8 +83,23 @@ pagination:
 # Recherche
 search:
   placeholder: "Rechercher des articles..."
-  no_results: "Aucun résultat trouvé"
+  clear: "Effacer"
+  close: "Fermer"
+  loading: "Recherche en cours..."
+  empty:
+    title: "Commencer la recherche"
+    description: "Saisissez des mots-clés pour rechercher des articles"
+  no_results:
+    title: "Aucun résultat trouvé"
+    description: "Essayez avec des mots-clés différents"
   results_found: "{{.Count}} résultats trouvés"
+  results_count: "%d résultats trouvés"
+  match_score: "Pertinence"
+  hint:
+    navigate: "Naviguer"
+    select: "Sélectionner"
+    close: "Fermer"
+    shortcut: "Raccourci"
 
 # Formulaire
 form:
