@@ -122,11 +122,7 @@
             {{ end }}
             <!-- 当前页面标题 -->
             <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium min-w-0">
-              {{ if eq .Section "posts" }}
-                {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
-              {{ else }}
-                {{ partial "features/icon.html" (dict "name" "file" "size" "sm" "ariaLabel" "") }}
-              {{ end }}
+              {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
               <span class="max-w-[8rem] md:max-w-[16rem] lg:max-w-none truncate">{{ .Title }}</span>
             </span>
           </div>
