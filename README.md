@@ -27,26 +27,19 @@ A modern, clean Hugo theme built with Tailwind CSS 4.0, featuring customizable t
 
 ## 🚀 Quick Start
 
-### Install Theme
+1. Use the following commands to create a Hugo site and add the theme as a submodule.
 
-If you already have a Hugo site, it's recommended to add the theme as a git submodule. After completion, copy the contents from the `~/themes/hugo-narrow/exampleSite` directory to your root directory.
-
-```bash
-# Add theme as submodule
-git submodule add https://github.com/tom2almighty/hugo-narrow.git themes/hugo-narrow
-
-# Update submodules
-git submodule update --init --recursive
-```
-
-### Local Preview
-
-```bash
-hugo server -D
-```
-### Online Preview (Vercel)
-
-You can directly fork this repository. When building on Vercel, replace the `Build Command` with `cp exampleSite/hugo.yaml . && cp -r exampleSite/content . && sed -i 's/theme:.*//' hugo.yaml && hugo --minify --gc`, and configure the environment variable `HUGO_VERSION=0.146.0`.
+    ```bash
+    hugo new site myblog
+    cd myblog
+    git init
+    git submodule add https://github.com/tom2almighty/hugo-narrow.git themes/hugo-narrow
+    # Update submodules
+    git submodule update --init --recursive
+    ```
+2. Copy the files from the `exampleSite` directory to the root directory
+3. Modify the `theme` to `hugo-narrow` in the `hugo.yaml` file
+4. Run `hugo server -D` for local preview
 
 ## ⚙️ Configuration
 

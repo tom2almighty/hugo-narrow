@@ -27,26 +27,21 @@
 
 ## 🚀 快速开始
 
-### 安装主题
+1. 使用下面的命令创建 Hugo 站点并将主题作为子模块引入。
 
-如果你已有 Hugo 站点，推荐作为 git 子模块方式引入主题，完成后将 `~/themes/hugo-narrow/exampleSite` 目录下的内容复制到根目录下。
+    ```bash
+    hugo new site myblog
+    cd myblog
+    git init
+    git submodule add https://github.com/tom2almighty/hugo-narrow.git themes/hugo-narrow
+    # 更新子模块
+    git submodule update --init --recursive
+    ```
+2. 将 `exampleSite` 目录下的文件复制到根目录下
+3. 在 `hugo.yaml` 文件中修改 `theme` 为 `hugo-narrow`
+4. 运行`hugo server -D` 本地预览
 
-```bash
-# 添加主题作为子模块
-git submodule add https://github.com/tom2almighty/hugo-narrow.git themes/hugo-narrow
 
-# 更新子模块
-git submodule update --init --recursive
-```
-
-### 本地预览
-
-```bash
-hugo server -D
-```
-### 在线预览(Vercel)
-
-你可以直接 fork 本仓库，在 vercel 构建时，将 `Build Command` 替换为 `cp exampleSite/hugo.yaml . && cp -r exampleSite/content . && sed -i 's/theme:.*//' hugo.yaml && hugo --minify --gc`， 同时配置环境变量 `HUGO_VERSION=0.146.0`。
 
 ## ⚙️ 配置说明
 
