@@ -13,7 +13,6 @@
 
 {{/* 处理图像路径 */}}
 {{- $dest := .Destination | safeURL -}}
-{{- $dest = path.Join (path.Dir $dest) (path.Base $dest) -}}
 
 
 <div class="not-prose my-8">
