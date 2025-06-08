@@ -27,18 +27,18 @@ languages:
     languageCode: fr-FR
     languageName: "Français"
     weight: 4
-  de:
-    languageCode: de-DE
-    languageName: "Deutsch"
-    weight: 5
-  es:
-    languageCode: es-ES
-    languageName: "Español"
-    weight: 6
-  ru:
-    languageCode: ru-RU
-    languageName: "Русский"
-    weight: 7
+  # de:
+  #   languageCode: de-DE
+  #   languageName: "Deutsch"
+  #   weight: 5
+  # es:
+  #   languageCode: es-ES
+  #   languageName: "Español"
+  #   weight: 6
+  # ru:
+  #   languageCode: ru-RU
+  #   languageName: "Русский"
+  #   weight: 7
 
 menus:
   main:
