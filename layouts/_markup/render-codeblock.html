@@ -204,7 +204,12 @@
     const collapseIcon = collapseBtn.querySelector('.collapse-icon');
     const collapseText = collapseBtn.querySelector('.collapse-text');
     const collapseOverlay = codeContainer.querySelector('.collapse-overlay');
-    const codeElement = codeContainer.querySelector('pre.chroma');
+
+    // 智能查找代码元素：优先查找 .chroma，降级到任何 pre 元素
+    let codeElement = codeContainer.querySelector('pre.chroma');
+    if (!codeElement) {
+      codeElement = codeContainer.querySelector('pre');
+    }
 
     const defaultState = collapseBtn.dataset.defaultState || 'expanded';
     const isCollapsedAttr = collapseBtn.dataset.collapsed === 'true';
@@ -216,8 +221,6 @@
 
     // Initialize collapse state
     function initCollapse() {
-      if (!codeElement) return;
-
       // Check if should be collapsed initially
       const shouldCollapse = isCollapsedAttr ||
                            defaultState === 'collapsed' ||
@@ -229,16 +232,27 @@
     }
 
     function shouldAutoCollapse() {
-      if (!codeElement) return false;
+      // 如果有 codeElement，使用精确的行数和高度检查
+      if (codeElement) {
+        const lines = codeElement.querySelectorAll('.line, .cl');
+        const height = codeElement.offsetHeight;
+        return lines.length > autoCollapseLines || height > autoCollapseHeight;
+      }
 
-      const lines = codeElement.querySelectorAll('.line, .cl');
-      const height = codeElement.offsetHeight;
+      // 降级方案：检查整个容器的高度和文本行数
+      const containerHeight = codeContainer.offsetHeight;
+      if (containerHeight > autoCollapseHeight) {
+        return true;
+      }
 
-      return lines.length > autoCollapseLines || height > autoCollapseHeight;
+      // 尝试从容器中获取文本内容来估算行数
+      const textContent = codeContainer.textContent || codeContainer.innerText || '';
+      const estimatedLines = textContent.split('\n').length;
+      return estimatedLines > autoCollapseLines;
     }
 
     function setCollapsed(collapsed, animate = true) {
-      if (!codeElement || !collapseOverlay) return;
+      if (!collapseOverlay) return;
 
       isCollapsed = collapsed;
 
