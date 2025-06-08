@@ -4,5 +4,5 @@
       "HUGO_VERSION": "0.146.0"
     }
   },
-  "buildCommand": "hugo -s ./exampleSite/ --themesDir ../.. --minify"
+  "buildCommand": "cp exampleSite/hugo.yaml . && cp -r exampleSite/content . && grep -v '^theme:' hugo.yaml > temp.yaml && mv temp.yaml hugo.yaml && hugo --minify --gc"
 }
