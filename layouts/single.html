@@ -8,9 +8,9 @@
     <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
       {{ .Title }}
     </h1>
-    {{ if .Summary }}
-      <div class="text-muted-foreground text-lg leading-relaxed">
-        {{ .Summary | plainify }}
+    {{ if .Params.summary }}
+      <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
+        {{ .Params.summary | plainify }}
       </div>
     {{ end }}
   </header>
