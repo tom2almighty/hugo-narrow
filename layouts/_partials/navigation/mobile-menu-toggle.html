@@ -25,6 +25,8 @@
         {{ if .PageRef }}
           {{ with site.GetPage .PageRef }}
             {{ $menuURL = .RelPermalink }}
+          {{ else }}
+            {{ $menuURL = .URL | relLangURL }}
           {{ end }}
         {{ end }}
         {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
