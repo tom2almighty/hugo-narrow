@@ -2,17 +2,17 @@
 
 {{- .Scratch.Add "posts" slice -}}
 {{- range $index, $value := (where .Site.RegularPages "Section" "==" "posts") -}}
-{{- $.Scratch.Add "posts" (dict "title" $value.Title "text" $value.Plain "link" $value.Permalink) -}}
+{{- $.Scratch.Add "posts" (dict "title" $value.Title "text" $value.Plain "link" $value.RelPermalink) -}}
 {{- end -}}
 
 {{- .Scratch.Add "tags" slice -}}
 {{- range .Site.Taxonomies.tags -}}
-{{- $.Scratch.Add "tags" (dict "name" .Page.Title "slug" .Page.Title "link" .Page.Permalink) -}}
+{{- $.Scratch.Add "tags" (dict "name" .Page.Title "slug" .Page.Title "link" .Page.RelPermalink) -}}
 {{- end -}}
 
 {{- .Scratch.Add "categories" slice -}}
 {{- range .Site.Taxonomies.categories -}}
-{{- $.Scratch.Add "categories" (dict "name" .Page.Title "slug" .Page.Title "link" .Page.Permalink ) -}}
+{{- $.Scratch.Add "categories" (dict "name" .Page.Title "slug" .Page.Title "link" .Page.RelPermalink ) -}}
 {{- end -}}
 
 {{- .Scratch.SetInMap "index" "pages" (.Scratch.Get "pages") }}

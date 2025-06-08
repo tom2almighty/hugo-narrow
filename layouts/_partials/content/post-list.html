@@ -13,7 +13,7 @@
 {{ $title := .title | default "" }}
 {{ $showTitle := .showTitle | default false }}
 {{ $showViewAll := .showViewAll | default false }}
-{{ $viewAllUrl := .viewAllUrl | default "/posts/" }}
+{{ $viewAllUrl := .viewAllUrl | default ("/posts/" | relLangURL) }}
 
 {{ if $posts }}
   <section class="post-list">

@@ -5,7 +5,7 @@
     <!-- 首页链接 -->
     <li class="flex-shrink-0">
       <a
-        href="{{ "/" | relURL }}"
+        href="{{ "/" | relLangURL }}"
         class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02]">
         {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" (i18n "nav.home")) }}
         <span class="max-w-[4rem] md:max-w-none truncate">{{ i18n "nav.home" | default "首页" }}</span>

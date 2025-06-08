@@ -5,9 +5,16 @@
       <nav class="mb-6">
         <div class="flex flex-wrap items-center justify-center gap-1">
           {{ range site.Menus.footer }}
+            {{/* 生成语言感知的URL */}}
+            {{ $menuURL := .URL }}
+            {{ if .PageRef }}
+              {{ with site.GetPage .PageRef }}
+                {{ $menuURL = .RelPermalink }}
+              {{ end }}
+            {{ end }}
             <a
-              href="{{ .URL }}"
-              {{ if strings.HasPrefix .URL "http" }}
+              href="{{ $menuURL }}"
+              {{ if strings.HasPrefix $menuURL "http" }}
                 target="_blank" rel="noopener noreferrer"
               {{ end }}
               class="nav-link hover:text-primary hover:bg-primary/10 text-muted-foreground flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105">

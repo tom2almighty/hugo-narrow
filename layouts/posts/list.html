@@ -58,7 +58,7 @@
           {{ i18n "post.no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
         </p>
         <a
-          href="{{ "/" | relURL }}"
+          href="{{ "/" | relLangURL }}"
           class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300">
           {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
           <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>

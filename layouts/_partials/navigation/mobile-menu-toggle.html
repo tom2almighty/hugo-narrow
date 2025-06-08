@@ -20,9 +20,16 @@
     <nav class="flex flex-col">
       {{ $currentPage := . }}
       {{ range site.Menus.main }}
-        {{ $isActive := eq $currentPage.RelPermalink .URL }}
+        {{/* 生成语言感知的URL */}}
+        {{ $menuURL := .URL }}
+        {{ if .PageRef }}
+          {{ with site.GetPage .PageRef }}
+            {{ $menuURL = .RelPermalink }}
+          {{ end }}
+        {{ end }}
+        {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
         <a
-          href="{{ .URL }}"
+          href="{{ $menuURL }}"
           class="nav-link {{ if $isActive }}
             nav-active-indicator bg-accent text-accent-foreground
           {{ else }}
