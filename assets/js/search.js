@@ -311,7 +311,10 @@
     if (searchData) return searchData;
 
     try {
-      const response = await fetch("/index.json");
+      const indexURL = window.HUGO_CONFIG?.homeURL ?
+        window.HUGO_CONFIG.homeURL + "index.json" :
+        "/index.json";
+      const response = await fetch(indexURL);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

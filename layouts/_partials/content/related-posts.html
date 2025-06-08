@@ -70,7 +70,7 @@
     {{ if gt (len $related) 3 }}
       <div class="mt-8 text-center">
         <a
-          href="{{ "/posts/" | relURL }}"
+          href="{{ "/posts/" | relLangURL }}"
           class="text-primary hover:text-primary/80 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
           <span
             >{{ i18n "post.view_more_posts" | default "查看更多文章" }}</span

@@ -91,5 +91,15 @@
 {{/* 样式表 */}}
 {{ partial "layout/head/css.html" . }}
 
+{{/* 全局配置 - 在其他JavaScript之前加载 */}}
+<script>
+  window.HUGO_CONFIG = {
+    homeURL: {{ "/" | relLangURL | jsonify }},
+    postsURL: {{ "/posts/" | relLangURL | jsonify }},
+    language: {{ .Language.Lang | jsonify }},
+    baseURL: {{ site.BaseURL | jsonify }}
+  };
+</script>
+
 {{/* JavaScript */}}
 {{ partial "layout/head/js.html" . }}

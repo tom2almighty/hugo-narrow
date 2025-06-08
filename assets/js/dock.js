@@ -98,12 +98,14 @@
         }
 
         // 否则跳转到首页
-        window.location.href = "/";
+        const homeURL = window.HUGO_CONFIG?.homeURL || "/";
+        window.location.href = homeURL;
         console.log("返回按钮点击 - 跳转首页");
       } catch (error) {
         // 如果出现错误，默认跳转到首页
         console.warn("返回功能出错，跳转到首页:", error);
-        window.location.href = "/";
+        const homeURL = window.HUGO_CONFIG?.homeURL || "/";
+        window.location.href = homeURL;
       }
     });
   }
