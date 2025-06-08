@@ -496,6 +496,29 @@
     });
   }
 
+  // 根据匹配度分数生成星星显示
+  function generateStarRating(score) {
+    if (!score || score <= 0) return "";
+
+    // 定义星星数量的阈值
+    // 基于当前评分系统：标题匹配10分，摘要匹配5分，内容匹配1分
+    let starCount;
+    if (score >= 20) {
+      starCount = 5; // 高匹配度：多个关键词在标题中匹配
+    } else if (score >= 15) {
+      starCount = 4; // 较高匹配度：标题+摘要匹配
+    } else if (score >= 10) {
+      starCount = 3; // 中等匹配度：标题匹配或多个摘要匹配
+    } else if (score >= 5) {
+      starCount = 2; // 较低匹配度：摘要匹配
+    } else {
+      starCount = 1; // 低匹配度：仅内容匹配
+    }
+
+    // 生成星星字符串
+    return "★".repeat(starCount);
+  }
+
   // 创建结果元素
   function createResultElement(result, query, index) {
     const div = document.createElement("div");
@@ -517,6 +540,9 @@
       120,
     );
 
+    // 生成星星评级显示
+    const starRating = generateStarRating(result.score);
+
     div.innerHTML = `
       <div class="flex flex-col gap-2">
         <h3 class="text-base font-semibold text-foreground line-clamp-1">
@@ -532,7 +558,7 @@
               ? `<span>•</span><span>${result.categories[0]}</span>`
               : ""
           }
-          ${result.score ? `<span>•</span><span>★ ${result.score}</span>` : ""}
+          ${starRating ? `<span style="color: #f59e0b;">${starRating}</span>` : ""}
         </div>
       </div>
     `;
