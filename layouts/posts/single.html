@@ -6,7 +6,7 @@
   <!-- 文章封面 -->
   {{ if .Params.cover }}
     {{/* 使用共享的图片处理器 */}}
-    {{ partial "content/cover-image-processor.html" . }}Add commentMore actions
+    {{ partial "content/cover-image-processor.html" . }}
     {{ $coverImage := .Scratch.Get "coverImage" }}
     {{ $coverProcessed := .Scratch.Get "coverProcessed" }}
     {{ $gradients := .Scratch.Get "gradients" }}
