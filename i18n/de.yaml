@@ -86,20 +86,16 @@ search:
   clear: "Löschen"
   close: "Schließen"
   loading: "Suche läuft..."
-  empty:
-    title: "Suche starten"
-    description: "Geben Sie Schlüsselwörter ein, um Artikel zu suchen"
-  no_results:
-    title: "Keine Ergebnisse gefunden"
-    description: "Versuchen Sie es mit anderen Schlüsselwörtern"
-  results_found: "{{.Count}} Ergebnisse gefunden"
+  empty_title: "Suche starten"
+  empty_description: "Geben Sie Schlüsselwörter ein, um Artikel zu suchen"
+  no_results_title: "Keine Ergebnisse gefunden"
+  no_results_description: "Versuchen Sie es mit anderen Schlüsselwörtern"
   results_count: "%d Ergebnisse gefunden"
   match_score: "Relevanz"
-  hint:
-    navigate: "Navigieren"
-    select: "Auswählen"
-    close: "Schließen"
-    shortcut: "Tastenkürzel"
+  hint_navigate: "Navigieren"
+  hint_select: "Auswählen"
+  hint_close: "Schließen"
+  hint_shortcut: "Tastenkürzel"
 
 # Formular
 form:

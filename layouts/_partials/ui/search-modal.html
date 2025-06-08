@@ -56,10 +56,10 @@
         {{ partial "features/icon.html" (dict "name" "search" "size" "lg" "ariaLabel" "") }}
       </div>
       <h3 class="text-foreground mb-2 text-lg font-semibold">
-        {{ i18n "search.empty.title" | default "开始搜索" }}
+        {{ i18n "search.empty_title" | default "开始搜索" }}
       </h3>
       <p class="text-muted-foreground text-sm">
-        {{ i18n "search.empty.description" | default "输入关键词搜索文章内容" }}
+        {{ i18n "search.empty_description" | default "输入关键词搜索文章内容" }}
       </p>
     </div>
 
@@ -83,10 +83,10 @@
         {{ partial "features/icon.html" (dict "name" "text" "size" "lg" "ariaLabel" "") }}
       </div>
       <h3 class="text-foreground mb-2 text-lg font-semibold">
-        {{ i18n "search.no_results.title" | default "未找到结果" }}
+        {{ i18n "search.no_results_title" | default "未找到结果" }}
       </h3>
       <p class="text-muted-foreground text-sm">
-        {{ i18n "search.no_results.description" | default "尝试使用不同的关键词" }}
+        {{ i18n "search.no_results_description" | default "尝试使用不同的关键词" }}
       </p>
     </div>
 
@@ -95,8 +95,8 @@
       <!-- 结果统计 -->
       <div
         id="search-stats"
-        class="text-muted-foreground border-border border-b px-4 py-3 text-sm">
-        <!-- 动态生成统计信息 -->
+        class="text-muted-foreground border-border border-b px-4 py-3 text-sm"
+        data-template="{{ i18n "search.results_count" }}">
       </div>
 
       <!-- 结果项容器 -->
@@ -117,7 +117,7 @@
             >↑↓</kbd
           >
           <span class="hidden sm:inline"
-            >{{ i18n "search.hint.navigate" | default "导航" }}</span
+            >{{ i18n "search.hint_navigate" | default "导航" }}</span
           >
         </div>
         <div class="flex items-center gap-1">
@@ -126,7 +126,7 @@
             >↵</kbd
           >
           <span class="hidden sm:inline"
-            >{{ i18n "search.hint.select" | default "选择" }}</span
+            >{{ i18n "search.hint_select" | default "选择" }}</span
           >
         </div>
         <div class="flex items-center gap-1">
@@ -135,7 +135,7 @@
             >ESC</kbd
           >
           <span class="hidden sm:inline"
-            >{{ i18n "search.hint.close" | default "关闭" }}</span
+            >{{ i18n "search.hint_close" | default "关闭" }}</span
           >
         </div>
       </div>
@@ -143,7 +143,7 @@
         <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs"
           >⌘K</kbd
         >
-        <span>{{ i18n "search.hint.shortcut" | default "快捷键" }}</span>
+        <span>{{ i18n "search.hint_shortcut" | default "快捷键" }}</span>
       </div>
     </div>
   </div>

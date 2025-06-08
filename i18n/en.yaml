@@ -86,20 +86,17 @@ search:
   clear: "Clear"
   close: "Close"
   loading: "Searching..."
-  empty:
-    title: "Start searching"
-    description: "Enter keywords to search articles"
-  no_results:
-    title: "No results found"
-    description: "Try using different keywords"
-  results_found: "Found {{.Count}} results"
+  empty_title: "Start searching"
+  empty_description: "Enter keywords to search articles"
+  no_results_title: "No results found"
+  no_results_description: "Try using different keywords"
   results_count: "Found %d results"
   match_score: "Relevance"
-  hint:
-    navigate: "Navigate"
-    select: "Select"
-    close: "Close"
-    shortcut: "Shortcut"
+  hint_navigate: "Navigate"
+  hint_select: "Select"
+  hint_close: "Close"
+  hint_shortcut: "Shortcut"
+
 
 # Form related
 form:

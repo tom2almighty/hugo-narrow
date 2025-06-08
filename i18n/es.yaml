@@ -86,20 +86,16 @@ search:
   clear: "Limpiar"
   close: "Cerrar"
   loading: "Buscando..."
-  empty:
-    title: "Comenzar búsqueda"
-    description: "Ingrese palabras clave para buscar artículos"
-  no_results:
-    title: "No se encontraron resultados"
-    description: "Intente con palabras clave diferentes"
-  results_found: "Se encontraron {{.Count}} resultados"
+  empty_title: "Comenzar búsqueda"
+  empty_description: "Ingrese palabras clave para buscar artículos"
+  no_results_title: "No se encontraron resultados"
+  no_results_description: "Intente con palabras clave diferentes"
   results_count: "Se encontraron %d resultados"
   match_score: "Relevancia"
-  hint:
-    navigate: "Navegar"
-    select: "Seleccionar"
-    close: "Cerrar"
-    shortcut: "Atajo"
+  hint_navigate: "Navegar"
+  hint_select: "Seleccionar"
+  hint_close: "Cerrar"
+  hint_shortcut: "Atajo"
 
 # Formulario
 form:

@@ -86,20 +86,16 @@ search:
   clear: "Effacer"
   close: "Fermer"
   loading: "Recherche en cours..."
-  empty:
-    title: "Commencer la recherche"
-    description: "Saisissez des mots-clés pour rechercher des articles"
-  no_results:
-    title: "Aucun résultat trouvé"
-    description: "Essayez avec des mots-clés différents"
-  results_found: "{{.Count}} résultats trouvés"
+  empty_title: "Commencer la recherche"
+  empty_description: "Saisissez des mots-clés pour rechercher des articles"
+  no_results_title: "Aucun résultat trouvé"
+  no_results_description: "Essayez avec des mots-clés différents"
   results_count: "%d résultats trouvés"
   match_score: "Pertinence"
-  hint:
-    navigate: "Naviguer"
-    select: "Sélectionner"
-    close: "Fermer"
-    shortcut: "Raccourci"
+  hint_navigate: "Naviguer"
+  hint_select: "Sélectionner"
+  hint_close: "Fermer"
+  hint_shortcut: "Raccourci"
 
 # Formulaire
 form:

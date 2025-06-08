@@ -86,20 +86,16 @@ search:
   clear: "クリア"
   close: "閉じる"
   loading: "検索中..."
-  empty:
-    title: "検索を開始"
-    description: "キーワードを入力して記事を検索"
-  no_results:
-    title: "結果が見つかりません"
-    description: "別のキーワードを試してください"
-  results_found: "{{.Count}} 件の結果が見つかりました"
+  empty_title: "検索を開始"
+  empty_description: "キーワードを入力して記事を検索"
+  no_results_title: "結果が見つかりません"
+  no_results_description: "別のキーワードを試してください"
   results_count: "%d 件の結果が見つかりました"
   match_score: "関連度"
-  hint:
-    navigate: "ナビゲート"
-    select: "選択"
-    close: "閉じる"
-    shortcut: "ショートカット"
+  hint_navigate: "ナビゲート"
+  hint_select: "選択"
+  hint_close: "閉じる"
+  hint_shortcut: "ショートカット"
 
 # フォーム関連
 form:

@@ -477,8 +477,14 @@
   function displayResults(results, query) {
     if (!searchStats || !searchItems) return;
 
-    // 更新统计信息
-    searchStats.textContent = `找到 ${results.length} 个结果`;
+    // 更新统计信息 - 从模板元素读取翻译
+    const statsTemplate = document.getElementById("search-stats-template");
+    if (statsTemplate) {
+      const template = statsTemplate.textContent.trim();
+      searchStats.textContent = template.replace('%d', results.length);
+    } else {
+      searchStats.textContent = `Found ${results.length} results`;
+    }
 
     // 清空之前的结果
     searchItems.innerHTML = "";
@@ -526,7 +532,7 @@
               ? `<span>•</span><span>${result.categories[0]}</span>`
               : ""
           }
-          ${result.score ? `<span>•</span><span>匹配度: ${result.score}</span>` : ""}
+          ${result.score ? `<span>•</span><span>★ ${result.score}</span>` : ""}
         </div>
       </div>
     `;
