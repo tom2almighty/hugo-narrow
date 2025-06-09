@@ -61,7 +61,8 @@
     content: "";
     position: absolute;
     left: 0;
-    top: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
     width: 4px;
     height: 1.5rem;
     background: var(--color-primary);
@@ -253,7 +254,7 @@
     content: "";
     position: absolute;
     left: 0;
-    top: 0.75rem;
+    top: 0.65em;
     width: 6px;
     height: 6px;
     background: var(--color-primary);
@@ -264,7 +265,7 @@
     counter-reset: item;
     padding-left: 0;
     margin: 1.25rem 0;
-    list-style: none; /* 隐藏默认的数字序号 */
+    list-style: none;
   }
 
   .prose ol li {
@@ -279,7 +280,7 @@
     content: counter(item);
     position: absolute;
     left: 0;
-    top: 0.2rem;
+    top: 0.35em; /* 基于行高1.7的精确计算：考虑圆形标记需要视觉居中 */
     background: var(--color-primary);
     color: white;
     width: 1.25rem;
@@ -290,7 +291,7 @@
     justify-content: center;
     font-size: 0.75rem;
     font-weight: bold;
-    line-height: 1; /* 确保数字垂直居中 */
+    line-height: 1;
   }
 
   /* 任务列表 (Checkbox) */
@@ -308,7 +309,7 @@
   .prose ul li.task-list-item input[type="checkbox"] {
     position: absolute;
     left: 0;
-    top: 0.5rem;
+    top: 0.4em;
     width: 1rem;
     height: 1rem;
     margin: 0;
@@ -361,7 +362,7 @@
     content: "";
     position: absolute;
     left: 0;
-    top: 0.5rem;
+    top: 0.65rem;
     width: 4px;
     height: 4px;
     background: var(--color-primary);
@@ -386,25 +387,26 @@
     padding-left: 1.5rem;
   }
 
-  /* 二级无序列表使用方形标记 */
+  /* 二级无序列表使用空心圆标记 */
   .prose ul ul li::before {
-    width: 4px;
-    height: 4px;
-    border-radius: 0;
-    background: var(--color-accent);
+    width: 6px;
+    height: 6px;
+    background: transparent;
+    border: 2px solid var(--color-accent);
+    border-radius: 50%;
+    border-color: var(--color-primary);
+    top: 0.65em;
   }
 
-  /* 三级无序列表使用三角形标记 */
+  /* 三级无序列表使用实心方形标记 */
   .prose ul ul ul li::before {
     content: "";
-    width: 0;
-    height: 0;
-    border-left: 3px solid var(--color-accent);
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
+    width: 4px;
+    height: 4px;
+    background: var(--color-accent);
+    border: none;
     border-radius: 0;
-    background: transparent;
-    top: 0.8rem;
+    top: 0.75em;
   }
 
   /* 嵌套有序列表样式调整 */
@@ -413,6 +415,7 @@
     font-size: 0.7rem;
     width: 1.1rem;
     height: 1.1rem;
+    top: 0.45em; 
   }
 
   .prose ol ol ol li::before {
@@ -420,6 +423,7 @@
     font-size: 0.65rem;
     width: 1rem;
     height: 1rem;
+    top: 0.55em;
   }
 
   /* 代码样式 */
