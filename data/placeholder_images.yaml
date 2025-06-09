@@ -1,0 +1,18 @@
+# 随机占位图配置文件
+
+# 功能启用开关
+enabled: true
+
+# 图片URL列表（支持外部URL和本地路径）
+images:
+  # Picsum Photos
+  - "https://picsum.photos/800/600?random=1"
+  - "https://picsum.photos/800/600?random=2"
+  - "https://picsum.photos/800/600?random=3"
+  - "https://picsum.photos/800/600?random=4"
+  - "https://picsum.photos/800/600?random=5"
+  - "https://picsum.photos/800/600?random=6&blur=1"
+  - "https://picsum.photos/800/600?random=7&grayscale"
+  # local images
+  - "/images/basic-image.jpg"
+  - "/images/caption-image.jpg"

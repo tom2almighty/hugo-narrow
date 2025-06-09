@@ -9,6 +9,8 @@
 {{ partial "content/cover-image-processor.html" . }}
 {{ $coverImage := .Scratch.Get "coverImage" }}
 {{ $coverProcessed := .Scratch.Get "coverProcessed" }}
+{{ $randomImage := .Scratch.Get "randomImage" }}
+{{ $useRandomImage := .Scratch.Get "useRandomImage" }}
 {{ $gradients := .Scratch.Get "gradients" }}
 {{ $colorIndex := .Scratch.Get "colorIndex" }}
 
@@ -18,13 +20,13 @@
       class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex min-h-[200px] flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
       <!-- 移动端顶部封面 -->
       <div class="block md:hidden">
-        {{ partial "content/card-image.html" (dict "page" . "type" "mobile" "coverImage" $coverImage "gradients" $gradients "colorIndex" $colorIndex) }}
+        {{ partial "content/card-image.html" (dict "page" . "type" "mobile" "coverImage" $coverImage "randomImage" $randomImage "useRandomImage" $useRandomImage "gradients" $gradients "colorIndex" $colorIndex) }}
       </div>
 
       <!-- 桌面端右侧封面 -->
       <div
         class="absolute top-0 right-0 hidden h-full w-64 transition-opacity duration-300 group-hover:opacity-90 md:block">
-        {{ partial "content/card-image.html" (dict "page" . "type" "desktop" "coverImage" $coverImage "gradients" $gradients "colorIndex" $colorIndex) }}
+        {{ partial "content/card-image.html" (dict "page" . "type" "desktop" "coverImage" $coverImage "randomImage" $randomImage "useRandomImage" $useRandomImage "gradients" $gradients "colorIndex" $colorIndex) }}
       </div>
 
       <!-- 桌面端悬浮时的填充颜色遮罩 -->

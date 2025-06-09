@@ -12,82 +12,270 @@
 {{ $page := .page }}
 {{ $type := .type }}
 {{ $coverImage := .coverImage }}
+{{ $randomImage := .randomImage }}
+{{ $useRandomImage := .useRandomImage }}
 {{ $gradients := .gradients }}
 {{ $colorIndex := .colorIndex }}
 
 {{/* 根据类型设置不同的样式参数 */}}
 {{ $containerClass := "" }}
 {{ $aspectClass := "" }}
-{{ $iconSize := "" }}
-{{ $iconTextSize := "" }}
-{{ $decorSize1 := "" }}
-{{ $decorSize2 := "" }}
-{{ $decorPos1 := "" }}
-{{ $decorPos2 := "" }}
+{{ $patternType := "" }}
 
 {{ if eq $type "mobile" }}
   {{ $containerClass = "aspect-[2/1] overflow-hidden" }}
-  {{ $aspectClass = "relative aspect-[2/1] overflow-hidden bg-gradient-to-br" }}
-  {{ $iconSize = "h-16 w-16" }}
-  {{ $iconTextSize = "text-xl" }}
-  {{ $decorSize1 = "h-8 w-8" }}
-  {{ $decorSize2 = "h-6 w-6" }}
-  {{ $decorPos1 = "absolute top-4 right-4" }}
-  {{ $decorPos2 = "absolute bottom-4 left-4" }}
+  {{ $aspectClass = "aspect-[2/1]" }}
 {{ else if eq $type "desktop" }}
   {{ $containerClass = "h-full w-full" }}
-  {{ $aspectClass = "relative h-full w-full bg-gradient-to-br" }}
-  {{ $iconSize = "h-20 w-20" }}
-  {{ $iconTextSize = "text-2xl" }}
-  {{ $decorSize1 = "h-16 w-16" }}
-  {{ $decorSize2 = "h-12 w-12" }}
-  {{ $decorPos1 = "absolute top-8 right-8" }}
-  {{ $decorPos2 = "absolute bottom-8 left-8" }}
+  {{ $aspectClass = "h-full w-full" }}
 {{ else if eq $type "related" }}
   {{ $containerClass = "relative aspect-[16/9] flex-shrink-0 overflow-hidden" }}
-  {{ $aspectClass = "flex h-full w-full items-center justify-center bg-gradient-to-br" }}
-  {{ $iconSize = "h-12 w-12" }}
-  {{ $iconTextSize = "text-lg" }}
-  {{ $decorSize1 = "" }}
-  {{ $decorSize2 = "" }}
-  {{ $decorPos1 = "" }}
-  {{ $decorPos2 = "" }}
+  {{ $aspectClass = "aspect-[16/9]" }}
+{{ end }}
+
+{{/* 随机占位图现在由 cover-image-processor.html 统一处理 */}}
+{{/* 调试输出：显示传入的随机占位图信息 */}}
+{{ if $useRandomImage }}
+  <!-- DEBUG: Using random image: {{ $randomImage }} -->
+{{ else }}
+  <!-- DEBUG: No random image available -->
+{{ end }}
+
+{{/* 基于文章标题生成图案类型 */}}
+{{ $hash := md5 $page.Title }}
+{{ $patternIndex := mod (int (substr $hash 2 2 | printf "0x%s")) 4 }}
+{{ if eq $patternIndex 0 }}
+  {{ $patternType = "triangle" }}
+{{ else if eq $patternIndex 1 }}
+  {{ $patternType = "diamond" }}
+{{ else if eq $patternIndex 2 }}
+  {{ $patternType = "hexagon" }}
+{{ else }}
+  {{ $patternType = "circle" }}
 {{ end }}
 
 <div class="{{ $containerClass }}">
   {{ if $coverImage }}
+    <!-- 文章封面图 -->
     <img
       src="{{ $coverImage }}"
       alt="{{ $page.Title }}"
       class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
       loading="lazy"
-      onerror="this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type "related" }}flex{{ else }}block{{ end }}';" />
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type `related` }}flex{{ else }}block{{ end }}';" />
+    <!-- 封面图加载失败时的回退 -->
+    {{ if and $useRandomImage $randomImage }}
+      <!-- 随机占位图作为回退 -->
+      <img
+        src="{{ $randomImage }}"
+        alt="{{ $page.Title }}"
+        class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
+        loading="lazy"
+        style="display: none;"
+        onerror="console.log('Random image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type `related` }}flex{{ else }}block{{ end }}';" />
+    {{ end }}
+  {{ else if and $useRandomImage $randomImage }}
+    <!-- 随机占位图（无封面图时的首选） -->
+    <img
+      src="{{ $randomImage }}"
+      alt="{{ $page.Title }}"
+      class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
+      loading="lazy"
+      onerror="console.log('Random image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type `related` }}flex{{ else }}block{{ end }}';" />
     <!-- 图片加载失败时的占位图 -->
-    <div class="{{ index $gradients $colorIndex }} {{ $aspectClass }}" style="display: none;">
-      <div class="absolute inset-0 flex items-center justify-center">
-        <div class="flex {{ $iconSize }} items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-sm">
-          <span class="{{ $iconTextSize }} font-bold text-white">{{ substr $page.Title 0 1 | upper }}</span>
-        </div>
+    <div class="{{ index $gradients $colorIndex }} relative {{ $aspectClass }} overflow-hidden bg-gradient-to-br" style="display: none; background-blend-mode: overlay; background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);">
+      <!-- 几何图案分布在整个区域 -->
+      <div class="absolute inset-0">
+        {{ if eq $patternType "triangle" }}
+          <!-- 三角形分布图案 - 移除中心主图案 -->
+          <!-- 左上三角形 -->
+          <div class="absolute left-[15%] top-[20%] rotate-45">
+            <div class="h-0 w-0 border-l-[10px] border-r-[10px] border-b-[16px] border-l-transparent border-r-transparent border-b-white/80"></div>
+          </div>
+          <!-- 右上三角形 -->
+          <div class="absolute right-[20%] top-[15%] rotate-12">
+            <div class="h-0 w-0 border-l-[8px] border-r-[8px] border-b-[12px] border-l-transparent border-r-transparent border-b-white/70"></div>
+          </div>
+          <!-- 左下三角形 -->
+          <div class="absolute left-[25%] bottom-[25%] -rotate-30">
+            <div class="h-0 w-0 border-l-[6px] border-r-[6px] border-b-[10px] border-l-transparent border-r-transparent border-b-white/60"></div>
+          </div>
+          <!-- 右下三角形 -->
+          <div class="absolute right-[15%] bottom-[20%] rotate-60">
+            <div class="h-0 w-0 border-l-[7px] border-r-[7px] border-b-[11px] border-l-transparent border-r-transparent border-b-white/65"></div>
+          </div>
+          <!-- 中心区域小三角形 -->
+          <div class="absolute left-[45%] top-[40%] -rotate-15">
+            <div class="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[8px] border-l-transparent border-r-transparent border-b-white/50"></div>
+          </div>
+          <!-- 装饰圆点 -->
+          <div class="absolute right-[35%] top-[35%] h-2 w-2 rounded-full bg-white/40"></div>
+          <div class="absolute left-[40%] bottom-[35%] h-1.5 w-1.5 rounded-full bg-white/35"></div>
+          <div class="absolute right-[45%] bottom-[45%] h-1 w-1 rounded-full bg-white/30"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-45 bg-white/25"></div>
+          <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-30 bg-white/20"></div>
+        {{ else if eq $patternType "diamond" }}
+          <!-- 菱形分布图案 - 移除中心主图案 -->
+          <!-- 左上菱形 -->
+          <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-45 border-2 border-white/80 bg-white/15"></div>
+          <!-- 右上菱形 -->
+          <div class="absolute right-[25%] top-[25%] h-4 w-4 rotate-12 border border-white/70 bg-white/12"></div>
+          <!-- 左下菱形 -->
+          <div class="absolute left-[30%] bottom-[30%] h-3 w-3 rotate-60 border border-white/60 bg-white/10"></div>
+          <!-- 右下菱形 -->
+          <div class="absolute right-[20%] bottom-[20%] h-4 w-4 rotate-30 border border-white/65 bg-white/13"></div>
+          <!-- 中心区域小菱形 -->
+          <div class="absolute left-[45%] top-[45%] h-2 w-2 rotate-45 border border-white/50 bg-white/8"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute left-[15%] top-[40%] h-0.5 w-8 rotate-45 bg-white/40"></div>
+          <div class="absolute right-[15%] top-[35%] h-0.5 w-6 rotate-12 bg-white/35"></div>
+          <div class="absolute left-[40%] bottom-[15%] h-0.5 w-5 -rotate-30 bg-white/30"></div>
+          <!-- 装饰圆点 -->
+          <div class="absolute top-[35%] right-[40%] h-2 w-2 rounded-full bg-white/35"></div>
+          <div class="absolute bottom-[40%] left-[35%] h-1.5 w-1.5 rounded-full bg-white/30"></div>
+          <div class="absolute top-[50%] left-[50%] h-1 w-1 rounded-full bg-white/25"></div>
+        {{ else if eq $patternType "hexagon" }}
+          <!-- 五角星分布图案 - 移除中心主图案 -->
+          <!-- 左上五角星 -->
+          <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-0 bg-white/80" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 右上五角星 -->
+          <div class="absolute right-[25%] top-[25%] h-4 w-4 rotate-36 bg-white/70" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 左下五角星 -->
+          <div class="absolute left-[30%] bottom-[30%] h-3 w-3 rotate-72 bg-white/60" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 右下五角星 -->
+          <div class="absolute right-[20%] bottom-[20%] h-4 w-4 rotate-108 bg-white/65" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 中心区域小五角星 -->
+          <div class="absolute left-[45%] top-[45%] h-2 w-2 rotate-144 bg-white/50" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 装饰圆点 -->
+          <div class="absolute right-[35%] top-[35%] h-2 w-2 rounded-full bg-white/40"></div>
+          <div class="absolute left-[40%] bottom-[35%] h-1.5 w-1.5 rounded-full bg-white/35"></div>
+          <div class="absolute right-[45%] bottom-[45%] h-1 w-1 rounded-full bg-white/30"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-30 bg-white/25"></div>
+          <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-45 bg-white/20"></div>
+        {{ else }}
+          <!-- 圆形分布图案 - 移除中心主图案 -->
+          <!-- 左上圆形 -->
+          <div class="absolute left-[20%] top-[20%] h-6 w-6 rounded-full border-2 border-white/80 bg-white/15"></div>
+          <!-- 右上圆形 -->
+          <div class="absolute right-[25%] top-[25%] h-5 w-5 rounded-full border border-white/70 bg-white/12"></div>
+          <!-- 左下圆形 -->
+          <div class="absolute left-[30%] bottom-[30%] h-4 w-4 rounded-full border border-white/60 bg-white/10"></div>
+          <!-- 右下圆形 -->
+          <div class="absolute right-[20%] bottom-[20%] h-5 w-5 rounded-full border border-white/65 bg-white/13"></div>
+          <!-- 中心区域小圆形 -->
+          <div class="absolute left-[45%] top-[45%] h-3 w-3 rounded-full border border-white/50 bg-white/8"></div>
+          <!-- 装饰小圆点 -->
+          <div class="absolute right-[35%] top-[35%] h-2 w-2 rounded-full bg-white/50"></div>
+          <div class="absolute left-[40%] bottom-[35%] h-1.5 w-1.5 rounded-full bg-white/45"></div>
+          <div class="absolute left-[35%] top-[50%] h-1 w-1 rounded-full bg-white/40"></div>
+          <div class="absolute right-[40%] bottom-[50%] h-1 w-1 rounded-full bg-white/35"></div>
+          <div class="absolute left-[50%] top-[30%] h-1 w-1 rounded-full bg-white/30"></div>
+          <div class="absolute right-[50%] bottom-[30%] h-1 w-1 rounded-full bg-white/25"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute top-[40%] left-[15%] h-0.5 w-6 rotate-30 bg-white/25"></div>
+          <div class="absolute bottom-[40%] right-[15%] h-0.5 w-4 -rotate-30 bg-white/20"></div>
+        {{ end }}
       </div>
-      {{ if and $decorSize1 $decorSize2 }}
-        <!-- 装饰元素 -->
-        <div class="{{ $decorPos1 }} {{ $decorSize1 }} rounded-full bg-white/10"></div>
-        <div class="{{ $decorPos2 }} {{ $decorSize2 }} rounded-full bg-white/15"></div>
-      {{ end }}
     </div>
   {{ else }}
     <!-- 统一占位图 -->
-    <div class="{{ index $gradients $colorIndex }} {{ $aspectClass }}">
-      <div class="absolute inset-0 flex items-center justify-center">
-        <div class="flex {{ $iconSize }} items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-sm">
-          <span class="{{ $iconTextSize }} font-bold text-white">{{ substr $page.Title 0 1 | upper }}</span>
-        </div>
+    <div class="{{ index $gradients $colorIndex }} relative {{ $aspectClass }} overflow-hidden bg-gradient-to-br" style="background-blend-mode: overlay; background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);">
+      <!-- 几何图案分布在整个区域 -->
+      <div class="absolute inset-0">
+        {{ if eq $patternType "triangle" }}
+          <!-- 三角形分布图案 - 移除中心主图案 -->
+          <!-- 左上三角形 -->
+          <div class="absolute left-[15%] top-[20%] rotate-45">
+            <div class="h-0 w-0 border-l-[10px] border-r-[10px] border-b-[16px] border-l-transparent border-r-transparent border-b-white/80"></div>
+          </div>
+          <!-- 右上三角形 -->
+          <div class="absolute right-[20%] top-[15%] rotate-12">
+            <div class="h-0 w-0 border-l-[8px] border-r-[8px] border-b-[12px] border-l-transparent border-r-transparent border-b-white/70"></div>
+          </div>
+          <!-- 左下三角形 -->
+          <div class="absolute left-[25%] bottom-[25%] -rotate-30">
+            <div class="h-0 w-0 border-l-[6px] border-r-[6px] border-b-[10px] border-l-transparent border-r-transparent border-b-white/60"></div>
+          </div>
+          <!-- 右下三角形 -->
+          <div class="absolute right-[15%] bottom-[20%] rotate-60">
+            <div class="h-0 w-0 border-l-[7px] border-r-[7px] border-b-[11px] border-l-transparent border-r-transparent border-b-white/65"></div>
+          </div>
+          <!-- 中心区域小三角形 -->
+          <div class="absolute left-[45%] top-[40%] -rotate-15">
+            <div class="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[8px] border-l-transparent border-r-transparent border-b-white/50"></div>
+          </div>
+          <!-- 装饰圆点 -->
+          <div class="absolute right-[35%] top-[35%] h-2 w-2 rounded-full bg-white/40"></div>
+          <div class="absolute left-[40%] bottom-[35%] h-1.5 w-1.5 rounded-full bg-white/35"></div>
+          <div class="absolute right-[45%] bottom-[45%] h-1 w-1 rounded-full bg-white/30"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-45 bg-white/25"></div>
+          <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-30 bg-white/20"></div>
+        {{ else if eq $patternType "diamond" }}
+          <!-- 菱形分布图案 - 移除中心主图案 -->
+          <!-- 左上菱形 -->
+          <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-45 border-2 border-white/80 bg-white/15"></div>
+          <!-- 右上菱形 -->
+          <div class="absolute right-[25%] top-[25%] h-4 w-4 rotate-12 border border-white/70 bg-white/12"></div>
+          <!-- 左下菱形 -->
+          <div class="absolute left-[30%] bottom-[30%] h-3 w-3 rotate-60 border border-white/60 bg-white/10"></div>
+          <!-- 右下菱形 -->
+          <div class="absolute right-[20%] bottom-[20%] h-4 w-4 rotate-30 border border-white/65 bg-white/13"></div>
+          <!-- 中心区域小菱形 -->
+          <div class="absolute left-[45%] top-[45%] h-2 w-2 rotate-45 border border-white/50 bg-white/8"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute left-[15%] top-[40%] h-0.5 w-8 rotate-45 bg-white/40"></div>
+          <div class="absolute right-[15%] top-[35%] h-0.5 w-6 rotate-12 bg-white/35"></div>
+          <div class="absolute left-[40%] bottom-[15%] h-0.5 w-5 -rotate-30 bg-white/30"></div>
+          <!-- 装饰圆点 -->
+          <div class="absolute top-[35%] right-[40%] h-2 w-2 rounded-full bg-white/35"></div>
+          <div class="absolute bottom-[40%] left-[35%] h-1.5 w-1.5 rounded-full bg-white/30"></div>
+          <div class="absolute top-[50%] left-[50%] h-1 w-1 rounded-full bg-white/25"></div>
+        {{ else if eq $patternType "hexagon" }}
+          <!-- 五角星分布图案 - 移除中心主图案 -->
+          <!-- 左上五角星 -->
+          <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-0 bg-white/80" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 右上五角星 -->
+          <div class="absolute right-[25%] top-[25%] h-4 w-4 rotate-36 bg-white/70" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 左下五角星 -->
+          <div class="absolute left-[30%] bottom-[30%] h-3 w-3 rotate-72 bg-white/60" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 右下五角星 -->
+          <div class="absolute right-[20%] bottom-[20%] h-4 w-4 rotate-108 bg-white/65" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 中心区域小五角星 -->
+          <div class="absolute left-[45%] top-[45%] h-2 w-2 rotate-144 bg-white/50" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
+          <!-- 装饰圆点 -->
+          <div class="absolute right-[35%] top-[35%] h-2 w-2 rounded-full bg-white/40"></div>
+          <div class="absolute left-[40%] bottom-[35%] h-1.5 w-1.5 rounded-full bg-white/35"></div>
+          <div class="absolute right-[45%] bottom-[45%] h-1 w-1 rounded-full bg-white/30"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-30 bg-white/25"></div>
+          <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-45 bg-white/20"></div>
+        {{ else }}
+          <!-- 圆形分布图案 - 移除中心主图案 -->
+          <!-- 左上圆形 -->
+          <div class="absolute left-[20%] top-[20%] h-6 w-6 rounded-full border-2 border-white/80 bg-white/15"></div>
+          <!-- 右上圆形 -->
+          <div class="absolute right-[25%] top-[25%] h-5 w-5 rounded-full border border-white/70 bg-white/12"></div>
+          <!-- 左下圆形 -->
+          <div class="absolute left-[30%] bottom-[30%] h-4 w-4 rounded-full border border-white/60 bg-white/10"></div>
+          <!-- 右下圆形 -->
+          <div class="absolute right-[20%] bottom-[20%] h-5 w-5 rounded-full border border-white/65 bg-white/13"></div>
+          <!-- 中心区域小圆形 -->
+          <div class="absolute left-[45%] top-[45%] h-3 w-3 rounded-full border border-white/50 bg-white/8"></div>
+          <!-- 装饰小圆点 -->
+          <div class="absolute right-[35%] top-[35%] h-2 w-2 rounded-full bg-white/50"></div>
+          <div class="absolute left-[40%] bottom-[35%] h-1.5 w-1.5 rounded-full bg-white/45"></div>
+          <div class="absolute left-[35%] top-[50%] h-1 w-1 rounded-full bg-white/40"></div>
+          <div class="absolute right-[40%] bottom-[50%] h-1 w-1 rounded-full bg-white/35"></div>
+          <div class="absolute left-[50%] top-[30%] h-1 w-1 rounded-full bg-white/30"></div>
+          <div class="absolute right-[50%] bottom-[30%] h-1 w-1 rounded-full bg-white/25"></div>
+          <!-- 装饰线条 -->
+          <div class="absolute top-[40%] left-[15%] h-0.5 w-6 rotate-30 bg-white/25"></div>
+          <div class="absolute bottom-[40%] right-[15%] h-0.5 w-4 -rotate-30 bg-white/20"></div>
+        {{ end }}
       </div>
-      {{ if and $decorSize1 $decorSize2 }}
-        <!-- 装饰元素 -->
-        <div class="{{ $decorPos1 }} {{ $decorSize1 }} rounded-full bg-white/10"></div>
-        <div class="{{ $decorPos2 }} {{ $decorSize2 }} rounded-full bg-white/15"></div>
-      {{ end }}
     </div>
   {{ end }}
 </div>

@@ -25,6 +25,8 @@
         {{ partial "content/cover-image-processor.html" . }}
         {{ $coverImage := .Scratch.Get "coverImage" }}
         {{ $coverProcessed := .Scratch.Get "coverProcessed" }}
+        {{ $randomImage := .Scratch.Get "randomImage" }}
+        {{ $useRandomImage := .Scratch.Get "useRandomImage" }}
         {{ $gradients := .Scratch.Get "gradients" }}
         {{ $colorIndex := .Scratch.Get "colorIndex" }}
 
@@ -33,7 +35,7 @@
             <div
               class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex h-full flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
               <!-- 文章封面 -->
-              {{ partial "content/card-image.html" (dict "page" . "type" "related" "coverImage" $coverImage "gradients" $gradients "colorIndex" $colorIndex) }}
+              {{ partial "content/card-image.html" (dict "page" . "type" "related" "coverImage" $coverImage "randomImage" $randomImage "useRandomImage" $useRandomImage "gradients" $gradients "colorIndex" $colorIndex) }}
 
               <!-- 文章信息 -->
               <div class="flex min-h-0 flex-1 flex-col p-4">

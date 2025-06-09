@@ -12,6 +12,8 @@
 {{/* 处理封面图片 */}}
 {{ $coverImage := "" }}
 {{ $coverProcessed := false }}
+{{ $randomImage := "" }}
+{{ $useRandomImage := false }}
 
 {{ if .Params.cover }}
   {{ $coverSrc := .Params.cover }}
@@ -67,6 +69,20 @@
   {{ end }}
 {{ end }}
 
+{{/* 随机占位图处理逻辑 */}}
+{{ if not $coverImage }}
+  {{ $placeholderConfig := site.Data.placeholder_images }}
+  {{ if and $placeholderConfig $placeholderConfig.enabled }}
+    {{ $images := $placeholderConfig.images }}
+    {{ if $images }}
+      {{ $hash := md5 .Title }}
+      {{ $imageIndex := mod (int (substr $hash 0 2 | printf "0x%s")) (len $images) }}
+      {{ $randomImage = index $images $imageIndex }}
+      {{ $useRandomImage = true }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 {{/* 统一的占位图生成逻辑 */}}
 {{ $hash := md5 .Title }}
 {{ $hexColor := substr $hash 0 2 }}
@@ -84,5 +100,7 @@
 {{/* 将变量设置到上下文中供调用者使用 */}}
 {{ $.Scratch.Set "coverImage" $coverImage }}
 {{ $.Scratch.Set "coverProcessed" $coverProcessed }}
+{{ $.Scratch.Set "randomImage" $randomImage }}
+{{ $.Scratch.Set "useRandomImage" $useRandomImage }}
 {{ $.Scratch.Set "gradients" $gradients }}
 {{ $.Scratch.Set "colorIndex" $colorIndex }}
