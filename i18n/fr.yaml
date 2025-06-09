@@ -127,6 +127,7 @@ time:
 
 # Archives
 archives:
+  desc: "Parcourez tous les articles par ordre chronologique et découvrez ce qui vous intéresse."
   posts_count: "articles"
   no_posts: "Aucun article"
   no_posts_desc: "Aucun article n'a encore été publié. Revenez plus tard."

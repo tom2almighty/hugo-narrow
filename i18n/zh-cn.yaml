@@ -127,6 +127,7 @@ time:
 
 # 归档相关
 archives:
+  desc: "按时间顺序浏览所有文章，发现您感兴趣的内容。"
   posts_count: "篇文章"
   no_posts: "暂无文章"
   no_posts_desc: "还没有发布任何文章，请稍后再来查看。"
