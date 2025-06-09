@@ -37,7 +37,7 @@
       <div
         class="relative z-10 flex flex-1 flex-col justify-between p-6 md:pr-72">
         <!-- 主要内容 -->
-        <div class="space-y-3">
+        <div class="space-y-3 flex-1">
           <!-- 发布日期 -->
           {{ partial "content/card-meta.html" (dict "page" . "type" "main" "config" (dict "showReadingTime" false "showCategories" false "showTags" false "datePosition" "top")) }}
 
@@ -53,11 +53,16 @@
               class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
               {{ .Summary | plainify | truncate 160 }}
             </p>
+          {{ else }}
+            <!-- 占位空间，确保高度一致 -->
+            <div class="h-10"></div>
           {{ end }}
         </div>
 
-        <!-- 底部元信息 -->
-        {{ partial "content/card-meta.html" (dict "page" . "type" "main" "config" (dict "showDate" false "datePosition" "meta")) }}
+        <!-- 底部元信息 - 固定高度区域 -->
+        <div class="flex-shrink-0 min-h-[60px] flex items-end">
+          {{ partial "content/card-meta.html" (dict "page" . "type" "main" "config" (dict "showDate" false "datePosition" "meta" "maxTags" 3)) }}
+        </div>
       </div>
     </div>
   </a>
