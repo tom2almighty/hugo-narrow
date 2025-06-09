@@ -482,9 +482,9 @@
     if (!searchStats || !searchItems) return;
 
     // 更新统计信息 - 从模板元素读取翻译
-    const statsTemplate = document.getElementById("search-stats-template");
+    const statsTemplate = document.getElementById("search-stats");
     if (statsTemplate) {
-      const template = statsTemplate.textContent.trim();
+      const template = statsTemplate.dataset.template;
       searchStats.textContent = template.replace('%d', results.length);
     } else {
       searchStats.textContent = `Found ${results.length} results`;
