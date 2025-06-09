@@ -3,14 +3,14 @@
 
 {{- $manifest := dict
   "name" site.Title
-  "short_name" (site.Params.site.shortName | default site.Title)
-  "description" (site.Params.site.description | default site.Params.description | default "")
+  "short_name" (site.Params.shortName | default site.Title)
+  "description" (site.Params.description | default "")
   "start_url" "/"
   "display" "standalone"
   "background_color" "#ffffff"
   "theme_color" $themeColor
   "orientation" "portrait-primary"
-  "lang" (site.Params.site.language | default site.LanguageCode | default "zh-CN")
+  "lang" (site.Params.language | default site.LanguageCode | default "zh-CN")
   "dir" "ltr"
   "scope" "/"
   "categories" (slice "blog" "technology" "education")

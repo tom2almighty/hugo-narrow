@@ -40,6 +40,11 @@ languages:
   #   languageName: "Русский"
   #   weight: 7
 
+# 分类法配置
+taxonomies:
+  category: categories
+  tag: tags
+
 menus:
   main:
     - name: nav.posts
@@ -106,23 +111,21 @@ menus:
         icon: email
 
 params:
-  site:
-    description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
-    keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
-    author: "Hugo Narrow"
+  # Basic site info with SEO
+  description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
+  keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
+  defaultAuthor: "Hugo Narrow"
+  language: "en-US"
+  shortName: "Hugo Narrow"  # PWA
+  images:
+  - "/images/og-default.avif"
 
   logo:
     image: "/images/logo.svg"  # Logo path rel to static folder, leave empty use site title and primary color
     link: "/"                  # click to home page
-  
   favicon:
     svg: "/favicon.svg"        # SVG format favicon (recommended)
 
-  seo:
-    enableOpenGraph: true
-    enableTwitterCard: true
-    enableJsonLd: true
-    defaultImage: "/images/og-default.avif"
 
   author:
     name: "Hugo Narrow"

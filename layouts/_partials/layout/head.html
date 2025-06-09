@@ -1,96 +1,33 @@
-{{/* 基础 Meta 标签 */}}
 <meta charset="utf-8" />
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-{{/* 页面标题 */}}
-<title>
-  {{- if .IsHome -}}
-    {{ site.Title }}{{ with site.Params.site.description }}- {{ . }}{{ end }}
-  {{- else if .Title -}}
-    {{ .Title }} |
-    {{ site.Title }}
-  {{- else -}}
-    {{ site.Title }}
-  {{- end -}}
-</title>
+<title>{{- if .IsHome -}}{{ site.Title }}{{- else if .Title -}}{{ .Title }} | {{ site.Title }}{{- else -}}{{ site.Title }}{{- end -}}</title>
 
+<meta name="description" content="{{- with .Description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{- with .Params.summary -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{- if or .IsPage .IsSection -}}{{- if .Content -}}{{ .Content | plainify | truncate 150 "..." }}{{- else -}}{{- with site.Params.description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{ printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." }}{{- end -}}{{- end -}}{{- else -}}{{- with site.Params.description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{ printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." }}{{- end -}}{{- end -}}{{- end -}}{{- end -}}" />
+<meta name="keywords" content="{{- with .Params.tags -}}{{ delimit . ", " }}{{- else -}}{{ delimit site.Params.keywords ", " }}{{- end -}}" />
+<meta name="author" content="{{- with .Params.author -}}{{ . }}{{- else -}}{{ site.Params.defaultAuthor }}{{- end -}}" />
+<meta name="language" content="{{ site.Params.language | default site.LanguageCode }}" />
 
-<meta
-  name="description"
-  content="{{ with .Description }}
-    {{- . | plainify | truncate 160 "..." -}}
-  {{ else }}
-    {{ with .Params.summary }}
-      {{- . | plainify | truncate 160 "..." -}}
-    {{ else }}
-      {{ if or .IsPage .IsSection }}
-        {{ if .Content }}
-          {{- .Content | plainify | truncate 150 "..." -}}
-        {{ else }}
-          {{ with site.Params.site.description }}
-            {{- . | plainify | truncate 160 "..." -}}
-          {{ else }}
-            {{- printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." -}}
-          {{ end }}
-        {{ end }}
-      {{ else }}
-        {{ with site.Params.site.description }}
-          {{- . | plainify | truncate 160 "..." -}}
-        {{ else }}
-          {{- printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." -}}
-        {{ end }}
-      {{ end }}
-    {{ end }}
-  {{ end }}" />
-<meta
-  name="keywords"
-  content="{{ with .Params.tags }}
-    {{ delimit . ", " }}
-  {{ else }}
-    {{ delimit site.Params.site.keywords ", " }}
-  {{ end }}" />
-<meta
-  name="author"
-  content="{{ with .Params.author }}
-    {{ . }}
-  {{ else }}
-    {{ site.Params.site.author }}
-  {{ end }}" />
-<meta
-  name="language"
-  content="{{ site.Params.site.language | default site.LanguageCode }}" />
-<meta
-  name="robots"
-  content="{{ with .Params.robots }}
-    {{ . }}
-  {{ else }}
-    index, follow
-  {{ end }}
-  " />
-
-{{/* Canonical URL */}}
+<meta name="robots" content="{{- with .Params.robots -}}{{ . }}{{- else -}}index, follow{{- end -}}" />
 <link rel="canonical" href="{{ .Permalink }}" />
 
-{{/* Favicon 配置 (现代 SVG 格式) */}}
+
 {{ with site.Params.favicon.svg }}
   <link rel="icon" type="image/svg+xml" href="{{ . }}" />
 {{ else }}
-  {{/* 默认 SVG Favicon */}}
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 {{ end }}
 
-{{/* Web App Manifest (自动生成) */}}
-<link rel="manifest" href="/site.webmanifest" />
 
-{{/* SEO Meta 标签 */}}
+<link rel="manifest" href="/site.webmanifest" />
 {{ partial "layout/head/seo.html" . }}
 
-{{/* 样式表 */}}
-{{ partial "layout/head/css.html" . }}
 
+{{ partial "layout/head/css.html" . }}
 
 {{- $homePermalink := site.Home.RelPermalink -}}
 {{- $searchIndexURL := printf "%sindex.json" $homePermalink -}}
@@ -99,6 +36,4 @@
     searchIndexURL: {{ $searchIndexURL | jsonify }}
   };
 </script>
-
-{{/* JavaScript */}}
 {{ partial "layout/head/js.html" . }}
