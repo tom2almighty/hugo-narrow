@@ -5,9 +5,9 @@
     <div class="hidden w-full items-center md:flex">
       <!-- 左侧：站点 Logo -->
       <div class="flex items-center">
-        {{ if site.Params.logo }}
+        {{ if ne site.Params.logo.image "" }}
           <a
-            href="{{ site.Params.logo.link | default "/" }}"
+            href="{{ if site.Params.logo.link }}{{ site.Params.logo.link | relLangURL }}{{ else }}{{ site.Home.RelPermalink }}{{ end }}"
             class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
             aria-label="{{ site.Title }}">
             <img
@@ -18,7 +18,7 @@
         {{ else }}
           <!-- 默认 Logo：使用站点标题首字母 -->
           <a
-            href="/"
+            href="{{ site.Home.RelPermalink }}"
             class="bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
             aria-label="{{ site.Title }}">
             {{ substr site.Title 0 1 | upper }}

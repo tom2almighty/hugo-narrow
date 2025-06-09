@@ -53,7 +53,7 @@
               <!-- 特定标签页 (/tags/hugo/) -->
               <div class="flex items-center gap-1 md:gap-2 min-w-0">
                 <a
-                  href="{{ "/tags/" | relURL }}"
+                  href="{{ "/tags/" | relLangURL }}"
                   class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
                   {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
                   <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.tags" | default "标签" }}</span>
@@ -78,7 +78,7 @@
               <!-- 特定分类页 (/categories/tech/) -->
               <div class="flex items-center gap-1 md:gap-2 min-w-0">
                 <a
-                  href="{{ "/categories/" | relURL }}"
+                  href="{{ "/categories/" | relLangURL }}"
                   class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
                   {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
                   <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.categories" | default "分类" }}</span>
@@ -103,7 +103,7 @@
             {{ if ne .Section "" }}
               <!-- 有分区的页面，先显示分区链接 -->
               <a
-                href="{{ .Section | relURL }}"
+                href="{{ .Section | relLangURL }}"
                 class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
                 {{ if eq .Section "posts" }}
                   {{ partial "features/icon.html" (dict "name" "posts" "size" "sm" "ariaLabel" "") }}
