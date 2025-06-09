@@ -91,13 +91,12 @@
 {{/* 样式表 */}}
 {{ partial "layout/head/css.html" . }}
 
-{{/* 全局配置 - 在其他JavaScript之前加载 */}}
+
+{{- $homePermalink := site.Home.RelPermalink -}}
+{{- $searchIndexURL := printf "%sindex.json" $homePermalink -}}
 <script>
   window.HUGO_CONFIG = {
-    homeURL: {{ "/" | relLangURL | jsonify }},
-    postsURL: {{ "/posts/" | relLangURL | jsonify }},
-    language: {{ .Language.Lang | jsonify }},
-    baseURL: {{ site.BaseURL | jsonify }}
+    searchIndexURL: {{ $searchIndexURL | jsonify }}
   };
 </script>
 

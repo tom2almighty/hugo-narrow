@@ -311,9 +311,10 @@
     if (searchData) return searchData;
 
     try {
-      const indexURL = window.HUGO_CONFIG?.homeURL ?
-        window.HUGO_CONFIG.homeURL + "index.json" :
-        "/index.json";
+      
+      let indexURL = window.HUGO_CONFIG?.searchIndexURL || "/index.json";
+      indexURL = indexURL.replace(/['"]/g, '').replace(/%22/g, '');
+
       const response = await fetch(indexURL);
 
       if (!response.ok) {
