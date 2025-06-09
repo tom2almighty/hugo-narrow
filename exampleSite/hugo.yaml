@@ -112,7 +112,7 @@ params:
     author: "Hugo Narrow"
 
   logo:
-    image: "/images/logo.svg"  # Logo path rel to static folder
+    image: "/images/logo.svg"  # Logo path rel to static folder, leave empty use site title and primary color
     link: "/"                  # click to home page
   
   favicon:
