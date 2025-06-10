@@ -26,10 +26,6 @@
         {{ if $config.region }}region: '{{ $config.region }}',{{ end }}
         {{ if $config.path }}path: '{{ $config.path }}',{{ else }}path: '{{ .Page.RelPermalink }}',{{ end }}
         lang: '{{ $config.lang | default "zh-CN" }}',
-        {{ if $config.placeholder }}placeholder: '{{ $config.placeholder }}',{{ end }}
-        {{ if $config.avatar }}avatar: '{{ $config.avatar }}',{{ end }}
-        {{ if $config.visitor }}visitor: {{ $config.visitor }},{{ end }}
-        {{ if $config.highlight }}highlight: {{ $config.highlight }},{{ end }}
       });
 
       // 主题切换支持

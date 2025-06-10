@@ -26,24 +26,11 @@
         pageTitle: '{{ .Page.Title | safeJS }}',
         server: '{{ $config.server }}',
         site: '{{ $config.site | default .Site.Title }}',
-        placeholder: '{{ $config.placeholder | default "请留下你的足迹 ~~" }}',
-        noComment: '{{ $config.noComment | default "暂无评论" }}',
-        sendBtn: '{{ $config.sendBtn | default "发送" }}',
+        locale: '{{ $config.locale | default "zh-CN" }}',
         darkMode: '{{ $config.darkMode | default "auto" }}',
         gravatar: {
           mirror: '{{ $config.gravatar.mirror | default "https://cravatar.cn/avatar/" }}'
         },
-        pagination: {
-          pageSize: {{ $config.pagination.pageSize | default 20 }},
-          autoLoad: {{ $config.pagination.autoLoad | default true }}
-        },
-        heightLimit: {
-          content: {{ $config.heightLimit.content | default 300 }},
-          children: {{ $config.heightLimit.children | default 400 }}
-        },
-        imgUpload: {{ $config.imgUpload | default false }},
-        preview: {{ $config.preview | default true }},
-        countEl: '{{ $config.countEl | default "#ArtalkCount" }}'
       });
 
       // 主题切换支持

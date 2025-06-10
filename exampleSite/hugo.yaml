@@ -227,41 +227,22 @@ params:
     waline:
       serverURL: ""
       lang: "zh-CN"
-      meta: ["nick", "mail", "link"]
-      requiredMeta: ["nick"]
-      placeholder: ""
-      avatar: "mp"
-      pageSize: 10
 
 
     artalk:
       server: ""
       site: ""
-      placeholder: "" 
-      noComment: "" 
-      sendBtn: ""
+      locale: "zh-CN" # String|Object|"auto"
       darkMode: "auto"
       gravatar:
         mirror: "https://cravatar.cn/avatar/"
-      pagination:
-        pageSize: 20
-        autoLoad: true
-      heightLimit:
-        content: 300
-        children: 400
-      imgUpload: false
-      preview: true 
-      countEl: "#ArtalkCount"
 
 
     twikoo:
       envId: ""
       region: "ap-shanghai"
+      path: ""
       lang: "zh-CN"
-      placeholder: "" 
-      avatar: "mp"
-      visitor: true 
-      highlight: true 
 
 
   analytics:

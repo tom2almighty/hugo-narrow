@@ -12,7 +12,7 @@
 */}}
 
 {{- $commentsConfig := .Site.Params.comments -}}
-{{- $commentSystem := $commentsConfig.system | default "giscus" -}}
+{{- $commentSystem := $commentsConfig.system -}}
 
 {{- if and $commentsConfig.enabled (not .Params.comments_disabled) -}}
   <section
