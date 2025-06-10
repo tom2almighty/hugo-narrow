@@ -1,17 +1,12 @@
-{{/* 
-  文章卡片元信息组件 - 统一的元信息显示逻辑
-  
+{{/*
+  文章卡片元信息组件 - 简化的元信息显示逻辑
+
   参数：
   - .page: 页面对象
   - .type: 显示类型 ("main", "related")
   - .config: 配置对象
     - showDate: 是否显示日期
     - showReadingTime: 是否显示阅读时间
-    - showCategories: 是否显示分类
-    - showTags: 是否显示标签
-    - maxTags: 最大标签数量
-    - datePosition: 日期位置 ("top", "meta")
-    - style: 样式类型 ("badge", "simple")
 */}}
 
 {{ $page := .page }}
@@ -21,36 +16,18 @@
 {{/* 默认配置 */}}
 {{ $showDate := $config.showDate | default true }}
 {{ $showReadingTime := $config.showReadingTime | default true }}
-{{ $showCategories := $config.showCategories | default true }}
-{{ $showTags := $config.showTags | default true }}
-{{ $maxTags := $config.maxTags | default 3 }}
-{{ $datePosition := $config.datePosition | default "top" }}
-{{ $style := $config.style | default "badge" }}
 
-{{/* 根据类型设置默认配置 */}}
-{{ if eq $type "related" }}
-  {{ $maxTags = $config.maxTags | default 2 }}
-  {{ $datePosition = $config.datePosition | default "meta" }}
-  {{ $style = $config.style | default "simple" }}
-  {{ $showCategories = $config.showCategories | default false }}
-{{ end }}
 
-{{/* 顶部日期显示 */}}
-{{ if and $showDate (eq $datePosition "top") }}
-  <div class="text-muted-foreground text-xs font-medium">
-    {{ $page.Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
-  </div>
-{{ end }}
 
 {{/* 底部元信息区域 */}}
-{{ if or (and $showDate (eq $datePosition "meta")) $showReadingTime $showCategories $showTags }}
+{{ if or $showDate $showReadingTime }}
   <div class="{{ if eq $type "related" }}text-muted-foreground mb-3 flex flex-shrink-0 items-center justify-between text-xs{{ else }}text-muted-foreground flex items-center gap-3 text-sm min-h-[48px] overflow-hidden{{ end }}">
     
     {{ if eq $type "related" }}
       {{/* 相关文章样式：左右布局 */}}
       
       {{/* 左侧：日期 */}}
-      {{ if and $showDate (eq $datePosition "meta") }}
+      {{ if $showDate }}
         <div class="flex items-center gap-1">
           {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
           <time datetime="{{ $page.Date.Format "2006-01-02" }}">
@@ -69,7 +46,17 @@
       
     {{ else }}
       {{/* 主文章样式：流式布局 */}}
-      
+
+      {{/* 发布日期 */}}
+      {{ if $showDate }}
+        <div class="bg-muted/50 border-muted/30 flex items-center gap-1.5 rounded-md border px-2 py-1">
+          {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post.date")) }}
+          <time datetime="{{ $page.Date.Format "2006-01-02" }}" class="text-sm font-medium">
+            {{ $page.Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
+          </time>
+        </div>
+      {{ end }}
+
       {{/* 阅读时间 */}}
       {{ if and $showReadingTime $page.ReadingTime }}
         <div class="bg-muted/50 border-muted/30 flex items-center gap-1.5 rounded-md border px-2 py-1">
@@ -78,99 +65,10 @@
         </div>
       {{ end }}
 
-      {{/* 文章分类 */}}
-      {{ if and $showCategories $page.Params.categories }}
-        <div class="bg-muted/50 border-muted/30 flex items-center gap-1.5 rounded-md border px-2 py-1">
-          {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" (i18n "post.categories")) }}
-          <span class="text-sm font-medium">{{ index $page.Params.categories 0 }}</span>
-        </div>
-      {{ end }}
 
-      {{/* 文章标签 */}}
-      {{ if and $showTags $page.Params.tags }}
-        {{/* 智能标签显示：优先显示短标签 */}}
-        {{ $allTags := $page.Params.tags }}
-        {{ $shortTags := slice }}
-        {{ $longTags := slice }}
-
-        {{/* 按长度分类标签 */}}
-        {{ range $allTags }}
-          {{ if le (len .) 8 }}
-            {{ $shortTags = $shortTags | append . }}
-          {{ else }}
-            {{ $longTags = $longTags | append . }}
-          {{ end }}
-        {{ end }}
-
-        {{/* 优先显示短标签，然后是长标签 */}}
-        {{ $displayTags := slice }}
-        {{ $displayTags = $displayTags | append ($shortTags | first $maxTags) }}
-        {{ $remaining := sub $maxTags (len $displayTags) }}
-        {{ if gt $remaining 0 }}
-          {{ $displayTags = $displayTags | append ($longTags | first $remaining) }}
-        {{ end }}
-
-        <div class="flex items-center gap-2 overflow-hidden">
-          {{ range $displayTags }}
-            <span class="bg-muted/50 border-muted/30 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-sm font-medium flex-shrink-0">
-              {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" (i18n "post.tags")) }}
-              <span class="truncate max-w-[70px]">{{ . }}</span>
-            </span>
-          {{ end }}
-          {{ $hiddenCount := sub (len $allTags) (len $displayTags) }}
-          {{ if gt $hiddenCount 0 }}
-            <span class="text-muted-foreground/70 inline-flex items-center text-sm font-medium flex-shrink-0">+{{ $hiddenCount }}</span>
-          {{ end }}
-        </div>
-      {{ else if $showTags }}
-        <!-- 占位空间，确保高度一致 -->
-        <div class="h-8"></div>
-      {{ end }}
       
     {{ end }}
   </div>
 {{ end }}
 
-{{/* 相关文章的标签单独显示 */}}
-{{ if and (eq $type "related") $showTags }}
-  <div class="flex-shrink-0">
-    {{ if $page.Params.tags }}
-      {{/* 智能标签显示：优先显示短标签 */}}
-      {{ $allTags := $page.Params.tags }}
-      {{ $shortTags := slice }}
-      {{ $longTags := slice }}
 
-      {{/* 按长度分类标签 */}}
-      {{ range $allTags }}
-        {{ if le (len .) 6 }}
-          {{ $shortTags = $shortTags | append . }}
-        {{ else }}
-          {{ $longTags = $longTags | append . }}
-        {{ end }}
-      {{ end }}
-
-      {{/* 优先显示短标签，然后是长标签 */}}
-      {{ $displayTags := slice }}
-      {{ $displayTags = $displayTags | append ($shortTags | first $maxTags) }}
-      {{ $remaining := sub $maxTags (len $displayTags) }}
-      {{ if gt $remaining 0 }}
-        {{ $displayTags = $displayTags | append ($longTags | first $remaining) }}
-      {{ end }}
-
-      <div class="flex items-center gap-1 overflow-hidden min-h-[20px]">
-        {{ range $displayTags }}
-          <span class="bg-muted/50 text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs flex-shrink-0">
-            <span class="truncate max-w-[50px]">#{{ . }}</span>
-          </span>
-        {{ end }}
-        {{ $hiddenCount := sub (len $allTags) (len $displayTags) }}
-        {{ if gt $hiddenCount 0 }}
-          <span class="text-muted-foreground/70 inline-flex items-center text-xs font-medium flex-shrink-0">+{{ $hiddenCount }}</span>
-        {{ end }}
-      </div>
-    {{ else }}
-      <!-- 占位空间，确保高度一致 -->
-      <div class="min-h-[20px]"></div>
-    {{ end }}
-  </div>
-{{ end }}
