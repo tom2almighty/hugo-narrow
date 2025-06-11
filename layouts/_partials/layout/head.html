@@ -33,7 +33,15 @@
 {{- $searchIndexURL := printf "%sindex.json" $homePermalink -}}
 <script>
   window.HUGO_CONFIG = {
-    searchIndexURL: {{ $searchIndexURL | jsonify }}
+    searchIndexURL: {{ $searchIndexURL | jsonify }},
+    gallery: {
+      justified_gallery: {{ site.Params.gallery.justified_gallery | default false }},
+      lightbox: {{ site.Params.gallery.lightbox | default false }},
+      responsive: {
+        rowHeight: {{ site.Params.gallery.responsive.rowHeight | default 180 }},
+        margins: {{ site.Params.gallery.responsive.margins | default 5 }}
+      }
+    }
   };
 </script>
 {{ partial "layout/head/js.html" . }}

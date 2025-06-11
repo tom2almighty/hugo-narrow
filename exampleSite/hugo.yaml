@@ -196,7 +196,7 @@ params:
 
   # comments
   comments:
-    enabled: true
+    enabled: false
     # giscus, disqus, utterances, waline, artalk, twikoo
     system: "giscus"
 
@@ -281,6 +281,14 @@ params:
       
   mermaid:
     enabled: false
+
+  # 图片画廊配置
+  gallery:
+    justified_gallery: true    # 启用Justified Gallery布局
+    lightbox: true             # 启用lightGallery灯箱功能
+    responsive:
+      rowHeight: 180           # 行高度
+      margins: 5               # 图片间距
 
 
 

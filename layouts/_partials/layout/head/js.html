@@ -95,6 +95,48 @@
   {{- end }}
 {{- end }}
 
+
+<!-- jQuery -->
+{{- if or site.Params.gallery.justified_gallery site.Params.gallery.lightbox }}
+  <script src="/js/jquery-2.2.4.min.js"></script>
+{{- end }}
+
+<!-- Justified Gallery - JS -->
+{{- if site.Params.gallery.justified_gallery }}
+  <script src="/js/jquery.justifiedGallery.min.js"></script>
+{{- end }}
+
+<!-- lightGallery - 本地资源 -->
+{{- if site.Params.gallery.lightbox }}
+  <script src="/js/lightgallery.min.js"></script>
+  <script src="/js/lg-zoom.min.js"></script>
+  <script src="/js/lg-thumbnail.min.js"></script>
+{{- end }}
+
+
+{{- if or site.Params.gallery.justified_gallery site.Params.gallery.lightbox }}
+  {{- with resources.Get "js/gallery.js" }}
+    {{- $opts := dict
+      "minify" (not hugo.IsDevelopment)
+      "sourceMap" (cond hugo.IsDevelopment "external" "")
+      "targetPath" "js/gallery.js"
+    }}
+    {{- with . | js.Build $opts }}
+      {{- if hugo.IsDevelopment }}
+        <script src="{{ .RelPermalink }}" defer></script>
+      {{- else }}
+        {{- with . | fingerprint }}
+          <script
+            src="{{ .RelPermalink }}"
+            integrity="{{ .Data.Integrity }}"
+            crossorigin="anonymous"
+            defer></script>
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{ if .Site.Params.analytics.enabled -}}
   {{ partial "features/analytics.html" . }}
 {{- end }}

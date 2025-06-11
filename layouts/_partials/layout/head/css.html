@@ -63,3 +63,15 @@
     {{ end }}
   {{ end }}
 {{ end }}
+
+{{/* 图片画廊CSS - 条件加载 */}}
+{{- if site.Params.gallery.justified_gallery }}
+  <link rel="stylesheet" href="/css/justifiedGallery.min.css">
+{{- end }}
+
+{{- if site.Params.gallery.lightbox }}
+  <link rel="stylesheet" href="/css/lightgallery.css">
+  <link rel="stylesheet" href="/css/lg-zoom.css">
+  <link rel="stylesheet" href="/css/lg-thumbnail.css">
+{{- end }}
+

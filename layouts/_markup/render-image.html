@@ -1,103 +1,97 @@
-{{/* 简洁的图像渲染模板
-  基于 https://www.brycewray.com/posts/2023/05/better-code-image-processing-hugo-render-hook-edition/
+{{/* 图片画廊渲染模板 - 简化版本，通过JavaScript后处理实现画廊功能
+  支持单图片居中显示和多图片瀑布流布局
   使用 Tailwind CSS 4.0 和主题变量优化
 */}}
 
 {{- $alt := .Text -}}
 {{- $caption := .Title -}}
+{{- $dest := .Destination | safeURL -}}
+
+{{/* 画廊配置 */}}
+{{- $galleryConfig := site.Params.gallery | default dict -}}
+{{- $pageGalleryConfig := .Page.Params.gallery | default dict -}}
+{{- $lightboxEnabled := false -}}
+
+{{/* 优先使用页面级配置，然后是全局配置 */}}
+{{- if isset $pageGalleryConfig "lightbox" -}}
+  {{- $lightboxEnabled = $pageGalleryConfig.lightbox -}}
+{{- else if isset $galleryConfig "lightbox" -}}
+  {{- $lightboxEnabled = $galleryConfig.lightbox -}}
+{{- end -}}
 
 {{/* 响应式尺寸配置 */}}
 {{- $respSizes := slice "320" "640" "960" "1280" "1600" "1920" -}}
 {{- $hint := "photo" -}}
 {{- $filter := "Lanczos" -}}
 
-{{/* 处理图像路径 */}}
-{{- $dest := .Destination | safeURL -}}
-
-
-<div class="not-prose my-8">
+{{/* 生成标准的figure元素，通过JavaScript后处理实现画廊功能 */}}
+<figure class="image-figure not-prose my-8" data-gallery-enabled="{{ if $lightboxEnabled }}true{{ else }}false{{ end }}">
   {{/* 检查是否为页面资源 */}}
   {{- if and (.Page.Resources.Get $dest) (ne (.Page.Resources.Get $dest).MediaType.SubType "svg") -}}
-
     {{/* 页面资源处理 */}}
     {{- $src := .Page.Resources.Get $dest -}}
     {{- $dataSizes := "(min-width: 1024px) 960px, (min-width: 768px) 720px, 100vw" -}}
     {{- $actualImg := $src.Resize (printf "960x q85 %s" $filter) -}}
 
-
-    <figure class="text-center">
-      <div
-        class="inline-block overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-out hover:shadow-xl">
-        <picture>
-          {{/* WebP 格式 */}}
-          <source
-            type="image/webp"
-            srcset="
-              {{- range $i, $size := $respSizes -}}
-                {{- if ge $src.Width (int $size) -}}
-                  {{- if $i }},{{ end -}}
-                  {{- ($src.Resize (printf "%sx webp q85 %s %s" $size $hint $filter)).RelPermalink }}
-                  {{ $size }}w
-                {{- end -}}
+    <div class="image-container">
+      <picture>
+        {{/* WebP 格式 */}}
+        <source
+          type="image/webp"
+          srcset="
+            {{- range $i, $size := $respSizes -}}
+              {{- if ge $src.Width (int $size) -}}
+                {{- if $i }},{{ end -}}
+                {{- ($src.Resize (printf "%sx webp q85 %s %s" $size $hint $filter)).RelPermalink }}
+                {{ $size }}w
               {{- end -}}
-            "
-            sizes="{{ $dataSizes }}" />
+            {{- end -}}
+          "
+          sizes="{{ $dataSizes }}" />
 
-          {{/* JPEG 格式降级 */}}
-          <source
-            type="image/jpeg"
-            srcset="
-              {{- range $i, $size := $respSizes -}}
-                {{- if ge $src.Width (int $size) -}}
-                  {{- if $i }},{{ end -}}
-                  {{- ($src.Resize (printf "%sx jpeg q85 %s" $size $filter)).RelPermalink }}
-                  {{ $size }}w
-                {{- end -}}
+        {{/* JPEG 格式降级 */}}
+        <source
+          type="image/jpeg"
+          srcset="
+            {{- range $i, $size := $respSizes -}}
+              {{- if ge $src.Width (int $size) -}}
+                {{- if $i }},{{ end -}}
+                {{- ($src.Resize (printf "%sx jpeg q85 %s" $size $filter)).RelPermalink }}
+                {{ $size }}w
               {{- end -}}
-            "
-            sizes="{{ $dataSizes }}" />
+            {{- end -}}
+          "
+          sizes="{{ $dataSizes }}" />
 
-          {{/* 降级图像 */}}
-          <img
-            src="{{ $actualImg.RelPermalink }}"
-            alt="{{ $alt }}"
-            {{ with $alt }}title="{{ . }}"{{ end }}
-            width="{{ $src.Width }}"
-            height="{{ $src.Height }}"
-            class="h-auto w-full transition-transform duration-300 ease-out hover:scale-105"
-            loading="lazy"
-            decoding="async" />
-        </picture>
-      </div>
-
-      {{/* 图片说明 */}}
-      {{- if $caption -}}
-        <figcaption class="text-muted-foreground mt-3 text-sm italic">
-          {{ $caption | .Page.RenderString }}
-        </figcaption>
-      {{- end -}}
-    </figure>
-  {{- else -}}
-
-    {{/* 外部图像或 SVG 处理 */}}
-    <figure class="text-center">
-      <div
-        class="inline-block overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-out hover:shadow-xl">
+        {{/* 主图像 */}}
         <img
-          src="{{ $dest }}"
+          src="{{ $actualImg.RelPermalink }}"
           alt="{{ $alt }}"
-          {{ with .Title }}title="{{ . }}"{{ end }}
-          class="h-auto w-full max-w-full transition-transform duration-300 ease-out hover:scale-105"
+          {{ with $alt }}title="{{ . }}"{{ end }}
+          width="{{ $src.Width }}"
+          height="{{ $src.Height }}"
+          {{ if $lightboxEnabled }}data-glightbox="title: {{ $alt }}{{ with $caption }}; description: {{ . }}{{ end }}"{{ end }}
           loading="lazy"
           decoding="async" />
-      </div>
-
-      {{/* 图片说明 */}}
-      {{- if $caption -}}
-        <figcaption class="text-muted-foreground mt-3 text-sm italic">
-          {{ $caption | .Page.RenderString }}
-        </figcaption>
-      {{- end -}}
-    </figure>
+      </picture>
+    </div>
+  {{- else -}}
+    {{/* 外部图像或 SVG 处理 */}}
+    <div class="image-container">
+      <img
+        src="{{ $dest }}"
+        alt="{{ $alt }}"
+        {{ with .Title }}title="{{ . }}"{{ end }}
+        {{ if $lightboxEnabled }}data-glightbox="title: {{ $alt }}{{ with $caption }}; description: {{ . }}{{ end }}"{{ end }}
+        loading="lazy"
+        decoding="async" />
+    </div>
   {{- end -}}
-</div>
+
+  {{/* 图片说明 */}}
+  {{- if $caption -}}
+    <figcaption class="image-caption">
+      {{ $caption | .Page.RenderString }}
+    </figcaption>
+  {{- end -}}
+</figure>

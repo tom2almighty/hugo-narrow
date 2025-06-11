@@ -17,5 +17,8 @@
 /* 组件样式 */
 @import "./components.css";
 
+/* 图片画廊样式 */
+@import "./gallery.css";
+
 /* 自定义样式入口 */
 @import "./custom.css";
