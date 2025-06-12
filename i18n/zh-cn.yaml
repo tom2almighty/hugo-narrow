@@ -67,8 +67,8 @@ post:
   words: "字"
   no_previous: "没有上一篇"
   no_next: "没有下一篇"
-  no_previous_desc: "这是最新的文章"
-  no_next_desc: "这是最早的文章"
+  no_previous_desc: "这是最早的文章"
+  no_next_desc: "这是最新的文章"
   view_more_posts: "查看更多文章"
   reading_time_unit: "分钟"
 

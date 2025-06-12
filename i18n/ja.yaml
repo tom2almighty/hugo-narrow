@@ -67,8 +67,8 @@ post:
   words: "文字"
   no_previous: "前の記事はありません"
   no_next: "次の記事はありません"
-  no_previous_desc: "これが最新の記事です"
-  no_next_desc: "これが最初の記事です"
+  no_previous_desc: "これが最初の記事です"
+  no_next_desc: "これが最新の記事です"
   view_more_posts: "もっと記事を見る"
   reading_time_unit: "分"
 

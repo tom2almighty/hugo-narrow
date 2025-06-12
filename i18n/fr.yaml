@@ -67,8 +67,8 @@ post:
   words: "mots"
   no_previous: "Aucun article précédent"
   no_next: "Aucun article suivant"
-  no_previous_desc: "Ceci est l'article le plus récent"
-  no_next_desc: "Ceci est l'article le plus ancien"
+  no_previous_desc: "Ceci est l'article le plus ancien"
+  no_next_desc: "Ceci est l'article le plus récent"
   view_more_posts: "Voir plus d'articles"
   reading_time_unit: "min"
 

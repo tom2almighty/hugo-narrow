@@ -67,8 +67,8 @@ post:
   words: "palabras"
   no_previous: "No hay artículo anterior"
   no_next: "No hay artículo siguiente"
-  no_previous_desc: "Este es el artículo más reciente"
-  no_next_desc: "Este es el artículo más antiguo"
+  no_previous_desc: "Este es el artículo más antiguo"
+  no_next_desc: "Este es el artículo más reciente"
   view_more_posts: "Ver más artículos"
   reading_time_unit: "min"
 

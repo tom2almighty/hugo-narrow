@@ -51,7 +51,7 @@
               </span>
             </div>
             <p class="text-muted-foreground/50 text-sm">
-              {{ i18n "post.no_previous_desc" | default "这是最新的文章" }}
+              {{ i18n "post.no_previous_desc" | default "这是最早的文章" }}
             </p>
           </div>
         {{ end }}
@@ -95,7 +95,7 @@
               {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
             </div>
             <p class="text-muted-foreground/50 text-right text-sm">
-              {{ i18n "post.no_next_desc" | default "这是最早的文章" }}
+              {{ i18n "post.no_next_desc" | default "这是最新的文章" }}
             </p>
           </div>
         {{ end }}

@@ -67,8 +67,8 @@ post:
   words: "слов"
   no_previous: "Нет предыдущей статьи"
   no_next: "Нет следующей статьи"
-  no_previous_desc: "Это самая новая статья"
-  no_next_desc: "Это самая старая статья"
+  no_previous_desc: "Это самая старая статья"
+  no_next_desc: "Это самая новая статья"
   view_more_posts: "Посмотреть больше статей"
   reading_time_unit: "мин"
 

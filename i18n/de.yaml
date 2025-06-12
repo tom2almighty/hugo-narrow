@@ -67,8 +67,8 @@ post:
   words: "Wörter"
   no_previous: "Kein vorheriger Beitrag"
   no_next: "Kein nächster Beitrag"
-  no_previous_desc: "Dies ist der neueste Beitrag"
-  no_next_desc: "Dies ist der älteste Beitrag"
+  no_previous_desc: "Dies ist der älteste Beitrag"
+  no_next_desc: "Dies ist der neueste Beitrag"
   view_more_posts: "Mehr Beiträge anzeigen"
   reading_time_unit: "Min"
 
