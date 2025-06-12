@@ -233,7 +233,7 @@ class ImageGallery {
           galleryLink.setAttribute('data-lg-size', `${img.naturalWidth}-${img.naturalHeight}`);
         }
 
-        // 设置说明文字 - 优先使用data-glightbox，然后是figcaption
+        // 设置说明文字 - 优化逻辑：title作为标题，alt作为描述
         let subHtml = '';
         const glightboxData = img.getAttribute('data-glightbox');
 
@@ -250,18 +250,23 @@ class ImageGallery {
               subHtml += `<p>${descMatch[1].trim()}</p>`;
             }
           }
-        } else if (caption) {
-          // 备用：使用figcaption
-          const captionText = caption.textContent.trim();
-          if (captionText) {
-            subHtml = `<h4>${imgTitle}</h4><p>${captionText}</p>`;
-          }
-        } else if (imgTitle || imgAlt) {
-          // 备用：使用图片的title或alt
-          if (imgTitle && imgTitle !== imgAlt) {
+        } else {
+          // 优化逻辑：优先使用title作为标题，alt作为描述
+          if (imgTitle && imgAlt && imgTitle !== imgAlt) {
+            // title和alt都存在且不同：title作为标题，alt作为描述
             subHtml = `<h4>${imgTitle}</h4><p>${imgAlt}</p>`;
+          } else if (imgTitle) {
+            // 只有title：作为主要说明
+            subHtml = `<h4>${imgTitle}</h4>`;
           } else if (imgAlt) {
+            // 只有alt：作为描述
             subHtml = `<p>${imgAlt}</p>`;
+          } else if (caption) {
+            // 备用：使用figcaption
+            const captionText = caption.textContent.trim();
+            if (captionText) {
+              subHtml = `<p>${captionText}</p>`;
+            }
           }
         }
 
@@ -391,43 +396,29 @@ class ImageGallery {
       autoplayFirstVideo: false,
       pager: false,
       galleryId: container.id,
+      hideScrollbar: true,
+      mousewheel: true,
       plugins: [window.lgZoom, window.lgThumbnail].filter(Boolean),
-      // 缩略图配置 - 优化为水平显示
       thumbnail: true,
-      thumbWidth: '100',  // 使用字符串格式并包含单位
-      thumbHeight: '80px',  // 使用字符串格式并包含单位
+      thumbWidth: 100,
+      thumbHeight: '80px',
       thumbMargin: 5,
       animateThumb: true,
-      alignThumbnails: 'middle',  // 缩略图居中对齐
+      alignThumbnails: 'middle',
       currentPagerPosition: 'middle',
-      appendThumbnailsTo: '.lg-components',  // 确保缩略图在正确位置
-      // 控制按钮配置
+      appendThumbnailsTo: '.lg-components',
+      thumbnailSwipeThreshold: 10,
       controls: true,
-      download: false,
+      download: true,
       counter: true,
-      // 移动端设置 - 启用缩略图和描述
+
       mobileSettings: {
         controls: false,
         showCloseIcon: true,
         download: false,
         rotate: false,
-        thumbnail: true  // 启用移动端缩略图
+        thumbnail: true
       },
-      // 响应式设置 - 所有设备都显示缩略图和描述
-      responsive: {
-        0: {
-          controls: false,
-          thumbnail: true,  // 移动端也显示缩略图
-          thumbHeight: '60px',  // 移动端使用较小的缩略图高度
-          thumbWidth: '80px'
-        },
-        768: {
-          controls: true,
-          thumbnail: true,
-          thumbHeight: '80px',  // 桌面端使用标准缩略图高度
-          thumbWidth: '100px'
-        }
-      }
     };
 
     const lightGalleryInstance = window.lightGallery(container, lightGalleryConfig);
@@ -466,7 +457,7 @@ class ImageGallery {
       galleryLink.setAttribute('data-lg-size', `${img.naturalWidth}-${img.naturalHeight}`);
     }
 
-    // 设置说明文字 - 优先使用data-glightbox，然后是figcaption
+// 设置说明文字 - 优化逻辑：title作为标题，alt作为描述
     let subHtml = '';
     const glightboxData = img.getAttribute('data-glightbox');
     const imgTitle = img.title || '';
@@ -485,18 +476,23 @@ class ImageGallery {
           subHtml += `<p>${descMatch[1].trim()}</p>`;
         }
       }
-    } else if (caption) {
-      // 备用：使用figcaption
-      const captionText = caption.textContent.trim();
-      if (captionText) {
-        subHtml = `<h4>${imgTitle}</h4><p>${captionText}</p>`;
-      }
-    } else if (imgTitle || imgAlt) {
-      // 备用：使用图片的title或alt
-      if (imgTitle && imgTitle !== imgAlt) {
+    } else {
+      // 优化逻辑：优先使用title作为标题，alt作为描述
+      if (imgTitle && imgAlt && imgTitle !== imgAlt) {
+        // title和alt都存在且不同：title作为标题，alt作为描述
         subHtml = `<h4>${imgTitle}</h4><p>${imgAlt}</p>`;
+      } else if (imgTitle) {
+        // 只有title：作为主要说明
+        subHtml = `<h4>${imgTitle}</h4>`;
       } else if (imgAlt) {
+        // 只有alt：作为描述
         subHtml = `<p>${imgAlt}</p>`;
+      } else if (caption) {
+        // 备用：使用figcaption
+        const captionText = caption.textContent.trim();
+        if (captionText) {
+          subHtml = `<p>${captionText}</p>`;
+        }
       }
     }
 

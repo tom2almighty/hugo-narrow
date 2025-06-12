@@ -48,7 +48,6 @@
   @apply scale-105;
 }
 
-/* Justified Gallery只用于多张图片，不需要单张图片的特殊样式 */
 
 /* 个体图片lightGallery容器（统一处理单张图片和分离图片） */
 .individual-image-lightgallery {

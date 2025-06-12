@@ -1,13 +1,8 @@
-{{/* 图片画廊渲染模板 - 简化版本，通过JavaScript后处理实现画廊功能
-  支持单图片居中显示和多图片瀑布流布局
-  使用 Tailwind CSS 4.0 和主题变量优化
-*/}}
-
 {{- $alt := .Text -}}
 {{- $caption := .Title -}}
 {{- $dest := .Destination | safeURL -}}
 
-{{/* 画廊配置 */}}
+{{/* gallery */}}
 {{- $galleryConfig := site.Params.gallery | default dict -}}
 {{- $pageGalleryConfig := .Page.Params.gallery | default dict -}}
 {{- $lightboxEnabled := false -}}
@@ -24,14 +19,103 @@
 {{- $hint := "photo" -}}
 {{- $filter := "Lanczos" -}}
 
-{{/* 生成标准的figure元素，通过JavaScript后处理实现画廊功能 */}}
+{{/* 资源查找和类型检测 */}}
+{{- $resource := false -}}
+{{- $resourceType := "" -}}
+{{- $isExternal := false -}}
+{{- $isModernFormat := false -}}
+{{- $canProcess := false -}}
+
+{{/* 检查是否为外部URL */}}
+{{- if or (hasPrefix $dest "http://") (hasPrefix $dest "https://") (hasPrefix $dest "//") -}}
+  {{- $isExternal = true -}}
+{{- else -}}
+  {{/* 内部资源查找优先级：页面资源 -> assets -> 静态文件 */}}
+  
+  {{/* 1. 尝试页面资源 */}}
+  {{- $resource = .Page.Resources.GetMatch $dest -}}
+  {{- if not $resource -}}
+    {{/* 尝试通配符匹配（处理没有扩展名的情况） */}}
+    {{- $resource = .Page.Resources.GetMatch (printf "%s.*" $dest) -}}
+  {{- end -}}
+  {{- if $resource -}}
+    {{- $resourceType = "page" -}}
+  {{- end -}}
+
+  {{/* 2. 尝试assets目录 */}}
+  {{- if not $resource -}}
+    {{- $resource = resources.GetMatch $dest -}}
+    {{- if not $resource -}}
+      {{/* 尝试通配符匹配 */}}
+      {{- $resource = resources.GetMatch (printf "%s.*" $dest) -}}
+    {{- end -}}
+    {{- if not $resource -}}
+      {{/* 尝试在assets/images中查找 */}}
+      {{- $assetPath := printf "images/%s" $dest -}}
+      {{- $resource = resources.GetMatch $assetPath -}}
+      {{- if not $resource -}}
+        {{- $resource = resources.GetMatch (printf "images/%s.*" $dest) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $resource -}}
+      {{- $resourceType = "assets" -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/* 3. 静态文件作为最后回退 */}}
+  {{- if not $resource -}}
+    {{- $resourceType = "static" -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 检测图像格式和处理能力 */}}
+{{- if $resource -}}
+  {{/* 检测现代格式（AVIF, WebP等Hugo无法处理但现代浏览器支持良好的格式） */}}
+  {{- $modernFormats := slice "avif" "heic" "heif" -}}
+  {{- if or (in $modernFormats (lower $resource.MediaType.SubType)) (in $modernFormats (lower (path.Ext $resource.Name | strings.TrimPrefix "."))) -}}
+    {{- $isModernFormat = true -}}
+  {{- end -}}
+  
+  {{/* 检测是否可以进行Hugo图像处理 */}}
+  {{- if and (not $isModernFormat) (ne $resource.MediaType.SubType "svg") -}}
+    {{/* Hugo支持的可处理格式 */}}
+    {{- $supportedFormats := slice "jpeg" "jpg" "png" "gif" "tiff" "tif" "bmp" "webp" -}}
+    {{- $fileExt := lower (path.Ext $resource.Name | strings.TrimPrefix ".") -}}
+    {{- if or (in $supportedFormats (lower $resource.MediaType.SubType)) (in $supportedFormats $fileExt) -}}
+      {{- $canProcess = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 生成标准的figure元素 */}}
 <figure class="image-figure not-prose my-8" data-gallery-enabled="{{ if $lightboxEnabled }}true{{ else }}false{{ end }}">
-  {{/* 检查是否为页面资源 */}}
-  {{- if and (.Page.Resources.Get $dest) (ne (.Page.Resources.Get $dest).MediaType.SubType "svg") -}}
-    {{/* 页面资源处理 */}}
-    {{- $src := .Page.Resources.Get $dest -}}
+  {{/* 处理不同类型的资源 */}}
+  {{- if $isExternal -}}
+    {{/* 外部图像处理 */}}
+    <div class="image-container">
+      <img
+        src="{{ $dest }}"
+        alt="{{ $alt }}"
+        {{ with $caption }}title="{{ . }}"{{ end }}
+        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        loading="lazy"
+        decoding="async" />
+    </div>
+  {{- else if $isModernFormat -}}
+    {{/* 现代格式处理 (AVIF, HEIC等) - 直接输出 */}}
+    <div class="image-container">
+      <img
+        src="{{ $resource.RelPermalink }}"
+        alt="{{ $alt }}"
+        {{ with $caption }}title="{{ . }}"{{ end }}
+        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        loading="lazy"
+        decoding="async" />
+    </div>
+  {{- else if $canProcess -}}
+    {{/* 内部资源处理（页面资源或assets） - 支持响应式处理 */}}
     {{- $dataSizes := "(min-width: 1024px) 960px, (min-width: 768px) 720px, 100vw" -}}
-    {{- $actualImg := $src.Resize (printf "960x q85 %s" $filter) -}}
+    {{- $actualImg := $resource.Resize (printf "960x q85 %s" $filter) -}}
 
     <div class="image-container">
       <picture>
@@ -40,9 +124,9 @@
           type="image/webp"
           srcset="
             {{- range $i, $size := $respSizes -}}
-              {{- if ge $src.Width (int $size) -}}
+              {{- if ge $resource.Width (int $size) -}}
                 {{- if $i }},{{ end -}}
-                {{- ($src.Resize (printf "%sx webp q85 %s %s" $size $hint $filter)).RelPermalink }}
+                {{- ($resource.Resize (printf "%sx webp q85 %s %s" $size $hint $filter)).RelPermalink }}
                 {{ $size }}w
               {{- end -}}
             {{- end -}}
@@ -54,9 +138,9 @@
           type="image/jpeg"
           srcset="
             {{- range $i, $size := $respSizes -}}
-              {{- if ge $src.Width (int $size) -}}
+              {{- if ge $resource.Width (int $size) -}}
                 {{- if $i }},{{ end -}}
-                {{- ($src.Resize (printf "%sx jpeg q85 %s" $size $filter)).RelPermalink }}
+                {{- ($resource.Resize (printf "%sx jpeg q85 %s" $size $filter)).RelPermalink }}
                 {{ $size }}w
               {{- end -}}
             {{- end -}}
@@ -67,22 +151,33 @@
         <img
           src="{{ $actualImg.RelPermalink }}"
           alt="{{ $alt }}"
-          {{ with $alt }}title="{{ . }}"{{ end }}
-          width="{{ $src.Width }}"
-          height="{{ $src.Height }}"
-          {{ if $lightboxEnabled }}data-glightbox="title: {{ $alt }}{{ with $caption }}; description: {{ . }}{{ end }}"{{ end }}
+          {{ with $caption }}title="{{ . }}"{{ end }}
+          width="{{ $resource.Width }}"
+          height="{{ $resource.Height }}"
+          {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
           loading="lazy"
           decoding="async" />
       </picture>
     </div>
-  {{- else -}}
-    {{/* 外部图像或 SVG 处理 */}}
+  {{- else if and $resource (eq $resource.MediaType.SubType "svg") -}}
+    {{/* SVG 资源处理 */}}
     <div class="image-container">
       <img
-        src="{{ $dest }}"
+        src="{{ $resource.RelPermalink }}"
         alt="{{ $alt }}"
-        {{ with .Title }}title="{{ . }}"{{ end }}
-        {{ if $lightboxEnabled }}data-glightbox="title: {{ $alt }}{{ with $caption }}; description: {{ . }}{{ end }}"{{ end }}
+        {{ with $caption }}title="{{ . }}"{{ end }}
+        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        loading="lazy"
+        decoding="async" />
+    </div>
+  {{- else -}}
+    {{/* 静态文件或其他不支持处理的格式 */}}
+    <div class="image-container">
+      <img
+        src="{{ if $resource }}{{ $resource.RelPermalink }}{{ else }}{{ $dest }}{{ end }}"
+        alt="{{ $alt }}"
+        {{ with $caption }}title="{{ . }}"{{ end }}
+        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
         loading="lazy"
         decoding="async" />
     </div>
