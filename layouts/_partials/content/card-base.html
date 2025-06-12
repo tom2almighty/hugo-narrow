@@ -25,14 +25,34 @@
 {{ $showReadingTime := $config.showReadingTime | default true }}
 {{ $imageType := $config.imageType | default $type }}
 
-{{/* 使用共享的图片处理器 */}}
-{{ partial "content/cover-image-processor.html" $page }}
-{{ $coverImage := $page.Scratch.Get "coverImage" }}
-{{ $coverProcessed := $page.Scratch.Get "coverProcessed" }}
-{{ $randomImage := $page.Scratch.Get "randomImage" }}
-{{ $useRandomImage := $page.Scratch.Get "useRandomImage" }}
-{{ $gradients := $page.Scratch.Get "gradients" }}
-{{ $colorIndex := $page.Scratch.Get "colorIndex" }}
+{{/* 使用通用图片处理器 */}}
+{{- if $page.Params.cover -}}
+  {{- partial "content/image-processor.html" (dict
+    "context" $page
+    "src" $page.Params.cover
+    "enableModal" false
+    "enableResponsive" false
+    "enablePlaceholder" true
+    "outputType" "data"
+  ) -}}
+{{- else -}}
+  {{/* 没有封面图时，仍需要生成占位图数据 */}}
+  {{- partial "content/image-processor.html" (dict
+    "context" $page
+    "src" ""
+    "enableModal" false
+    "enableResponsive" false
+    "enablePlaceholder" true
+    "outputType" "data"
+  ) -}}
+{{- end -}}
+
+{{- $coverImage := $page.Scratch.Get "imageUrl" -}}
+{{- $placeholderData := $page.Scratch.Get "placeholderData" | default dict -}}
+{{- $randomImage := $placeholderData.randomImage | default "" -}}
+{{- $useRandomImage := $placeholderData.useRandomImage | default false -}}
+{{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
+{{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
 
 {{ if eq $layout "horizontal" }}
   {{/* 水平布局：基于原始post-card.html设计 */}}

@@ -4,15 +4,24 @@
 
 
   <!-- 文章封面 -->
-  {{ if .Params.cover }}
-    {{/* 使用共享的图片处理器 */}}
-    {{ partial "content/cover-image-processor.html" . }}
-    {{ $coverImage := .Scratch.Get "coverImage" }}
-    {{ $coverProcessed := .Scratch.Get "coverProcessed" }}
-    {{ $gradients := .Scratch.Get "gradients" }}
-    {{ $colorIndex := .Scratch.Get "colorIndex" }}
+  {{- if .Params.cover -}}
+    {{/* 使用通用图片处理器 */}}
+    {{- partial "content/image-processor.html" (dict
+      "context" .
+      "src" .Params.cover
+      "alt" .Title
+      "enableModal" false
+      "enableResponsive" true
+      "enablePlaceholder" false
+      "outputType" "data"
+    ) -}}
+    {{- $coverImage := .Scratch.Get "imageUrl" -}}
+    {{- $imageResource := .Scratch.Get "imageResource" -}}
+    {{- $placeholderData := .Scratch.Get "placeholderData" | default dict -}}
+    {{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
+    {{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
 
-    {{ if $coverImage }}
+    {{- if $coverImage -}}
       <div class="mb-8 overflow-hidden rounded-2xl">
         <img
           src="{{ $coverImage }}"
@@ -32,7 +41,7 @@
           <div class="absolute bottom-8 left-8 h-16 w-16 rounded-full bg-white/20"></div>
         </div>
       </div>
-    {{ end }}
+    {{- end -}}
   {{ end }}
 
 

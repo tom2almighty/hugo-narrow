@@ -1,0 +1,262 @@
+{{/* 
+  通用图片处理器 - 统一的图片资源查找、格式检测和处理逻辑
+  
+  输入参数：
+  - .context: 页面上下文 (必需)
+  - .src: 图片源路径 (必需)
+  - .alt: 图片alt文本 (可选)
+  - .caption: 图片说明 (可选)
+  - .enableModal: 是否启用模态框 (可选，默认false)
+  - .enableResponsive: 是否启用响应式处理 (可选，默认true)
+  - .enablePlaceholder: 是否启用占位图 (可选，默认true)
+  - .outputType: 输出类型 ("img", "data", "both") (可选，默认"both")
+  
+  输出：
+  - 设置到context.Scratch的变量：
+    - imageResource: 图片资源对象
+    - imageUrl: 最终图片URL
+    - imageType: 资源类型 ("page", "global", "static", "external")
+    - isModernFormat: 是否为现代格式
+    - canProcess: 是否可以进行Hugo处理
+    - placeholderData: 占位图相关数据
+    - processedImages: 响应式图片数据
+*/}}
+
+{{- $context := .context -}}
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $caption := .caption | default "" -}}
+{{- $enableModal := .enableModal | default false -}}
+{{- $enableResponsive := .enableResponsive | default true -}}
+{{- $enablePlaceholder := .enablePlaceholder | default true -}}
+{{- $outputType := .outputType | default "both" -}}
+
+{{/* 响应式尺寸配置 */}}
+{{- $respSizes := slice "320" "640" "960" "1280" "1600" "1920" -}}
+{{- $hint := "photo" -}}
+{{- $filter := "Lanczos" -}}
+
+{{/* 初始化变量 */}}
+{{- $resource := false -}}
+{{- $resourceType := "" -}}
+{{- $isExternal := false -}}
+{{- $isModernFormat := false -}}
+{{- $canProcess := false -}}
+{{- $finalUrl := "" -}}
+
+{{/* 检查是否为外部URL */}}
+{{- if or (hasPrefix $src "http://") (hasPrefix $src "https://") -}}
+  {{- $isExternal = true -}}
+  {{- $resourceType = "external" -}}
+  {{- $finalUrl = $src -}}
+  
+  {{/* 尝试获取远程资源 */}}
+  {{- with try (resources.GetRemote $src) -}}
+    {{- with .Err -}}
+      {{/* 远程资源获取失败，使用原始URL */}}
+    {{- else with .Value -}}
+      {{/* 远程资源获取成功 */}}
+      {{- $resource = . -}}
+      {{- $finalUrl = .RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{/* 本地资源处理 */}}
+  {{- $localPath := $src -}}
+  
+  {{/* 处理各种可能的路径格式 */}}
+  {{- if hasPrefix $src "./" -}}
+    {{- $localPath = strings.TrimPrefix "./" $src -}}
+  {{- else if hasPrefix $src "/" -}}
+    {{- $localPath = strings.TrimPrefix "/" $src -}}
+  {{- end -}}
+  
+  {{/* 按优先级查找资源：页面资源 -> 全局资源 -> 静态文件 */}}
+  {{- with $context.Resources.Get $localPath -}}
+    {{/* 页面资源找到 */}}
+    {{- $resource = . -}}
+    {{- $resourceType = "page" -}}
+    {{- $finalUrl = .RelPermalink -}}
+  {{- else with $context.Resources.Get $src -}}
+    {{/* 尝试原始路径作为页面资源 */}}
+    {{- $resource = . -}}
+    {{- $resourceType = "page" -}}
+    {{- $finalUrl = .RelPermalink -}}
+  {{- else with resources.Get $src -}}
+    {{/* 全局资源 */}}
+    {{- $resource = . -}}
+    {{- $resourceType = "global" -}}
+    {{- $finalUrl = .RelPermalink -}}
+  {{- else with resources.Get $localPath -}}
+    {{/* 尝试处理后的路径作为全局资源 */}}
+    {{- $resource = . -}}
+    {{- $resourceType = "global" -}}
+    {{- $finalUrl = .RelPermalink -}}
+  {{- else -}}
+    {{/* 静态文件或资源未找到 */}}
+    {{- $resourceType = "static" -}}
+    {{- $finalUrl = $src -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 检测图像格式和处理能力 */}}
+{{- if $resource -}}
+  {{/* 检测现代格式（AVIF, WebP等Hugo无法处理但现代浏览器支持良好的格式） */}}
+  {{- $modernFormats := slice "avif" "heic" "heif" -}}
+  {{- if or (in $modernFormats (lower $resource.MediaType.SubType)) (in $modernFormats (lower (path.Ext $resource.Name | strings.TrimPrefix "."))) -}}
+    {{- $isModernFormat = true -}}
+  {{- end -}}
+  
+  {{/* 检测是否可以进行Hugo图像处理 */}}
+  {{- if and (not $isModernFormat) (ne $resource.MediaType.SubType "svg") -}}
+    {{/* Hugo支持的可处理格式 */}}
+    {{- $supportedFormats := slice "jpeg" "jpg" "png" "gif" "tiff" "tif" "bmp" "webp" -}}
+    {{- $fileExt := lower (path.Ext $resource.Name | strings.TrimPrefix ".") -}}
+    {{- if or (in $supportedFormats (lower $resource.MediaType.SubType)) (in $supportedFormats $fileExt) -}}
+      {{- $canProcess = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 生成占位图数据 */}}
+{{- $placeholderData := dict -}}
+{{- if $enablePlaceholder -}}
+  {{/* 随机占位图处理逻辑 */}}
+  {{- $randomImage := "" -}}
+  {{- $useRandomImage := false -}}
+  {{- if not $finalUrl -}}
+    {{- $placeholderConfig := site.Data.placeholder_images -}}
+    {{- if and $placeholderConfig $placeholderConfig.enabled -}}
+      {{- $images := $placeholderConfig.images -}}
+      {{- if $images -}}
+        {{- $hash := md5 $context.Title -}}
+        {{- $imageIndex := mod (int (substr $hash 0 2 | printf "0x%s")) (len $images) -}}
+        {{- $randomImage = index $images $imageIndex -}}
+        {{- $useRandomImage = true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  
+  {{/* 统一的占位图生成逻辑 */}}
+  {{- $hash := md5 $context.Title -}}
+  {{- $hexColor := substr $hash 0 2 -}}
+  {{- $colorIndex := mod (int (printf "0x%s" $hexColor)) 6 -}}
+  
+  {{- $gradients := slice
+    "from-blue-500/20 to-purple-500/10"
+    "from-green-500/20 to-teal-500/10"
+    "from-orange-500/20 to-red-500/10"
+    "from-purple-500/20 to-pink-500/10"
+    "from-teal-500/20 to-cyan-500/10"
+    "from-rose-500/20 to-orange-500/10"
+  -}}
+  
+  {{- $placeholderData = dict
+    "randomImage" $randomImage
+    "useRandomImage" $useRandomImage
+    "gradients" $gradients
+    "colorIndex" $colorIndex
+  -}}
+{{- end -}}
+
+{{/* 生成响应式图片数据 */}}
+{{- $processedImages := dict -}}
+{{- if and $enableResponsive $canProcess $resource -}}
+  {{- $dataSizes := "(min-width: 1024px) 960px, (min-width: 768px) 720px, 100vw" -}}
+  {{- $actualImg := $resource.Resize (printf "960x q85 %s" $filter) -}}
+  
+  {{/* 生成WebP格式的srcset */}}
+  {{- $webpSrcset := slice -}}
+  {{- range $size := $respSizes -}}
+    {{- if ge $resource.Width (int $size) -}}
+      {{- $resizedImg := $resource.Resize (printf "%sx webp q85 %s %s" $size $hint $filter) -}}
+      {{- $webpSrcset = $webpSrcset | append (printf "%s %sw" $resizedImg.RelPermalink $size) -}}
+    {{- end -}}
+  {{- end -}}
+  
+  {{/* 生成JPEG格式的srcset */}}
+  {{- $jpegSrcset := slice -}}
+  {{- range $size := $respSizes -}}
+    {{- if ge $resource.Width (int $size) -}}
+      {{- $resizedImg := $resource.Resize (printf "%sx jpeg q85 %s" $size $filter) -}}
+      {{- $jpegSrcset = $jpegSrcset | append (printf "%s %sw" $resizedImg.RelPermalink $size) -}}
+    {{- end -}}
+  {{- end -}}
+  
+  {{- $processedImages = dict
+    "actualImg" $actualImg
+    "webpSrcset" (delimit $webpSrcset ", ")
+    "jpegSrcset" (delimit $jpegSrcset ", ")
+    "dataSizes" $dataSizes
+  -}}
+{{- end -}}
+
+{{/* 将结果设置到上下文中 */}}
+{{- $context.Scratch.Set "imageResource" $resource -}}
+{{- $context.Scratch.Set "imageUrl" $finalUrl -}}
+{{- $context.Scratch.Set "imageType" $resourceType -}}
+{{- $context.Scratch.Set "isExternal" $isExternal -}}
+{{- $context.Scratch.Set "isModernFormat" $isModernFormat -}}
+{{- $context.Scratch.Set "canProcess" $canProcess -}}
+{{- $context.Scratch.Set "placeholderData" $placeholderData -}}
+{{- $context.Scratch.Set "processedImages" $processedImages -}}
+
+{{/* 根据输出类型生成内容 */}}
+{{- if or (eq $outputType "img") (eq $outputType "both") -}}
+  {{/* 生成图片HTML */}}
+  {{- if $isExternal -}}
+    {{/* 外部图像处理 */}}
+    <img
+      src="{{ $finalUrl }}"
+      alt="{{ $alt }}"
+      {{ with $caption }}title="{{ . }}"{{ end }}
+      {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+      loading="lazy"
+      decoding="async" />
+  {{- else if $isModernFormat -}}
+    {{/* 现代格式处理 (AVIF, HEIC等) - 直接输出 */}}
+    <img
+      src="{{ $finalUrl }}"
+      alt="{{ $alt }}"
+      {{ with $caption }}title="{{ . }}"{{ end }}
+      {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+      loading="lazy"
+      decoding="async" />
+  {{- else if and $canProcess $enableResponsive -}}
+    {{/* 内部资源处理 - 支持响应式处理 */}}
+    {{- $imgData := $context.Scratch.Get "processedImages" -}}
+    <picture>
+      {{/* WebP 格式 */}}
+      <source
+        type="image/webp"
+        srcset="{{ $imgData.webpSrcset }}"
+        sizes="{{ $imgData.dataSizes }}" />
+
+      {{/* JPEG 格式降级 */}}
+      <source
+        type="image/jpeg"
+        srcset="{{ $imgData.jpegSrcset }}"
+        sizes="{{ $imgData.dataSizes }}" />
+
+      {{/* 主图像 */}}
+      <img
+        src="{{ $imgData.actualImg.RelPermalink }}"
+        alt="{{ $alt }}"
+        {{ with $caption }}title="{{ . }}"{{ end }}
+        width="{{ $resource.Width }}"
+        height="{{ $resource.Height }}"
+        {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        loading="lazy"
+        decoding="async" />
+    </picture>
+  {{- else -}}
+    {{/* 静态文件或其他不支持处理的格式 */}}
+    <img
+      src="{{ $finalUrl }}"
+      alt="{{ $alt }}"
+      {{ with $caption }}title="{{ . }}"{{ end }}
+      {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+      loading="lazy"
+      decoding="async" />
+  {{- end -}}
+{{- end -}}
