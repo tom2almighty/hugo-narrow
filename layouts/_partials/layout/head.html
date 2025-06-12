@@ -36,7 +36,7 @@
     searchIndexURL: {{ $searchIndexURL | jsonify }},
     gallery: {
       justified_gallery: {{ site.Params.gallery.justified_gallery | default false }},
-      lightbox: {{ site.Params.gallery.lightbox | default false }},
+      modal: {{ site.Params.gallery.modal | default false }},
       responsive: {
         rowHeight: {{ site.Params.gallery.responsive.rowHeight | default 180 }},
         margins: {{ site.Params.gallery.responsive.margins | default 5 }}

@@ -37,7 +37,7 @@ class ImageGallery {
         this.initJustifiedGallery();
       }
 
-      if (this.config.lightbox) {
+      if (this.config.modal) {
         this.initLightGallery();
       }
     });
@@ -235,12 +235,12 @@ class ImageGallery {
 
         // 设置说明文字 - 优化逻辑：title作为标题，alt作为描述
         let subHtml = '';
-        const glightboxData = img.getAttribute('data-glightbox');
+        const modalData = img.getAttribute('data-modal');
 
-        if (glightboxData) {
-          // 解析data-glightbox属性
-          const titleMatch = glightboxData.match(/title:\s*([^;]+)/);
-          const descMatch = glightboxData.match(/description:\s*([^;]+)/);
+        if (modalData) {
+          // 解析data-modal属性
+          const titleMatch = modalData.match(/title:\s*([^;]+)/);
+          const descMatch = modalData.match(/description:\s*([^;]+)/);
 
           if (titleMatch || descMatch) {
             if (titleMatch) {
@@ -346,7 +346,7 @@ class ImageGallery {
           console.log('Gallery: Justified Gallery complete for', container.id);
 
           // Justified Gallery完成后初始化lightGallery
-          if (this.config.lightbox) {
+          if (this.config.modal) {
             this.initLightGalleryForContainer(container);
           }
         })
@@ -365,9 +365,9 @@ class ImageGallery {
    * 初始化lightGallery灯箱
    */
   initLightGallery() {
-    // 检查lightbox配置是否启用
-    if (!this.config.lightbox) {
-      console.log('Gallery: lightbox is disabled');
+    // 检查modal配置是否启用
+    if (!this.config.modal) {
+      console.log('Gallery: modal is disabled');
       return;
     }
 
@@ -438,8 +438,8 @@ class ImageGallery {
 
     if (!img) return;
 
-    // 如果lightbox未启用，只保留原始图片显示
-    if (!this.config.lightbox) {
+    // 如果modal未启用，只保留原始图片显示
+    if (!this.config.modal) {
       return;
     }
 
@@ -459,14 +459,14 @@ class ImageGallery {
 
 // 设置说明文字 - 优化逻辑：title作为标题，alt作为描述
     let subHtml = '';
-    const glightboxData = img.getAttribute('data-glightbox');
+    const modalData = img.getAttribute('data-modal');
     const imgTitle = img.title || '';
     const imgAlt = img.alt || '';
 
-    if (glightboxData) {
-      // 解析data-glightbox属性
-      const titleMatch = glightboxData.match(/title:\s*([^;]+)/);
-      const descMatch = glightboxData.match(/description:\s*([^;]+)/);
+    if (modalData) {
+      // 解析data-modal属性
+      const titleMatch = modalData.match(/title:\s*([^;]+)/);
+      const descMatch = modalData.match(/description:\s*([^;]+)/);
 
       if (titleMatch || descMatch) {
         if (titleMatch) {

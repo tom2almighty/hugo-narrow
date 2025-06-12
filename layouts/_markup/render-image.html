@@ -5,13 +5,13 @@
 {{/* gallery */}}
 {{- $galleryConfig := site.Params.gallery | default dict -}}
 {{- $pageGalleryConfig := .Page.Params.gallery | default dict -}}
-{{- $lightboxEnabled := false -}}
+{{- $modalEnabled := false -}}
 
 {{/* 优先使用页面级配置，然后是全局配置 */}}
-{{- if isset $pageGalleryConfig "lightbox" -}}
-  {{- $lightboxEnabled = $pageGalleryConfig.lightbox -}}
-{{- else if isset $galleryConfig "lightbox" -}}
-  {{- $lightboxEnabled = $galleryConfig.lightbox -}}
+{{- if isset $pageGalleryConfig "modal" -}}
+  {{- $modalEnabled = $pageGalleryConfig.modal -}}
+{{- else if isset $galleryConfig "modal" -}}
+  {{- $modalEnabled = $galleryConfig.modal -}}
 {{- end -}}
 
 {{/* 响应式尺寸配置 */}}
@@ -88,7 +88,7 @@
 {{- end -}}
 
 {{/* 生成标准的figure元素 */}}
-<figure class="image-figure not-prose my-8" data-gallery-enabled="{{ if $lightboxEnabled }}true{{ else }}false{{ end }}">
+<figure class="image-figure not-prose my-8" data-gallery-enabled="{{ if $modalEnabled }}true{{ else }}false{{ end }}">
   {{/* 处理不同类型的资源 */}}
   {{- if $isExternal -}}
     {{/* 外部图像处理 */}}
@@ -97,7 +97,7 @@
         src="{{ $dest }}"
         alt="{{ $alt }}"
         {{ with $caption }}title="{{ . }}"{{ end }}
-        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        {{ if $modalEnabled }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
         loading="lazy"
         decoding="async" />
     </div>
@@ -108,7 +108,7 @@
         src="{{ $resource.RelPermalink }}"
         alt="{{ $alt }}"
         {{ with $caption }}title="{{ . }}"{{ end }}
-        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        {{ if $modalEnabled }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
         loading="lazy"
         decoding="async" />
     </div>
@@ -154,7 +154,7 @@
           {{ with $caption }}title="{{ . }}"{{ end }}
           width="{{ $resource.Width }}"
           height="{{ $resource.Height }}"
-          {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+          {{ if $modalEnabled }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
           loading="lazy"
           decoding="async" />
       </picture>
@@ -166,7 +166,7 @@
         src="{{ $resource.RelPermalink }}"
         alt="{{ $alt }}"
         {{ with $caption }}title="{{ . }}"{{ end }}
-        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        {{ if $modalEnabled }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
         loading="lazy"
         decoding="async" />
     </div>
@@ -177,7 +177,7 @@
         src="{{ if $resource }}{{ $resource.RelPermalink }}{{ else }}{{ $dest }}{{ end }}"
         alt="{{ $alt }}"
         {{ with $caption }}title="{{ . }}"{{ end }}
-        {{ if $lightboxEnabled }}data-glightbox="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
+        {{ if $modalEnabled }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
         loading="lazy"
         decoding="async" />
     </div>

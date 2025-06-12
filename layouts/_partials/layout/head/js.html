@@ -97,7 +97,7 @@
 
 
 <!-- jQuery -->
-{{- if or site.Params.gallery.justified_gallery site.Params.gallery.lightbox }}
+{{- if or site.Params.gallery.justified_gallery site.Params.gallery.modal }}
   <script src="/js/jquery-2.2.4.min.js"></script>
 {{- end }}
 
@@ -107,14 +107,14 @@
 {{- end }}
 
 <!-- lightGallery - 本地资源 -->
-{{- if site.Params.gallery.lightbox }}
+{{- if site.Params.gallery.modal }}
   <script src="/js/lightgallery.min.js"></script>
   <script src="/js/lg-zoom.min.js"></script>
   <script src="/js/lg-thumbnail.min.js"></script>
 {{- end }}
 
 
-{{- if or site.Params.gallery.justified_gallery site.Params.gallery.lightbox }}
+{{- if or site.Params.gallery.justified_gallery site.Params.gallery.modal }}
   {{- with resources.Get "js/gallery.js" }}
     {{- $opts := dict
       "minify" (not hugo.IsDevelopment)

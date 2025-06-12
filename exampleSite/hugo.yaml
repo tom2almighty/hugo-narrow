@@ -282,13 +282,13 @@ params:
   mermaid:
     enabled: false
 
-  # 图片画廊配置
+  # Gallery
   gallery:
-    justified_gallery: true    # 启用Justified Gallery布局
-    lightbox: true             # 启用lightGallery灯箱功能
+    justified_gallery: true    # Justified Layout
+    modal: true                # lightgallery
     responsive:
-      rowHeight: 180           # 行高度
-      margins: 5               # 图片间距
+      rowHeight: 180
+      margins: 5
 
 
 
