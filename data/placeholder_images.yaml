@@ -1,7 +1,7 @@
 # 随机占位图配置文件
 
 # 功能启用开关
-enabled: true
+enabled: false
 
 # 图片URL列表（支持外部URL和本地路径）
 images:
