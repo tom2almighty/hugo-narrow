@@ -198,6 +198,9 @@ hugo gen chromastyles --style=github-dark > ./github-dark.css
 - [Daisyui](https://daisyui.com/) - 主题颜色参考。
 - [Hexo theme icarus](https://github.com/ppoffice/hexo-theme-icarus) - 搜索功能参考。
 - [iconify](https://iconify.design/) - 在此处获取图标，感谢所有开源图标集。
+- [Lightgallery](https://www.lightgalleryjs.com/) - 灯箱图库。
+- [Justified Gallery](https://miromannino.github.io/Justified-Gallery/) - 对齐图库。
+- [Augment Code](https://www.augmentcode.com/) - 编程助手。
 - [Augment Code](https://www.augmentcode.com/) - 编程助手。
 
 ---

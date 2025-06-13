@@ -195,6 +195,8 @@ This project is open source under the [MIT License](LICENSE).
 - [Daisyui](https://daisyui.com/) - Theme color reference.
 - [Hexo theme icarus](https://github.com/ppoffice/hexo-theme-icarus) - Search functionality reference.
 - [iconify](https://iconify.design/) - Get icons here, thanks to all open source icon sets.
+- [Lightgallery](https://www.lightgalleryjs.com/) - Lightbox gallery.
+- [Justified Gallery](https://miromannino.github.io/Justified-Gallery/) - Justified image gallery.
 - [Augment Code](https://www.augmentcode.com/) - Programming assistant.
 
 ---
