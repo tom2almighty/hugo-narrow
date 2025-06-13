@@ -5,7 +5,6 @@ draft: false
 description: "Test des fonctionnalités de rendu d'image"
 tags: ["test", "image", "rendu"]
 categories: ["rendu-image"]
-cover: bundle.avif
 gallery:
   justified_gallery: true
   modal: true

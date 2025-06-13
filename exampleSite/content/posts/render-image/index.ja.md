@@ -5,7 +5,6 @@ draft: false
 description: "画像レンダリング機能のテスト"
 tags: ["テスト", "画像", "レンダリング"]
 categories: ["画像レンダリング"]
-cover: bundle.avif
 gallery:
   justified_gallery: true
   modal: true

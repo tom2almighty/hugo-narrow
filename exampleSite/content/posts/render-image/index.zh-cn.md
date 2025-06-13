@@ -5,7 +5,6 @@ draft: false
 description: "测试图片渲染功能"
 tags: ["测试", "图片", "渲染"]
 categories: ["图片渲染"]
-cover: bundle.avif
 gallery:
   justified_gallery: true
   modal: true
@@ -21,7 +20,7 @@ gallery:
 ## 单张图片
 ![https://unsplash.com/@danielleone](bundle.avif "摄影师 - Daniel Leone")
 
-## 灯箱 + 分栏画廊
+## LightGallery 灯箱加 Justified 布局
 ![https://unsplash.com/@@tobbes_rd](images/01.avif "摄影师 - Tobias Rademacher")
 ![https://unsplash.com/@therawhunter](images/02.avif "摄影师 - Massimiliano Morosinotto")
 ![https://unsplash.com/@thesaboo](images/03.avif "摄影师 - Sascha Bosshard")

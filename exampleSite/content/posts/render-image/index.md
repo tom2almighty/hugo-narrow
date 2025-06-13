@@ -5,7 +5,6 @@ draft: false
 description: "Testing the simple image rendering features"
 tags: ["test", "image", "rendering"]
 categories: ["image-rendering"]
-cover: bundle.avif
 gallery:
   justified_gallery: true
   modal: true
