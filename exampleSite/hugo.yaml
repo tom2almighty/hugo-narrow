@@ -5,6 +5,14 @@ defaultContentLanguageInSubdir: false
 title: Hugo Narrow
 theme: "hugo-narrow"
 
+
+hasCJKLanguage: true
+enableEmoji: true
+
+permalinks:
+  posts: /posts/:slug/
+  pages: /:slug/
+  
 # pagination
 pagination:
   pagerSize: 6
