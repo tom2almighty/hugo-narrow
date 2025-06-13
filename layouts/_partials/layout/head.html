@@ -27,21 +27,26 @@
 {{ partial "layout/head/seo.html" . }}
 
 
-{{ partial "layout/head/css.html" . }}
+{{ $globalGallery := site.Params.gallery | default dict }}
+{{ $pageGallery := .Params.gallery | default dict }}
+{{ $galleryJustified := cond (isset $pageGallery "justified_gallery") $pageGallery.justified_gallery ($globalGallery.justified_gallery | default false) }}
+{{ $galleryModal := cond (isset $pageGallery "modal") $pageGallery.modal ($globalGallery.modal | default false) }}
+{{ $galleryRowHeight := cond (isset $pageGallery "responsive") (index $pageGallery.responsive "rowHeight" | default 180) ($globalGallery.responsive.rowHeight | default 180) }}
+{{ $galleryMargins := cond (isset $pageGallery "responsive") (index $pageGallery.responsive "margins" | default 5) ($globalGallery.responsive.margins | default 5) }}
 
-{{- $homePermalink := site.Home.RelPermalink -}}
-{{- $searchIndexURL := printf "%sindex.json" $homePermalink -}}
 <script>
   window.HUGO_CONFIG = {
-    searchIndexURL: {{ $searchIndexURL | jsonify }},
+    searchIndexURL: {{ printf "%sindex.json" site.Home.RelPermalink | jsonify }},
     gallery: {
-      justified_gallery: {{ site.Params.gallery.justified_gallery | default false }},
-      modal: {{ site.Params.gallery.modal | default false }},
+      justified_gallery: {{ $galleryJustified | jsonify }},
+      modal: {{ $galleryModal | jsonify }},
       responsive: {
-        rowHeight: {{ site.Params.gallery.responsive.rowHeight | default 180 }},
-        margins: {{ site.Params.gallery.responsive.margins | default 5 }}
+        rowHeight: {{ $galleryRowHeight | jsonify }},
+        margins: {{ $galleryMargins | jsonify }}
       }
     }
   };
 </script>
-{{ partial "layout/head/js.html" . }}
+
+{{ partial "layout/head/css.html" (dict "context" . "galleryJustified" $galleryJustified "galleryModal" $galleryModal) }}
+{{ partial "layout/head/js.html" (dict "context" . "galleryJustified" $galleryJustified "galleryModal" $galleryModal) }}

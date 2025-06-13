@@ -97,24 +97,24 @@
 
 
 <!-- jQuery -->
-{{- if or site.Params.gallery.justified_gallery site.Params.gallery.modal }}
+{{- if or .galleryJustified .galleryModal }}
   <script src="/js/jquery-2.2.4.min.js"></script>
 {{- end }}
 
 <!-- Justified Gallery - JS -->
-{{- if site.Params.gallery.justified_gallery }}
+{{- if .galleryJustified }}
   <script src="/js/jquery.justifiedGallery.min.js"></script>
 {{- end }}
 
 <!-- lightGallery - 本地资源 -->
-{{- if site.Params.gallery.modal }}
+{{- if .galleryModal }}
   <script src="/js/lightgallery.min.js"></script>
   <script src="/js/lg-zoom.min.js"></script>
   <script src="/js/lg-thumbnail.min.js"></script>
 {{- end }}
 
 
-{{- if or site.Params.gallery.justified_gallery site.Params.gallery.modal }}
+{{- if or .galleryJustified .galleryModal }}
   {{- with resources.Get "js/gallery.js" }}
     {{- $opts := dict
       "minify" (not hugo.IsDevelopment)
