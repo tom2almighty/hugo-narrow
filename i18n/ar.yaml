@@ -1,0 +1,98 @@
+# ملف اللغة العربية
+# التنقل
+nav:
+  menu: "القائمة"
+  home: "الرئيسية"
+  posts: "المقالات"
+  tags: "الوسوم"
+  categories: "التصنيفات"
+  about: "حول"
+  contact: "اتصل بنا"
+  archive: "الأرشيف"
+  archives: "الأرشيف"
+  search: "بحث"
+  breadcrumb: "شريط التنقل"
+  pagination: "الصفحات"
+  prev: "السابق"
+  next: "التالي"
+  prev_page: "الصفحة السابقة"
+  next_page: "الصفحة التالية"
+  page_info: "الصفحة {{ .current }} من {{ .total }}"
+  total_pages: "{{ .count }} صفحات"
+  back_home: "العودة للرئيسية"
+  post_navigation: "تنقل المقالات"
+
+# السمة
+theme:
+  toggle: "تبديل السمة"
+  light: "فاتح"
+  dark: "داكن"
+  system: "النظام"
+  auto: "تلقائي"
+
+# التذييل
+footer:
+  copyright: "حقوق النشر"
+  all_rights_reserved: "جميع الحقوق محفوظة"
+  about_us: "من نحن"
+  contact_us: "اتصل بنا"
+  privacy_policy: "سياسة الخصوصية"
+  terms_of_service: "شروط الخدمة"
+  rss_feed: "تغذية RSS"
+
+# الصفحة الرئيسية
+home:
+  recent_posts: "أحدث المقالات"
+  showing_posts: "عرض الأحدث"
+  posts: "مقالات"
+  view_all_posts: "عرض جميع المقالات"
+
+# المقالات
+post:
+  read_more: "اقرأ المزيد"
+  published_on: "نُشر في"
+  updated_on: "تم التحديث في"
+  tags: "الوسوم"
+  categories: "التصنيفات"
+  share: "مشاركة"
+  previous: "السابق"
+  next: "التالي"
+  related_posts: "مقالات ذات صلة"
+  reading_time: "وقت القراءة"
+  no_posts: "لا توجد مقالات"
+  no_posts_desc: "لم يتم نشر أي مقالات بعد. يرجى العودة لاحقاً."
+  list_desc: "جميع المقالات المنشورة، مرتبة من الأحدث إلى الأقدم."
+  total_posts: "{{ .count }} مقالات"
+  author: "الكاتب"
+  words: "كلمات"
+  no_previous: "لا يوجد مقال سابق"
+  no_next: "لا يوجد مقال تالي"
+  no_previous_desc: "هذا أقدم مقال"
+  no_next_desc: "هذا أحدث مقال"
+  view_more_posts: "عرض المزيد من المقالات"
+  reading_time_unit: "دقيقة"
+
+# الترقيم
+pagination:
+  previous: "السابق"
+  next: "التالي"
+  page: "صفحة"
+  of: "من"
+  pages: "صفحات"
+
+# البحث
+search:
+  placeholder: "ابحث في المقالات..."
+  clear: "مسح"
+  close: "إغلاق"
+  loading: "جاري البحث..."
+  empty_title: "ابدأ البحث"
+  empty_description: "أدخل كلمات البحث"
+  no_results_title: "لا توجد نتائج"
+  no_results_description: "جرب كلمات بحث مختلفة"
+  results_count: "تم العثور على %d نتيجة"
+  match_score: "درجة التطابق"
+  hint_navigate: "تنقل"
+  hint_select: "اختيار"
+  hint_close: "إغلاق"
+  hint_shortcut: "اختصار"

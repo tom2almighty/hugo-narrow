@@ -1,0 +1,98 @@
+# 한국어 언어 파일
+# 네비게이션
+nav:
+  menu: "메뉴"
+  home: "홈"
+  posts: "게시글"
+  tags: "태그"
+  categories: "카테고리"
+  about: "소개"
+  contact: "연락처"
+  archive: "아카이브"
+  archives: "아카이브"
+  search: "검색"
+  breadcrumb: "경로"
+  pagination: "페이지 네비게이션"
+  prev: "이전"
+  next: "다음"
+  prev_page: "이전 페이지"
+  next_page: "다음 페이지"
+  page_info: "{{ .current }}페이지 / 총 {{ .total }}페이지"
+  total_pages: "총 {{ .count }}페이지"
+  back_home: "홈으로 돌아가기"
+  post_navigation: "게시글 네비게이션"
+
+# 테마
+theme:
+  toggle: "테마 변경"
+  light: "라이트"
+  dark: "다크"
+  system: "시스템"
+  auto: "자동"
+
+# 푸터
+footer:
+  copyright: "저작권"
+  all_rights_reserved: "모든 권리 보유"
+  about_us: "회사 소개"
+  contact_us: "연락처"
+  privacy_policy: "개인정보처리방침"
+  terms_of_service: "이용약관"
+  rss_feed: "RSS 피드"
+
+# 홈
+home:
+  recent_posts: "최근 게시글"
+  showing_posts: "최신"
+  posts: "게시글"
+  view_all_posts: "모든 게시글 보기"
+
+# 게시글
+post:
+  read_more: "더 보기"
+  published_on: "작성일"
+  updated_on: "수정일"
+  tags: "태그"
+  categories: "카테고리"
+  share: "공유"
+  previous: "이전"
+  next: "다음"
+  related_posts: "관련 게시글"
+  reading_time: "읽는 시간"
+  no_posts: "게시글이 없습니다"
+  no_posts_desc: "아직 게시된 글이 없습니다. 나중에 다시 확인해 주세요."
+  list_desc: "모든 게시글 목록입니다. 최신순으로 정렬되어 있습니다."
+  total_posts: "총 {{ .count }}개의 게시글"
+  author: "작성자"
+  words: "단어"
+  no_previous: "이전 게시글 없음"
+  no_next: "다음 게시글 없음"
+  no_previous_desc: "가장 처음 게시글입니다"
+  no_next_desc: "가장 최근 게시글입니다"
+  view_more_posts: "더 많은 게시글 보기"
+  reading_time_unit: "분"
+
+# 페이지네이션
+pagination:
+  previous: "이전"
+  next: "다음"
+  page: "페이지"
+  of: "중"
+  pages: "페이지"
+
+# 검색
+search:
+  placeholder: "게시글 검색..."
+  clear: "지우기"
+  close: "닫기"
+  loading: "검색 중..."
+  empty_title: "검색 시작"
+  empty_description: "검색어를 입력하세요"
+  no_results_title: "검색 결과 없음"
+  no_results_description: "다른 검색어로 시도해보세요"
+  results_count: "%d개의 결과 찾음"
+  match_score: "일치도"
+  hint_navigate: "이동"
+  hint_select: "선택"
+  hint_close: "닫기"
+  hint_shortcut: "단축키"

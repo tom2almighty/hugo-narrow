@@ -1,0 +1,98 @@
+# Arquivo de idioma Português
+# Navegação
+nav:
+  menu: "Menu"
+  home: "Início"
+  posts: "Artigos"
+  tags: "Tags"
+  categories: "Categorias"
+  about: "Sobre"
+  contact: "Contato"
+  archive: "Arquivo"
+  archives: "Arquivos"
+  search: "Buscar"
+  breadcrumb: "Navegação"
+  pagination: "Paginação"
+  prev: "Anterior"
+  next: "Próximo"
+  prev_page: "Página Anterior"
+  next_page: "Próxima Página"
+  page_info: "Página {{ .current }} de {{ .total }}"
+  total_pages: "{{ .count }} páginas"
+  back_home: "Voltar ao Início"
+  post_navigation: "Navegação de Artigos"
+
+# Tema
+theme:
+  toggle: "Alternar Tema"
+  light: "Claro"
+  dark: "Escuro"
+  system: "Sistema"
+  auto: "Automático"
+
+# Rodapé
+footer:
+  copyright: "Direitos Autorais"
+  all_rights_reserved: "Todos os direitos reservados"
+  about_us: "Sobre Nós"
+  contact_us: "Contate-nos"
+  privacy_policy: "Política de Privacidade"
+  terms_of_service: "Termos de Serviço"
+  rss_feed: "Feed RSS"
+
+# Início
+home:
+  recent_posts: "Artigos Recentes"
+  showing_posts: "Mostrando os mais recentes"
+  posts: "artigos"
+  view_all_posts: "Ver todos os artigos"
+
+# Artigos
+post:
+  read_more: "Ler mais"
+  published_on: "Publicado em"
+  updated_on: "Atualizado em"
+  tags: "Tags"
+  categories: "Categorias"
+  share: "Compartilhar"
+  previous: "Anterior"
+  next: "Próximo"
+  related_posts: "Artigos Relacionados"
+  reading_time: "Tempo de leitura"
+  no_posts: "Sem artigos"
+  no_posts_desc: "Ainda não há artigos publicados. Volte mais tarde."
+  list_desc: "Todos os artigos publicados, ordenados por data."
+  total_posts: "{{ .count }} artigos"
+  author: "Autor"
+  words: "palavras"
+  no_previous: "Sem artigo anterior"
+  no_next: "Sem próximo artigo"
+  no_previous_desc: "Este é o primeiro artigo"
+  no_next_desc: "Este é o artigo mais recente"
+  view_more_posts: "Ver mais artigos"
+  reading_time_unit: "minutos"
+
+# Paginação
+pagination:
+  previous: "Anterior"
+  next: "Próximo"
+  page: "Página"
+  of: "de"
+  pages: "páginas"
+
+# Busca
+search:
+  placeholder: "Buscar artigos..."
+  clear: "Limpar"
+  close: "Fechar"
+  loading: "Buscando..."
+  empty_title: "Iniciar busca"
+  empty_description: "Digite palavras-chave para buscar"
+  no_results_title: "Nenhum resultado"
+  no_results_description: "Tente palavras-chave diferentes"
+  results_count: "%d resultados encontrados"
+  match_score: "Relevância"
+  hint_navigate: "Navegar"
+  hint_select: "Selecionar"
+  hint_close: "Fechar"
+  hint_shortcut: "Atalho"

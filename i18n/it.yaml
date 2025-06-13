@@ -1,0 +1,98 @@
+# File della lingua italiana
+# Navigazione
+nav:
+  menu: "Menu"
+  home: "Home"
+  posts: "Articoli"
+  tags: "Tag"
+  categories: "Categorie"
+  about: "Chi siamo"
+  contact: "Contatti"
+  archive: "Archivio"
+  archives: "Archivio"
+  search: "Cerca"
+  breadcrumb: "Percorso di navigazione"
+  pagination: "Paginazione"
+  prev: "Precedente"
+  next: "Successivo"
+  prev_page: "Pagina precedente"
+  next_page: "Pagina successiva"
+  page_info: "Pagina {{ .current }} di {{ .total }}"
+  total_pages: "{{ .count }} pagine"
+  back_home: "Torna alla home"
+  post_navigation: "Navigazione articoli"
+
+# Tema
+theme:
+  toggle: "Cambia tema"
+  light: "Chiaro"
+  dark: "Scuro"
+  system: "Sistema"
+  auto: "Automatico"
+
+# Footer
+footer:
+  copyright: "Copyright"
+  all_rights_reserved: "Tutti i diritti riservati"
+  about_us: "Chi siamo"
+  contact_us: "Contattaci"
+  privacy_policy: "Privacy Policy"
+  terms_of_service: "Termini di servizio"
+  rss_feed: "Feed RSS"
+
+# Home
+home:
+  recent_posts: "Articoli recenti"
+  showing_posts: "Mostra i più recenti"
+  posts: "articoli"
+  view_all_posts: "Vedi tutti gli articoli"
+
+# Articoli
+post:
+  read_more: "Leggi tutto"
+  published_on: "Pubblicato il"
+  updated_on: "Aggiornato il"
+  tags: "Tag"
+  categories: "Categorie"
+  share: "Condividi"
+  previous: "Precedente"
+  next: "Successivo"
+  related_posts: "Articoli correlati"
+  reading_time: "Tempo di lettura"
+  no_posts: "Nessun articolo"
+  no_posts_desc: "Non ci sono ancora articoli pubblicati. Torna più tardi."
+  list_desc: "Tutti gli articoli pubblicati, ordinati dal più recente."
+  total_posts: "{{ .count }} articoli"
+  author: "Autore"
+  words: "parole"
+  no_previous: "Nessun articolo precedente"
+  no_next: "Nessun articolo successivo"
+  no_previous_desc: "Questo è il primo articolo"
+  no_next_desc: "Questo è l'articolo più recente"
+  view_more_posts: "Vedi altri articoli"
+  reading_time_unit: "minuti"
+
+# Paginazione
+pagination:
+  previous: "Precedente"
+  next: "Successivo"
+  page: "Pagina"
+  of: "di"
+  pages: "pagine"
+
+# Ricerca
+search:
+  placeholder: "Cerca articoli..."
+  clear: "Cancella"
+  close: "Chiudi"
+  loading: "Ricerca in corso..."
+  empty_title: "Inizia a cercare"
+  empty_description: "Inserisci le parole chiave da cercare"
+  no_results_title: "Nessun risultato"
+  no_results_description: "Prova con parole chiave diverse"
+  results_count: "Trovati %d risultati"
+  match_score: "Rilevanza"
+  hint_navigate: "Naviga"
+  hint_select: "Seleziona"
+  hint_close: "Chiudi"
+  hint_shortcut: "Scorciatoia"

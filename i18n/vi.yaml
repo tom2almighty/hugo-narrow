@@ -1,0 +1,98 @@
+# Tệp ngôn ngữ Tiếng Việt
+# Điều hướng
+nav:
+  menu: "Menu"
+  home: "Trang chủ"
+  posts: "Bài viết"
+  tags: "Thẻ"
+  categories: "Chuyên mục"
+  about: "Giới thiệu"
+  contact: "Liên hệ"
+  archive: "Lưu trữ"
+  archives: "Lưu trữ"
+  search: "Tìm kiếm"
+  breadcrumb: "Điều hướng"
+  pagination: "Phân trang"
+  prev: "Trước"
+  next: "Tiếp"
+  prev_page: "Trang trước"
+  next_page: "Trang sau"
+  page_info: "Trang {{ .current }} / {{ .total }}"
+  total_pages: "{{ .count }} trang"
+  back_home: "Về trang chủ"
+  post_navigation: "Điều hướng bài viết"
+
+# Giao diện
+theme:
+  toggle: "Đổi giao diện"
+  light: "Sáng"
+  dark: "Tối"
+  system: "Hệ thống"
+  auto: "Tự động"
+
+# Chân trang
+footer:
+  copyright: "Bản quyền"
+  all_rights_reserved: "Đã đăng ký bản quyền"
+  about_us: "Về chúng tôi"
+  contact_us: "Liên hệ"
+  privacy_policy: "Chính sách bảo mật"
+  terms_of_service: "Điều khoản dịch vụ"
+  rss_feed: "RSS Feed"
+
+# Trang chủ
+home:
+  recent_posts: "Bài viết mới"
+  showing_posts: "Hiển thị mới nhất"
+  posts: "bài viết"
+  view_all_posts: "Xem tất cả bài viết"
+
+# Bài viết
+post:
+  read_more: "Đọc thêm"
+  published_on: "Đăng ngày"
+  updated_on: "Cập nhật ngày"
+  tags: "Thẻ"
+  categories: "Chuyên mục"
+  share: "Chia sẻ"
+  previous: "Trước"
+  next: "Tiếp"
+  related_posts: "Bài viết liên quan"
+  reading_time: "Thời gian đọc"
+  no_posts: "Chưa có bài viết"
+  no_posts_desc: "Chưa có bài viết nào được đăng. Vui lòng quay lại sau."
+  list_desc: "Tất cả bài viết, sắp xếp theo thời gian."
+  total_posts: "{{ .count }} bài viết"
+  author: "Tác giả"
+  words: "từ"
+  no_previous: "Không có bài trước"
+  no_next: "Không có bài sau"
+  no_previous_desc: "Đây là bài viết đầu tiên"
+  no_next_desc: "Đây là bài viết mới nhất"
+  view_more_posts: "Xem thêm bài viết"
+  reading_time_unit: "phút"
+
+# Phân trang
+pagination:
+  previous: "Trước"
+  next: "Tiếp"
+  page: "Trang"
+  of: "trong"
+  pages: "trang"
+
+# Tìm kiếm
+search:
+  placeholder: "Tìm kiếm bài viết..."
+  clear: "Xóa"
+  close: "Đóng"
+  loading: "Đang tìm..."
+  empty_title: "Bắt đầu tìm kiếm"
+  empty_description: "Nhập từ khóa để tìm kiếm"
+  no_results_title: "Không tìm thấy kết quả"
+  no_results_description: "Thử tìm với từ khóa khác"
+  results_count: "Tìm thấy %d kết quả"
+  match_score: "Độ phù hợp"
+  hint_navigate: "Di chuyển"
+  hint_select: "Chọn"
+  hint_close: "Đóng"
+  hint_shortcut: "Phím tắt"
