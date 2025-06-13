@@ -284,8 +284,8 @@ params:
 
   # Gallery
   gallery:
-    justified_gallery: true    # Justified Layout
-    modal: true                # lightgallery
+    justified_gallery: false    # Justified Layout
+    modal: false                # lightgallery
     responsive:
       rowHeight: 180
       margins: 5
