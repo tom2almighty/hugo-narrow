@@ -23,7 +23,7 @@
 */}}
 
 {{- $context := .context -}}
-{{- $src := .src -}}
+{{- $src := .src | string -}}
 {{- $alt := .alt | default "" -}}
 {{- $caption := .caption | default "" -}}
 {{- $enableModal := .enableModal | default false -}}
