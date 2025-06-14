@@ -1,0 +1,13 @@
+<!-- tencent.html -->
+{{ $vid := .Get 0 }}
+<div class="max-w-4xl mx-auto my-8 bg-card border border-border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div class="h-96 md:h-[500px] lg:h-[600px]">
+    <iframe src="https://v.qq.com/txp/iframe/player.html?vid={{ $vid }}&auto=0" 
+            class="w-full h-full"
+            scrolling="no" 
+            frameborder="no"
+            framespacing="0" 
+            allowfullscreen="true">
+    </iframe>
+    </div>
+</div>

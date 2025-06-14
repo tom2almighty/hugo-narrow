@@ -1,0 +1,26 @@
+<!-- bilibili.html -->
+{{ $vid := (.Get 0) }}
+{{ $videopage := default 1 (.Get 1) }}
+{{ $basicQuery := querify "page" $videopage "high_quality" 1 "as_wide" 1 }}
+{{ $videoQuery := "" }}
+{{ if strings.HasPrefix (lower $vid) "av" }}
+    {{ $videoQuery = querify "aid" (strings.TrimPrefix "av" (lower $vid)) }}
+{{ else if strings.HasPrefix (lower $vid) "bv" }}
+    {{ $videoQuery = querify "bvid" $vid }}
+{{ else }}
+    <div class="max-w-4xl mx-auto my-8 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+        <p class="text-destructive font-medium">Bilibili 视频av号或BV号错误！请检查视频av号或BV号是否正确</p>
+        <p class="text-muted-foreground text-sm mt-2">当前视频av或BV号：{{ $vid }}，视频分P：{{ $videopage }}</p>
+    </div>
+{{ end }}
+<div class="max-w-4xl mx-auto my-8 bg-card border border-border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div class="h-96 md:h-[500px] lg:h-[600px]">
+    <iframe src="https://player.bilibili.com/player.html?{{ $basicQuery | safeURL }}&{{ $videoQuery | safeURL }}"
+            class="w-full h-full"
+            scrolling="no"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true">
+    </iframe>
+    </div>
+</div>
