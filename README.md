@@ -2,7 +2,7 @@
 
 # Hugo Narrow
 
-A Modern Hugo Theme with Multiple Color Schemes, build with TailwindCSS 4.
+A Modern Hugo Theme with Multiple Color Schemes - Built on TailwindCSS 4.
 
 
 ## ✨ Features
