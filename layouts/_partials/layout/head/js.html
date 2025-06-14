@@ -20,7 +20,7 @@
 
 
 <!-- Gumshoe 库 - 只在文章页面加载 -->
-{{- if .IsPage }}
+{{- if .context.IsPage }}
   <script src="{{ "js/gumshoe.polyfills.min.js" | relURL }}"></script>
 {{- end }}
 
