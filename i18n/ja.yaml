@@ -65,6 +65,7 @@ post:
   total_posts: "全 {{ .count }} 件の記事"
   author: "著者"
   words: "文字"
+  words_count: "文字数"
   no_previous: "前の記事はありません"
   no_next: "次の記事はありません"
   no_previous_desc: "これが最初の記事です"

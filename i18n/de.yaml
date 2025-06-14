@@ -65,6 +65,7 @@ post:
   total_posts: "{{ .count }} Beiträge insgesamt"
   author: "Autor"
   words: "Wörter"
+  words_count: "Wortanzahl"
   no_previous: "Kein vorheriger Beitrag"
   no_next: "Kein nächster Beitrag"
   no_previous_desc: "Dies ist der älteste Beitrag"

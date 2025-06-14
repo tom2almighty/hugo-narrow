@@ -65,6 +65,7 @@ post:
   total_posts: "{{ .count }} مقالات"
   author: "الكاتب"
   words: "كلمات"
+  words_count: "عدد الكلمات"
   no_previous: "لا يوجد مقال سابق"
   no_next: "لا يوجد مقال تالي"
   no_previous_desc: "هذا أقدم مقال"

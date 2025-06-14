@@ -65,6 +65,7 @@ post:
   total_posts: "{{ .count }} articoli"
   author: "Autore"
   words: "parole"
+  words_count: "Conteggio parole"
   no_previous: "Nessun articolo precedente"
   no_next: "Nessun articolo successivo"
   no_previous_desc: "Questo è il primo articolo"

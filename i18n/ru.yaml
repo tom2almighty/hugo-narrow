@@ -65,6 +65,7 @@ post:
   total_posts: "Всего {{ .count }} статей"
   author: "Автор"
   words: "слов"
+  words_count: "Количество слов"
   no_previous: "Нет предыдущей статьи"
   no_next: "Нет следующей статьи"
   no_previous_desc: "Это самая старая статья"

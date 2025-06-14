@@ -65,6 +65,7 @@ post:
   total_posts: "{{ .count }} articles au total"
   author: "Auteur"
   words: "mots"
+  words_count: "Nombre de mots"
   no_previous: "Aucun article précédent"
   no_next: "Aucun article suivant"
   no_previous_desc: "Ceci est l'article le plus ancien"

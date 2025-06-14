@@ -29,7 +29,7 @@
       {{/* 左侧：日期 */}}
       {{ if $showDate }}
         <div class="flex items-center gap-1">
-          {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
+          {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" (i18n "post.published_on")) }}
           <time datetime="{{ $page.Date.Format "2006-01-02" }}">
             {{ $page.Date.Format (i18n "time.date_format_short" | default "01月02日") }}
           </time>
@@ -39,7 +39,7 @@
       {{/* 右侧：阅读时间 */}}
       {{ if and $showReadingTime $page.ReadingTime }}
         <div class="flex items-center gap-1">
-          {{ partial "features/icon.html" (dict "name" "clock" "size" "xs" "ariaLabel" "") }}
+          {{ partial "features/icon.html" (dict "name" "clock" "size" "xs" "ariaLabel" (i18n "post.reading_time")) }}
           <span>{{ $page.ReadingTime }}{{ i18n "time.minute" | default "分钟" }}</span>
         </div>
       {{ end }}
@@ -50,7 +50,7 @@
       {{/* 发布日期 */}}
       {{ if $showDate }}
         <div class="bg-muted/50 border-muted/30 flex items-center gap-1.5 rounded-md border px-2 py-1">
-          {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post.date")) }}
+          {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post.published_on")) }}
           <time datetime="{{ $page.Date.Format "2006-01-02" }}" class="text-sm font-medium">
             {{ $page.Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
           </time>

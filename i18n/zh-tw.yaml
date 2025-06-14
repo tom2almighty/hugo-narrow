@@ -65,6 +65,7 @@ post:
   total_posts: "共 {{ .count }} 篇文章"
   author: "作者"
   words: "字"
+  words_count: "字數"
   no_previous: "沒有上一篇"
   no_next: "沒有下一篇"
   no_previous_desc: "這是最早的文章"

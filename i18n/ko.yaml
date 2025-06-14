@@ -65,6 +65,7 @@ post:
   total_posts: "총 {{ .count }}개의 게시글"
   author: "작성자"
   words: "단어"
+  words_count: "단어 수"
   no_previous: "이전 게시글 없음"
   no_next: "다음 게시글 없음"
   no_previous_desc: "가장 처음 게시글입니다"

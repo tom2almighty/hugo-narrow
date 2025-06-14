@@ -59,7 +59,7 @@
       <!-- 字数统计 -->
       {{ if .WordCount }}
         <div class="flex items-center gap-2">
-          {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" "字数统计") }}
+          {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post.words_count")) }}
           <span>{{ .WordCount }} {{ i18n "post.words" | default "字" }}</span>
         </div>
       {{ end }}

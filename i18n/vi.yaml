@@ -65,6 +65,7 @@ post:
   total_posts: "{{ .count }} bài viết"
   author: "Tác giả"
   words: "từ"
+  words_count: "Số từ"
   no_previous: "Không có bài trước"
   no_next: "Không có bài sau"
   no_previous_desc: "Đây là bài viết đầu tiên"

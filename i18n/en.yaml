@@ -65,6 +65,7 @@ post:
   total_posts: "{{ .count }} posts total"
   author: "Author"
   words: "words"
+  words_count: "Word count"
   no_previous: "No previous post"
   no_next: "No next post"
   no_previous_desc: "This is the earliest post"
