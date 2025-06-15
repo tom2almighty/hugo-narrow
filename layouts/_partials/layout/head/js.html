@@ -137,6 +137,6 @@
   {{- end }}
 {{- end }}
 
-{{ if .Site.Params.analytics.enabled -}}
+{{ if .context.Site.Params.analytics.enabled -}}
   {{ partial "features/analytics.html" . }}
 {{- end }}

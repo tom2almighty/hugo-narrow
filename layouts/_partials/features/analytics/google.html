@@ -1,4 +1,4 @@
-<script src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.analytics.google.id }}"></script>
+<script src="https://www.googletagmanager.com/gtag/js?id={{ .context.Site.Params.analytics.google.id }}"></script>
 <script data-pjax>
   window.dataLayer = window.dataLayer || [];
 
@@ -8,5 +8,5 @@
 
   gtag('js', new Date());
 
-  gtag('config', '{{ .Site.Params.analytics.google.id }}');
+  gtag('config', '{{ .context.Site.Params.analytics.google.id }}');
 </script>
