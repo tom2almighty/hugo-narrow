@@ -79,7 +79,7 @@
             <div class="flex flex-wrap gap-2">
               {{ range .Params.categories }}
                 <a
-                  href="{{ "/categories/" | relURL }}{{ . | urlize }}/"
+                  href="{{ "/categories/" | relLangURL }}{{ . | urlize }}/"
                   class="bg-primary/10 text-primary hover:bg-primary/20 focus:ring-primary/20 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:shadow-md focus:ring-2 focus:outline-none">
                   {{ . }}
                 </a>
@@ -99,7 +99,7 @@
             <div class="flex flex-wrap gap-2">
               {{ range .Params.tags }}
                 <a
-                  href="{{ "/tags/" | relURL }}{{ . | urlize }}/"
+                  href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/"
                   class="bg-muted/50 text-muted-foreground hover:bg-primary/10 hover:text-primary focus:ring-primary/20 inline-flex items-center rounded px-2 py-1 text-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
                   #{{ . }}
                 </a>
