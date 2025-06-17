@@ -290,7 +290,7 @@ params:
   mermaid:
     enabled: false
 
-  # Lightbox 配置
+  # GLightbox
   lightbox:
     enabled: false
     loop: true
@@ -302,7 +302,7 @@ params:
     preload: true
     descPosition: bottom
 
-  # Justified Gallery 配置
+  # Justified Gallery
   justified_gallery:
     enabled: false
     rowHeight: 300
@@ -313,16 +313,6 @@ params:
     rowHeightTolerance: 0.25
     maxRowsCount: 999999
     calculateItemsHeight: false
-    
-  
-  masonry:
-    enabled: false
-    columns: 3
-    gutter: 20
-    animate: true
-    useTransform: true
-    center: true
-    maxColumns: 5
 
 
 markup:
