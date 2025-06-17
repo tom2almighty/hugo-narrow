@@ -5,12 +5,10 @@ draft: false
 description: "测试图片渲染功能"
 tags: ["测试", "图片", "渲染"]
 categories: ["图片渲染"]
-gallery:
-  justified_gallery: true
-  modal: true
-  responsive:
-    rowHeight: 200
-    margins: 5
+lightbox:
+  enabled: true
+justified_gallery:
+  enabled: true
 ---
 
 # 图片渲染测试
@@ -20,7 +18,7 @@ gallery:
 ## 单张图片
 ![https://unsplash.com/@danielleone](bundle.avif "摄影师 - Daniel Leone")
 
-## LightGallery 灯箱加 Justified 布局
+## Justified 布局图库
 ![https://unsplash.com/@@tobbes_rd](images/01.avif "摄影师 - Tobias Rademacher")
 ![https://unsplash.com/@therawhunter](images/02.avif "摄影师 - Massimiliano Morosinotto")
 ![https://unsplash.com/@thesaboo](images/03.avif "摄影师 - Sascha Bosshard")
@@ -30,24 +28,15 @@ gallery:
 ![https://unsplash.com/@juanster](images/07.avif "摄影师 - Juan Davila")
 ![https://unsplash.com/@davidmarcu](images/08.avif "摄影师 - David Marcu")
 
-## 页面资源
-![Location - Poon Hill, Ghode Pani, Nepal](bundle.avif "Photo by - [Daniel Leone](https://unsplash.com/@danielleone)")
-
-## 全局资源 (assets 目录)
-![](images/01.avif)
-![](images/02.avif)
-![](images/03.avif)
-![](images/04.avif)
-![](images/05.avif)
-![](images/06.avif)
-![](images/07.avif)
-![](images/08.avif)
-
-## 静态资源 (static 目录)
-![](/images/01.avif)
-![](/images/02.avif)
-![](/images/03.avif)
-![](/images/04.avif)
-![](/images/05.avif)
-![](/images/06.avif)
+## 瀑布流布局 - 短代码
+{{< masonry columns=4 gutter=15 >}}
+![https://unsplash.com/@@tobbes_rd](images/01.avif "摄影师 - Tobias Rademacher")
+![https://unsplash.com/@therawhunter](images/02.avif "摄影师 - Massimiliano Morosinotto")
+![https://unsplash.com/@thesaboo](images/03.avif "摄影师 - Sascha Bosshard")
+![https://unsplash.com/@yusufevli](images/04.avif "摄影师 - Yusuf Evli")
+![https://unsplash.com/@flovayn](images/05.avif "摄影师 - Jay Mantri")
+![https://unsplash.com/@flovayn](images/06.avif "摄影师 -  Florian van Duyn")
+![https://unsplash.com/@juanster](images/07.avif "摄影师 - Juan Davila")
+![https://unsplash.com/@davidmarcu](images/08.avif "摄影师 - David Marcu")
+{{< /masonry >}}
 

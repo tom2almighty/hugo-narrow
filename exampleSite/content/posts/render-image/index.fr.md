@@ -5,12 +5,10 @@ draft: false
 description: "Test des fonctionnalités de rendu d'image"
 tags: ["test", "image", "rendu"]
 categories: ["rendu-image"]
-gallery:
-  justified_gallery: true
-  modal: true
-  responsive:
-    rowHeight: 200
-    margins: 5
+lightbox:
+  enabled: true
+justified_gallery:
+  enabled: true
 ---
 
 # Test de rendu d'image
@@ -20,7 +18,7 @@ Toutes les images proviennent de [Unsplash](https://unsplash.com/)
 ## Image unique
 ![https://unsplash.com/@danielleone](bundle.avif "Photo par - Daniel Leone")
 
-## LightGallery avec Justified Gallery
+## Galerie justifiée
 ![https://unsplash.com/@@tobbes_rd](images/01.avif "Photo par - Tobias Rademacher")
 ![https://unsplash.com/@therawhunter](images/02.avif "Photo par - Massimiliano Morosinotto")
 ![https://unsplash.com/@thesaboo](images/03.avif "Photo par - Sascha Bosshard")
@@ -29,3 +27,15 @@ Toutes les images proviennent de [Unsplash](https://unsplash.com/)
 ![https://unsplash.com/@flovayn](images/06.avif "Photo par -  Florian van Duyn")
 ![https://unsplash.com/@juanster](images/07.avif "Photo par - Juan Davila")
 ![https://unsplash.com/@davidmarcu](images/08.avif "Photo par - David Marcu") 
+
+## Maçonnerie par codes courts
+{{< masonry columns=4 gutter=15 >}}
+![https://unsplash.com/@@tobbes_rd](images/01.avif "Photo par - Tobias Rademacher")
+![https://unsplash.com/@therawhunter](images/02.avif "Photo par - Massimiliano Morosinotto")
+![https://unsplash.com/@thesaboo](images/03.avif "Photo par - Sascha Bosshard")
+![https://unsplash.com/@yusufevli](images/04.avif "Photo par - Yusuf Evli")
+![https://unsplash.com/@flovayn](images/05.avif "Photo par - Jay Mantri")
+![https://unsplash.com/@flovayn](images/06.avif "Photo par -  Florian van Duyn")
+![https://unsplash.com/@juanster](images/07.avif "Photo par - Juan Davila")
+![https://unsplash.com/@davidmarcu](images/08.avif "Photo par - David Marcu") 
+{{< /masonry >}}
