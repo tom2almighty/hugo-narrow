@@ -1,110 +1,42 @@
-/* 图片画廊样式 - lightGallery + Justified Gallery */
-
-/* 基础图片容器 */
-.image-figure {
-  @apply text-center;
+/* Justified Gallery 样式 */
+.fj-gallery .glightbox {
+  @apply no-underline hover:no-underline focus:no-underline block overflow-hidden;
+  border-radius: 0.5rem;
 }
 
-.image-container {
-  @apply inline-block overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-out;
+.fj-gallery-item {
+  @apply overflow-hidden;
+  border-radius: 0.5rem;
 }
 
-.image-container:hover {
-  @apply shadow-xl;
+.fj-gallery img {
+  @apply transition-transform duration-300 ease-in-out;
+  border-radius: 0.5rem;
 }
 
-.image-container img {
-  @apply h-auto w-full max-w-full transition-transform duration-300 ease-out cursor-pointer;
-}
-
-.image-container img:hover {
+.fj-gallery img:hover {
   @apply scale-105;
 }
 
-.image-caption {
-  @apply text-muted-foreground mt-3 text-sm italic;
+.single-image .glightbox {
+  @apply no-underline hover:no-underline focus:no-underline inline-block overflow-hidden;
+  border-radius: 0.5rem;
 }
-
-/* Justified Gallery 容器 */
-.justified-gallery-container {
-  @apply my-8;
-}
-
-/* Justified Gallery 图片项 */
-.justified-gallery-container .gallery-item {
-  @apply overflow-hidden rounded-lg shadow-md transition-all duration-300 ease-out;
-}
-
-.justified-gallery-container .gallery-item:hover {
-  @apply shadow-xl transform scale-[1.02];
-}
-
-/* Justified Gallery 图片样式 */
-.justified-gallery-container .gallery-item img {
-  @apply w-full h-auto cursor-pointer transition-transform duration-300 ease-out;
-}
-
-.justified-gallery-container .gallery-item img:hover {
-  @apply scale-105;
-}
-
-
-/* 个体图片lightGallery容器（统一处理单张图片和分离图片） */
-.individual-image-lightgallery {
-  @apply text-center my-8;
-}
-
-.individual-image-lightgallery a {
-  @apply inline-block overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-out;
-}
-
-.individual-image-lightgallery a:hover {
-  @apply shadow-xl;
-}
-
-.individual-image-lightgallery img {
-  @apply h-auto w-full max-w-full transition-transform duration-300 ease-out cursor-pointer;
-}
-
-.individual-image-lightgallery img:hover {
-  @apply scale-105;
-}
-
-
-
-
-
-
-
-
-
-
-
-/* 图片说明样式 */
-.gallery-caption {
-  @apply text-muted-foreground mt-3 text-sm italic text-center;
-}
-
-/* 画廊容器标识 */
-.gallery-container {
-  @apply my-8;
-}
-
-/* 单张图片样式 */
 .single-image .image-container {
-  @apply max-w-4xl mx-auto;
+  @apply overflow-hidden;
+  border-radius: 0.5rem;
 }
 
-/* 图片加载状态 */
-.gallery-item img[loading="lazy"] {
-  @apply opacity-0 transition-opacity duration-300;
+.single-image img {
+  @apply transition-transform duration-300 ease-in-out;
+  border-radius: 0.5rem;
 }
 
-.gallery-item img[loading="lazy"].loaded {
-  @apply opacity-100;
+.single-image img:hover {
+  @apply scale-105;
 }
 
-/* 无障碍优化 */
-.gallery-item:focus-within {
-  @apply ring-2 ring-primary ring-offset-2;
+.fj-gallery-item,
+.single-image .image-container {
+  position: relative;
 }

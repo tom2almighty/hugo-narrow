@@ -20,13 +20,13 @@
 
 
 <!-- Gumshoe 库 - 只在文章页面加载 -->
-{{- if .context.IsPage }}
+{{- if .IsPage }}
   <script src="{{ "js/gumshoe.polyfills.min.js" | relURL }}"></script>
 {{- end }}
 
 
 <!-- 目录功能脚本 - 只在文章页面加载，需要在 dock.js 之前加载 -->
-{{- if .context.IsPage }}
+{{- if .IsPage }}
   {{- with resources.Get "js/toc.js" }}
     {{- $opts := dict
       "minify" (not hugo.IsDevelopment)
@@ -96,25 +96,37 @@
 {{- end }}
 
 
-<!-- jQuery -->
-{{- if or .galleryJustified .galleryModal }}
-  <script src="/js/jquery-2.2.4.min.js"></script>
-{{- end }}
+{{/* FJ Gallery */}}
+{{/* Gallery JavaScript */}}
+{{ if .Scratch.Get "justifiedEnabled" }}
+  <script src="/js/fjGallery.min.js"></script>
+{{ end }}
 
-<!-- Justified Gallery - JS -->
-{{- if .galleryJustified }}
-  <script src="/js/jquery.justifiedGallery.min.js"></script>
-{{- end }}
+{{ if .Scratch.Get "lightboxEnabled" }}
+  <script src="/js/glightbox.min.js"></script>
+{{ end }}
 
-<!-- lightGallery - 本地资源 -->
-{{- if .galleryModal }}
-  <script src="/js/lightgallery.min.js"></script>
-  <script src="/js/lg-zoom.min.js"></script>
-  <script src="/js/lg-thumbnail.min.js"></script>
-{{- end }}
+{{/* 检测 masonry 短代码 */}}
+{{ $hasMasonryShortcode := false }}
+{{ if .RawContent }}
+  {{ if findRE `{{<\s*masonry` .RawContent }}
+    {{ $hasMasonryShortcode = true }}
+  {{ end }}
+{{ end }}
+
+{{ if $hasMasonryShortcode }}
+  <script src="/js/macy.js"></script>
+  {{ if not (.Scratch.Get "lightboxEnabled") }}
+    {{ $globalLightbox := site.Params.lightbox | default dict }}
+    {{ $lightboxEnabled := $globalLightbox.enabled | default false }}
+    {{ if not $lightboxEnabled }}
+      <script src="/js/glightbox.min.js"></script>
+    {{ end }}
+  {{ end }}
+{{ end }}
 
 
-{{- if or .galleryJustified .galleryModal }}
+{{ if or (.Scratch.Get "justifiedEnabled") (.Scratch.Get "lightboxEnabled") }}
   {{- with resources.Get "js/gallery.js" }}
     {{- $opts := dict
       "minify" (not hugo.IsDevelopment)
@@ -135,8 +147,9 @@
       {{- end }}
     {{- end }}
   {{- end }}
-{{- end }}
+{{ end }}
 
-{{ if .context.Site.Params.analytics.enabled -}}
+
+{{ if .Site.Params.analytics.enabled -}}
   {{ partial "features/analytics.html" . }}
 {{- end }}

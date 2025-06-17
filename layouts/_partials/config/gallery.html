@@ -1,0 +1,53 @@
+{{/* Gallery 配置管理 */}}
+{{ $globalJustified := site.Params.justified_gallery | default dict }}
+{{ $globalLightbox := site.Params.lightbox | default dict }}
+
+{{ $pageJustified := .Params.justified_gallery | default dict }}
+{{ $pageLightbox := .Params.lightbox | default dict }}
+
+{{/* 计算最终配置 */}}
+{{ $justifiedEnabled := cond (isset $pageJustified "enabled") $pageJustified.enabled ($globalJustified.enabled | default false) }}
+{{ $lightboxEnabled := cond (isset $pageLightbox "enabled") $pageLightbox.enabled ($globalLightbox.enabled | default false) }}
+
+{{/* 合并配置对象 */}}
+{{ $justifiedConfig := $globalJustified }}
+{{ if $pageJustified }}
+  {{ $justifiedConfig = merge $justifiedConfig $pageJustified }}
+{{ end }}
+
+{{ $lightboxConfig := $globalLightbox }}
+{{ if $pageLightbox }}
+  {{ $lightboxConfig = merge $lightboxConfig $pageLightbox }}
+{{ end }}
+
+{{/* 处理配置值，确保类型正确 */}}
+{{ $cleanJustifiedConfig := dict }}
+{{ range $key, $value := $justifiedConfig }}
+  {{ if ne $key "enabled" }}
+    {{ $cleanJustifiedConfig = merge $cleanJustifiedConfig (dict $key $value) }}
+  {{ end }}
+{{ end }}
+
+{{ $cleanLightboxConfig := dict }}
+{{ range $key, $value := $lightboxConfig }}
+  {{ if ne $key "enabled" }}
+    {{ $cleanLightboxConfig = merge $cleanLightboxConfig (dict $key $value) }}
+  {{ end }}
+{{ end }}
+
+{{/* 设置页面级变量 */}}
+{{ .Scratch.Set "justifiedEnabled" $justifiedEnabled }}
+{{ .Scratch.Set "lightboxEnabled" $lightboxEnabled }}
+{{ .Scratch.Set "justifiedConfig" $cleanJustifiedConfig }}
+{{ .Scratch.Set "lightboxConfig" $cleanLightboxConfig }}
+
+{{/* 生成 JavaScript 配置 */}}
+<script>
+
+  window.HUGO_GALLERY_CONFIG = {
+    justified_gallery: {{ $justifiedEnabled }},
+    lightbox: {{ $lightboxEnabled }},
+    justified: {{ $cleanJustifiedConfig | jsonify }},
+    lightbox_options: {{ $cleanLightboxConfig | jsonify }}
+  };
+</script>

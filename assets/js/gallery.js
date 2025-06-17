@@ -1,22 +1,166 @@
 /**
- * 图片画廊功能 - lightGallery + Justified Gallery
- * 支持单图片居中显示和多图片Justified Gallery布局
+ * 模块化图片画廊系统
+ * 分离的灯箱和布局管理器
  */
 
+// 灯箱管理器
+class LightboxManager {
+  constructor(config = {}) {
+    this.config = config;
+    this.instances = [];
+  }
+
+  initialize(container, galleryId) {
+    if (typeof GLightbox === 'undefined') {
+      console.error('GLightbox is not available');
+      return null;
+    }
+
+    const options = {
+      selector: `[data-gallery="${galleryId}"]`,
+      touchNavigation: this.config.touchNavigation ?? true,
+      loop: this.config.loop ?? false,
+      draggable: this.config.draggable ?? true,
+      zoomable: this.config.zoomable ?? true,
+      autoplayVideos: this.config.autoplayVideos ?? false,
+      preload: this.config.preload ?? true,
+      width: this.config.width || '90vw',
+      height: this.config.height || '90vh',
+      descPosition: this.config.descPosition || 'bottom'
+    };
+
+
+    try {
+      const lightbox = GLightbox(options);
+      
+      this.instances.push({
+        container: container,
+        instance: lightbox,
+        galleryId: galleryId
+      });
+
+      return lightbox;
+    } catch (error) {
+      console.error(`Error initializing GLightbox for ${galleryId}:`, error);
+      return null;
+    }
+  }
+
+  setupAttributes(link, img, caption) {
+    const imgTitle = img.getAttribute('data-gallery-title') || img.title || '';
+    const imgAlt = img.getAttribute('data-gallery-alt') || img.alt || '';
+
+    let description = '';
+
+    if (imgTitle && imgAlt && imgTitle !== imgAlt) {
+      description = `<h4>${imgTitle}</h4><p>${imgAlt}</p>`;
+    } else if (imgTitle) {
+      description = `<h4>${imgTitle}</h4>`;
+    } else if (imgAlt) {
+      description = `<p>${imgAlt}</p>`;
+    } else if (caption) {
+      const captionText = caption.textContent.trim();
+      if (captionText) {
+        description = `<p>${captionText}</p>`;
+      }
+    }
+
+    if (description) {
+      link.setAttribute('data-description', description);
+    }
+  }
+
+  destroy() {
+    this.instances.forEach(instance => {
+      try {
+        if (instance.instance && instance.instance.destroy) {
+          instance.instance.destroy();
+        }
+      } catch (error) {
+        console.error(`Error destroying lightbox instance:`, error);
+      }
+    });
+    this.instances = [];
+  }
+}
+
+// Justified布局管理器
+class JustifiedLayoutManager {
+  constructor(config = {}) {
+    this.config = config;
+    this.instances = [];
+  }
+
+  initialize(container) {
+    if (typeof fjGallery === 'undefined') {
+      console.error('fjGallery is not available');
+      return false;
+    }
+
+    const options = {
+      itemSelector: '.fj-gallery-item',
+      imageSelector: 'img',
+      rowHeight: parseInt(this.config.rowHeight) || 200,
+      gutter: parseInt(this.config.gutter) || 10,
+      lastRow: this.config.lastRow || 'left',
+      transitionDuration: this.config.transitionDuration || '0.3s',
+      calculateItemsHeight: this.config.calculateItemsHeight ?? false,
+      resizeDebounce: parseInt(this.config.resizeDebounce) || 100,
+      rowHeightTolerance: parseFloat(this.config.rowHeightTolerance) || 0.25,
+      maxRowsCount: parseInt(this.config.maxRowsCount) || Number.POSITIVE_INFINITY
+    };
+
+
+    try {
+      fjGallery([container], options);
+      
+      this.instances.push({
+        container: container,
+        options: options
+      });
+
+      return true;
+    } catch (error) {
+      console.error(`Error initializing fjGallery for ${container.id}:`, error);
+      return false;
+    }
+  }
+
+  resize() {
+    this.instances.forEach(instance => {
+      try {
+        fjGallery([instance.container], 'resize');
+      } catch (error) {
+        console.error('Error resizing fjGallery:', error);
+      }
+    });
+  }
+
+  destroy() {
+    this.instances.forEach(instance => {
+      try {
+        fjGallery([instance.container], 'destroy');
+      } catch (error) {
+        console.error('Error destroying fjGallery instance:', error);
+      }
+    });
+    this.instances = [];
+  }
+}
+
+
+// 主画廊控制器
 class ImageGallery {
+
   constructor() {
-    this.lightGalleryInstances = [];
-    this.justifiedGalleryInstances = [];
-    this.config = window.HUGO_CONFIG?.gallery || {};
+    this.config = window.HUGO_GALLERY_CONFIG || {};
+    this.lightboxManager = new LightboxManager(this.config.lightbox_options || {});
+    this.justifiedManager = new JustifiedLayoutManager(this.config.justified || {});
     this.galleries = [];
     this.init();
   }
 
-  /**
-   * 初始化画廊功能
-   */
   init() {
-    // 等待DOM加载完成
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.setup());
     } else {
@@ -24,82 +168,27 @@ class ImageGallery {
     }
   }
 
-  /**
-   * 设置画廊功能
-   */
   setup() {
-    // 确保jQuery和库文件已加载
-    this.loadDependencies().then(() => {
-      this.processImages();
-      this.setupImageLoading();
-
-      if (this.config.justified_gallery) {
-        this.initJustifiedGallery();
-      }
-
-      if (this.config.modal) {
-        this.initLightGallery();
-      }
-    });
+    this.processImages();
   }
 
-  /**
-   * 加载依赖库
-   */
-  loadDependencies() {
-    return new Promise((resolve) => {
-      // 检查jQuery是否已加载
-      if (typeof jQuery === 'undefined') {
-        console.error('Gallery: jQuery is required but not loaded');
-        resolve();
-        return;
-      }
-
-      // 检查lightGallery是否已加载
-      if (typeof window.lightGallery === 'undefined') {
-        console.error('Gallery: lightGallery is required but not loaded');
-      }
-
-      // 检查justifiedGallery是否已加载
-      if (typeof jQuery.fn.justifiedGallery === 'undefined') {
-        console.error('Gallery: justifiedGallery is required but not loaded');
-      }
-
-      resolve();
-    });
-  }
-
-  /**
-   * 处理页面中的图片，检测连续图片并分组
-   */
   processImages() {
-    const imageFigures = document.querySelectorAll('.image-figure');
-    console.log('Gallery: Found', imageFigures.length, 'image figures');
+    const imageFigures = document.querySelectorAll('.image-figure[data-gallery-type="auto"]');
 
     if (imageFigures.length === 0) return;
 
-    // 检测连续的图片组
     const groups = this.detectImageGroups(imageFigures);
-    console.log('Gallery: Detected', groups.length, 'image groups');
 
-    // 处理每个组 - 简化逻辑
     groups.forEach((group, index) => {
-      console.log(`Gallery: Group ${index} has ${group.length} images`);
-
+      
       if (group.length > 1 && this.config.justified_gallery) {
-        console.log(`Gallery: Creating justified gallery for group ${index} with ${group.length} images`);
         this.createJustifiedGalleryGroup(group, index);
       } else {
-        console.log(`Gallery: Keeping group ${index} as individual images`);
-        // 单张图片、分离图片或Justified Gallery未启用时，都保持原样
         this.processIndividualImages(group);
       }
     });
   }
 
-  /**
-   * 检测连续的图片组 - 基于空行分组
-   */
   detectImageGroups(figures) {
     const groups = [];
     let currentGroup = [];
@@ -110,48 +199,37 @@ class ImageGallery {
 
       currentGroup.push(figure);
 
-      // 检查是否为连续图片（基于空行分组）
       if (nextFigure && this.areConsecutiveByEmptyLine(figure, nextFigure)) {
         continue;
       } else {
-        // 当前组结束，创建新组
         if (currentGroup.length > 0) {
-          groups.push(currentGroup);
+          groups.push([...currentGroup]);
           currentGroup = [];
         }
       }
     }
 
-    // 处理最后一组
     if (currentGroup.length > 0) {
-      groups.push(currentGroup);
+      groups.push([...currentGroup]);
     }
 
     return groups;
   }
 
-  /**
-   * 检查两个图片是否连续（正确的逻辑：只有中间没有空行才连续）
-   */
   areConsecutiveByEmptyLine(figure1, figure2) {
     let current = figure1.nextElementSibling;
 
     while (current && current !== figure2) {
-      // 跳过空白文本节点
       if (current.nodeType === Node.TEXT_NODE) {
         const text = current.textContent.trim();
         if (text === '') {
           current = current.nextElementSibling;
           continue;
-        } else {
-          // 有实际文本内容，不连续
-          return false;
         }
+        return false;
       }
 
-      // 检查元素节点
       if (current.nodeType === Node.ELEMENT_NODE) {
-        // 如果是另一个图片figure，则连续
         if (current.matches('.image-figure')) {
           current = current.nextElementSibling;
           continue;
@@ -160,137 +238,94 @@ class ImageGallery {
         const tagName = current.tagName.toLowerCase();
         const text = current.textContent.trim();
 
-        // 检查是否为空段落（这会断开连续性）
         if (tagName === 'p' && text === '') {
-          // 有空段落，不连续
           return false;
-        }
-        // 允许换行（不断开连续性）
-        else if (tagName === 'br') {
+        } else if (tagName === 'br') {
           current = current.nextElementSibling;
           continue;
-        }
-        // 任何有内容的元素都会断开连续性
-        else if (text !== '') {
+        } else if (text !== '') {
           return false;
         }
-        // 其他空元素（如空的div等）
-        else {
-          current = current.nextElementSibling;
-          continue;
-        }
+        current = current.nextElementSibling;
       }
-
-      current = current.nextElementSibling;
     }
 
-    // 只有找到了figure2且中间没有空段落或内容，才认为连续
     return current === figure2;
   }
 
-  /**
-   * 处理个体图片（单张图片、分离图片或Justified Gallery未启用的情况）
-   */
   processIndividualImages(figures) {
-    figures.forEach(figure => {
+    figures.forEach((figure, index) => {
       figure.classList.add('single-image');
+      
+      if (this.config.lightbox) {
+        this.setupLightboxForSingleImage(figure, `single-${Date.now()}-${index}`);
+      }
     });
   }
 
-  /**
-   * 创建Justified Gallery组
-   */
   createJustifiedGalleryGroup(figures, groupIndex) {
-    // 创建画廊容器
     const galleryContainer = document.createElement('div');
-    galleryContainer.className = 'not-prose justified-gallery-container my-8';
-    galleryContainer.setAttribute('data-gallery-group', groupIndex);
-    galleryContainer.id = `justified-gallery-${groupIndex}`;
+    galleryContainer.className = 'fj-gallery';
+    galleryContainer.id = `fj-gallery-${groupIndex}`;
 
-    // 将图片转换为lightGallery格式
     figures.forEach(figure => {
-      const imageContainer = figure.querySelector('.image-container');
-      const caption = figure.querySelector('.image-caption');
       const img = figure.querySelector('img');
+      const caption = figure.querySelector('.image-caption');
 
-      if (imageContainer && img) {
-        // 创建lightGallery兼容的链接
-        const galleryLink = document.createElement('a');
-        galleryLink.className = 'gallery-item';
+      if (img) {
+        const item = document.createElement('div');
+        item.className = 'fj-gallery-item';
 
-        // 设置lightGallery属性
-        const imgSrc = img.src;
-        const imgAlt = img.alt || '';
-        const imgTitle = img.title || '';
+        if (this.config.lightbox) {
+          const link = document.createElement('a');
+          link.href = img.getAttribute('data-gallery-src') || img.src;
+          link.className = 'glightbox';
+          link.setAttribute('data-gallery', galleryContainer.id);
+          
+          this.lightboxManager.setupAttributes(link, img, caption);
 
-        // 获取高分辨率图片URL（如果有的话）
-        const highResUrl = img.getAttribute('data-src') || imgSrc;
-        galleryLink.href = highResUrl;
-        galleryLink.setAttribute('data-src', highResUrl);
+          const newImg = document.createElement('img');
+          newImg.src = img.src;
+          newImg.alt = img.alt || '';
+          newImg.loading = 'lazy';
 
-        // 设置图片尺寸（用于lightGallery的zoom效果）
-        if (img.naturalWidth && img.naturalHeight) {
-          galleryLink.setAttribute('data-lg-size', `${img.naturalWidth}-${img.naturalHeight}`);
-        }
-
-        // 设置说明文字 - 优化逻辑：title作为标题，alt作为描述
-        let subHtml = '';
-        const modalData = img.getAttribute('data-modal');
-
-        if (modalData) {
-          // 解析data-modal属性
-          const titleMatch = modalData.match(/title:\s*([^;]+)/);
-          const descMatch = modalData.match(/description:\s*([^;]+)/);
-
-          if (titleMatch || descMatch) {
-            if (titleMatch) {
-              subHtml += `<h4>${titleMatch[1].trim()}</h4>`;
-            }
-            if (descMatch) {
-              subHtml += `<p>${descMatch[1].trim()}</p>`;
-            }
+          if (img.naturalWidth && img.naturalHeight) {
+            newImg.width = img.naturalWidth;
+            newImg.height = img.naturalHeight;
           }
+
+          link.appendChild(newImg);
+          item.appendChild(link);
         } else {
-          // 优化逻辑：优先使用title作为标题，alt作为描述
-          if (imgTitle && imgAlt && imgTitle !== imgAlt) {
-            // title和alt都存在且不同：title作为标题，alt作为描述
-            subHtml = `<h4>${imgTitle}</h4><p>${imgAlt}</p>`;
-          } else if (imgTitle) {
-            // 只有title：作为主要说明
-            subHtml = `<h4>${imgTitle}</h4>`;
-          } else if (imgAlt) {
-            // 只有alt：作为描述
-            subHtml = `<p>${imgAlt}</p>`;
-          } else if (caption) {
-            // 备用：使用figcaption
-            const captionText = caption.textContent.trim();
-            if (captionText) {
-              subHtml = `<p>${captionText}</p>`;
-            }
+          const newImg = document.createElement('img');
+          newImg.src = img.src;
+          newImg.alt = img.alt || '';
+          newImg.loading = 'lazy';
+
+          if (img.naturalWidth && img.naturalHeight) {
+            newImg.width = img.naturalWidth;
+            newImg.height = img.naturalHeight;
           }
+
+          item.appendChild(newImg);
         }
 
-        if (subHtml) {
-          galleryLink.setAttribute('data-sub-html', subHtml);
-        }
-
-        // 创建缩略图
-        const thumbnailImg = document.createElement('img');
-        thumbnailImg.src = imgSrc;
-        thumbnailImg.alt = imgAlt;
-        thumbnailImg.className = 'img-responsive';
-        thumbnailImg.loading = 'lazy';
-
-        galleryLink.appendChild(thumbnailImg);
-        galleryContainer.appendChild(galleryLink);
+        galleryContainer.appendChild(item);
       }
     });
 
-    // 替换第一个图片的位置
-    figures[0].parentNode.insertBefore(galleryContainer, figures[0]);
-
-    // 移除原始图片
+    // 替换第一个图片并移除其他图片
+    const firstFigure = figures[0];
+    firstFigure.parentNode.insertBefore(galleryContainer, firstFigure);
     figures.forEach(figure => figure.remove());
+
+    // 初始化布局
+    this.justifiedManager.initialize(galleryContainer);
+
+    // 初始化灯箱
+    if (this.config.lightbox) {
+      this.lightboxManager.initialize(galleryContainer, galleryContainer.id);
+    }
 
     this.galleries.push({
       container: galleryContainer,
@@ -299,251 +334,36 @@ class ImageGallery {
     });
   }
 
-  /**
-   * 设置图片懒加载
-   */
-  setupImageLoading() {
-    const images = document.querySelectorAll('.gallery-item img, .single-image img, .individual-image-lightgallery img, .image-container img');
-
-    images.forEach(img => {
-      if (img.complete) {
-        img.classList.add('loaded');
-      } else {
-        img.addEventListener('load', () => {
-          img.classList.add('loaded');
-        });
-      }
-    });
-  }
-
-  /**
-   * 初始化Justified Gallery布局
-   */
-  initJustifiedGallery() {
-    const galleryContainers = document.querySelectorAll('.justified-gallery-container');
-
-    if (galleryContainers.length === 0) return;
-
-    galleryContainers.forEach((container) => {
-      const $container = jQuery(container);
-
-      // 配置Justified Gallery - 标准配置（只处理多张图片）
-      const justifiedConfig = {
-        captions: false,
-        lastRow: 'nojustify',  // 最后一行左对齐，不强制拉伸
-        rowHeight: this.config.responsive?.rowHeight || 180,
-        margins: this.config.responsive?.margins || 5,
-        randomize: false,
-        waitThumbnailsLoad: true,
-        justifyThreshold: 0.75  // 标准的对齐阈值
-      };
-
-      console.log('Gallery: Initializing Justified Gallery for', container.id);
-
-      // 初始化Justified Gallery
-      $container.justifiedGallery(justifiedConfig)
-        .on('jg.complete', () => {
-          console.log('Gallery: Justified Gallery complete for', container.id);
-
-          // Justified Gallery完成后初始化lightGallery
-          if (this.config.modal) {
-            this.initLightGalleryForContainer(container);
-          }
-        })
-        .on('jg.resize', () => {
-          console.log('Gallery: Justified Gallery resized for', container.id);
-        });
-
-      this.justifiedGalleryInstances.push({
-        container: container,
-        jquery: $container
-      });
-    });
-  }
-
-  /**
-   * 初始化lightGallery灯箱
-   */
-  initLightGallery() {
-    // 检查modal配置是否启用
-    if (!this.config.modal) {
-      console.log('Gallery: modal is disabled');
-      return;
-    }
-
-    // 为个体图片初始化lightGallery（统一处理单张图片和分离图片）
-    const individualImages = document.querySelectorAll('.single-image');
-    individualImages.forEach((figure, index) => {
-      const img = figure.querySelector('img');
-      if (img) {
-        this.initLightGalleryForIndividualImage(figure, index);
-      }
-    });
-  }
-
-  /**
-   * 为特定容器初始化lightGallery
-   */
-  initLightGalleryForContainer(container) {
-    if (typeof window.lightGallery === 'undefined') {
-      console.error('Gallery: lightGallery is not available');
-      return;
-    }
-
-    console.log('Gallery: Initializing lightGallery for', container.id);
-
-    const lightGalleryConfig = {
-      autoplayFirstVideo: false,
-      pager: false,
-      galleryId: container.id,
-      hideScrollbar: true,
-      mousewheel: true,
-      plugins: [window.lgZoom, window.lgThumbnail].filter(Boolean),
-      thumbnail: true,
-      thumbWidth: 100,
-      thumbHeight: '80px',
-      thumbMargin: 5,
-      animateThumb: true,
-      alignThumbnails: 'middle',
-      currentPagerPosition: 'middle',
-      appendThumbnailsTo: '.lg-components',
-      thumbnailSwipeThreshold: 10,
-      controls: true,
-      download: true,
-      counter: true,
-
-      mobileSettings: {
-        controls: false,
-        showCloseIcon: true,
-        download: false,
-        rotate: false,
-        thumbnail: true
-      },
-    };
-
-    const lightGalleryInstance = window.lightGallery(container, lightGalleryConfig);
-
-    this.lightGalleryInstances.push({
-      container: container,
-      instance: lightGalleryInstance
-    });
-  }
-
-  /**
-   * 为个体图片初始化lightGallery（统一处理单张图片和分离图片）
-   */
-  initLightGalleryForIndividualImage(figure, index) {
+  setupLightboxForSingleImage(figure, galleryId) {
     const img = figure.querySelector('img');
     const caption = figure.querySelector('.image-caption');
-
+    
     if (!img) return;
 
-    // 如果modal未启用，只保留原始图片显示
-    if (!this.config.modal) {
-      return;
-    }
+    const link = document.createElement('a');
+    link.href = img.getAttribute('data-gallery-src') || img.src;
+    link.className = 'glightbox';
+    link.setAttribute('data-gallery', galleryId);
 
-    // 创建lightGallery容器
-    const lightGalleryContainer = document.createElement('div');
-    lightGalleryContainer.className = 'individual-image-lightgallery';
-    lightGalleryContainer.id = `individual-image-${index}`;
+    this.lightboxManager.setupAttributes(link, img, caption);
 
-    // 创建lightGallery兼容的链接
-    const galleryLink = document.createElement('a');
-    galleryLink.href = img.src;
-    galleryLink.setAttribute('data-src', img.src);
+    img.parentNode.insertBefore(link, img);
+    link.appendChild(img);
 
-    if (img.naturalWidth && img.naturalHeight) {
-      galleryLink.setAttribute('data-lg-size', `${img.naturalWidth}-${img.naturalHeight}`);
-    }
-
-// 设置说明文字 - 优化逻辑：title作为标题，alt作为描述
-    let subHtml = '';
-    const modalData = img.getAttribute('data-modal');
-    const imgTitle = img.title || '';
-    const imgAlt = img.alt || '';
-
-    if (modalData) {
-      // 解析data-modal属性
-      const titleMatch = modalData.match(/title:\s*([^;]+)/);
-      const descMatch = modalData.match(/description:\s*([^;]+)/);
-
-      if (titleMatch || descMatch) {
-        if (titleMatch) {
-          subHtml += `<h4>${titleMatch[1].trim()}</h4>`;
-        }
-        if (descMatch) {
-          subHtml += `<p>${descMatch[1].trim()}</p>`;
-        }
-      }
-    } else {
-      // 优化逻辑：优先使用title作为标题，alt作为描述
-      if (imgTitle && imgAlt && imgTitle !== imgAlt) {
-        // title和alt都存在且不同：title作为标题，alt作为描述
-        subHtml = `<h4>${imgTitle}</h4><p>${imgAlt}</p>`;
-      } else if (imgTitle) {
-        // 只有title：作为主要说明
-        subHtml = `<h4>${imgTitle}</h4>`;
-      } else if (imgAlt) {
-        // 只有alt：作为描述
-        subHtml = `<p>${imgAlt}</p>`;
-      } else if (caption) {
-        // 备用：使用figcaption
-        const captionText = caption.textContent.trim();
-        if (captionText) {
-          subHtml = `<p>${captionText}</p>`;
-        }
-      }
-    }
-
-    if (subHtml) {
-      galleryLink.setAttribute('data-sub-html', subHtml);
-    }
-
-    // 克隆图片
-    const clonedImg = img.cloneNode(true);
-    galleryLink.appendChild(clonedImg);
-    lightGalleryContainer.appendChild(galleryLink);
-
-    // 替换原始figure
-    figure.parentNode.insertBefore(lightGalleryContainer, figure);
-    figure.remove();
-
-    // 初始化lightGallery
-    this.initLightGalleryForContainer(lightGalleryContainer);
+    this.lightboxManager.initialize(figure, galleryId);
   }
 
-  /**
-   * 响应式布局更新
-   */
+
+
+
   updateLayout() {
-    // 重新布局Justified Gallery实例
-    this.justifiedGalleryInstances.forEach(instance => {
-      if (instance.jquery) {
-        instance.jquery.justifiedGallery('norewind');
-      }
-    });
+    this.justifiedManager.resize();
   }
 
-  /**
-   * 销毁实例
-   */
   destroy() {
-    // 销毁Justified Gallery实例
-    this.justifiedGalleryInstances.forEach(instance => {
-      if (instance.jquery) {
-        instance.jquery.justifiedGallery('destroy');
-      }
-    });
-    this.justifiedGalleryInstances = [];
-
-    // 销毁lightGallery实例
-    this.lightGalleryInstances.forEach(instance => {
-      if (instance.instance) {
-        instance.instance.destroy();
-      }
-    });
-    this.lightGalleryInstances = [];
+    this.justifiedManager.destroy();
+    this.lightboxManager.destroy();
+    this.galleries = [];
   }
 }
 
@@ -561,3 +381,5 @@ window.addEventListener('resize', () => {
 
 // 导出到全局作用域
 window.ImageGallery = ImageGallery;
+window.LightboxManager = LightboxManager;
+window.JustifiedLayoutManager = JustifiedLayoutManager;

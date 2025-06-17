@@ -1,17 +1,17 @@
-{{ if .context.Site.Params.analytics.enabled -}}
-  {{ if .context.Site.Params.analytics.baidu.enabled -}}
+{{ if .Site.Params.analytics.enabled -}}
+  {{ if .Site.Params.analytics.baidu.enabled -}}
     {{ partial "features/analytics/baidu.html" . }}
   {{- end }}
 
-  {{ if .context.Site.Params.analytics.clarity.enabled -}}
+  {{ if .Site.Params.analytics.clarity.enabled -}}
     {{ partial "features/analytics/clarity.html" . }}
   {{- end }}
 
-  {{ if .context.Site.Params.analytics.google.enabled -}}
+  {{ if .Site.Params.analytics.google.enabled -}}
     {{ partial "features/analytics/google.html" . }}
   {{- end }}
 
-  {{ if .context.Site.Params.analytics.umami.enabled -}}
+  {{ if .Site.Params.analytics.umami.enabled -}}
     {{ partial "features/analytics/umami.html" . }}
   {{- end }}
 {{- end }}

@@ -65,13 +65,10 @@
 {{ end }}
 
 {{/* 图片画廊CSS - 条件加载 */}}
-{{- if .galleryJustified }}
-  <link rel="stylesheet" href="/css/justifiedGallery.min.css">
-{{- end }}
+{{ if .Scratch.Get "justifiedEnabled" }}
+  <link rel="stylesheet" href="/css/fjGallery.css">
+{{ end }}
 
-{{- if .galleryModal }}
-  <link rel="stylesheet" href="/css/lightgallery.css">
-  <link rel="stylesheet" href="/css/lg-zoom.css">
-  <link rel="stylesheet" href="/css/lg-thumbnail.css">
-{{- end }}
-
+{{ if .Scratch.Get "lightboxEnabled" }}
+  <link rel="stylesheet" href="/css/glightbox.min.css">
+{{ end }}

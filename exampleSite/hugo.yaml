@@ -290,14 +290,39 @@ params:
   mermaid:
     enabled: false
 
-  # Gallery
-  gallery:
-    justified_gallery: false    # Justified Layout
-    modal: false                # lightgallery
-    responsive:
-      rowHeight: 180
-      margins: 5
+  # Lightbox 配置
+  lightbox:
+    enabled: false
+    loop: true
+    width: 80vw
+    height: 80vh
+    touchNavigation: true
+    draggable: true
+    zoomable: true
+    preload: true
+    descPosition: bottom
 
+  # Justified Gallery 配置
+  justified_gallery:
+    enabled: false
+    rowHeight: 300
+    gutter: 30
+    lastRow: center
+    transitionDuration: 0.3s
+    resizeDebounce: 100
+    rowHeightTolerance: 0.25
+    maxRowsCount: 999999
+    calculateItemsHeight: false
+    
+  
+  masonry:
+    enabled: false
+    columns: 3
+    gutter: 20
+    animate: true
+    useTransform: true
+    center: true
+    maxColumns: 5
 
 
 markup:

@@ -1,32 +1,30 @@
 {{/*
   Hugo Markdown 图片渲染器
-  支持本地图片（页面资源、全局资源、静态文件）和远程图片
-  支持响应式图片、现代格式、灯箱功能
+  处理业务逻辑：灯箱功能、类名、结构等
 */}}
 
 {{- $dest := .Destination | safeURL -}}
 {{- $alt := .Text -}}
 {{- $caption := .Title -}}
 
-{{/* 检查是否启用模态框 */}}
-{{- $galleryConfig := site.Params.gallery | default dict -}}
-{{- $pageGalleryConfig := .Page.Params.gallery | default dict -}}
-{{- $modalEnabled := false -}}
+{{/* 检查是否启用灯箱功能 */}}
+{{- $globalLightbox := site.Params.lightbox | default dict -}}
+{{- $pageLightbox := .Page.Params.lightbox | default dict -}}
+{{- $lightboxEnabled := false -}}
 
 {{/* 优先使用页面级配置，然后是全局配置 */}}
-{{- if isset $pageGalleryConfig "modal" -}}
-  {{- $modalEnabled = $pageGalleryConfig.modal -}}
-{{- else if isset $galleryConfig "modal" -}}
-  {{- $modalEnabled = $galleryConfig.modal -}}
+{{- if isset $pageLightbox "enabled" -}}
+  {{- $lightboxEnabled = $pageLightbox.enabled -}}
+{{- else if isset $globalLightbox "enabled" -}}
+  {{- $lightboxEnabled = $globalLightbox.enabled -}}
 {{- end -}}
 
-{{/* 使用通用图片处理器 */}}
+{{/* 使用图片处理器获取数据 */}}
 {{- partial "content/image-processor.html" (dict
   "context" .Page
   "src" $dest
   "alt" $alt
   "caption" $caption
-  "enableModal" $modalEnabled
   "enableResponsive" true
   "enablePlaceholder" false
   "outputType" "data"
@@ -36,20 +34,20 @@
 {{- $imageUrl := .Page.Scratch.Get "imageUrl" -}}
 {{- $imageResource := .Page.Scratch.Get "imageResource" -}}
 {{- $isExternal := .Page.Scratch.Get "isExternal" -}}
-{{- $isModernFormat := .Page.Scratch.Get "isModernFormat" -}}
 {{- $canProcess := .Page.Scratch.Get "canProcess" -}}
 {{- $processedImages := .Page.Scratch.Get "processedImages" -}}
 
-{{/* 生成标准的figure元素 */}}
-<figure class="image-figure not-prose my-8" data-gallery-enabled="{{ if $modalEnabled }}true{{ else }}false{{ end }}">
+{{/* 生成 figure 元素 */}}
+<figure class="image-figure not-prose my-8" 
+        data-lightbox-enabled="{{ if $lightboxEnabled }}true{{ else }}false{{ end }}"
+        data-gallery-type="auto">
   <div class="image-container">
-    {{/* 使用通用图片处理器生成图片HTML */}}
+    {{/* 使用图片处理器生成图片HTML */}}
     {{- partial "content/image-processor.html" (dict
       "context" .Page
       "src" $dest
       "alt" $alt
       "caption" $caption
-      "enableModal" $modalEnabled
       "enableResponsive" true
       "enablePlaceholder" false
       "outputType" "img"

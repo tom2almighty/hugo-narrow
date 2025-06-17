@@ -1,22 +1,11 @@
 {{/* 
-  通用图片处理器
-  
-  输入参数：
-  - .context: 页面上下文 (必需)
-  - .src: 图片源路径 (必需)
-  - .alt: 图片alt文本 (可选)
-  - .caption: 图片说明 (可选)
-  - .enableModal: 是否启用模态框 (可选，默认false)
-  - .enableResponsive: 是否启用响应式处理 (可选，默认true)
-  - .enablePlaceholder: 是否启用占位图 (可选，默认true)
-  - .outputType: 输出类型 ("img", "data", "both") (可选，默认"both")
+  图片处理器
 */}}
 
 {{- $context := .context -}}
 {{- $src := .src | string -}}
 {{- $alt := .alt | default "" -}}
 {{- $caption := .caption | default "" -}}
-{{- $enableModal := .enableModal | default false -}}
 {{- $enableResponsive := .enableResponsive | default true -}}
 {{- $enablePlaceholder := .enablePlaceholder | default true -}}
 {{- $outputType := .outputType | default "both" -}}
@@ -59,7 +48,7 @@
   {{- end -}}
 {{- end -}}
 
-{{/* 格式检测和处理能力判断  */}}
+{{/* 格式检测和处理能力判断 */}}
 {{- if $resource -}}
   {{- $mediaType := $resource.MediaType.SubType -}}
   {{- if and (ne $mediaType "svg") (in (slice "jpeg" "jpg" "png" "gif" "webp") $mediaType) -}}
@@ -67,44 +56,7 @@
   {{- end -}}
 {{- end -}}
 
-{{/* 生成占位图数据  */}}
-{{- $placeholderData := dict -}}
-{{- if $enablePlaceholder -}}
-  {{- $randomImage := "" -}}
-  {{- $useRandomImage := false -}}
-  {{- if not $finalUrl -}}
-    {{- with site.Data.placeholder_images -}}
-      {{- if and .enabled .images -}}
-        {{- $hash := md5 (printf "%s_%s" $context.Title $src) -}}
-        {{- $imageIndex := mod (int (substr $hash 0 2 | printf "0x%s")) (len .images) -}}
-        {{- $randomImage = index .images $imageIndex -}}
-        {{- $useRandomImage = true -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-  
-  {{- $hash := md5 (printf "%s_%s" $context.Title $src) -}}
-  {{- $hexColor := substr $hash 0 2 -}}
-  {{- $colorIndex := mod (int (printf "0x%s" $hexColor)) 6 -}}
-  
-  {{- $gradients := slice
-    "from-blue-500/20 to-purple-500/10"
-    "from-green-500/20 to-teal-500/10"
-    "from-orange-500/20 to-red-500/10"
-    "from-purple-500/20 to-pink-500/10"
-    "from-teal-500/20 to-cyan-500/10"
-    "from-rose-500/20 to-orange-500/10"
-  -}}
-  
-  {{- $placeholderData = dict
-    "randomImage" $randomImage
-    "useRandomImage" $useRandomImage
-    "gradients" $gradients
-    "colorIndex" $colorIndex
-  -}}
-{{- end -}}
-
-{{/* 响应式图片处理  */}}
+{{/* 响应式图片处理 */}}
 {{- $processedImages := dict -}}
 {{- if and $enableResponsive $canProcess $resource (gt $resource.Width 640) -}}
   {{- $actualImg := $resource.Resize "960x q85 Lanczos" -}}
@@ -122,12 +74,12 @@
   {{- $context.Scratch.Set "imageResource" $resource -}}
   {{- $context.Scratch.Set "imageUrl" $finalUrl -}}
   {{- $context.Scratch.Set "imageType" $resourceType -}}
+  {{- $context.Scratch.Set "isExternal" $isExternal -}}
   {{- $context.Scratch.Set "canProcess" $canProcess -}}
-  {{- $context.Scratch.Set "placeholderData" $placeholderData -}}
   {{- $context.Scratch.Set "processedImages" $processedImages -}}
 {{- end -}}
 
-{{/* 生成图片HTML*/}}
+{{/* 生成图片HTML */}}
 {{- if or (eq $outputType "img") (eq $outputType "both") -}}
   {{- if $isExternal -}}
     {{/* 外部图片 */}}
@@ -135,9 +87,11 @@
       src="{{ $finalUrl }}"
       alt="{{ $alt }}"
       {{ with $caption }}title="{{ . }}"{{ end }}
-      {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
       loading="lazy"
-      decoding="async" />
+      decoding="async" 
+      data-gallery-src="{{ $finalUrl }}"
+      data-gallery-alt="{{ $alt }}"
+      data-gallery-title="{{ $caption }}" />
   {{- else if and $canProcess $enableResponsive (gt ($processedImages.originalWidth | default 0) 640) -}}
     {{/* 本地资源 - 响应式处理 */}}
     <picture>
@@ -146,18 +100,21 @@
         srcset="{{ $processedImages.webpImg.RelPermalink }}"
         sizes="(min-width: 1024px) 960px, 100vw" />
       <img
-        src="{{ $processedImages.actualImg.RelPermalink }}"        alt="{{ $alt }}"
+        src="{{ $processedImages.actualImg.RelPermalink }}"
+        alt="{{ $alt }}"
         {{ with $caption }}title="{{ . }}"{{ end }}
         {{ if and $resource $canProcess }}
         width="{{ $resource.Width }}"
         height="{{ $resource.Height }}"
         {{ end }}
-        {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
         loading="lazy"
-        decoding="async" />
+        decoding="async"
+        data-gallery-src="{{ $finalUrl }}"
+        data-gallery-alt="{{ $alt }}"
+        data-gallery-title="{{ $caption }}" />
     </picture>
   {{- else if $resource -}}
-    {{/* 本地资源  */}}
+    {{/* 本地资源 */}}
     <img
       src="{{ $finalUrl }}"
       alt="{{ $alt }}"
@@ -166,17 +123,21 @@
       width="{{ $resource.Width }}"
       height="{{ $resource.Height }}"
       {{ end }}
-      {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
       loading="lazy"
-      decoding="async" />
+      decoding="async"
+      data-gallery-src="{{ $finalUrl }}"
+      data-gallery-alt="{{ $alt }}"
+      data-gallery-title="{{ $caption }}" />
   {{- else -}}
     {{/* 静态文件或其他情况 */}}
     <img
       src="{{ $finalUrl }}"
       alt="{{ $alt }}"
       {{ with $caption }}title="{{ . }}"{{ end }}
-      {{ if $enableModal }}data-modal="title: {{ $caption | default $alt }}{{ with $alt }}{{ if $caption }}; description: {{ . }}{{ end }}{{ end }}"{{ end }}
       loading="lazy"
-      decoding="async" />
+      decoding="async"
+      data-gallery-src="{{ $finalUrl }}"
+      data-gallery-alt="{{ $alt }}"
+      data-gallery-title="{{ $caption }}" />
   {{- end -}}
 {{- end -}}

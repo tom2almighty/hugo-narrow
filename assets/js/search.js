@@ -312,7 +312,7 @@
 
     try {
       
-      let indexURL = window.HUGO_CONFIG?.searchIndexURL || "/index.json";
+      let indexURL = window.HUGO_SEARCH_CONFIG?.searchIndexURL || "/index.json";
       indexURL = indexURL.replace(/['"]/g, '').replace(/%22/g, '');
 
       const response = await fetch(indexURL);
