@@ -139,7 +139,7 @@ print(fibonacci(10))
 
 ## Images
 
-![Image d'Exemple](/images/basic-image.jpg "Image d'Exemple")
+![Image d'Exemple](/images/01.avif "Image d'Exemple")
 
 ## Liens
 

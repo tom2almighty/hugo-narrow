@@ -139,7 +139,7 @@ print(fibonacci(10))
 
 ## 图片
 
-![示例图片](/images/basic-image.jpg "示例图片")
+![示例图片](/images/01.avif "示例图片")
 
 ## 链接
 
