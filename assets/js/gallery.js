@@ -18,15 +18,15 @@ class LightboxManager {
 
     const options = {
       selector: `[data-gallery="${galleryId}"]`,
-      touchNavigation: this.config.touchNavigation ?? true,
+      touchNavigation: this.config.touchNavigation ?? this.config.touchnavigation ?? true,
       loop: this.config.loop ?? false,
       draggable: this.config.draggable ?? true,
       zoomable: this.config.zoomable ?? true,
-      autoplayVideos: this.config.autoplayVideos ?? false,
+      autoplayVideos: this.config.autoplayVideos ?? this.config.autoplayvideos ?? false,
       preload: this.config.preload ?? true,
-      width: this.config.width || '90vw',
-      height: this.config.height || '90vh',
-      descPosition: this.config.descPosition || 'bottom'
+      width: this.config.width ?? '90vw',
+      height: this.config.height ?? '90vh',
+      descPosition: this.config.descPosition ?? this.config.descposition ?? 'bottom'
     };
 
 
@@ -96,20 +96,21 @@ class JustifiedLayoutManager {
       console.error('fjGallery is not available');
       return false;
     }
-
+ 
     const options = {
       itemSelector: '.fj-gallery-item',
       imageSelector: 'img',
-      rowHeight: parseInt(this.config.rowHeight) || 200,
+      rowHeight: parseInt(this.config.rowHeight ?? this.config.rowheight) || 200,
       gutter: parseInt(this.config.gutter) || 10,
-      lastRow: this.config.lastRow || 'left',
-      transitionDuration: this.config.transitionDuration || '0.3s',
-      calculateItemsHeight: this.config.calculateItemsHeight ?? false,
-      resizeDebounce: parseInt(this.config.resizeDebounce) || 100,
-      rowHeightTolerance: parseFloat(this.config.rowHeightTolerance) || 0.25,
-      maxRowsCount: parseInt(this.config.maxRowsCount) || Number.POSITIVE_INFINITY
+      lastRow: this.config.lastRow ?? this.config.lastrow ?? 'left',
+      transitionDuration: this.config.transitionDuration ?? this.config.transitionduration ?? '0.3s',
+      calculateItemsHeight: this.config.calculateItemsHeight ?? this.config.calculateitemsheight ?? false,
+      resizeDebounce: parseInt(this.config.resizeDebounce ?? this.config.resizedebounce) || 100,
+      rowHeightTolerance: parseFloat(this.config.rowHeightTolerance ?? this.config.rowheighttolerance) || 0.25,
+      maxRowsCount: parseInt(this.config.maxRowsCount ?? this.config.maxrowscount) || Number.POSITIVE_INFINITY
     };
-
+    // console.log('options:', options);
+    // console.log('config', this.config);
 
     try {
       fjGallery([container], options);
@@ -154,8 +155,20 @@ class ImageGallery {
 
   constructor() {
     this.config = window.HUGO_GALLERY_CONFIG || {};
-    this.lightboxManager = new LightboxManager(this.config.lightbox_options || {});
-    this.justifiedManager = new JustifiedLayoutManager(this.config.justified || {});
+    const parseConfig = (config) => {
+      if (typeof config === 'string') {
+        try {
+          return JSON.parse(config);
+        } catch (e) {
+          console.error('JSON parse error:', e);
+          return {};
+        }
+      }
+      return config || {};
+    };
+
+    this.lightboxManager = new LightboxManager(parseConfig(this.config.lightbox_options));
+    this.justifiedManager = new JustifiedLayoutManager(parseConfig(this.config.justified));
     this.galleries = [];
     this.init();
   }

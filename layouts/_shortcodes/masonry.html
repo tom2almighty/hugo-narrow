@@ -199,8 +199,10 @@
           y: config.gutter
         },
         breakAt: {
+          1400: Math.min(config.maxColumns, config.columns),
           1200: Math.min(config.maxColumns, config.columns),
-          940: Math.min(4, config.columns),
+          940: Math.min(config.maxColumns, config.columns),  // 修复
+          768: Math.min(3, config.columns),
           520: Math.min(2, config.columns),
           400: 1
         }
@@ -245,8 +247,16 @@
       if (typeof GLightbox !== 'undefined') {
         try {
           // 获取全局lightbox配置
-          const globalLightboxConfig = window.HUGO_GALLERY_CONFIG?.lightbox_options || {};
+          let globalLightboxConfig = window.HUGO_GALLERY_CONFIG?.lightbox_options || {};
           
+          if (typeof globalLightboxConfig === 'string') {
+            try {
+              globalLightboxConfig = JSON.parse(globalLightboxConfig);
+            } catch (e) {
+              console.error('Error parsing masonry GLightbox config:', e);
+              globalLightboxConfig = {};
+            }
+          }          
           const lightbox = GLightbox({
             selector: `#${containerId} .glightbox`,
             touchNavigation: globalLightboxConfig.touchnavigation ?? globalLightboxConfig.touchNavigation ?? true,
