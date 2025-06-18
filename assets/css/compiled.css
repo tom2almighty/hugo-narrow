@@ -2796,7 +2796,7 @@
   }
 }
 :root {
-  --color-primary: oklch(0.55 0.15 252.5);
+  --color-primary: oklch(0.205 0 0);
   --color-primary-foreground: oklch(0.985 0 0);
   --color-secondary: oklch(0.97 0 0);
   --color-secondary-foreground: oklch(0.205 0 0);
@@ -2818,7 +2818,7 @@
   --color-caution: oklch(0.61 0.15 12.57);
 }
 .dark {
-  --color-primary: oklch(0.65 0.15 252.5);
+  --color-primary: oklch(0.922 0 0);
   --color-primary-foreground: oklch(0.985 0 0);
   --color-secondary: oklch(0.269 0 0);
   --color-secondary-foreground: oklch(0.985 0 0);
@@ -3372,34 +3372,57 @@
     text-decoration: underline;
   }
   .prose a {
-    color: var(--tw-prose-links);
-    text-decoration: none;
-    font-weight: 500;
-    position: relative;
-    transition: all 0.3s ease;
-    background: linear-gradient( to bottom, transparent 50%, var(--color-primary) 50% );
+    color: var(--color-accent-foreground);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary);
     @supports (color: color-mix(in lab, red, red)) {
-      background: linear-gradient( to bottom, transparent 50%, color-mix(in srgb, var(--color-primary) 15%, transparent) 50% );
+      text-decoration-color: color-mix(in srgb, var(--color-primary) 60%, transparent);
     }
-    background-size: 100% 200%;
-    background-position: 0 0;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.25rem;
+    margin: -0.125rem -0.25rem;
+    position: relative;
   }
-  .prose a::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--color-primary);
-    transition: width 0.3s ease;
+  .prose a:not(:hover):not(:focus-visible) {
+    color: var(--color-primary);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in srgb, var(--color-primary) 85%, var(--color-accent-foreground) 15%);
+    }
   }
   .prose a:hover {
     color: var(--color-primary);
-    background-position: 0 100%;
+    text-decoration-color: var(--color-primary);
+    text-decoration-thickness: 2px;
+    background-color: var(--color-primary);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    }
+    transform: translateY(-1px);
   }
-  .prose a:hover::after {
-    width: 100%;
+  .prose a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    color: var(--color-primary);
+    text-decoration-color: var(--color-primary);
+    text-decoration-thickness: 2px;
+    background-color: var(--color-primary);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    }
+  }
+  .dark .prose a:not(:hover):not(:focus-visible) {
+    color: var(--color-primary);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in srgb, var(--color-primary) 90%, var(--color-foreground) 10%);
+    }
+    text-decoration-color: var(--color-primary);
+    @supports (color: color-mix(in lab, red, red)) {
+      text-decoration-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+    }
   }
   .prose ul {
     list-style: none;

@@ -202,38 +202,44 @@
 
   /* 链接样式 */
   .prose a {
-    color: var(--tw-prose-links);
-    text-decoration: none;
+    color: var(--color-accent-foreground);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
     font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.25rem;
+    margin: -0.125rem -0.25rem;
     position: relative;
-    transition: all 0.3s ease;
-    background: linear-gradient(
-      to bottom,
-      transparent 50%,
-      color-mix(in srgb, var(--color-primary) 15%, transparent) 50%
-    );
-    background-size: 100% 200%;
-    background-position: 0 0;
   }
 
-  .prose a::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--color-primary);
-    transition: width 0.3s ease;
+  .prose a:not(:hover):not(:focus-visible) {
+    color: color-mix(in srgb, var(--color-primary) 85%, var(--color-accent-foreground) 15%);
   }
 
   .prose a:hover {
     color: var(--color-primary);
-    background-position: 0 100%;
+    text-decoration-color: var(--color-primary);
+    text-decoration-thickness: 2px;
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    transform: translateY(-1px);
   }
 
-  .prose a:hover::after {
-    width: 100%;
+  .prose a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    color: var(--color-primary);
+    text-decoration-color: var(--color-primary);
+    text-decoration-thickness: 2px;
+    background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+
+  /* 为暗色模式提供更好的对比度 */
+  .dark .prose a:not(:hover):not(:focus-visible) {
+    color: color-mix(in srgb, var(--color-primary) 90%, var(--color-foreground) 10%);
+    text-decoration-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
   }
 
   /* 列表样式 */
@@ -415,7 +421,7 @@
     font-size: 0.7rem;
     width: 1.1rem;
     height: 1.1rem;
-    top: 0.45em; 
+    top: 0.45em;
   }
 
   .prose ol ol ol li::before {
