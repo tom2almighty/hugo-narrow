@@ -202,7 +202,7 @@
 
   /* 链接样式 */
   .prose a {
-    color: var(--color-accent-foreground);
+    color: var(--tw-prose-links);
     text-decoration: underline;
     text-decoration-color: color-mix(in srgb, var(--color-primary) 60%, transparent);
     text-decoration-thickness: 1px;
@@ -236,11 +236,6 @@
     background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
   }
 
-  /* 为暗色模式提供更好的对比度 */
-  .dark .prose a:not(:hover):not(:focus-visible) {
-    color: color-mix(in srgb, var(--color-primary) 90%, var(--color-foreground) 10%);
-    text-decoration-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
-  }
 
   /* 列表样式 */
   .prose ul {
