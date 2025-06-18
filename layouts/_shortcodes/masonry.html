@@ -5,7 +5,14 @@
 {{- $useTransform := .Get "useTransform" | default "true" -}}
 {{- $center := .Get "center" | default "true" -}}
 {{- $maxColumns := .Get "maxColumns" | default 5 -}}
-{{- $uniqueId := printf "masonry-%d" (now.Unix) -}}
+
+{{- if not (.Page.Scratch.Get "masonryCounter") -}}
+  {{- .Page.Scratch.Set "masonryCounter" 0 -}}
+{{- end -}}
+{{- .Page.Scratch.Add "masonryCounter" 1 -}}
+{{- $counter := .Page.Scratch.Get "masonryCounter" -}}
+{{- $pageId := .Page.File.UniqueID | default (.Page.RelPermalink | md5 | truncate 8 "") -}}
+{{- $uniqueId := printf "masonry-%s-%d" $pageId $counter -}}
 
 {{/* 检查是否启用灯箱功能 */}}
 {{- $globalLightbox := site.Params.lightbox | default dict -}}
