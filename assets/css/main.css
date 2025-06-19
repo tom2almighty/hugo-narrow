@@ -8,6 +8,9 @@
 /* 主题变量配置 */
 @import "./themes.css";
 
+/* scrollbar */
+@import "./scrollbar.css";
+
 /* Prose 文章样式 */
 @import "./prose.css";
 
