@@ -43,7 +43,8 @@ This project is open source under the [MIT License](LICENSE).
 - [KaTeX](https://katex.org/) - Math formula rendering.
 - [gumshoe](https://github.com/cferdinandi/gumshoe) - TOC scrollspy.
 - [Mermaid](https://mermaid.js.org/) - Chart library.
-- [Daisyui](https://daisyui.com/) - Theme color reference.
+- [Daisyui](https://daisyui.com/) - Color Scheme reference.
+- [Tweakcn](https://tweakcn.com/) - Color Scheme reference.
 - [Hexo Theme icarus](https://github.com/ppoffice/hexo-theme-icarus) - Search functionality reference.
 - [Hugo Theme Stack](https://stack.jimmycai.com/) - Bilibili and Tencent Video shortcodes.
 - [Vercel](https://vercel.com) - Demo Site.
