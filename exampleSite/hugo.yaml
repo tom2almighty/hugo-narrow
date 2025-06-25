@@ -186,6 +186,15 @@ params:
     dracula:
       name: "Dracula"
       order: 8
+    amethyst:
+      name: "Amethyst"
+      order: 9
+    slate:
+      name: "Slate"
+      order: 10
+    twitter:
+      name: "Twitter"
+      order: 11
 
 
   home:
