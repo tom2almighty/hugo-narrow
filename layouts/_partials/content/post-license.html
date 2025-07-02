@@ -5,24 +5,31 @@
   @context {page} . 当前文章页面对象
 */}}
 
-{{/* 许可证开关配置 */}}
-{{ $showLicense := .Params.showLicense | default .Site.Params.post.showLicense | default true }}
+{{/* 构建许可证配置 */}}
+{{ $license := dict }}
 
-{{/* 许可证信息配置 - 支持 frontmatter 覆盖 */}}
-{{ $licenseConfig := .Site.Params.post.license }}
-{{ if .Params.license }}
-  {{ $licenseConfig = .Params.license }}
+{{/* 设置默认值 */}}
+{{ $defaults := dict
+  "show" true
+  "author" (.Site.Params.author.name | default "")
+  "name" "CC BY-NC-SA 4.0"
+  "description" "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。"
+  "url" "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  "displayName" "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议"
+}}
+
+
+{{ $license = $defaults }}
+{{ with .Site.Params.post.license }}
+  {{ $license = merge $license . }}
+{{ end }}
+{{ with .Params.license }}
+  {{ $license = merge $license . }}
 {{ end }}
 
-{{/* 获取许可证各项配置 */}}
-{{ $licenseName := $licenseConfig.name | default "CC BY-NC-SA 4.0" }}
-{{ $licenseDescription := $licenseConfig.description | default "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。" }}
-{{ $licenseUrl := $licenseConfig.url | default "https://creativecommons.org/licenses/by-nc-sa/4.0/" }}
-{{ $licenseDisplayName := $licenseConfig.displayName | default "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议" }}
 
-{{ if $showLicense }}
-  <div
-    class="post-license bg-muted/30 border-border mb-8 rounded-xl border p-6">
+{{ if $license.show }}
+  <div class="post-license bg-muted/30 border-border mb-8 rounded-xl border p-6">
     <div class="flex items-start gap-4">
       <!-- 许可证图标 -->
       <div
@@ -38,10 +45,12 @@
 
         <div class="text-muted-foreground space-y-2 text-sm">
           <!-- 作者信息 -->
+          {{ with $license.author }}
           <p>
             <strong>{{ i18n "license.author" | default "作者" }}:</strong>
-            {{ .Params.author | default .Site.Params.author.name | default .Site.Title }}
+            {{ . }}
           </p>
+          {{ end }}
 
           <!-- 文章链接 -->
           <p>
@@ -56,26 +65,25 @@
           <!-- 许可证类型 -->
           <p>
             <strong>{{ i18n "license.type" | default "许可证" }}:</strong>
-            {{ if $licenseUrl }}
+            {{ with $license.url }}
               <a
-                href="{{ $licenseUrl }}"
+                href="{{ . }}"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-primary hover:text-primary/80 transition-colors duration-200">
-                {{ $licenseDisplayName }}
+                {{ $license.displayName }}
               </a>
             {{ else }}
-              <span class="text-foreground">{{ $licenseDisplayName }}</span>
+              <span class="text-foreground">{{ $license.displayName }}</span>
             {{ end }}
           </p>
 
           <!-- 许可证说明 -->
-          {{ if $licenseDescription }}
-            <p class="text-xs">
-              {{ $licenseDescription }}
-            </p>
+          {{ with $license.description }}
+          <p class="text-xs">
+            {{ . }}
+          </p>
           {{ end }}
-
         </div>
       </div>
     </div>
