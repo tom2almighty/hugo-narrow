@@ -638,7 +638,7 @@
   /* 图片样式 */
   .prose img {
     @apply mx-auto rounded-lg shadow-md;
-    margin: 0;
+    margin: 0 auto;
     max-width: 100%;
     height: auto;
   }
