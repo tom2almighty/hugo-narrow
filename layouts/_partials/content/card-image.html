@@ -27,7 +27,20 @@
   {{- $aspectClass = "aspect-[16/9]" -}}
 {{- end -}}
 
-{{/* 如果没有提供coverImage，使用image-processor处理页面封面 */}}
+{{/* 读取占位图配置 */}}
+{{- $placeholderConfig := site.Data.placeholder_images | default dict -}}
+{{- $placeholderEnabled := $placeholderConfig.enabled | default false -}}
+{{- $placeholderImages := $placeholderConfig.images | default (slice) -}}
+{{- $randomPlaceholder := "" -}}
+{{- if and $placeholderEnabled (gt (len $placeholderImages) 0) -}}
+  {{/* 基于文章标题和路径生成稳定的随机索引 */}}
+  {{- $seed := printf "%s-%s" $page.Title $page.RelPermalink -}}
+  {{- $hash := md5 $seed -}}
+  {{- $randomIndex := mod (int (substr $hash 0 8 | printf "0x%s")) (len $placeholderImages) -}}
+  {{- $randomPlaceholder = index $placeholderImages $randomIndex -}}
+{{- end -}}
+
+{{/* 如果没有提供coverImage，按优先级处理图片 */}}
 {{- if not $coverImage -}}
   {{- if $page.Params.cover -}}
     {{- partial "content/image-processor.html" (dict
@@ -39,17 +52,20 @@
       "outputType" "data"
     ) -}}
     {{- $coverImage = $page.Scratch.Get "imageUrl" -}}
+  {{- else if $randomPlaceholder -}}
+    {{- partial "content/image-processor.html" (dict
+      "context" $page
+      "src" $randomPlaceholder
+      "enableModal" false
+      "enableResponsive" false
+      "enablePlaceholder" false
+      "outputType" "data"
+    ) -}}
+    {{- $coverImage = $page.Scratch.Get "imageUrl" -}}
   {{- end -}}
 {{- end -}}
 
-{{/* 获取占位图数据 */}}
-{{- $placeholderData := $page.Scratch.Get "placeholderData" | default dict -}}
-{{- $randomImage := $placeholderData.randomImage | default "" -}}
-{{- $useRandomImage := $placeholderData.useRandomImage | default false -}}
-{{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
-{{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
-
-{{/* 基于文章标题生成图案类型 */}}
+{{/* 基于文章标题生成图案类型和颜色（用于几何占位图） */}}
 {{- $hash := md5 $page.Title -}}
 {{- $patternIndex := mod (int (substr $hash 2 2 | printf "0x%s")) 4 -}}
 {{- if eq $patternIndex 0 -}}
@@ -62,6 +78,18 @@
   {{- $patternType = "circle" -}}
 {{- end -}}
 
+{{/* 生成渐变色索引 */}}
+{{- $gradients := slice 
+  "from-blue-500/20 to-purple-500/10" 
+  "from-green-500/20 to-blue-500/10" 
+  "from-purple-500/20 to-pink-500/10" 
+  "from-orange-500/20 to-red-500/10" 
+  "from-teal-500/20 to-green-500/10" 
+  "from-indigo-500/20 to-purple-500/10" 
+  "from-pink-500/20 to-rose-500/10" 
+  "from-cyan-500/20 to-blue-500/10" -}}
+{{- $colorIndex := mod (int (substr $hash 4 2 | printf "0x%s")) (len $gradients) -}}
+
 <div class="{{ $containerClass }}">
   {{- if $coverImage -}}
     <!-- 文章封面图 -->
@@ -71,31 +99,12 @@
       class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
       loading="lazy"
       onerror="this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type `related` }}flex{{ else }}block{{ end }}';" />
-    <!-- 封面图加载失败时的回退 -->
-    {{- if and $useRandomImage $randomImage -}}
-      <!-- 随机占位图作为回退 -->
-      <img
-        src="{{ $randomImage }}"
-        alt="{{ $page.Title }}"
-        class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
-        loading="lazy"
-        style="display: none;"
-        onerror="console.log('Random image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type `related` }}flex{{ else }}block{{ end }}';" />
-    {{- end -}}
-  {{- else if and $useRandomImage $randomImage -}}
-    <!-- 随机占位图（无封面图时的首选） -->
-    <img
-      src="{{ $randomImage }}"
-      alt="{{ $page.Title }}"
-      class="h-full w-full object-cover{{ if ne $type "desktop" }} transition-transform duration-300 group-hover:scale-105{{ end }}"
-      loading="lazy"
-      onerror="console.log('Random image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='{{ if eq $type `related` }}flex{{ else }}block{{ end }}';" />
-    <!-- 图片加载失败时的占位图 -->
+    <!-- 封面图加载失败时的几何占位图回退 -->
     <div class="{{ index $gradients $colorIndex }} relative {{ $aspectClass }} overflow-hidden bg-gradient-to-br" style="display: none; background-blend-mode: overlay; background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);">
       <!-- 几何图案分布在整个区域 -->
       <div class="absolute inset-0">
         {{ if eq $patternType "triangle" }}
-          <!-- 三角形分布图案 - 移除中心主图案 -->
+          <!-- 三角形分布图案 -->
           <!-- 左上三角形 -->
           <div class="absolute left-[15%] top-[20%] rotate-45">
             <div class="h-0 w-0 border-l-[10px] border-r-[10px] border-b-[16px] border-l-transparent border-r-transparent border-b-white/80"></div>
@@ -124,7 +133,7 @@
           <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-45 bg-white/25"></div>
           <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-30 bg-white/20"></div>
         {{ else if eq $patternType "diamond" }}
-          <!-- 菱形分布图案 - 移除中心主图案 -->
+          <!-- 菱形分布图案 -->
           <!-- 左上菱形 -->
           <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-45 border-2 border-white/80 bg-white/15"></div>
           <!-- 右上菱形 -->
@@ -144,7 +153,7 @@
           <div class="absolute bottom-[40%] left-[35%] h-1.5 w-1.5 rounded-full bg-white/30"></div>
           <div class="absolute top-[50%] left-[50%] h-1 w-1 rounded-full bg-white/25"></div>
         {{ else if eq $patternType "hexagon" }}
-          <!-- 五角星分布图案 - 移除中心主图案 -->
+          <!-- 五角星分布图案 -->
           <!-- 左上五角星 -->
           <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-0 bg-white/80" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
           <!-- 右上五角星 -->
@@ -163,7 +172,7 @@
           <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-30 bg-white/25"></div>
           <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-45 bg-white/20"></div>
         {{ else }}
-          <!-- 圆形分布图案 - 移除中心主图案 -->
+          <!-- 圆形分布图案 -->
           <!-- 左上圆形 -->
           <div class="absolute left-[20%] top-[20%] h-6 w-6 rounded-full border-2 border-white/80 bg-white/15"></div>
           <!-- 右上圆形 -->
@@ -193,7 +202,7 @@
       <!-- 几何图案分布在整个区域 -->
       <div class="absolute inset-0">
         {{ if eq $patternType "triangle" }}
-          <!-- 三角形分布图案 - 移除中心主图案 -->
+          <!-- 三角形分布图案 -->
           <!-- 左上三角形 -->
           <div class="absolute left-[15%] top-[20%] rotate-45">
             <div class="h-0 w-0 border-l-[10px] border-r-[10px] border-b-[16px] border-l-transparent border-r-transparent border-b-white/80"></div>
@@ -222,7 +231,7 @@
           <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-45 bg-white/25"></div>
           <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-30 bg-white/20"></div>
         {{ else if eq $patternType "diamond" }}
-          <!-- 菱形分布图案 - 移除中心主图案 -->
+          <!-- 菱形分布图案 -->
           <!-- 左上菱形 -->
           <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-45 border-2 border-white/80 bg-white/15"></div>
           <!-- 右上菱形 -->
@@ -242,7 +251,7 @@
           <div class="absolute bottom-[40%] left-[35%] h-1.5 w-1.5 rounded-full bg-white/30"></div>
           <div class="absolute top-[50%] left-[50%] h-1 w-1 rounded-full bg-white/25"></div>
         {{ else if eq $patternType "hexagon" }}
-          <!-- 五角星分布图案 - 移除中心主图案 -->
+          <!-- 五角星分布图案 -->
           <!-- 左上五角星 -->
           <div class="absolute left-[20%] top-[20%] h-5 w-5 rotate-0 bg-white/80" style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"></div>
           <!-- 右上五角星 -->
@@ -261,7 +270,7 @@
           <div class="absolute top-[30%] left-[30%] h-0.5 w-6 rotate-30 bg-white/25"></div>
           <div class="absolute bottom-[30%] right-[30%] h-0.5 w-4 -rotate-45 bg-white/20"></div>
         {{ else }}
-          <!-- 圆形分布图案 - 移除中心主图案 -->
+          <!-- 圆形分布图案 -->
           <!-- 左上圆形 -->
           <div class="absolute left-[20%] top-[20%] h-6 w-6 rounded-full border-2 border-white/80 bg-white/15"></div>
           <!-- 右上圆形 -->
