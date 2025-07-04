@@ -8,6 +8,7 @@
 
 {{ $id := .id | default "waline-comments" }}
 {{ $config := .Site.Params.comments.waline }}
+{{ $lang := .Site.Language.Lang | default "zh-CN" }} {{/* 获取当前页面语言，默认为 "zh-CN" */}}
 
 {{ if $config.serverURL }}
   <div id="{{ $id }}" class="waline-container"></div>
@@ -25,7 +26,7 @@
       el: '#{{ $id }}',
       serverURL: '{{ $config.serverURL }}',
       dark: "html[class='dark']",
-      lang: '{{ $config.lang | default "zh-CN" }}',
+      lang: '{{ $lang }}',
     });
   </script>
 {{ else }}
