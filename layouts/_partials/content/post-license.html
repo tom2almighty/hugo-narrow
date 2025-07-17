@@ -1,60 +1,73 @@
-{{/* 文章许可证信息组件
-
-  显示文章的版权和许可证信息
-
-  @context {page} . 当前文章页面对象
+{{/*
+  문서 라이선스 정보 컴포넌트
+  문서의 저작권과 라이선스 정보를 표시합니다.
+  @context {page} . 현재 문서 페이지 객체
 */}}
 
-{{/* 构建许可证配置 */}}
-{{ $license := dict }}
+{{- if .Site.Params.post.license.show | default (.Params.license.show | default true) -}}
 
-{{/* 设置默认值 */}}
-{{ $defaults := dict
-  "show" true
-  "author" (.Site.Params.author.name | default "")
-  "name" "CC BY-NC-SA 4.0"
-  "description" "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。"
-  "url" "https://creativecommons.org/licenses/by-nc-sa/4.0/"
-  "displayName" "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议"
-}}
+  {{/* 1. .Scratch를 사용하여 안전하게 라이선스 설정을 구축합니다. */}}
+  {{/* 기본값 설정 */}}
+  {{- .Scratch.Set "licenseConfig" (dict "name" "CC BY-NC-SA 4.0" "author" .Site.Params.author.name) -}}
 
+  {{/* 사이트 전체 설정으로 덮어쓰기 */}}
+  {{- with .Site.Params.post.license -}}
+    {{- $.Scratch.Set "licenseConfig" (merge ($.Scratch.Get "licenseConfig") .) -}}
+  {{- end -}}
 
-{{ $license = $defaults }}
-{{ with .Site.Params.post.license }}
-  {{ $license = merge $license . }}
-{{ end }}
-{{ with .Params.license }}
-  {{ $license = merge $license . }}
-{{ end }}
+  {{/* 개별 페이지 설정으로 덮어쓰기 */}}
+  {{- with .Params.license -}}
+    {{- $.Scratch.Set "licenseConfig" (merge ($.Scratch.Get "licenseConfig") .) -}}
+  {{- end -}}
+
+  {{/* 최종 설정을 변수로 가져오기 */}}
+  {{- $licenseConfig := .Scratch.Get "licenseConfig" -}}
 
 
-{{ if $license.show }}
+  {{/* 2. 라이선스 이름에 따라 i18n 키, URL, 표시될 이름 등을 동적으로 결정합니다. */}}
+  {{- $descriptionKey := "" -}}
+  {{- $licenseUrl := "" -}}
+  {{- $displayName := "" -}}
+
+  {{- if eq $licenseConfig.name "CC BY 4.0" -}}
+    {{- $descriptionKey = "license.cc_by_desc" -}}
+    {{- $licenseUrl = "https://creativecommons.org/licenses/by/4.0/" -}}
+    {{- $displayName = "CC BY 4.0" -}}
+  {{- else if eq $licenseConfig.name "CC BY-NC-SA 4.0" -}}
+    {{- $descriptionKey = "license.cc_by_nc_sa_desc" -}}
+    {{- $licenseUrl = "https://creativecommons.org/licenses/by-nc-sa/4.0/" -}}
+    {{- $displayName = "CC BY-NC-SA 4.0" -}}
+  {{- else -}}
+    {{/* 다른 라이선스를 추가하고 싶다면 여기에 'else if' 구문을 추가하세요. */}}
+    {{/* 기본값 처리 */}}
+    {{- $descriptionKey = "license.cc_by_nc_sa_desc" -}}
+    {{- $licenseUrl = $licenseConfig.url | default "https://creativecommons.org/licenses/by-nc-sa/4.0/" -}}
+    {{- $displayName = $licenseConfig.displayName | default $licenseConfig.name -}}
+  {{- end -}}
+
+
   <div class="post-license bg-muted/30 border-border mb-8 rounded-xl border p-6">
     <div class="flex items-start gap-4">
-      <!-- 许可证图标 -->
       <div
         class="bg-primary/10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg">
-        {{ partial "features/icon.html" (dict "name" "license" "size" "lg" "ariaLabel" "许可证") }}
+        {{ partial "features/icon.html" (dict "name" "license" "size" "lg" "ariaLabel" (T "license.title")) }}
       </div>
 
-      <!-- 许可证信息 -->
       <div class="flex-1">
         <h3 class="text-foreground mb-2 text-lg font-semibold">
-          {{ i18n "license.title" | default "版权声明" }}
+          {{ T "license.title" }}
         </h3>
 
         <div class="text-muted-foreground space-y-2 text-sm">
-          <!-- 作者信息 -->
-          {{ with $license.author }}
+          {{ with $licenseConfig.author }}
           <p>
-            <strong>{{ i18n "license.author" | default "作者" }}:</strong>
+            <strong>{{ T "license.author" }}:</strong>
             {{ . }}
           </p>
           {{ end }}
 
-          <!-- 文章链接 -->
           <p>
-            <strong>{{ i18n "license.link" | default "链接" }}:</strong>
+            <strong>{{ T "license.link" }}:</strong>
             <a
               href="{{ .Permalink }}"
               class="text-primary hover:text-primary/80 transition-colors duration-200">
@@ -62,30 +75,22 @@
             </a>
           </p>
 
-          <!-- 许可证类型 -->
           <p>
-            <strong>{{ i18n "license.type" | default "许可证" }}:</strong>
-            {{ with $license.url }}
-              <a
-                href="{{ . }}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-primary hover:text-primary/80 transition-colors duration-200">
-                {{ $license.displayName }}
-              </a>
-            {{ else }}
-              <span class="text-foreground">{{ $license.displayName }}</span>
-            {{ end }}
+            <strong>{{ T "license.type" }}:</strong>
+            <a
+              href="{{ $licenseUrl }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-primary hover:text-primary/80 transition-colors duration-200">
+              {{ $displayName }}
+            </a>
           </p>
 
-          <!-- 许可证说明 -->
-          {{ with $license.description }}
           <p class="text-xs">
-            {{ . }}
+            {{ T $descriptionKey }}
           </p>
-          {{ end }}
         </div>
       </div>
     </div>
   </div>
-{{ end }}
+{{- end -}}
