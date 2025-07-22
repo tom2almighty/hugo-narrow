@@ -97,3 +97,139 @@ search:
   hint_select: "선택"
   hint_close: "닫기"
   hint_shortcut: "단축키"
+
+form:
+  name: "이름"
+  email: "이메일"
+  message: "메시지"
+  subject: "제목"
+  send: "보내기"
+  required: "필수"
+
+# 시간 관련
+time:
+  minute: "분"
+  minutes: "분"
+  hour: "시간"
+  hours: "시간"
+  day: "일"
+  days: "일"
+  week: "주"
+  weeks: "주"
+  month: "개월"
+  months: "개월"
+  year: "년"
+  years: "년"
+  ago: "전"
+  date_format: "2006년 01월 02일"
+  date_format_short: "01월 02일"
+  month_format: "2006년 01월"
+
+# 아카이브 관련
+archives:
+  desc: "시간순으로 모든 글을 둘러보세요."
+  posts_count: "개의 글"
+  no_posts: "글이 없습니다"
+  no_posts_desc: "아직 작성된 글이 없습니다. 나중에 다시 확인해 주세요."
+  total_posts: "총 {{ .count }}개의 글"
+  timeline: "타임라인"
+
+# 분류(Taxonomy) 관련
+taxonomy:
+  total_tags: "총 {{ .count }}개의 태그"
+  total_categories: "총 {{ .count }}개의 카테고리"
+  total_terms: "총 {{ .count }}개의 항목"
+  tags_desc: "모든 태그를 둘러보고 관심 있는 콘텐츠를 찾아보세요."
+  categories_desc: "모든 카테고리를 둘러보고 관심 있는 콘텐츠를 찾아보세요."
+  desc: "모든 항목을 둘러보고 관심 있는 콘텐츠를 찾아보세요."
+  no_terms: "항목 없음"
+  no_terms_desc: "아직 생성된 항목이 없습니다."
+
+# 분류 용어(Term) 페이지
+term:
+  tag_desc: "'{{ .tag }}' 태그의 모든 글"
+  category_desc: "'{{ .category }}' 카테고리의 모든 글"
+  desc: "'{{ .term }}' 아래의 모든 글"
+  total_posts: "총 {{ .count }}개의 글"
+  date_range: "시간순 정렬"
+  no_posts: "글이 없습니다"
+  no_posts_tag: "이 태그에는 아직 글이 없습니다."
+  no_posts_category: "이 카테고리에는 아직 글이 없습니다."
+  no_posts_desc: "이 항목에는 아직 글이 없습니다."
+
+# 공통
+common:
+  loading: "로딩 중..."
+  error: "오류"
+  success: "성공"
+  close: "닫기"
+  open: "열기"
+  save: "저장"
+  cancel: "취소"
+  confirm: "확인"
+  delete: "삭제"
+  edit: "수정"
+  view: "보기"
+  back: "뒤로"
+  more: "더 보기"
+  language: "언어"
+  site_logo: "사이트 로고"
+
+# 언어 전환
+language:
+  toggle: "언어 변경"
+
+# 라이선스 관련
+license:
+  title: "라이선스"
+  author: "저작자"
+  link: "링크"
+  type: "라이선스"
+  cc_by_nc_sa_desc: "이 저작물은 크리에이티브 커먼즈 저작자표시-비영리-동일조건변경허락 4.0 국제 라이선스에 따라 이용할 수 있습니다. 출처를 표시하고, 비영리 목적으로만 사용하며, 동일한 라이선스를 유지해야 합니다."
+  cc_by_desc: "이 저작물은 크리에이티브 커먼즈 저작자표시 4.0 국제 라이선스에 따라 이용할 수 있습니다. 출처를 밝히면 자유롭게 이용 가능합니다."
+
+# 댓글 관련
+comments:
+  title: "댓글"
+  not_configured: "댓글 시스템이 설정되지 않았습니다"
+  not_configured_desc: "사이트 설정에서 댓글 시스템을 활성화해주세요."
+  giscus_not_configured: "Giscus 댓글 시스템이 설정되지 않았습니다"
+  disqus_not_configured: "Disqus 댓글 시스템이 설정되지 않았습니다"
+  disqus_noscript: "댓글을 보려면 JavaScript를 활성화해주세요."
+  utterances_not_configured: "Utterances 댓글 시스템이 설정되지 않았습니다"
+  waline_not_configured: "Waline 댓글 시스템이 설정되지 않았습니다"
+
+# 하단 Dock
+dock:
+  aria_label: "바로가기 도구 모음"
+  back: "뒤로"
+  toc: "목차"
+  search: "검색"
+  comments: "댓글"
+  back_to_top: "맨 위로"
+  top: "맨 위로"
+
+# 알림창 관련
+alert:
+  note: "참고"
+  tip: "팁"
+  important: "중요"
+  warning: "경고"
+  caution: "주의"
+
+# 목차 관련
+toc:
+  close: "닫기"
+  title: "목차"
+  navigation: "글 목차"
+  empty: "이 글에는 제목이 없습니다"
+  tip: "제목을 클릭하면 해당 위치로 이동합니다"
+
+# 코드 블록 관련
+code:
+  copy: "복사"
+  copied: "복사됨"
+  selected: "선택됨"
+  collapse: "접기"
+  expand: "펼치기"
+  clickToExpand: "클릭하여 더 보기"
