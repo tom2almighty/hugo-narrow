@@ -46,8 +46,6 @@
     {{- partial "content/image-processor.html" (dict
       "context" $page
       "src" $page.Params.cover
-      "enableModal" false
-      "enableResponsive" false
       "enablePlaceholder" true
       "outputType" "data"
     ) -}}
@@ -56,8 +54,6 @@
     {{- partial "content/image-processor.html" (dict
       "context" $page
       "src" $randomPlaceholder
-      "enableModal" false
-      "enableResponsive" false
       "enablePlaceholder" false
       "outputType" "data"
     ) -}}

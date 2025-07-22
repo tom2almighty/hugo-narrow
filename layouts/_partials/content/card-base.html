@@ -30,8 +30,6 @@
   {{- partial "content/image-processor.html" (dict
     "context" $page
     "src" $page.Params.cover
-    "enableModal" false
-    "enableResponsive" false
     "enablePlaceholder" true
     "outputType" "data"
   ) -}}
@@ -40,8 +38,6 @@
   {{- partial "content/image-processor.html" (dict
     "context" $page
     "src" ""
-    "enableModal" false
-    "enableResponsive" false
     "enablePlaceholder" true
     "outputType" "data"
   ) -}}

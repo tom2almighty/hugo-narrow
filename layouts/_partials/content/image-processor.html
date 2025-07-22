@@ -6,7 +6,6 @@
 {{- $src := .src | string -}}
 {{- $alt := .alt | default "" -}}
 {{- $caption := .caption | default "" -}}
-{{- $enableResponsive := .enableResponsive | default true -}}
 {{- $enablePlaceholder := .enablePlaceholder | default true -}}
 {{- $outputType := .outputType | default "both" -}}
 
@@ -14,7 +13,6 @@
 {{- $resource := false -}}
 {{- $resourceType := "" -}}
 {{- $isExternal := false -}}
-{{- $canProcess := false -}}
 {{- $finalUrl := "" -}}
 
 {{/* 检查是否为外部URL */}}
@@ -48,96 +46,32 @@
   {{- end -}}
 {{- end -}}
 
-{{/* 格式检测和处理能力判断 */}}
-{{- if $resource -}}
-  {{- $mediaType := $resource.MediaType.SubType -}}
-  {{- if and (ne $mediaType "svg") (in (slice "jpeg" "jpg" "png" "gif" "webp") $mediaType) -}}
-    {{- $canProcess = true -}}
-  {{- end -}}
-{{- end -}}
-
-{{/* 响应式图片处理 */}}
-{{- $processedImages := dict -}}
-{{- if and $enableResponsive $canProcess $resource (gt $resource.Width 640) -}}
-  {{- $actualImg := $resource.Resize "960x q85 Lanczos" -}}
-  {{- $webpImg := $resource.Resize "960x webp q85 photo Lanczos" -}}
-  
-  {{- $processedImages = dict
-    "actualImg" $actualImg
-    "webpImg" $webpImg
-    "originalWidth" $resource.Width
-  -}}
-{{- end -}}
-
 {{/* 设置核心数据到上下文 */}}
 {{- if or (eq $outputType "data") (eq $outputType "both") -}}
   {{- $context.Scratch.Set "imageResource" $resource -}}
   {{- $context.Scratch.Set "imageUrl" $finalUrl -}}
   {{- $context.Scratch.Set "imageType" $resourceType -}}
   {{- $context.Scratch.Set "isExternal" $isExternal -}}
-  {{- $context.Scratch.Set "canProcess" $canProcess -}}
-  {{- $context.Scratch.Set "processedImages" $processedImages -}}
 {{- end -}}
 
 {{/* 生成图片HTML */}}
 {{- if or (eq $outputType "img") (eq $outputType "both") -}}
-  {{- if $isExternal -}}
-    {{/* 外部图片 */}}
-    <img
-      src="{{ $finalUrl }}"
-      alt="{{ $alt }}"
-      {{ with $caption }}title="{{ . }}"{{ end }}
-      loading="lazy"
-      decoding="async" 
-      data-gallery-src="{{ $finalUrl }}"
-      data-gallery-alt="{{ $alt }}"
-      data-gallery-title="{{ $caption }}" />
-  {{- else if and $canProcess $enableResponsive (gt ($processedImages.originalWidth | default 0) 640) -}}
-    {{/* 本地资源 - 响应式处理 */}}
-    <picture>
-      <source
-        type="image/webp"
-        srcset="{{ $processedImages.webpImg.RelPermalink }}"
-        sizes="(min-width: 1024px) 960px, 100vw" />
-      <img
-        src="{{ $processedImages.actualImg.RelPermalink }}"
-        alt="{{ $alt }}"
-        {{ with $caption }}title="{{ . }}"{{ end }}
-        {{ if and $resource $canProcess }}
-        width="{{ $resource.Width }}"
-        height="{{ $resource.Height }}"
+  <img
+    src="{{ $finalUrl }}"
+    alt="{{ $alt }}"
+    {{ with $caption }}title="{{ . }}"{{ end }}
+    {{ if and $resource (not $isExternal) }}
+      {{ $mediaType := $resource.MediaType.SubType }}
+      {{ if in (slice "jpeg" "jpg" "png" "gif" "webp" "svg") $mediaType }}
+        {{ if ne $mediaType "svg" }}
+    width="{{ $resource.Width }}"
+    height="{{ $resource.Height }}"
         {{ end }}
-        loading="lazy"
-        decoding="async"
-        data-gallery-src="{{ $finalUrl }}"
-        data-gallery-alt="{{ $alt }}"
-        data-gallery-title="{{ $caption }}" />
-    </picture>
-  {{- else if $resource -}}
-    {{/* 本地资源 */}}
-    <img
-      src="{{ $finalUrl }}"
-      alt="{{ $alt }}"
-      {{ with $caption }}title="{{ . }}"{{ end }}
-      {{ if and $resource $canProcess }}
-      width="{{ $resource.Width }}"
-      height="{{ $resource.Height }}"
       {{ end }}
-      loading="lazy"
-      decoding="async"
-      data-gallery-src="{{ $finalUrl }}"
-      data-gallery-alt="{{ $alt }}"
-      data-gallery-title="{{ $caption }}" />
-  {{- else -}}
-    {{/* 静态文件或其他情况 */}}
-    <img
-      src="{{ $finalUrl }}"
-      alt="{{ $alt }}"
-      {{ with $caption }}title="{{ . }}"{{ end }}
-      loading="lazy"
-      decoding="async"
-      data-gallery-src="{{ $finalUrl }}"
-      data-gallery-alt="{{ $alt }}"
-      data-gallery-title="{{ $caption }}" />
-  {{- end -}}
+    {{ end }}
+    loading="lazy"
+    decoding="async"
+    data-gallery-src="{{ $finalUrl }}"
+    data-gallery-alt="{{ $alt }}"
+    data-gallery-title="{{ $caption }}" />
 {{- end -}}
