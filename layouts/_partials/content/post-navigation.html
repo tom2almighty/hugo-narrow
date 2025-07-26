@@ -37,7 +37,7 @@
               class="text-muted-foreground mt-auto flex items-center gap-2 text-xs">
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
               <time datetime="{{ $prev.Date.Format "2006-01-02" }}">
-                {{ $prev.Date.Format "01月02日" }}
+                {{ $prev.Date.Format (i18n "time.date_format_short" | default "01月02日") }}
               </time>
             </div>
           </a>
@@ -80,7 +80,7 @@
             <div
               class="text-muted-foreground mt-auto flex items-center justify-end gap-2 text-xs">
               <time datetime="{{ $next.Date.Format "2006-01-02" }}">
-                {{ $next.Date.Format "01月02日" }}
+                {{ $next.Date.Format (i18n "time.date_format_short" | default "01月02日") }}
               </time>
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
             </div>
