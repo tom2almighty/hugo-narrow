@@ -587,7 +587,7 @@
   /* 传统 pre 样式（作为后备） */
   .prose pre:not(.chroma) {
     @apply overflow-x-auto p-4;
-    background: var(--tw-prose-pre-bg);
+    background: transparent;
     margin: 0;
     position: relative;
   }
