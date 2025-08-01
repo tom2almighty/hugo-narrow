@@ -18,7 +18,7 @@
         {{ if $prev }}
           <a
             href="{{ $prev.RelPermalink }}"
-            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex min-h-[140px] flex-col justify-between rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
+            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex min-h-[120px] flex-col justify-between rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
             <div>
               <div class="mb-3 flex items-center gap-3">
                 {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
@@ -43,7 +43,7 @@
           </a>
         {{ else }}
           <div
-            class="bg-muted/30 border-border/50 flex min-h-[140px] flex-col justify-center rounded-xl border p-6">
+            class="bg-muted/30 border-border/50 flex min-h-[120px] flex-col justify-center rounded-xl border p-6">
             <div class="mb-3 flex items-center gap-3">
               {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
               <span class="text-muted-foreground/50 text-sm font-medium">
@@ -62,7 +62,7 @@
         {{ if $next }}
           <a
             href="{{ $next.RelPermalink }}"
-            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex min-h-[140px] flex-col justify-between rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
+            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex min-h-[120px] flex-col justify-between rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
             <div>
               <div class="mb-3 flex items-center justify-end gap-3">
                 <span class="text-muted-foreground text-sm font-medium">
@@ -87,7 +87,7 @@
           </a>
         {{ else }}
           <div
-            class="bg-muted/30 border-border/50 flex min-h-[140px] flex-col justify-center rounded-xl border p-6">
+            class="bg-muted/30 border-border/50 flex min-h-[120px] flex-col justify-center rounded-xl border p-6">
             <div class="mb-3 flex items-center justify-end gap-3">
               <span class="text-muted-foreground/50 text-sm font-medium">
                 {{ i18n "post.no_next" | default "没有下一篇" }}
