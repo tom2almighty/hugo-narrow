@@ -21,54 +21,18 @@
     </div>
 
     <!-- 相关文章列表 -->
-    {{/* 动态网格布局逻辑 */}}
-    {{ $gridClass := "grid gap-6" }}
-    {{ $relatedLen := len $related }}
-    {{ if eq $relatedLen 1 }}
-      {{ $gridClass = "grid grid-cols-1 gap-6 md:grid-cols-2" }}
-    {{ else if eq $relatedLen 2 }}
-      {{ $gridClass = "grid grid-cols-1 gap-6 md:grid-cols-2" }}
-    {{ else if eq $relatedLen 3 }}
-      {{ $gridClass = "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" }}
-    {{ else if le $relatedLen 6 }}
-      {{ $gridClass = "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" }}
-    {{ else }}
-      {{ $gridClass = "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" }}
-    {{ end }}
-
-    <div class="{{ $gridClass }}">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
       {{ range $related }}
-        {{/* 使用重新设计的统一卡片组件 - 垂直布局，激进精简 */}}
-        {{ partial "content/card-base.html" (dict
-          "page" .
-          "type" "related"
-          "config" (dict
-            "layout" "vertical"
-            "showSummary" true
-            "summaryLength" 80
-            "showDate" true
-            "showReadingTime" true
-            "imageType" "related"
-          )
-        ) }}
+        <article class="group">
+          <a href="{{ .RelPermalink }}" class="block">
+            <div class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 flex items-center rounded-xl border p-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none min-h-[120px]">
+              <h3 class="text-foreground group-hover:text-primary text-lg font-semibold leading-snug line-clamp-3 w-full">
+                {{ .Title }}
+              </h3>
+            </div>
+          </a>
+        </article>
       {{ end }}
     </div>
-
-    <!-- 查看更多相关文章 -->
-    {{/* 检查总的相关文章数量，而不是已过滤的数量 */}}
-    {{ $totalRelated := .Site.RegularPages.Related . }}
-    {{ if gt (len $totalRelated) $relatedCount }}
-      <div class="mt-8 text-center">
-        <a
-          href="{{ "/posts/" | relLangURL }}"
-          class="text-primary hover:text-primary/80 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
-          <span
-            >{{ i18n "post.view_more_posts" | default "查看更多文章" }}</span
-          >
-          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
-        </a>
-      </div>
-    {{ end }}
-
   </section>
 {{ end }}
