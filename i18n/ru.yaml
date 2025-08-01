@@ -98,7 +98,7 @@ search:
   hint_close: "Закрыть"
   hint_shortcut: "Горячая клавиша"
 
-# Форма
+# Form related
 form:
   name: "Имя"
   email: "Электронная почта"
@@ -107,20 +107,20 @@ form:
   send: "Отправить"
   required: "Обязательно"
 
-# Время
+# Time related
 time:
   minute: "минута"
-  minutes: "минут"
+  minutes: "минуты"
   hour: "час"
-  hours: "часов"
+  hours: "часы"
   day: "день"
-  days: "дней"
+  days: "дни"
   week: "неделя"
-  weeks: "недель"
+  weeks: "недели"
   month: "месяц"
-  months: "месяцев"
+  months: "месяцы"
   year: "год"
-  years: "лет"
+  years: "годы"
   ago: "назад"
   date_format: "02 января 2006"
   date_format_short: "02 янв"
@@ -128,9 +128,10 @@ time:
 
 # Архивы
 archives:
+  desc: "Просматривайте все статьи в хронологическом порядке и находите интересующий вас контент."
   posts_count: "статей"
-  no_posts: "Нет статей"
-  no_posts_desc: "Статьи ещё не опубликованы. Загляните позже."
+  no_posts: "Пока нет статей"
+  no_posts_desc: "Статьи ещё не опубликованы. Пожалуйста, зайдите позже."
   total_posts: "Всего {{ .count }} статей"
   timeline: "Временная шкала"
 
@@ -139,11 +140,11 @@ taxonomy:
   total_tags: "Всего {{ .count }} тегов"
   total_categories: "Всего {{ .count }} категорий"
   total_terms: "Всего {{ .count }} терминов"
-  tags_desc: "Просмотрите все теги, чтобы найти интересный контент."
-  categories_desc: "Просмотрите все категории, чтобы найти интересный контент."
-  desc: "Просмотрите все категории, чтобы найти интересный контент."
-  no_terms: "Нет категорий"
-  no_terms_desc: "Категории ещё не созданы. Загляните позже."
+  tags_desc: "Просматривайте все теги, чтобы найти интересный контент."
+  categories_desc: "Просматривайте все категории, чтобы найти интересный контент."
+  desc: "Просматривайте все категории, чтобы найти интересный контент."
+  no_terms: "Пока нет категорий"
+  no_terms_desc: "Категории ещё не созданы. Пожалуйста, зайдите позже."
 
 # Страницы терминов таксономии
 term:
@@ -152,17 +153,15 @@ term:
   desc: "Все статьи в \"{{ .term }}\""
   total_posts: "Всего {{ .count }} статей"
   date_range: "Сортировка по дате"
-  no_posts: "Нет статей"
+  no_posts: "Пока нет статей"
   no_posts_tag: "Пока нет статей с этим тегом."
   no_posts_category: "Пока нет статей в этой категории."
   no_posts_desc: "Пока нет статей в этой категории."
 
 # Общее
 common:
-  loading: "Загрузка..."
   error: "Ошибка"
   success: "Успех"
-  close: "Закрыть"
   open: "Открыть"
   save: "Сохранить"
   cancel: "Отмена"
@@ -171,47 +170,36 @@ common:
   edit: "Редактировать"
   view: "Просмотр"
   back: "Назад"
-  more: "Больше"
-  language: "Язык"
-  site_logo: "Логотип сайта"
-
-# Переключение языка
-language:
-  toggle: "Переключить язык"
+  more: "Ещё"
 
 # Лицензия
 license:
-  title: "Уведомление об авторских правах"
   author: "Автор"
   link: "Ссылка"
   type: "Лицензия"
-  cc_by_nc_sa_desc: "Это произведение лицензировано по лицензии Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Пожалуйста, указывайте источник, используйте в некоммерческих целях и сохраняйте ту же лицензию."
-  cc_by_desc: "Это произведение лицензировано по лицензии Creative Commons Attribution 4.0 International. Пожалуйста, указывайте источник."
+  cc_by_nc_sa_desc: "Это произведение лицензировано по лицензии Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Указывайте источник, используйте не в коммерческих целях и сохраняйте ту же лицензию."
+  cc_by_desc: "Это произведение лицензировано по лицензии Creative Commons Attribution 4.0 International. Указывайте источник."
 
 # Комментарии
 comments:
-  title: "Комментарии"
   not_configured: "Система комментариев не настроена"
   not_configured_desc: "Пожалуйста, включите систему комментариев в настройках сайта"
   giscus_not_configured: "Система комментариев Giscus не настроена"
   disqus_not_configured: "Система комментариев Disqus не настроена"
-  disqus_noscript: "Пожалуйста, включите JavaScript для просмотра комментариев."
-  utterances_not_configured: "Система комментариев Utterances не настроена"
   waline_not_configured: "Система комментариев Waline не настроена"
 
 # Нижняя панель
 dock:
-  aria_label: "Панель быстрых действий"
   back: "Назад"
   toc: "Содержание"
   search: "Поиск"
   comments: "Комментарии"
   back_to_top: "Наверх"
-  top: "Верх"
+  top: "Вверх"
 
 # Предупреждения
 alert:
-  note: "Заметка"
+  note: "Примечание"
   tip: "Совет"
   important: "Важно"
   warning: "Предупреждение"
@@ -219,7 +207,6 @@ alert:
 
 # Содержание
 toc:
-  close: "Закрыть"
   title: "Содержание"
   navigation: "Навигация по содержанию"
   empty: "В этой статье нет заголовков"
@@ -227,7 +214,6 @@ toc:
 
 # Блоки кода
 code:
-  copy: "Копировать"
   copied: "Скопировано"
   selected: "Выбрано"
   collapse: "Свернуть"

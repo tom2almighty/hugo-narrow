@@ -105,7 +105,7 @@ form:
   message: "Message"
   subject: "Sujet"
   send: "Envoyer"
-  required: "Obligatoire"
+  required: "Requis"
 
 # Temps
 time:
@@ -123,47 +123,45 @@ time:
   years: "années"
   ago: "il y a"
   date_format: "02 janvier 2006"
-  date_format_short: "02 jan"
+  date_format_short: "02 janv."
   month_format: "janvier 2006"
 
 # Archives
 archives:
   desc: "Parcourez tous les articles par ordre chronologique et découvrez ce qui vous intéresse."
   posts_count: "articles"
-  no_posts: "Aucun article"
-  no_posts_desc: "Aucun article n'a encore été publié. Revenez plus tard."
+  no_posts: "Aucun article pour le moment"
+  no_posts_desc: "Aucun article n'a encore été publié. Veuillez revenir plus tard."
   total_posts: "{{ .count }} articles au total"
   timeline: "Vue chronologique"
 
 # Taxonomie
 taxonomy:
-  total_tags: "{{ .count }} étiquettes au total"
+  total_tags: "{{ .count }} tags au total"
   total_categories: "{{ .count }} catégories au total"
   total_terms: "{{ .count }} termes au total"
-  tags_desc: "Parcourez toutes les étiquettes pour découvrir du contenu intéressant."
+  tags_desc: "Parcourez tous les tags pour découvrir du contenu intéressant."
   categories_desc: "Parcourez toutes les catégories pour découvrir du contenu intéressant."
   desc: "Parcourez toutes les catégories pour découvrir du contenu intéressant."
-  no_terms: "Aucune catégorie"
-  no_terms_desc: "Aucune catégorie n'a encore été créée. Revenez plus tard."
+  no_terms: "Aucune catégorie pour le moment"
+  no_terms_desc: "Aucune catégorie n'a encore été créée. Veuillez revenir plus tard."
 
 # Pages de termes taxonomiques
 term:
-  tag_desc: "Tous les articles sous l'étiquette \"{{ .tag }}\""
+  tag_desc: "Tous les articles sous le tag \"{{ .tag }}\""
   category_desc: "Tous les articles sous la catégorie \"{{ .category }}\""
   desc: "Tous les articles sous \"{{ .term }}\""
   total_posts: "{{ .count }} articles au total"
-  date_range: "Triés par date"
-  no_posts: "Aucun article"
-  no_posts_tag: "Aucun article sous cette étiquette pour le moment."
+  date_range: "Trié par date"
+  no_posts: "Aucun article pour le moment"
+  no_posts_tag: "Aucun article sous ce tag pour le moment."
   no_posts_category: "Aucun article sous cette catégorie pour le moment."
   no_posts_desc: "Aucun article sous cette catégorie pour le moment."
 
 # Commun
 common:
-  loading: "Chargement..."
   error: "Erreur"
   success: "Succès"
-  close: "Fermer"
   open: "Ouvrir"
   save: "Enregistrer"
   cancel: "Annuler"
@@ -173,8 +171,6 @@ common:
   view: "Voir"
   back: "Retour"
   more: "Plus"
-  language: "Langue"
-  site_logo: "Logo du site"
 
 # Changement de langue
 language:
@@ -182,30 +178,25 @@ language:
 
 # Licence
 license:
-  title: "Avis de droits d'auteur"
   author: "Auteur"
   link: "Lien"
   type: "Licence"
-  cc_by_nc_sa_desc: "Cette œuvre est sous licence Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. Veuillez attribuer la source, utiliser à des fins non commerciales et maintenir la même licence."
-  cc_by_desc: "Cette œuvre est sous licence Creative Commons Attribution 4.0 International. Veuillez attribuer la source."
+  cc_by_nc_sa_desc: "Cette œuvre est mise à disposition selon les termes de la licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International. Veuillez attribuer la source, utiliser à des fins non commerciales et conserver la même licence."
+  cc_by_desc: "Cette œuvre est mise à disposition selon les termes de la licence Creative Commons Attribution 4.0 International. Veuillez attribuer la source."
 
 # Commentaires
 comments:
-  title: "Commentaires"
   not_configured: "Système de commentaires non configuré"
   not_configured_desc: "Veuillez activer le système de commentaires dans la configuration du site"
   giscus_not_configured: "Système de commentaires Giscus non configuré"
   disqus_not_configured: "Système de commentaires Disqus non configuré"
-  disqus_noscript: "Veuillez activer JavaScript pour voir les commentaires."
-  utterances_not_configured: "Système de commentaires Utterances non configuré"
   waline_not_configured: "Système de commentaires Waline non configuré"
 
 # Dock inférieur
 dock:
-  aria_label: "Barre d'outils d'actions rapides"
   back: "Retour"
   toc: "Table des matières"
-  search: "Recherche"
+  search: "Rechercher"
   comments: "Commentaires"
   back_to_top: "Retour en haut"
   top: "Haut"
@@ -213,22 +204,20 @@ dock:
 # Alertes
 alert:
   note: "Note"
-  tip: "Conseil"
+  tip: "Astuce"
   important: "Important"
   warning: "Avertissement"
-  caution: "Attention"
+  caution: "Prudence"
 
 # Table des matières
 toc:
-  close: "Fermer"
   title: "Table des matières"
-  navigation: "Navigation de la table des matières"
+  navigation: "Navigation dans la table des matières"
   empty: "Aucun titre dans cet article"
-  tip: "Cliquez pour aller à la section"
+  tip: "Cliquez pour accéder à la section"
 
 # Blocs de code
 code:
-  copy: "Copier"
   copied: "Copié"
   selected: "Sélectionné"
   collapse: "Réduire"

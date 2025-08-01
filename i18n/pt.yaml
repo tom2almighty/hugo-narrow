@@ -97,3 +97,125 @@ search:
   hint_select: "Selecionar"
   hint_close: "Fechar"
   hint_shortcut: "Atalho"
+
+# Form related
+form:
+  name: "Nome"
+  email: "E-mail"
+  message: "Mensagem"
+  subject: "Assunto"
+  send: "Enviar"
+  required: "Obrigatório"
+
+# Time related
+time:
+  minute: "minuto"
+  minutes: "minutos"
+  hour: "hora"
+  hours: "horas"
+  day: "dia"
+  days: "dias"
+  week: "semana"
+  weeks: "semanas"
+  month: "mês"
+  months: "meses"
+  year: "ano"
+  years: "anos"
+  ago: "atrás"
+  date_format: "02 de janeiro de 2006"
+  date_format_short: "02 jan"
+  month_format: "janeiro de 2006"
+
+# Archives related
+archives:
+  desc: "Navegue por todos os artigos em ordem cronológica e descubra o que lhe interessa."
+  posts_count: "artigos"
+  no_posts: "Nenhum artigo ainda"
+  no_posts_desc: "Nenhum artigo foi publicado ainda. Por favor, volte mais tarde."
+  total_posts: "{{ .count }} artigos no total"
+  timeline: "Visualização cronológica"
+
+# Taxonomy related
+taxonomy:
+  total_tags: "{{ .count }} tags no total"
+  total_categories: "{{ .count }} categorias no total"
+  total_terms: "{{ .count }} termos no total"
+  tags_desc: "Navegue por todas as tags para descobrir conteúdos interessantes."
+  categories_desc: "Navegue por todas as categorias para descobrir conteúdos interessantes."
+  desc: "Navegue por todas as categorias para descobrir conteúdos interessantes."
+  no_terms: "Nenhuma categoria ainda"
+  no_terms_desc: "Nenhuma categoria foi criada ainda. Por favor, volte mais tarde."
+
+# Taxonomy term pages
+term:
+  tag_desc: "Todos os artigos sob a tag \"{{ .tag }}\""
+  category_desc: "Todos os artigos sob a categoria \"{{ .category }}\""
+  desc: "Todos os artigos sob \"{{ .term }}\""
+  total_posts: "{{ .count }} artigos no total"
+  date_range: "Ordenado por data"
+  no_posts: "Nenhum artigo ainda"
+  no_posts_tag: "Nenhum artigo sob esta tag ainda."
+  no_posts_category: "Nenhum artigo sob esta categoria ainda."
+  no_posts_desc: "Nenhum artigo sob esta categoria ainda."
+
+# Common
+common:
+  error: "Erro"
+  success: "Sucesso"
+  open: "Abrir"
+  save: "Salvar"
+  cancel: "Cancelar"
+  confirm: "Confirmar"
+  delete: "Excluir"
+  edit: "Editar"
+  view: "Visualizar"
+  back: "Voltar"
+  more: "Mais"
+
+# License related
+license:
+  author: "Autor"
+  link: "Link"
+  type: "Licença"
+  cc_by_nc_sa_desc: "Esta obra está licenciada sob uma Licença Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional. Por favor, atribua a fonte, use de forma não comercial e mantenha a mesma licença."
+  cc_by_desc: "Esta obra está licenciada sob uma Licença Creative Commons Atribuição 4.0 Internacional. Por favor, atribua a fonte."
+
+# Comments related
+comments:
+  not_configured: "Sistema de comentários não configurado"
+  not_configured_desc: "Por favor, habilite o sistema de comentários na configuração do site"
+  giscus_not_configured: "Sistema de comentários Giscus não configurado"
+  disqus_not_configured: "Sistema de comentários Disqus não configurado"
+  waline_not_configured: "Sistema de comentários Waline não configurado"
+
+# Bottom Dock
+dock:
+  back: "Voltar"
+  toc: "Índice"
+  search: "Buscar"
+  comments: "Comentários"
+  back_to_top: "Voltar ao topo"
+  top: "Topo"
+
+# Alert related
+alert:
+  note: "Nota"
+  tip: "Dica"
+  important: "Importante"
+  warning: "Aviso"
+  caution: "Cuidado"
+
+# TOC related
+toc:
+  title: "Índice"
+  navigation: "Navegação no índice"
+  empty: "Nenhum título neste artigo"
+  tip: "Clique para pular para a seção"
+
+# Code block related
+code:
+  copied: "Copiado"
+  selected: "Selecionado"
+  collapse: "Recolher"
+  expand: "Expandir"
+  clickToExpand: "Clique para expandir e ver mais"

@@ -97,3 +97,125 @@ search:
   hint_select: "Seleziona"
   hint_close: "Chiudi"
   hint_shortcut: "Scorciatoia"
+
+# Form related
+form:
+  name: "Nome"
+  email: "Email"
+  message: "Messaggio"
+  subject: "Oggetto"
+  send: "Invia"
+  required: "Richiesto"
+
+# Time related
+time:
+  minute: "minuto"
+  minutes: "minuti"
+  hour: "ora"
+  hours: "ore"
+  day: "giorno"
+  days: "giorni"
+  week: "settimana"
+  weeks: "settimane"
+  month: "mese"
+  months: "mesi"
+  year: "anno"
+  years: "anni"
+  ago: "fa"
+  date_format: "02 gennaio 2006"
+  date_format_short: "02 gen"
+  month_format: "gennaio 2006"
+
+# Archives related
+archives:
+  desc: "Sfoglia tutti gli articoli in ordine cronologico e scopri ciò che ti interessa."
+  posts_count: "articoli"
+  no_posts: "Nessun articolo per ora"
+  no_posts_desc: "Non sono ancora stati pubblicati articoli. Torna più tardi."
+  total_posts: "{{ .count }} articoli in totale"
+  timeline: "Vista cronologica"
+
+# Taxonomy related
+taxonomy:
+  total_tags: "{{ .count }} tag in totale"
+  total_categories: "{{ .count }} categorie in totale"
+  total_terms: "{{ .count }} termini in totale"
+  tags_desc: "Sfoglia tutti i tag per scoprire contenuti interessanti."
+  categories_desc: "Sfoglia tutte le categorie per scoprire contenuti interessanti."
+  desc: "Sfoglia tutte le categorie per scoprire contenuti interessanti."
+  no_terms: "Nessuna categoria per ora"
+  no_terms_desc: "Non sono ancora state create categorie. Torna più tardi."
+
+# Taxonomy term pages
+term:
+  tag_desc: "Tutti gli articoli sotto il tag \"{{ .tag }}\""
+  category_desc: "Tutti gli articoli sotto la categoria \"{{ .category }}\""
+  desc: "Tutti gli articoli sotto \"{{ .term }}\""
+  total_posts: "{{ .count }} articoli in totale"
+  date_range: "Ordinati per data"
+  no_posts: "Nessun articolo per ora"
+  no_posts_tag: "Nessun articolo sotto questo tag per ora."
+  no_posts_category: "Nessun articolo sotto questa categoria per ora."
+  no_posts_desc: "Nessun articolo sotto questa categoria per ora."
+
+# Common
+common:
+  error: "Errore"
+  success: "Successo"
+  open: "Apri"
+  save: "Salva"
+  cancel: "Annulla"
+  confirm: "Conferma"
+  delete: "Elimina"
+  edit: "Modifica"
+  view: "Visualizza"
+  back: "Indietro"
+  more: "Altro"
+
+# License related
+license:
+  author: "Autore"
+  link: "Link"
+  type: "Licenza"
+  cc_by_nc_sa_desc: "Quest'opera è distribuita con Licenza Creative Commons Attribuzione - Non commerciale - Condividi allo stesso modo 4.0 Internazionale. Si prega di attribuire la fonte, utilizzare a fini non commerciali e mantenere la stessa licenza."
+  cc_by_desc: "Quest'opera è distribuita con Licenza Creative Commons Attribuzione 4.0 Internazionale. Si prega di attribuire la fonte."
+
+# Comments related
+comments:
+  not_configured: "Sistema di commenti non configurato"
+  not_configured_desc: "Abilita il sistema di commenti nella configurazione del sito"
+  giscus_not_configured: "Sistema di commenti Giscus non configurato"
+  disqus_not_configured: "Sistema di commenti Disqus non configurato"
+  waline_not_configured: "Sistema di commenti Waline non configurato"
+
+# Bottom Dock
+dock:
+  back: "Indietro"
+  toc: "Indice"
+  search: "Cerca"
+  comments: "Commenti"
+  back_to_top: "Torna su"
+  top: "Inizio"
+
+# Alert related
+alert:
+  note: "Nota"
+  tip: "Suggerimento"
+  important: "Importante"
+  warning: "Avviso"
+  caution: "Attenzione"
+
+# TOC related
+toc:
+  title: "Indice"
+  navigation: "Navigazione nell'indice"
+  empty: "Nessun titolo in questo articolo"
+  tip: "Clicca per saltare alla sezione"
+
+# Code block related
+code:
+  copied: "Copiato"
+  selected: "Selezionato"
+  collapse: "Comprimi"
+  expand: "Espandi"
+  clickToExpand: "Clicca per espandere e vedere di più"

@@ -97,3 +97,125 @@ search:
   hint_select: "Chọn"
   hint_close: "Đóng"
   hint_shortcut: "Phím tắt"
+
+# Form related
+form:
+  name: "Tên"
+  email: "Email"
+  message: "Tin nhắn"
+  subject: "Chủ đề"
+  send: "Gửi"
+  required: "Bắt buộc"
+
+# Time related
+time:
+  minute: "phút"
+  minutes: "phút"
+  hour: "giờ"
+  hours: "giờ"
+  day: "ngày"
+  days: "ngày"
+  week: "tuần"
+  weeks: "tuần"
+  month: "tháng"
+  months: "tháng"
+  year: "năm"
+  years: "năm"
+  ago: "trước"
+  date_format: "02 tháng 01 năm 2006"
+  date_format_short: "02 Thg 01"
+  month_format: "Tháng 01 năm 2006"
+
+# Archives related
+archives:
+  desc: "Duyệt qua tất cả các bài viết theo thứ tự thời gian và khám phá những gì bạn quan tâm."
+  posts_count: "bài viết"
+  no_posts: "Chưa có bài viết nào"
+  no_posts_desc: "Chưa có bài viết nào được xuất bản. Vui lòng quay lại sau."
+  total_posts: "Tổng cộng {{ .count }} bài viết"
+  timeline: "Chế độ xem dòng thời gian"
+
+# Taxonomy related
+taxonomy:
+  total_tags: "Tổng cộng {{ .count }} thẻ"
+  total_categories: "Tổng cộng {{ .count }} chuyên mục"
+  total_terms: "Tổng cộng {{ .count }} thuật ngữ"
+  tags_desc: "Duyệt qua tất cả các thẻ để khám phá nội dung thú vị."
+  categories_desc: "Duyệt qua tất cả các chuyên mục để khám phá nội dung thú vị."
+  desc: "Duyệt qua tất cả các chuyên mục để khám phá nội dung thú vị."
+  no_terms: "Chưa có chuyên mục nào"
+  no_terms_desc: "Chưa có chuyên mục nào được tạo. Vui lòng quay lại sau."
+
+# Taxonomy term pages
+term:
+  tag_desc: "Tất cả các bài viết dưới thẻ \"{{ .tag }}\""
+  category_desc: "Tất cả các bài viết dưới chuyên mục \"{{ .category }}\""
+  desc: "Tất cả các bài viết dưới \"{{ .term }}\""
+  total_posts: "Tổng cộng {{ .count }} bài viết"
+  date_range: "Sắp xếp theo ngày"
+  no_posts: "Chưa có bài viết nào"
+  no_posts_tag: "Chưa có bài viết nào dưới thẻ này."
+  no_posts_category: "Chưa có bài viết nào dưới chuyên mục này."
+  no_posts_desc: "Chưa có bài viết nào dưới chuyên mục này."
+
+# Common
+common:
+  error: "Lỗi"
+  success: "Thành công"
+  open: "Mở"
+  save: "Lưu"
+  cancel: "Hủy"
+  confirm: "Xác nhận"
+  delete: "Xóa"
+  edit: "Chỉnh sửa"
+  view: "Xem"
+  back: "Quay lại"
+  more: "Thêm"
+
+# License related
+license:
+  author: "Tác giả"
+  link: "Liên kết"
+  type: "Giấy phép"
+  cc_by_nc_sa_desc: "Tác phẩm này được cấp phép theo Giấy phép Creative Commons Ghi công - Phi thương mại - Chia sẻ tương tự 4.0 Quốc tế. Vui lòng ghi rõ nguồn, sử dụng phi thương mại và giữ nguyên giấy phép tương tự."
+  cc_by_desc: "Tác phẩm này được cấp phép theo Giấy phép Creative Commons Ghi công 4.0 Quốc tế. Vui lòng ghi rõ nguồn."
+
+# Comments related
+comments:
+  not_configured: "Hệ thống bình luận chưa được cấu hình"
+  not_configured_desc: "Vui lòng bật hệ thống bình luận trong cấu hình trang web"
+  giscus_not_configured: "Hệ thống bình luận Giscus chưa được cấu hình"
+  disqus_not_configured: "Hệ thống bình luận Disqus chưa được cấu hình"
+  waline_not_configured: "Hệ thống bình luận Waline chưa được cấu hình"
+
+# Bottom Dock
+dock:
+  back: "Quay lại"
+  toc: "Mục lục"
+  search: "Tìm kiếm"
+  comments: "Bình luận"
+  back_to_top: "Quay lại đầu trang"
+  top: "Đầu trang"
+
+# Alert related
+alert:
+  note: "Lưu ý"
+  tip: "Mẹo"
+  important: "Quan trọng"
+  warning: "Cảnh báo"
+  caution: "Thận trọng"
+
+# TOC related
+toc:
+  title: "Mục lục"
+  navigation: "Điều hướng mục lục"
+  empty: "Không có tiêu đề trong bài viết này"
+  tip: "Nhấp để chuyển đến phần"
+
+# Code block related
+code:
+  copied: "Đã sao chép"
+  selected: "Đã chọn"
+  collapse: "Thu gọn"
+  expand: "Mở rộng"
+  clickToExpand: "Nhấp để mở rộng và xem thêm"
