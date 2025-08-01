@@ -11,27 +11,22 @@
   {{/* Alert type configuration */}}
   {{- $alertConfig := dict
     "note" (dict
-    "icon" "info-circle"
     "colorVar" "note"
     "defaultTitle" (i18n "alert.note" | default "Note")
     )
     "tip" (dict
-    "icon" "lightbulb"
     "colorVar" "tip"
     "defaultTitle" (i18n "alert.tip" | default "Tip")
     )
     "important" (dict
-    "icon" "exclamation-triangle"
     "colorVar" "important"
     "defaultTitle" (i18n "alert.important" | default "Important")
     )
     "warning" (dict
-    "icon" "alert-triangle"
     "colorVar" "warning"
     "defaultTitle" (i18n "alert.warning" | default "Warning")
     )
     "caution" (dict
-    "icon" "alert-circle"
     "colorVar" "caution"
     "defaultTitle" (i18n "alert.caution" | default "Caution")
     )
@@ -45,7 +40,7 @@
 
 
   <div
-    class="alert alert-{{ .AlertType }} my-6 overflow-hidden rounded-lg border-l-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
+    class="alert alert-{{ .AlertType }} my-6 overflow-hidden rounded-lg transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
     style="background-color: color-mix(in srgb, var(--color-{{ $config.colorVar }}) 10%, transparent);
               border-left-color: var(--color-{{ $config.colorVar }});
               --hover-bg: color-mix(in srgb, var(--color-{{ $config.colorVar }}) 15%, transparent);"
@@ -64,18 +59,10 @@
         onkeydown="if(event.key==='Enter'||event.key===' '){toggleAlert('{{ $alertId }}');event.preventDefault();}"
       {{ end }}>
       <div class="flex items-center gap-3">
-        {{/* Alert icon */}}
-        <div
-          class="flex-shrink-0"
-          style="color: var(--color-{{ $config.colorVar }});">
-          {{ partial "features/icon.html" (dict "name" $config.icon "size" "md" "ariaLabel" "") }}
-        </div>
-
         {{/* Alert title */}}
         <h4
           id="{{ $alertId }}-title"
-          class="m-0 font-semibold"
-          style="color: var(--color-{{ $config.colorVar }});">
+          class="m-0 font-semibold text-foreground/90">
           {{ $title }}
         </h4>
       </div>
@@ -84,7 +71,6 @@
       {{ if $isCollapsible }}
         <div
           class="flex-shrink-0 transition-transform duration-200"
-          style="color: var(--color-{{ $config.colorVar }});"
           id="{{ $alertId }}-chevron">
           {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
         </div>
