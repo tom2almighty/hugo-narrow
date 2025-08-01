@@ -23,7 +23,7 @@
       data-emit-metadata="{{ $config.emitMetadata | default "0" }}"
       data-input-position="{{ $config.inputPosition | default "bottom" }}"
       data-theme="{{ $config.theme | default "preferred_color_scheme" }}"
-      data-lang="{{ $config.lang | default "zh-CN" }}"
+      data-lang="{{ $config.lang | default .Site.Language.Lang | default "zh-CN" }}"
       data-loading="lazy"
       crossorigin="anonymous"
       async></script>

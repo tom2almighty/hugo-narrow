@@ -25,7 +25,7 @@
         el: '#{{ $id }}',
         {{ if $config.region }}region: '{{ $config.region }}',{{ end }}
         {{ if $config.path }}path: '{{ $config.path }}',{{ else }}path: '{{ .Page.RelPermalink }}',{{ end }}
-        lang: '{{ $config.lang | default "zh-CN" }}',
+        lang: '{{ $config.lang | default .Site.Language.Lang | default "zh-CN" }}',
       });
 
       // 主题切换支持
