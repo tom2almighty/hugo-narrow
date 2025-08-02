@@ -117,6 +117,12 @@
       // 调用目录功能，带重试机制
       function tryToggleTOC(retries = 5) {
         if (window.TOC && window.TOC.initialized) {
+          // 如果搜索modal是打开状态，先关闭搜索
+          if (window.Search && window.Search.isVisible && window.Search.isVisible()) {
+            window.Search.hide();
+          }
+          
+          // 切换目录状态
           window.TOC.toggle();
         } else if (window.TOC && !window.TOC.initialized && retries > 0) {
           setTimeout(() => tryToggleTOC(retries - 1), 200);
@@ -138,7 +144,17 @@
       // 调用搜索功能，带重试机制
       function tryToggleSearch(retries = 5) {
         if (window.Search) {
-          window.Search.show();
+          // 如果目录modal是打开状态，先关闭目录
+          if (window.TOC && window.TOC.initialized && window.TOC.isVisible && window.TOC.isVisible()) {
+            window.TOC.hide();
+          }
+          
+          // 切换搜索状态（如果已打开则关闭，否则打开）
+          if (window.Search.isVisible && window.Search.isVisible()) {
+            window.Search.hide();
+          } else {
+            window.Search.show();
+          }
         } else if (retries > 0) {
           setTimeout(() => tryToggleSearch(retries - 1), 200);
         }
