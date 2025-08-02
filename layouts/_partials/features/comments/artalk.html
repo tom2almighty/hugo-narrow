@@ -26,7 +26,7 @@
       pageTitle: '{{ .Page.Title | safeJS }}',
       server: '{{ $config.server }}',
       site: '{{ $config.site | default .Site.Title }}',
-      locale: '{{ $config.locale | default .Site.Language.Lang | default "zh-CN" }}',
+      locale: '{{ $config.locale | default .Site.Language.LanguageCode | default "zh-CN" }}',
       darkMode: '{{ $config.darkMode | default "auto" }}',
       gravatar: {
         mirror: '{{ $config.gravatar.mirror | default "https://cravatar.cn/avatar/" }}'

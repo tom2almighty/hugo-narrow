@@ -25,7 +25,7 @@
       el: '#{{ $id }}',
       serverURL: '{{ $config.serverURL }}',
       dark: "html[class='dark']",
-      lang: '{{ $config.lang | default .Site.Language.Lang | default "zh-CN" }}',
+      lang: '{{ $config.lang | default .Site.Language.LanguageCode | default "zh-CN" }}',
     });
   </script>
 {{ else }}
