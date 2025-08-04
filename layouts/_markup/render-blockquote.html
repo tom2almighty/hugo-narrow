@@ -52,7 +52,7 @@
     <div
       class="{{ if $isCollapsible }}
         cursor-pointer
-      {{ end }} flex items-center justify-between p-4"
+      {{ end }} flex items-center justify-between px-6 pt-3 pb-3"
       {{ if $isCollapsible }}
         onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
         aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
@@ -82,7 +82,7 @@
       id="{{ $alertId }}-content"
       class="alert-content {{ if and $isCollapsible (not $isExpanded) }}
         hidden
-      {{ end }} px-4 pb-4">
+      {{ end }} px-6 pb-3">
       <div class="prose prose-sm text-foreground/90 max-w-none">
         {{ .Text }}
       </div>
@@ -98,23 +98,33 @@
   </blockquote>
 {{- end -}}
 
-{{/* JavaScript for collapsible alerts */}}
-{{ if eq .Type "alert" }}
-  <script>
-    function toggleAlert(alertId) {
-      const content = document.getElementById(alertId + "-content");
-      const chevron = document.getElementById(alertId + "-chevron");
-      const header = content.previousElementSibling;
+<script>
+function toggleAlert(alertId) {
+  const content = document.getElementById(alertId + '-content');
+  const chevron = document.getElementById(alertId + '-chevron');
+  const header = content.previousElementSibling;
+  
+  if (content.classList.contains('hidden')) {
+    content.classList.remove('hidden');
+    chevron.style.transform = 'rotate(0deg)';
+    header.setAttribute('aria-expanded', 'true');
+  } else {
+    content.classList.add('hidden');
+    chevron.style.transform = 'rotate(-90deg)';
+    header.setAttribute('aria-expanded', 'false');
+  }
+}
 
-      if (content.classList.contains("hidden")) {
-        content.classList.remove("hidden");
-        chevron.style.transform = "rotate(180deg)";
-        header.setAttribute("aria-expanded", "true");
-      } else {
-        content.classList.add("hidden");
-        chevron.style.transform = "rotate(0deg)";
-        header.setAttribute("aria-expanded", "false");
-      }
+// Initialize chevron rotation for collapsed alerts
+document.addEventListener('DOMContentLoaded', function() {
+  const collapsedAlerts = document.querySelectorAll('.alert-content.hidden');
+  collapsedAlerts.forEach(function(content) {
+    const alertId = content.id.replace('-content', '');
+    const chevron = document.getElementById(alertId + '-chevron');
+    if (chevron) {
+      chevron.style.transform = 'rotate(-90deg)';
     }
-  </script>
-{{ end }}
+  });
+});
+</script>
+
