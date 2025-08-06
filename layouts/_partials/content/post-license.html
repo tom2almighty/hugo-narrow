@@ -38,7 +38,7 @@
       </div>
 
       <!-- 许可证信息 -->
-      <div class="flex-1">
+      <div class="flex-1 min-w-0">
         <h3 class="text-foreground mb-2 text-lg font-semibold">
           {{ i18n "license.title" | default "版权声明" }}
         </h3>
@@ -57,7 +57,7 @@
             <strong>{{ i18n "license.link" | default "链接" }}:</strong>
             <a
               href="{{ .Permalink }}"
-              class="text-primary hover:text-primary/80 transition-colors duration-200">
+              class="text-primary hover:text-primary/80 transition-colors break-all hyphens-auto duration-200">
               {{ .Permalink }}
             </a>
           </p>
