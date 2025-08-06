@@ -1,84 +1,205 @@
-/* 组件样式 - 从 main.css 提取 */
+.mobile-menu.dropdown-menu {
+  max-width: calc(100vw - 2rem);
+  min-width: 20rem;
+}
 
-@layer components {
-  /* 移动端菜单特殊样式 - 仅保留尺寸相关样式 */
+@media (max-width: 480px) {
   .mobile-menu.dropdown-menu {
-    /* 确保在小屏幕上不会超出视口 */
-    max-width: calc(100vw - 2rem);
-    /* 移动端菜单的最小宽度 */
-    min-width: 20rem;
+    min-width: 18rem;
+    max-width: calc(100vw - 1rem);
   }
+}
 
-  /* 移动端菜单在超小屏幕上的适配 */
-  @media (max-width: 480px) {
-    .mobile-menu.dropdown-menu {
-      min-width: 18rem;
-      max-width: calc(100vw - 1rem);
-    }
-  }
+.dropdown-menu {
+  min-width: 10rem;
+  max-height: 20rem;
+  overflow-y: auto;
+}
 
-  /* 通用下拉菜单基础样式 - 仅保留必要的布局样式 */
-  .dropdown-menu {
-    min-width: 10rem;
-    max-height: 20rem;
-    overflow-y: auto;
-  }
+.search-result-selected {
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary) 10%,
+    transparent
+  ) !important;
+  color: var(--color-primary) !important;
+}
 
-  .search-result-selected {
-    background-color: color-mix(
-      in srgb,
-      var(--color-primary) 10%,
-      transparent
-    ) !important;
-    color: var(--color-primary) !important;
-  }
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
-  /* Scrollbar hide utility */
-  .scrollbar-hide {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
-  .scrollbar-hide::-webkit-scrollbar {
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reading-progress-container {
+  height: var(--reading-progress-height);
+}
+
+.reading-progress-bg {
+  height: var(--reading-progress-height);
+  background-color: var(--reading-progress-bg);
+}
+
+.reading-progress-bar {
+  height: var(--reading-progress-height);
+  box-shadow: 0 0 8px var(--reading-progress-shadow);
+}
+
+
+
+@media (max-width: 480px) {
+  #dock span {
     display: none;
   }
+}
+  
+/* TOC 样式 */
+#toc-content nav {
+  @apply text-sm leading-6;
+}
 
-  /* 文本截断样式 */
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+#toc-content ul {
+  @apply m-0 list-none p-0;
+}
 
-  /* 阅读进度条样式 */
-  .reading-progress-container {
-    height: var(--reading-progress-height);
-  }
+#toc-content li {
+  @apply my-1 p-0;
+}
 
-  .reading-progress-bg {
-    height: var(--reading-progress-height);
-    background-color: var(--reading-progress-bg);
-  }
+#toc-content a {
+  @apply text-muted-foreground hover:text-primary hover:bg-primary/10 relative block rounded-lg border-l-2 border-transparent px-4 py-3 no-underline transition-all duration-200 ease-out hover:translate-x-0.5 hover:-translate-y-px hover:scale-[1.02];
+}
 
-  .reading-progress-bar {
-    height: var(--reading-progress-height);
-    box-shadow: 0 0 8px var(--reading-progress-shadow);
-  }
+/* Gumshoe 添加的 active 类样式 */
+#toc-content a.active,
+#toc-content li.active > a {
+  @apply text-primary bg-primary/10 translate-x-0.5 -translate-y-px scale-[1.02] font-medium;
+}
 
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+#toc-content ul ul a {
+  @apply pl-6;
+}
 
-  /* 移动端 Dock 文字隐藏 */
-  @media (max-width: 480px) {
-    #dock span {
-      display: none !important;
-    }
-  }
+#toc-content ul ul ul a {
+  @apply pl-8;
+}
+
+#toc-content ul ul ul ul a {
+  @apply pl-10;
+}
+
+#toc-content ul ul ul ul ul a {
+  @apply pl-12;
+}
+
+#toc-content ul ul ul ul ul ul a {
+  @apply pl-14;
+}
+
+/* Justified Gallery 样式 */
+.fj-gallery .glightbox {
+  @apply no-underline hover:no-underline focus:no-underline block overflow-hidden;
+  border-radius: 0.5rem;
+}
+
+.fj-gallery-item {
+  @apply overflow-hidden;
+  border-radius: 0.5rem;
+}
+
+.fj-gallery img {
+  @apply transition-transform duration-300 ease-in-out;
+  border-radius: 0.5rem;
+}
+
+.fj-gallery img:hover {
+  @apply scale-105;
+}
+
+.single-image .glightbox {
+  @apply no-underline hover:no-underline focus:no-underline inline-block overflow-hidden;
+  border-radius: 0.5rem;
+}
+.single-image .image-container {
+  @apply overflow-hidden;
+  border-radius: 0.5rem;
+}
+
+.single-image img {
+  @apply transition-transform duration-300 ease-in-out;
+  border-radius: 0.5rem;
+}
+
+.single-image img:hover {
+  @apply scale-105;
+}
+
+.fj-gallery-item,
+.single-image .image-container {
+  position: relative;
+}
+
+
+.link-card {
+  @apply bg-card border border-border rounded-lg mb-2 p-4 transition-all duration-200 hover:scale-105;
+  flex: 1 1 calc(33.333% - 1rem);
+}
+.link-card-title {
+  @apply text-foreground font-semibold m-0 p-0 text-sm hover:text-primary transition-colors truncate;
+}
+.link-card-content {
+  @apply text-muted-foreground m-0 p-0 text-xs mt-1 leading-relaxed line-clamp-2;
+}
+.link-card-url {
+  @apply text-muted-foreground m-0 p-0 text-xs mt-1 font-mono opacity-70 truncate;
+}
+.link-card-arrow {
+  @apply flex-shrink-0 text-muted-foreground group-hover:text-primary transition-colors;
+}
+.link-card a::before {
+  display: none;
+}
+.link-card a::after {
+  display: none;
+}
+.link-card-group {
+  @apply flex flex-wrap gap-4 w-full;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.link-card-group .link-card:only-child {
+  flex: 0 0 auto;
+  @apply max-w-md w-full mx-auto;
+}
+.link-card-error {
+  @apply bg-muted/10 border border-muted/20 rounded-lg p-4 text-muted;
+  @apply w-full max-w-md mx-auto; 
+}
+.link-card-error p {
+  @apply mb-2 last:mb-0;
+}
+.link-card-error ul {
+  @apply list-disc list-inside space-y-1 text-sm;
 }

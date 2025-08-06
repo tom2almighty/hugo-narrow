@@ -1,27 +1,21 @@
 /* Hugo Narrow 主题 - 主样式文件 */
-
-/* Tailwind CSS 4.0 基础导入 */
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* 主题变量配置 */
-@import "./themes.css";
 
-/* scrollbar */
-@import "./scrollbar.css";
+@layer theme {
+  @import "./themes.css";
+}
 
-/* Prose 文章样式 */
-@import "./prose.css";
+@layer base {
+  @import "./base.css";
+}
 
-/* 目录样式 */
-@import "./toc.css";
+@layer components {
+  @import "./components.css";
+}
 
-/* 组件样式 */
-@import "./components.css";
-
-/* 图片画廊样式 */
-@import "./gallery.css";
-
-/* 自定义样式入口 */
-@import "./custom.css";
+@layer utilities {
+  @import "./custom.css";
+}

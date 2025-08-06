@@ -1,3 +1,26 @@
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-muted-foreground);
+}
+
+
+
 .prose {
   /* 基础文本样式 */
   --tw-prose-body: var(--color-foreground);
@@ -120,9 +143,9 @@
   background: color-mix(in srgb, var(--color-muted) 30%, transparent);
   margin: 1.5rem 0;
   padding: 1rem 1.5rem;
-  border-radius: 0.75rem; /* 添加圆角，使其更圆润 */
-  border-top-left-radius: 0; /* 保持左上角直角以配合左边框 */
-  border-bottom-left-radius: 0; /* 保持左下角直角以配合左边框 */
+  border-radius: 0.75rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   position: relative;
 }
 
@@ -748,7 +771,7 @@
 }
 
 .prose details summary::marker {
-  display: none;
+  content: none;
 }
 
 .prose details summary::before {
@@ -771,7 +794,8 @@
 }
 
 .prose details > *:not(summary) {
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem 0;
+  margin: 0;
 }
 
 .prose details > *:last-child {
@@ -819,3 +843,10 @@
   }
 }
 
+
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding: 1em 0;
+}
