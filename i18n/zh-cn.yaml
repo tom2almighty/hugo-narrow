@@ -234,3 +234,6 @@ code:
   collapse: "折叠"
   expand: "展开"
   clickToExpand: "点击展开查看更多"
+
+# 链接相关
+links: "链接"

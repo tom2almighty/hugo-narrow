@@ -235,3 +235,6 @@ code:
   collapse: "Collapse"
   expand: "Expand"
   clickToExpand: "Click to expand and view more"
+
+# Links related
+links: "Links"

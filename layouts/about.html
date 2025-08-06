@@ -1,0 +1,42 @@
+{{ define "main" }}
+  <!-- 面包屑导航 -->
+  {{ partial "navigation/breadcrumb.html" . }}
+
+  <!-- 页面标题 -->
+  <header class="mb-8">
+    <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+      {{ .Title }}
+    </h1>
+    {{ if .Params.summary }}
+      <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
+        {{ .Params.summary | plainify }}
+      </div>
+    {{ end }}
+  </header>
+
+  <!-- 个人描述卡片 -->
+  <div class="bg-card border border-border rounded-lg p-6 mb-8 shadow-sm">
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      {{ .Content }}
+    </div>
+  </div>
+
+  <!-- Links section -->
+  {{ $links := .Params.links }}
+  {{ if $links }}
+    <div class="mt-12">
+      <h2 class="text-foreground mb-6 text-2xl font-bold">{{ T "links" }}</h2>
+      <div class="link-card-group">
+        {{ range $links }}
+          {{ partial "content/link.html" (dict 
+            "title" .name
+            "description" .description
+            "url" .url
+            "icon" .icon
+          ) }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  {{ partial "features/comments.html" . }}
+{{ end }}

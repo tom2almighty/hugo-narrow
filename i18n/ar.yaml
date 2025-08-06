@@ -97,3 +97,6 @@ search:
   hint_select: "اختيار"
   hint_close: "إغلاق"
   hint_shortcut: "اختصار"
+
+# الروابط
+links: "روابط"

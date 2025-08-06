@@ -97,3 +97,6 @@ search:
   hint_select: "選擇"
   hint_close: "關閉"
   hint_shortcut: "快捷鍵"
+
+# 連結
+links: "連結"

@@ -234,3 +234,6 @@ code:
   collapse: "折りたたむ"
   expand: "展開"
   clickToExpand: "クリックして展開し、詳細を表示"
+
+# リンク関連
+links: "リンク"

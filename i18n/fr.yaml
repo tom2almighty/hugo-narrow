@@ -223,3 +223,6 @@ code:
   collapse: "Réduire"
   expand: "Développer"
   clickToExpand: "Cliquez pour développer et voir plus"
+
+# Liens
+links: "Liens"

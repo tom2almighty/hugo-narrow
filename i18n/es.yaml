@@ -233,3 +233,6 @@ code:
   collapse: "Contraer"
   expand: "Expandir"
   clickToExpand: "Haz clic para expandir y ver más"
+
+# Enlaces
+links: "Enlaces"

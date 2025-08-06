@@ -219,3 +219,6 @@ code:
   collapse: "Recolher"
   expand: "Expandir"
   clickToExpand: "Clique para expandir e ver mais"
+
+# Links
+links: "Links"

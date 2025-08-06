@@ -233,3 +233,6 @@ code:
   collapse: "접기"
   expand: "펼치기"
   clickToExpand: "클릭하여 더 보기"
+
+# 링크
+links: "링크"
