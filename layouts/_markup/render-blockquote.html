@@ -52,7 +52,7 @@
     <div
       class="{{ if $isCollapsible }}
         cursor-pointer
-      {{ end }} flex items-center justify-between px-6 pt-3 pb-3"
+      {{ end }} flex items-center justify-between px-6 pt-6 pb-3"
       {{ if $isCollapsible }}
         onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
         aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
@@ -82,7 +82,7 @@
       id="{{ $alertId }}-content"
       class="alert-content {{ if and $isCollapsible (not $isExpanded) }}
         hidden
-      {{ end }} px-6 pb-3">
+      {{ end }} px-6 pb-6">
       <div class="prose prose-sm text-foreground/90 max-w-none">
         {{ .Text }}
       </div>
