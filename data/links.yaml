@@ -1,0 +1,38 @@
+social:
+  - id: github
+    title: GitHub
+    description: The world's largest code hosting platform.
+    url: https://github.com
+    icon: https://github.com/fluidicon.png
+
+    
+  - id: linkedin
+    title: LinkedIn
+    description: Career Social Network.
+    url: https://linkedin.com
+
+    
+
+
+tool:
+  - id: vercel
+    title: Vercel
+    description: Deploy and Development Platform.
+    url: https://vercel.com
+    icon: https://vercel.com/favicon.ico
+
+    
+  - id: netlify
+    title: Netlify
+    description: Deploy and Development Platform.
+    url: https://netlify.com
+    icon: https://netlify.com/favicon.ico
+
+    
+  - id: github-pages
+    title: GitHub Pages
+    description: Static Pages Hosting.
+    url: https://pages.github.com
+    icon: https://github.com/fluidicon.png
+
+

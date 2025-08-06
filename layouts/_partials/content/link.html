@@ -1,0 +1,55 @@
+{{- $link := .link -}}
+{{- $title := .title -}}
+{{- $description := .description -}}
+{{- $url := .url -}}
+{{- $icon := .icon -}}
+
+
+{{- if and (not $title) $link (reflect.IsMap $link) -}}
+  {{- $title = $link.title -}}
+{{- end -}}
+
+{{- if and (not $description) $link (reflect.IsMap $link) -}}
+  {{- $description = $link.description -}}
+{{- end -}}
+
+{{- if and (not $url) $link (reflect.IsMap $link) -}}
+  {{- $url = $link.url -}}
+{{- end -}}
+
+{{- if and (not $icon) $link (reflect.IsMap $link) -}}
+  {{- $icon = $link.icon -}}
+{{- end -}}
+
+<div class="link-card">
+  <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 h-full">
+    <div class="flex-shrink-0 self-center w-12 h-12 rounded-full bg-muted border-2 border-border flex items-center justify-center">
+      {{ if $icon }}
+        <img src="{{ $icon }}" alt="{{ $title }}" class="w-12 h-12 rounded-full object-cover border-2 border-border" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+        {{ partial "features/icon.html" (dict "name" "link" "class" "w-6 h-6 text-muted-foreground hidden" "id" "link-icon") }}
+      {{ else }}
+        {{ $parsedURL := urls.Parse $url }}
+        {{ $baseURL := printf "%s://%s" $parsedURL.Scheme $parsedURL.Host }}
+        {{ $faviconIco := printf "%s/favicon.ico" $baseURL }}
+        {{ $faviconSvg := printf "%s/favicon.svg" $baseURL }}
+        <img src="{{ $faviconIco }}" 
+             alt="{{ $title }}" 
+             class="w-12 h-12 rounded-full object-cover border-2 border-border" 
+             onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img src="{{ $faviconSvg }}" 
+             alt="{{ $title }}" 
+             class="w-12 h-12 rounded-full object-cover border-2 border-border hidden" 
+             onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+        {{ partial "features/icon.html" (dict "name" "link" "class" "w-6 h-6 text-muted-foreground hidden" "id" "link-icon") }}
+      {{ end }}
+    </div>
+    <div class="flex-1 min-w-0">
+      <h3 class="link-card-title">{{ $title }}</h3>
+      <p class="link-card-content">{{ $description }}</p>
+      <div class="link-card-url">{{ $url | replaceRE "^https?://" "" }}</div>
+    </div>
+    <div class="link-card-arrow">
+      {{ partial "features/icon.html" (dict "name" "arrow-right" "class" "w-6 h-6 text-muted-foreground" "id" "link-arrow-icon") }}
+    </div>
+  </a>
+</div>

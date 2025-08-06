@@ -1,0 +1,92 @@
+{{- $title := (.Get "title") | default (.Get "name") -}}
+{{- $description := .Get "description" -}}
+{{- $url := .Get "url" -}}
+{{- $icon := .Get "icon" -}}
+{{- $id := .Get "id" -}}
+{{- $ref := .Get "ref" -}}
+{{- $category := .Get "category" -}}
+{{- $group := .Get "group" -}}
+
+{{- /* 所有情况都使用统一的容器 */ -}}
+<div class="link-card-group">
+
+{{- /* 方式1: 直接传参 */ -}}
+{{- if and $title $url -}}
+  {{ partial "content/link.html" (dict 
+    "title" $title
+    "description" ($description | default "")
+    "url" $url
+    "icon" ($icon | default "")
+  ) }}
+
+{{- /* 方式2: 使用ID引用数据 */ -}}
+{{- else if or $id $ref -}}
+  {{- $linkId := $id | default $ref -}}
+  {{- $found := false -}}
+  
+  {{- /* 检查数据文件是否存在 */ -}}
+  {{- if site.Data.links -}}
+    {{- range $catName, $linkList := site.Data.links -}}
+      {{- if $linkList -}}
+        {{- range $linkData := $linkList -}}
+          {{- if and $linkData $linkData.id (eq $linkData.id $linkId) -}}
+            {{ partial "content/link.html" (dict 
+              "title" ($linkData.title | default "")
+              "description" ($linkData.description | default "")
+              "url" ($linkData.url | default "")
+              "icon" ($linkData.icon | default "")
+            ) }}
+            {{- $found = true -}}
+            {{- break -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if $found -}}{{- break -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  
+  {{- if not $found -}}
+    <div class="link-card-error">
+      <p>⚠️ 未找到 ID 为 "{{ $linkId }}" 的链接</p>
+    </div>
+  {{- end -}}
+
+{{- /* 方式3: 批量引用 */ -}}
+{{- else if or $category $group -}}
+  {{- $categoryName := $category | default $group -}}
+  {{- $links := "" -}}
+  {{- if site.Data.links -}}
+    {{- $links = index site.Data.links $categoryName -}}
+  {{- end -}}
+  
+  {{- if $links -}}
+    {{- range $linkData := $links -}}
+      {{- if $linkData -}}
+          {{ partial "content/link.html" (dict 
+            "title" ($linkData.title | default "")
+            "description" ($linkData.description | default "")
+            "url" ($linkData.url | default "")
+            "icon" ($linkData.icon | default "")
+          ) }}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    <div class="link-card-error">
+      <p>⚠️ 未找到分类 "{{ $categoryName }}" 的链接</p>
+    </div>
+  {{- end -}}
+
+{{- /* 错误处理 */ -}}
+{{- else -}}
+  <div class="link-card-error">
+    <p>⚠️ linkcard 短代码使用错误</p>
+    <p>请使用以下方式之一:</p>
+    <ul>
+      <li>直接传参: title 和 url 参数</li>
+      <li>引用数据: id 或 ref 参数</li>
+      <li>批量引用: category 或 group 参数</li>
+    </ul>
+  </div>
+{{- end -}}
+
+</div>
