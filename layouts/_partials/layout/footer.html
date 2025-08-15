@@ -48,10 +48,30 @@
     <!-- 底部区域：版权信息和社交媒体 -->
     <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
       <!-- 版权信息 -->
-      <div class="text-muted-foreground text-sm">
-        <p>
+      <div class="text-muted-foreground text-sm text-center md:text-left">
+        <p class="mb-2">
           &copy; {{ now.Year }} {{ site.Title }}.
           {{ i18n "footer.all_rights_reserved" }}.
+        </p>
+        <p class="flex flex-wrap items-center justify-center gap-1 md:justify-start">
+          <span>Powered by</span>
+          <a 
+            href="https://gohugo.io/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
+          >
+            Hugo
+          </a>
+          <span>&</span>
+          <a 
+            href="https://github.com/tom2almighty/hugo-narrow" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
+          >
+            Narrow
+          </a>
         </p>
       </div>
 
