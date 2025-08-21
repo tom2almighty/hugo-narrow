@@ -326,6 +326,21 @@ params:
     calculateItemsHeight: false
 
 
+  codeblock:
+    collapse:
+      enabled: true
+      defaultState: expanded  # expanded, collapsed
+      autoCollapseLines: 30
+      autoCollapseHeight: 400
+      collapsedHeight: 120
+
+  readingProgress:
+    enabled: true
+    height: 3
+    showOnHomepage: false
+    smoothScroll: true
+    hideOnComplete: false
+
 markup:
   tableOfContents:
     startLevel: 2
@@ -344,20 +359,7 @@ markup:
     tabWidth: 2
 
 
-codeblock:
-  collapse:
-    enabled: true
-    defaultState: expanded  # expanded, collapsed
-    autoCollapseLines: 30
-    autoCollapseHeight: 400
-    collapsedHeight: 120
 
-readingProgress:
-  enabled: true
-  height: 3
-  showOnHomepage: false
-  smoothScroll: true
-  hideOnComplete: false
 
 
 
