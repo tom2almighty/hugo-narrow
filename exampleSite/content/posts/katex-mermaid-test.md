@@ -5,6 +5,7 @@ draft: false
 description: "Testing KaTeX and Mermaid features"
 katex: true
 mermaid: true
+tags: ['Math', 'Mermaid']
 ---
 
 # KaTeX and Mermaid Test

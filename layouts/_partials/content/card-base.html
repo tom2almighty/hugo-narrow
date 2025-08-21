@@ -29,10 +29,20 @@
 {{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
 {{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
 
+
+{{- $summaryContent := "" -}}
+{{- if $page.Params.summary -}}
+  {{- $summaryContent = $page.Params.summary -}}
+{{- else if $page.Params.description -}}
+  {{- $summaryContent = $page.Params.description -}}
+{{- else if $page.Summary -}}
+  {{- $summaryContent = $page.Summary | plainify | truncate 140 -}}
+{{- end -}}
+
 {{/* 文章卡片 */}}
 <article class="group">
   <a href="{{ $page.RelPermalink }}" class="block">
-    <div class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none min-h-[200px]">
+    <div class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
       <!-- 移动端顶部封面 -->
       <div class="block md:hidden">
         {{ partial "content/card-image.html" (dict "page" $page "type" "mobile" "coverImage" $coverImage "randomImage" $randomImage "useRandomImage" $useRandomImage "gradients" $gradients "colorIndex" $colorIndex) }}
@@ -54,9 +64,9 @@
         </h3>
 
         <!-- 文章摘要 -->
-        {{ if $page.Summary }}
-          <p class="text-muted-foreground mb-4 text-sm leading-relaxed line-clamp-2">
-            {{ $page.Summary | plainify | truncate 160 }}
+        {{ if $summaryContent }}
+          <p class="text-muted-foreground mb-4 text-sm leading-relaxed">
+            {{ $summaryContent }}
           </p>
         {{ end }}
 
