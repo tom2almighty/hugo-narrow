@@ -52,7 +52,7 @@
     <div
       class="{{ if $isCollapsible }}
         cursor-pointer
-      {{ end }} flex items-center justify-between px-6 pt-6 pb-3"
+      {{ end }} flex items-center justify-between px-6 py-6"
       {{ if $isCollapsible }}
         onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
         aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
