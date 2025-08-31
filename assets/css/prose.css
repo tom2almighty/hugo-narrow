@@ -685,16 +685,12 @@
 .prose sup {
   font-size: 0.75rem;
   line-height: 1;
-  vertical-align: super;
-  color: var(--color-primary);
   font-weight: 500;
 }
 
 .prose sub {
   font-size: 0.75rem;
   line-height: 1;
-  vertical-align: sub;
-  color: var(--color-primary);
   font-weight: 500;
 }
 
