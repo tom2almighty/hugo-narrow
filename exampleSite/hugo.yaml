@@ -283,7 +283,7 @@ params:
 
 
   katex:
-    enabled: false
+    enabled: true
     delimiters:
       - left: "$$"
         right: "$$"
@@ -299,7 +299,7 @@ params:
         display: true
       
   mermaid:
-    enabled: false
+    enabled: true
 
   # GLightbox
   lightbox:
@@ -349,6 +349,19 @@ markup:
   goldmark:
     renderer:
       unsafe: true
+    extensions:
+      extras:
+        delete:
+          enable: true
+        insert:
+          enable: true
+        mark:
+          enable: true
+        subscript:
+          enable: false
+        superscript:
+          enable: false   
+      strikethrough: false 
   highlight:
     codeFences: true
     guessSyntax: false
