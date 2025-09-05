@@ -2,7 +2,7 @@
  * 底部 Dock 控制脚本
  *
  * 功能：
- * - 监听滚动事件，向上滚动时显示 dock
+ * - 支持三种显示模式：scroll（向上滚动显示）、always（始终显示）、float（悬浮显示）
  * - 基础的按钮点击事件处理
  */
 
@@ -12,10 +12,15 @@
   let lastScrollTop = 0;
   let isScrollingUp = false;
   let scrollThreshold = 100; // 滚动阈值
+  let isDockVisible = false; // 悬浮模式的显示状态
 
   const dock = document.getElementById("dock");
+  const floatTrigger = document.getElementById("dock-float-trigger");
 
   if (!dock) return;
+
+  // 获取 dock 显示模式
+  const dockMode = dock.dataset.dockMode || "scroll";
 
   // 滚动事件处理
   function handleScroll() {
@@ -31,11 +36,24 @@
       isScrollingUp = false;
     }
 
-    // 显示/隐藏 dock
-    if (isScrollingUp && currentScrollTop > scrollThreshold) {
-      showDock();
-    } else if (!isScrollingUp || currentScrollTop <= scrollThreshold) {
-      hideDock();
+    // 根据模式处理显示/隐藏 dock
+    switch (dockMode) {
+      case "scroll":
+        if (isScrollingUp && currentScrollTop > scrollThreshold) {
+          showDock();
+        } else if (!isScrollingUp || currentScrollTop <= scrollThreshold) {
+          hideDock();
+        }
+        break;
+      case "always":
+        showDock();
+        break;
+      case "float":
+        // 悬浮模式在滚动时自动隐藏 dock
+        if (isDockVisible && (currentScrollTop > lastScrollTop)) {
+          hideDock();
+        }
+        break;
     }
 
     lastScrollTop = currentScrollTop;
@@ -45,6 +63,7 @@
   function showDock() {
     dock.classList.remove("translate-y-24", "opacity-0", "pointer-events-none");
     dock.classList.add("translate-y-0", "opacity-100", "pointer-events-auto");
+    isDockVisible = true;
   }
 
   // 隐藏 dock
@@ -55,6 +74,16 @@
       "pointer-events-auto",
     );
     dock.classList.add("translate-y-24", "opacity-0", "pointer-events-none");
+    isDockVisible = false;
+  }
+
+  // 切换悬浮模式 dock 显示状态
+  function toggleFloatDock() {
+    if (isDockVisible) {
+      hideDock();
+    } else {
+      showDock();
+    }
   }
 
   // 节流函数
@@ -73,6 +102,62 @@
 
   // 绑定滚动事件（使用节流）
   window.addEventListener("scroll", throttle(handleScroll, 16)); // ~60fps
+
+  // 悬浮模式触发器事件处理
+  if (floatTrigger && dockMode === "float") {
+    let hoverTimer;
+    
+    // 点击触发器切换 dock
+    floatTrigger.addEventListener("click", function (e) {
+      e.preventDefault();
+      toggleFloatDock();
+    });
+
+    // 悬浮显示 dock
+    floatTrigger.addEventListener("mouseenter", function () {
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => {
+        if (!isDockVisible) {
+          showDock();
+        }
+      }, 150); // 150ms 延迟，避免误触发
+    });
+
+    floatTrigger.addEventListener("mouseleave", function () {
+      clearTimeout(hoverTimer);
+      // 鼠标离开时隐藏 dock
+      setTimeout(() => {
+        if (isDockVisible && !dock.matches(':hover')) {
+          hideDock();
+        }
+      }, 200);
+    });
+
+    // dock 区域悬浮时保持显示
+    dock.addEventListener("mouseenter", function () {
+      clearTimeout(hoverTimer);
+    });
+
+    dock.addEventListener("mouseleave", function () {
+      setTimeout(() => {
+        if (isDockVisible && !floatTrigger.matches(':hover')) {
+          hideDock();
+        }
+      }, 200);
+    });
+
+    // 点击页面其他区域时隐藏 dock
+    document.addEventListener("click", function (e) {
+      if (isDockVisible && !dock.contains(e.target) && !floatTrigger.contains(e.target)) {
+        hideDock();
+      }
+    });
+
+    // 阻止 dock 内部点击事件冒泡
+    dock.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+  }
 
   // 基础按钮事件处理（占位符，后续实现具体功能）
 
@@ -239,8 +324,23 @@
     });
   }
 
-  // 初始化：确保 dock 正确隐藏
-  hideDock();
+  // 初始化：根据模式设置 dock 状态
+  switch (dockMode) {
+    case "always":
+      showDock();
+      break;
+    case "float":
+      hideDock();
+      // 确保悬浮触发器可见
+      if (floatTrigger) {
+        floatTrigger.style.opacity = "1";
+      }
+      break;
+    case "scroll":
+    default:
+      hideDock();
+      break;
+  }
 
   // 调试信息
   if (

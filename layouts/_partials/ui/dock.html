@@ -8,14 +8,19 @@
   - 目录
 
   样式：与 header 保持一致的遮罩效果
-  行为：默认隐藏，向上滚动时显示
+  行为：根据配置参数控制显示模式
+    - scroll: 向上滚动时显示（默认）
+    - always: 始终显示
+    - float: 悬浮显示
 */}}
 
+{{ $dockMode := .Site.Params.dock | default "scroll" }}
 
 <!-- 底部 Dock -->
 <div
   id="dock"
   class="pointer-events-none fixed bottom-4 left-1/2 z-[9999] w-fit -translate-x-1/2 translate-y-24 opacity-0 transition-all duration-300 ease-out sm:right-0 sm:left-0 sm:mx-auto sm:translate-x-0"
+  data-dock-mode="{{ $dockMode }}"
   role="toolbar"
   aria-label="{{ i18n "dock.aria_label" | default "快捷操作工具栏" }}">
   <nav
@@ -103,3 +108,19 @@
     </button>
   </nav>
 </div>
+
+<!-- 悬浮模式指示器 -->
+{{ if eq $dockMode "float" }}
+<div
+  id="dock-float-trigger"
+  class="pointer-events-auto fixed bottom-0 left-0 right-0 z-[9998] cursor-pointer">
+  <div class="absolute inset-0 bg-gradient-to-t from-muted-foreground/20 to-transparent h-8 transition-all duration-200 ease-out"></div>
+  
+  <!-- 图标 -->
+  <div class="relative mx-auto flex h-8 w-12 items-center justify-center">
+    <span id="dock-float-icon">
+      {{ partial "features/icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
+    </span>
+  </div>
+</div>
+{{ end }}

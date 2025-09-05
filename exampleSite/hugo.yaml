@@ -160,6 +160,10 @@ params:
   # Header sticky effect
   stickyHeader: true  # Set to true to enable sticky navigation bar
 
+  # Dock display mode
+  # Options: "scroll" (show on scroll up), "always" (always visible), "float" (floating button)
+  dock: "float"
+
   # default color scheme
   colorScheme: "default"
   themes:
