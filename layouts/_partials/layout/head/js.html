@@ -150,6 +150,33 @@
 {{ end }}
 
 
+
+<!-- 自定义 JS 文件 -->
+{{- $customJsFiles := resources.Match "js/custom/*.js" }}
+{{- range $customJsFiles }}
+  {{- $fileName := .Name }}
+  {{- $targetPath := printf "js/custom/%s" $fileName }}
+  {{- $opts := dict
+    "minify" (not hugo.IsDevelopment)
+    "sourceMap" (cond hugo.IsDevelopment "external" "")
+    "targetPath" $targetPath
+  }}
+  {{- with . | js.Build $opts }}
+    {{- if hugo.IsDevelopment }}
+      <script src="{{ .RelPermalink }}" defer></script>
+    {{- else }}
+      {{- with . | fingerprint }}
+        <script
+          src="{{ .RelPermalink }}"
+          integrity="{{ .Data.Integrity }}"
+          crossorigin="anonymous"
+          defer></script>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+
 {{ if .Site.Params.analytics.enabled -}}
   {{ partial "features/analytics.html" . }}
 {{- end }}
