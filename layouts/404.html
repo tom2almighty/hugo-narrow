@@ -1,0 +1,39 @@
+{{ define "main" }}
+  <div class="mx-auto max-w-4xl">
+    <div class="flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <div class="mb-8">
+        <div class="text-9xl font-bold text-primary opacity-20">404</div>
+      </div>
+
+      <!-- 标题 -->
+      <h1 class="text-foreground mb-4 text-4xl font-bold md:text-5xl">
+        Page Not Found
+      </h1>
+
+      <!-- 描述 -->
+      <p class="text-muted-foreground mb-8 max-w-md text-lg">
+        Sorry, the page you are looking for does not exist or has been removed.
+      </p>
+
+      <!-- 操作按钮 -->
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <!-- 返回首页 -->
+        <a
+          href="{{ "/" | relLangURL }}"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
+          {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "Home") }}
+          <span>Back to Home</span>
+        </a>
+
+        <!-- 返回上一页 -->
+        <button
+          onclick="history.back()"
+          class="bg-muted text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
+          {{ partial "features/icon.html" (dict "name" "arrow-left" "size" "sm" "ariaLabel" "Go Back") }}
+          <span>Go Back</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+{{ end }}
