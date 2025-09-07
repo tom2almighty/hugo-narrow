@@ -34,15 +34,35 @@
     (function() {
       'use strict';
 
-      // 监听主题变化
+      // 获取当前主题的函数
+      function getCurrentTheme() {
+        // 检查 localStorage 中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          return savedTheme;
+        }
+        
+        // 检查系统主题偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        
+        // 检查 HTML 元素的 class
+        if (document.documentElement.classList.contains('dark')) {
+          return 'dark';
+        }
+        
+        // 默认返回 light
+        return 'light';
+      }
+
+      // 更新 giscus 主题的函数
       function updateGiscusTheme() {
         const iframe = document.querySelector('#{{ $id }} iframe.giscus-frame');
         if (!iframe) return;
 
-        // 获取当前主题
-        const isDark = document.documentElement.classList.contains('dark');
-        const theme = isDark ? 'dark' : 'light';
-
+        const theme = getCurrentTheme();
+        
         // 发送主题更新消息
         iframe.contentWindow.postMessage({
           giscus: {
@@ -53,8 +73,49 @@
         }, 'https://giscus.app');
       }
 
+      // 初始化 giscus 主题的函数
+      function initializeGiscusTheme() {
+        // 等待 iframe 加载完成
+        const checkIframe = setInterval(() => {
+          const iframe = document.querySelector('#{{ $id }} iframe.giscus-frame');
+          if (iframe) {
+            clearInterval(checkIframe);
+            
+            // 确保 iframe 内容已加载
+            iframe.addEventListener('load', () => {
+              updateGiscusTheme();
+            });
+            
+            // 如果 iframe 已经加载完成，直接更新主题
+            if (iframe.contentWindow && iframe.contentWindow.postMessage) {
+              updateGiscusTheme();
+            }
+          }
+        }, 100);
+
+        // 设置超时，避免无限循环
+        setTimeout(() => {
+          clearInterval(checkIframe);
+        }, 5000);
+      }
+
       // 监听主题切换事件
       document.addEventListener('themeChanged', updateGiscusTheme);
+
+      // 监听 localStorage 变化（主题设置变化）
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          updateGiscusTheme();
+        }
+      });
+
+      // 监听系统主题变化
+      if (window.matchMedia) {
+        const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        darkModeQuery.addEventListener('change', () => {
+          updateGiscusTheme();
+        });
+      }
 
       // 监听 DOM 变化（用于检测主题切换）
       const observer = new MutationObserver(function(mutations) {
@@ -68,6 +129,25 @@
       observer.observe(document.documentElement, {
         attributes: true,
         attributeFilter: ['class']
+      });
+
+      // 监听页面可见性变化
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          updateGiscusTheme();
+        }
+      });
+
+      // 初始化
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeGiscusTheme);
+      } else {
+        initializeGiscusTheme();
+      }
+
+      // 监听 Hugo 页面切换事件（如果是 SPA 模式）
+      window.addEventListener('popstate', () => {
+        setTimeout(initializeGiscusTheme, 100);
       });
     })();
   </script>
