@@ -3,10 +3,10 @@
 <a href="{{ .Destination | safeURL }}"
   {{- with .Title }} title="{{ . }}"{{ end -}}
   target="_blank"
-  class="relative inline-flex items-center"
+  class="inline-flex items-center gap-1"
 >
   {{- with .Text | safeHTML }}{{ . }}{{ end -}}
-  {{ partial "features/icon.html" (dict "name" "external-link" "class" "h-3 w-3 ml-1 absolute top-0 right-0 transform translate-x-2/5 -translate-y-1/3" "id" "external-link" "style" "color: #9ca3af; stroke: #9ca3af;") }}
+  {{ partial "features/icon.html" (dict "name" "external-link" "class" "h-3 w-3 flex-shrink-0" "id" "external-link" "style" "color: #9ca3af; stroke: #9ca3af;") }}
 </a>
 {{- else -}}
 <a href="{{ .Destination | safeURL }}"
