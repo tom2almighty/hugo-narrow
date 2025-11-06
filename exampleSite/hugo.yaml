@@ -275,7 +275,7 @@ params:
       id: "your-baidu-analytics-id"
     clarity:
       enabled: false
-      analytics: "your-clarity-analytics-id"
+      id: "your-clarity-analytics-id"
     google:
       enabled: false
       id: "your-google-analytics-id"
