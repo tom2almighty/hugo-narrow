@@ -1,23 +1,26 @@
 {{ define "main" }}
   <div class="mx-auto max-w-4xl">
     <!-- 作者信息区域 -->
-    {{ if site.Params.author }}
+    {{/* 优先使用页面配置，否则回退站点配置 */}}
+    {{ $author := .Params.author | default site.Params.author }}
+    
+    {{ if $author }}
       <section class="author-section mb-12">
         <div class="bg-card border-border rounded-xl border p-8 shadow-sm">
           <div
             class="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:text-left">
             <!-- 头像 -->
             <div class="flex-shrink-0">
-              {{ if site.Params.author.avatar }}
+              {{ if $author.avatar }}
                 <img
-                  src="{{ site.Params.author.avatar }}"
-                  alt="{{ site.Params.author.name | default site.Title }}"
+                  src="{{ $author.avatar }}"
+                  alt="{{ $author.name | default site.Title }}"
                   class="border-primary/20 h-24 w-24 rounded-full border-4 object-cover shadow-lg" />
               {{ else }}
                 <!-- 默认头像：使用作者姓名首字母 -->
                 <div
                   class="bg-primary text-primary-foreground flex h-24 w-24 items-center justify-center rounded-full text-2xl font-bold shadow-lg">
-                  {{ substr (site.Params.author.name | default site.Title) 0 1 | upper }}
+                  {{ substr ($author.name | default site.Title) 0 1 | upper }}
                 </div>
               {{ end }}
             </div>
@@ -25,27 +28,26 @@
             <!-- 作者信息 -->
             <div class="min-w-0 flex-1">
               <h1 class="text-foreground mb-2 text-3xl font-bold">
-                {{ site.Params.author.name | default site.Title }}
+                {{ $author.name | default site.Title }}
               </h1>
 
-              {{ if site.Params.author.title }}
+              {{ if $author.title }}
                 <p class="text-muted-foreground mb-3 text-lg">
-                  {{ site.Params.author.title }}
+                  {{ $author.title }}
                 </p>
               {{ end }}
 
-              {{ if site.Params.author.description }}
+              {{ if $author.description }}
                 <p class="text-foreground mb-4 leading-relaxed">
-                  {{ site.Params.author.description }}
+                  {{ $author.description }}
                 </p>
               {{ end }}
-
 
               <!-- 社交链接 -->
-              {{ if site.Params.author.social }}
+              {{ if $author.social }}
                 <div
                   class="flex flex-wrap justify-center gap-3 md:justify-start">
-                  {{ range site.Params.author.social }}
+                  {{ range $author.social }}
                     <a
                       href="{{ .url }}"
                       target="_blank"
@@ -66,7 +68,6 @@
       </section>
     {{ end }}
 
-
     <!-- 最近文章区域 -->
     {{ $recentPostsCount := site.Params.home.recentPostsCount | default 5 }}
     {{ $posts := where site.RegularPages "Section" "posts" | first $recentPostsCount }}
@@ -79,7 +80,6 @@
       "viewAllUrl" ("/posts/" | relLangURL)
       )
     }}
-
 
     <!-- 页面内容 -->
     {{ if .Content }}
