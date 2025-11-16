@@ -68,6 +68,20 @@
       </section>
     {{ end }}
 
+    {{/*  自定义内容模板引入  */}}
+    {{ if site.Params.home_custom.enabled }}
+      {{ $customFiles := site.Params.home_custom.files }}
+      {{ if $customFiles }}
+        <section class="custom-content-section mb-12">
+          {{ range $customFiles }}
+            {{ $partialPath := printf "content/%s" . }}
+            {{ partial $partialPath $ }}
+          {{ end }}
+        </section>
+      {{ end }}
+    {{ end }}
+
+
     <!-- 最近文章区域 -->
     {{ $recentPostsCount := site.Params.home.recentPostsCount | default 5 }}
     {{ $posts := where site.RegularPages "Section" "posts" | first $recentPostsCount }}

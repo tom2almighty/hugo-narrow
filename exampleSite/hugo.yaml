@@ -205,6 +205,13 @@ params:
   home:
     recentPostsCount: 5 # Number of recent posts to show on the home page
 
+  # custom partials files should be placed at "~/layouts/_partials/content/" folder.
+  home_custom:
+    enabled: true
+    files:
+      - custom_1.html
+      # - custom_2.html
+
   post:
     showRelated: true           # show related posts
     relatedPostsCount: 3        # posts number
