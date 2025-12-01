@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Chặn Google index các trang không cần thiết
+Disallow: /admin/
+Disallow: /tags/
+Disallow: /categories/
+Disallow: /404.html
+
+# Trỏ Bot tới Sitemap (Hugo tự điền URL chuẩn dựa trên baseURL)
+Sitemap: {{ "sitemap.xml" | absURL }}
