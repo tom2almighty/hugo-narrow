@@ -95,7 +95,7 @@ else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end
 </script>
 
 <link rel="manifest" href="/site.webmanifest" />
-{{ partial "layout/head/seo.html" . }}
+{{ partial "master/head/seo.html" . }}
 
 <script>
   window.HUGO_SEARCH_CONFIG = {
@@ -103,5 +103,5 @@ else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end
   };
 </script>
 
-{{ partial "config/gallery.html" . }} {{ partial "layout/head/css.html" . }} {{
-partial "layout/head/js.html" . }}
+{{ partial "config/gallery.html" . }} {{ partial "master/head/css.html" . }} {{
+partial "master/head/js.html" . }}
