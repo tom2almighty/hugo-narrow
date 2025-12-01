@@ -35,7 +35,11 @@ else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end
   name="robots"
   content="{{- with .Params.robots -}}{{ . }}{{- else -}}index, follow{{- end -}}"
 />
-<link rel="canonical" href="{{ .Permalink }}" />
+{{ if .Params.canonicalUrl }}
+    <link rel="canonical" href="{{ .Params.canonicalUrl }}">
+{{ else }}
+    <link rel="canonical" href="{{ .Permalink }}">
+{{ end }}
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
