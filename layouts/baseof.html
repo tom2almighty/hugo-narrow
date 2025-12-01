@@ -3,7 +3,7 @@
   lang="{{ site.LanguageCode }}"
   data-theme="{{ site.Params.colorScheme | default "default" }}">
   <head>
-    {{ partial "master/head.html" . }}
+    {{ partial "head.html" . }}
     <script>
       // 主题初始化脚本
       (function() {
@@ -42,7 +42,7 @@
       {{ block "main" . }}{{ end }}
     </main>
 
-    {{ partial "master/footer.html" . }}
+    {{ partial "footer.html" . }}
 
     <!-- 底部 Dock -->
     {{ partial "ui/dock.html" . }}
