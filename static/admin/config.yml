@@ -1,0 +1,98 @@
+# Lên product thì gỡ ra
+local_backend: true
+
+backend:
+  # name: test-repo # Dùng cái này để kết nối thông qua Netlify Identity
+  name: git # Dùng cái này để kết nối thông qua Netlify Identity
+  branch: main # Nhớ check xem branch chính của bạn là 'main' hay 'master'
+media_folder: "static/images" # Ảnh upload lên sẽ nằm ở đây
+public_folder: "/images" # Đường dẫn ảnh khi hiển thị trên web
+
+# Cấu hình bài viết (Collections)
+collections:
+  - name: "posts" # Tên định danh trong CMS
+    label: "Bài viết" # Tên hiển thị
+    folder: "content/posts" # QUAN TRỌNG: Đường dẫn chứa file markdown bài viết trong Hugo
+    create: true # Cho phép tạo bài mới
+    slug: "{{slug}}" # Cấu trúc tên file markdown
+    fields: # Các trường dữ liệu sẽ hiện trong trang Admin
+      - { label: "Tiêu đề", name: "title", widget: "string" }
+      - label: "Custom URL (Slug)"
+        name: "slug"
+        widget: "string"
+        required: false # Quan trọng: Để false thì nếu lười không điền, nó sẽ tự lấy theo Tiêu đề
+        hint: "Ví dụ: bi-quyet-kiem-tien (Chỉ điền chữ thường, không dấu, nối bằng gạch ngang)"
+        pattern:
+          [
+            "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "URL không hợp lệ! Chỉ dùng chữ thường không dấu và gạch ngang.",
+          ]
+      - { label: "Ngày đăng", name: "date", widget: "datetime" }
+      - {
+          label: "Ảnh đại diện",
+          name: "cover",
+          widget: "image",
+          required: false,
+        }
+      - {
+          label: "Mô tả ngắn",
+          name: "summary",
+          widget: "text",
+          required: false,
+        }
+      - label: "Danh mục (Categories)"
+        name: "categories"
+        widget: "list" # Cho phép bài viết thuộc nhiều danh mục (tối ưu SEO Silo)
+        summary: "{{fields.categories}}"
+        field: 
+          label: "Chọn danh mục"
+          name: "category"
+          widget: "select"
+          options: ["Lập trình Web", "Game Dev", "Thủ thuật máy tính", "Review", "Chuyện nghề", "Khác"]
+      - label: "Thẻ (Tags)"
+        name: "tags"
+        widget: "list"
+        summary: "{{fields.tags}}"
+      - { label: "Nội dung", name: "body", widget: "markdown" }
+      - {label: "Mô tả SEO", name: "description", widget: "text", required: false}
+      - {label: "Meta Keywords", name: "keywords", widget: "string", required: false, hint: "Từ khóa cách nhau bằng dấu phẩy"}
+  - name: "pages"
+    label: "Quản lý Trang Cố Định"
+    files: # Khai báo đây là file collection
+      - label: "Trang Giới Thiệu (About Us)"
+        name: "about-us"
+        file: "content/about-us.md" # Đường dẫn file cần sửa
+        fields:
+          - {label: "Tiêu đề", name: "title", widget: "string"}
+          - {label: "Slug (URL)", name: "slug", widget: "string", required: false}
+          - {label: "Nội dung", name: "body", widget: "markdown"}
+          - {label: "Mô tả SEO", name: "description", widget: "text", required: false}
+          - {label: "Meta Keywords", name: "keywords", widget: "string", required: false, hint: "Từ khóa cách nhau bằng dấu phẩy"}
+      
+      - label: "Chính sách Riêng tư"
+        name: "privacy-policy"
+        file: "content/privacy-policy.md" # Đường dẫn file cần sửa
+        fields:
+          - {label: "Tiêu đề", name: "title", widget: "string"}
+          - {label: "Slug (URL)", name: "slug", widget: "string", required: false}
+          - {label: "Nội dung", name: "body", widget: "markdown"}
+          - {label: "Mô tả SEO", name: "description", widget: "text", required: false}
+          - {label: "Meta Keywords", name: "keywords", widget: "string", required: false, hint: "Từ khóa cách nhau bằng dấu phẩy"}
+      - label: "Liên hệ"
+        name: "contact"
+        file: "content/contact.md" # Đường dẫn file cần sửa
+        fields:
+          - {label: "Tiêu đề", name: "title", widget: "string"}
+          - {label: "Slug (URL)", name: "slug", widget: "string", required: false}
+          - {label: "Nội dung", name: "body", widget: "markdown"}
+          - {label: "Mô tả SEO", name: "description", widget: "text", required: false}
+          - {label: "Meta Keywords", name: "keywords", widget: "string", required: false, hint: "Từ khóa cách nhau bằng dấu phẩy"}
+      - label: "Tuyên bố từ chối trách nhiệm"
+        name: "disclaimer"
+        file: "content/disclaimer.md" # Đường dẫn file cần sửa
+        fields:
+          - {label: "Tiêu đề", name: "title", widget: "string"}
+          - {label: "Slug (URL)", name: "slug", widget: "string", required: false}
+          - {label: "Nội dung", name: "body", widget: "markdown"}
+          - {label: "Mô tả SEO", name: "description", widget: "text", required: false}
+          - {label: "Meta Keywords", name: "keywords", widget: "string", required: false, hint: "Từ khóa cách nhau bằng dấu phẩy"}

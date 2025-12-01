@@ -1,32 +1,101 @@
 <meta charset="utf-8" />
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<title>{{- if .IsHome -}}{{ site.Title }}{{- else if .Title -}}{{ .Title }} | {{ site.Title }}{{- else -}}{{ site.Title }}{{- end -}}</title>
+<title>
+  {{- if .IsHome -}}{{ site.Title }}{{- else if .Title -}}{{ .Title }} | {{
+  site.Title }}{{- else -}}{{ site.Title }}{{- end -}}
+</title>
 
-<meta name="description" content="{{- with .Description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{- with .Params.summary -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{- if or .IsPage .IsSection -}}{{- if .Content -}}{{ .Content | plainify | truncate 150 "..." }}{{- else -}}{{- with site.Params.description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{ printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." }}{{- end -}}{{- end -}}{{- else -}}{{- with site.Params.description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{ printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." }}{{- end -}}{{- end -}}{{- end -}}{{- end -}}" />
-<meta name="keywords" content="{{- with .Params.tags -}}{{ delimit . ", " }}{{- else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end -}}" />
-<meta name="author" content="{{- with .Params.author -}}{{ . }}{{- else -}}{{ site.Params.defaultAuthor }}{{- end -}}" />
-<meta name="language" content="{{ site.Params.language | default site.LanguageCode }}" />
+<meta name="description" content="{{- with .Description -}}{{ . | plainify |
+truncate 160 "..." }}{{- else -}}{{- with .Params.summary -}}{{ . | plainify |
+truncate 160 "..." }}{{- else -}}{{- if or .IsPage .IsSection -}}{{- if .Content
+-}}{{ .Content | plainify | truncate 150 "..." }}{{- else -}}{{- with
+site.Params.description -}}{{ . | plainify | truncate 160 "..." }}{{- else -}}{{
+printf "%s - %s" .Title site.Title | plainify | truncate 160 "..." }}{{- end
+-}}{{- end -}}{{- else -}}{{- with site.Params.description -}}{{ . | plainify |
+truncate 160 "..." }}{{- else -}}{{ printf "%s - %s" .Title site.Title |
+plainify | truncate 160 "..." }}{{- end -}}{{- end -}}{{- end -}}{{- end -}}" />
+<meta name="keywords" content="{{- with .Params.tags -}}{{ delimit . ", " }}{{-
+else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end
+-}}" />
+<meta
+  name="author"
+  content="{{- with .Params.author -}}{{ . }}{{- else -}}{{ site.Params.defaultAuthor }}{{- end -}}"
+/>
+<meta
+  name="language"
+  content="{{ site.Params.language | default site.LanguageCode }}"
+/>
 
-<meta name="robots" content="{{- with .Params.robots -}}{{ . }}{{- else -}}index, follow{{- end -}}" />
+<meta
+  name="robots"
+  content="{{- with .Params.robots -}}{{ . }}{{- else -}}index, follow{{- end -}}"
+/>
 <link rel="canonical" href="{{ .Permalink }}" />
 
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 {{ with site.Params.favicon.svg }}
-  <link rel="icon" type="image/svg+xml" href="{{ . }}" />
+<link rel="icon" type="image/svg+xml" href="{{ . }}" />
 {{ else }}
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 {{ end }}
 
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+  window.addEventListener('load', function(){
+
+  
+  function checkParentTag(element, tagName) {
+    let parent = element.parentElement;
+
+    // Loop through parent elements until a match is found or no more parents exist
+    while (parent) {
+      if (parent.tagName.toLowerCase() === tagName.toLowerCase()) {
+        return true; // Found a parent with the specified tag
+      }
+      parent = parent.parentElement; // Move up to the next parent
+    }
+    return false; // No parent with the specified tag was found
+  }
+  if (document.querySelector("#content-detail")) {
+    let listImg = document
+      .querySelector("#content-detail")
+      .querySelectorAll("img");
+    let lenght = listImg.length;
+    for (let i = 0; i < length; i++) {
+      const img = listImg[i];
+      const imgSrc = img.src;
+      if (!checkParentTag(img, "a")) {
+        // wrap thẻ a vào thẻ img
+        const wrapper = document.createElement('a');
+        wrapper.href = imgSrc;
+        wrapper.setAttribute('data-gallery', 'post-gallery');
+        wrapper.classList.add('glightbox-gallery');
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(img);
+      }
+    }
+  }
+  const lightbox = GLightbox({
+        selector: '#content-detail a.glightbox-gallery', 
+        touchNavigation: true,
+        loop: true,
+    });
+  });
+</script>
 
 <link rel="manifest" href="/site.webmanifest" />
 {{ partial "layout/head/seo.html" . }}
-
-
 
 <script>
   window.HUGO_SEARCH_CONFIG = {
@@ -34,7 +103,5 @@
   };
 </script>
 
-
-{{ partial "config/gallery.html" . }}
-{{ partial "layout/head/css.html" . }}
-{{ partial "layout/head/js.html" . }}
+{{ partial "config/gallery.html" . }} {{ partial "layout/head/css.html" . }} {{
+partial "layout/head/js.html" . }}

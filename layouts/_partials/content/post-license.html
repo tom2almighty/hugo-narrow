@@ -40,21 +40,21 @@
       <!-- 许可证信息 -->
       <div class="flex-1 min-w-0">
         <h3 class="text-foreground mb-2 text-lg font-semibold">
-          {{ i18n "license.title" | default "版权声明" }}
+          {{ i18n "license.title" | default "Lộc" }}
         </h3>
 
         <div class="text-muted-foreground space-y-2 text-sm">
           <!-- 作者信息 -->
           {{ with $license.author }}
           <p>
-            <strong>{{ i18n "license.author" | default "作者" }}:</strong>
+            <strong>{{ i18n "license.author" | default "Tác giả" }}:</strong>
             {{ . }}
           </p>
           {{ end }}
 
           <!-- 文章链接 -->
           <p>
-            <strong>{{ i18n "license.link" | default "链接" }}:</strong>
+            <strong>{{ i18n "license.link" | default "Liên kết" }}:</strong>
             <a
               href="{{ .Permalink }}"
               class="text-primary hover:text-primary/80 transition-colors break-all hyphens-auto duration-200">
