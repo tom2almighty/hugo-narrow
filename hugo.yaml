@@ -3,7 +3,7 @@ languageCode: vi-VN
 defaultContentLanguage: vi
 defaultContentLanguageInSubdir: false
 title: "Lộc lập trình"
-
+enableRobotsTXT: true
 
 hasCJKLanguage: true
 enableEmoji: true
