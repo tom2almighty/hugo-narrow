@@ -41,8 +41,6 @@ else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end
     <link rel="canonical" href="{{ .Permalink }}">
 {{ end }}
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
 {{ with site.Params.favicon.svg }}
 <link rel="icon" type="image/svg+xml" href="{{ . }}" />
 {{ else }}
