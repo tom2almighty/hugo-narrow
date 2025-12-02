@@ -95,7 +95,15 @@ else -}}{{- with site.Params.keywords -}}{{ delimit . ", " }}{{- end -}}{{- end
     });
   });
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9KE3RHY58"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-W9KE3RHY58');
+</script>
 <link rel="manifest" href="/site.webmanifest" />
 {{ partial "head/seo.html" . }}
 
