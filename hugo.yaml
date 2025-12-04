@@ -97,7 +97,7 @@ menus:
   #     params:
   #       icon: linkedin
     - name: Email
-      url: mailto:tranquocloc.qz@gmail.com
+      url: mailto:loclaptrinh31@gmail.com
       weight: 40
       params:
         icon: email

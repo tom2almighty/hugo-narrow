@@ -1,5 +1,6 @@
+local_backend: true
 backend:
-  name: git-gateway # Dùng cái này để kết nối thông qua Netlify Identity
+  name: git # Dùng cái này để kết nối thông qua Netlify Identity
   branch: main      # Nhớ check xem branch chính của bạn là 'main' hay 'master'
 
 media_folder: "static/images" # Ảnh upload lên sẽ nằm ở đây
