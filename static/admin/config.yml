@@ -8,6 +8,59 @@ public_folder: "/images" # Đường dẫn ảnh khi hiển thị trên web
 
 # Cấu hình bài viết (Collections)
 collections:
+  - name: "tools" # Tên định danh trong CMS
+    label: "Tools" # Tên hiển thị
+    folder: "content/tools" # QUAN TRỌNG: Đường dẫn chứa file markdown bài viết trong Hugo
+    create: true # Cho phép tạo bài mới
+    slug: "tools/{{slug}}" # Cấu trúc tên file markdown
+    fields: # Các trường dữ liệu sẽ hiện trong trang Admin
+      - { label: "Tiêu đề", name: "title", widget: "string" }
+      - label: "Custom URL (Slug)"
+        name: "slug"
+        widget: "string"
+        required: false # Quan trọng: Để false thì nếu lười không điền, nó sẽ tự lấy theo Tiêu đề
+        hint: "Ví dụ: bi-quyet-kiem-tien (Chỉ điền chữ thường, không dấu, nối bằng gạch ngang)"
+        pattern:
+          [
+            "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "URL không hợp lệ! Chỉ dùng chữ thường không dấu và gạch ngang.",
+          ]
+      - { label: "Ngày đăng", name: "date", widget: "datetime" }
+      - {
+          label: "Ảnh đại diện",
+          name: "cover",
+          widget: "image",
+          required: false,
+        }
+      - label: "Layout Template"
+        name: "layout"
+        widget: "select"
+        default: "single" # Layout mặc định cho các trang tĩnh
+        options: # Các lựa chọn layout mà bạn muốn người dùng có thể chọn
+          - { label: "Slugify Tool", value: "slugify-tool" }
+          # Thêm các layout tùy chỉnh khác của bạn vào đây
+      - {
+          label: "Mô tả ngắn",
+          name: "summary",
+          widget: "text",
+          required: false,
+        }
+      - label: "Danh mục (Categories)"
+        name: "categories"
+        widget: "list" # Cho phép bài viết thuộc nhiều danh mục (tối ưu SEO Silo)
+        summary: "{{fields.categories}}"
+        field: 
+          label: "Chọn danh mục"
+          name: "category"
+          widget: "select"
+          options: ["Lập trình Web", "Game Dev", "Thủ thuật máy tính", "Review", "Chuyện nghề", "Khác"]
+      - label: "Thẻ (Tags)"
+        name: "tags"
+        widget: "list"
+        summary: "{{fields.tags}}"
+      - { label: "Nội dung", name: "body", widget: "markdown" }
+      - {label: "Mô tả SEO", name: "description", widget: "text", required: false}
+      - {label: "Meta Keywords", name: "keywords", widget: "string", required: false, hint: "Từ khóa cách nhau bằng dấu phẩy"}
   - name: "posts" # Tên định danh trong CMS
     label: "Bài viết" # Tên hiển thị
     folder: "content/posts" # QUAN TRỌNG: Đường dẫn chứa file markdown bài viết trong Hugo

@@ -1,0 +1,194 @@
+{{ define "main" }}
+<div class="container mx-auto max-w-4xl">
+    <h1 class="text-3xl font-bold mb-8 text-center">{{ .Title }}</h1>
+    <div class="p-6 md:p-8 rounded-lg shadow-lg mb-8 border border-gray-200 bg-card">
+        <label for="inputText" class="block text-foreground group-hover:text-primary mb-4 text-lg font-semibold leading-tight transition-colors duration-200">INPUT STRING: (Article title, tutorial title or any web page title)</label>
+        <textarea id="inputText" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium resize-none dark:text-white" placeholder="Nhập tiêu đề hoặc đoạn text tại đây..."></textarea>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6 mb-8 items-start">
+        <div class="flex flex-wrap gap-3 md:w-1/2">
+            <label class="inline-flex items-center cursor-pointer">
+                <input type="radio" name="separator" value="-" checked class="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500 hidden" id="dash-sep">
+                <span id="dash-btn" onclick="selectSeparator('-')" class="px-4 py-2 text-sm font-semibold rounded-md border transition duration-150 cursor-pointer text-white bg-blue-800 hover:bg-blue-900 border-blue-800">
+                    Separate with dash (-)
+                </span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+                <input type="radio" name="separator" value="_" class="form-radio h-4 w-4 focus:ring-gray-500 hidden" id="underscore-sep">
+                <span id="underscore-btn" onclick="selectSeparator('_')" class="px-4 py-2 text-sm font-semibold rounded-md border transition duration-150 cursor-pointer bg-gray-200 hover:bg-gray-300 border-gray-300">
+                    Separate with underscore (_)
+                </span>
+            </label>
+        </div>
+        
+        <div class="flex flex-wrap gap-4 md:w-1/2 md:justify-end">
+            <label class="inline-flex items-center">
+                <input type="checkbox" id="removeStopwords" class="form-checkbox h-4 w-4">
+                <span class="ml-2 text-sm">Remove stop words</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input type="checkbox" id="removeNumbers" class="form-checkbox h-4 w-4">
+                <span class="ml-2 text-sm">Remove numbers</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <button onclick="processSlug()" class="px-6 py-3 text-lg font-bold rounded-md bg-gray-800 text-white hover:bg-gray-900 transition duration-150 shadow-lg w-full md:w-auto cursor-pointer bg-primary">
+            SLUGIFY (GENERATE SLUG)
+        </button>
+        <div class="flex gap-4 w-full md:w-auto">
+            <button onclick="clearFields()" class="px-6 py-3 text-sm font-bold rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition duration-150 w-1/2 md:w-auto cursor-pointer">
+                CLEAR
+            </button>
+            <button onclick="resetOptions()" class="px-6 py-3 text-sm font-bold rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition duration-150 w-1/2 md:w-auto cursor-pointer">
+                RESET
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-card p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
+        <label for="outputSlug" class="block text-lg font-semibold mb-2 uppercase tracking-wide">OUTPUT: (Clean URL slug)</label>
+        <div class="relative flex gap-3">
+            <input type="text" id="outputSlug" readonly class="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 font-medium text-blue-700 pr-16" placeholder="Kết quả slug sẽ xuất hiện ở đây...">
+            <button onclick="copyToClipboard()" id="copy-btn" class=" transition duration-150 text-sm font-semibold cursor-pointer px-4 w-[150px]">
+                <i class="far fa-copy mr-1"></i> COPY
+            </button>
+        </div>
+    </div>
+
+    <article class="prose prose-neutral dark:prose-invert max-w-none mt-4">
+        {{ .Content }}
+    </article>
+</div>
+
+<script>
+    const input = document.getElementById('inputText');
+    const output = document.getElementById('outputSlug');
+    const removeStopwords = document.getElementById('removeStopwords');
+    const removeNumbers = document.getElementById('removeNumbers');
+    const dashBtn = document.getElementById('dash-btn');
+    const underscoreBtn = document.getElementById('underscore-btn');
+    const dashRadio = document.getElementById('dash-sep');
+    const underscoreRadio = document.getElementById('underscore-sep');
+
+    // Danh sách stop words cơ bản (Bạn có thể bổ sung thêm)
+    const stopwords = new Set([
+        'a', 'an', 'and', 'the', 'of', 'in', 'is', 'it', 'on', 'with', 'for', 'at', 'by', 'as', 'to', 'from',
+        // Stopwords Tiếng Việt cơ bản
+        'là', 'của', 'và', 'hay', 'những', 'cái', 'chiếc', 'một', 'các', 'như', 'không', 'với', 'cho'
+    ]);
+
+    let currentSeparator = '-';
+
+    /**
+     * Hàm chọn Separator
+     */
+    function selectSeparator(sep) {
+        currentSeparator = sep;
+        
+        // Cập nhật trạng thái CSS cho nút Dash
+        if (sep === '-') {
+            dashBtn.classList.add('bg-blue-800', 'text-white', 'border-blue-800');
+            dashBtn.classList.remove('bg-gray-200', 'text-gray-800', 'border-gray-300');
+            dashRadio.checked = true;
+            
+            underscoreBtn.classList.add('bg-gray-200', 'text-gray-800', 'border-gray-300');
+            underscoreBtn.classList.remove('bg-blue-800', 'text-white', 'border-blue-800');
+            underscoreRadio.checked = false;
+        } else {
+            dashBtn.classList.add('bg-gray-200', 'text-gray-800', 'border-gray-300');
+            dashBtn.classList.remove('bg-blue-800', 'text-white', 'border-blue-800');
+            dashRadio.checked = false;
+
+            underscoreBtn.classList.add('bg-blue-800', 'text-white', 'border-blue-800');
+            underscoreBtn.classList.remove('bg-gray-200', 'text-gray-800', 'border-gray-300');
+            underscoreRadio.checked = true;
+        }
+    }
+
+    /**
+     * Hàm chuyển đổi chính (Lõi Slugify)
+     */
+    function slugify(text, separator) {
+        const from = "áàảãạăằẳẵặâầẩẫậéèẻẽẹêềểễệíìỉĩịóòỏõọôồổỗộơờởỡợúùủũụưừửữựýỳỷỹỵđ";
+        const to   = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd";
+        
+        let cleanedText = text.toLowerCase();
+
+        // 1. Chuyển đổi tiếng Việt có dấu sang không dấu
+        for (let i = 0, l = from.length; i < l; i++) {
+            cleanedText = cleanedText.replace(new RegExp(from[i], 'g'), to[i]);
+        }
+        
+        // 2. Xử lý Stop words (nếu được chọn)
+        if (removeStopwords.checked) {
+            cleanedText = cleanedText.split(/\s+/).filter(word => !stopwords.has(word)).join(' ');
+        }
+        
+        // 3. Loại bỏ số (nếu được chọn)
+        if (removeNumbers.checked) {
+             cleanedText = cleanedText.replace(/[0-9]/g, '');
+        }
+
+        // 4. Xử lý các ký tự còn lại
+        return cleanedText
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '') // Loại bỏ ký tự đặc biệt, giữ lại chữ, số, khoảng trắng, gạch ngang
+            .replace(/\s+/g, separator) // Thay thế khoảng trắng bằng separator
+            .replace(new RegExp(separator + '+', 'g'), separator) // Loại bỏ nhiều separator liên tiếp
+            .replace(new RegExp('^' + separator + '|' + separator + '$', 'g'), ''); // Loại bỏ separator ở đầu và cuối
+    }
+
+    /**
+     * Hàm được gọi khi nhấn nút SLUGIFY
+     */
+    function processSlug() {
+        const result = slugify(input.value, currentSeparator);
+        output.value = result;
+        // Tự động copy sau khi generate (tùy chọn)
+        // copyToClipboard(); 
+    }
+
+    /**
+     * Hàm xóa sạch
+     */
+    function clearFields() {
+        input.value = '';
+        output.value = '';
+        input.focus();
+    }
+
+    /**
+     * Hàm Reset
+     */
+    function resetOptions() {
+        clearFields();
+        removeStopwords.checked = false;
+        removeNumbers.checked = false;
+        selectSeparator('-'); // Reset về dash
+    }
+
+    /**
+     * Hàm Copy to Clipboard
+     */
+    function copyToClipboard() {
+        output.select();
+        output.setSelectionRange(0, 99999); // Dành cho thiết bị di động
+        navigator.clipboard.writeText(output.value);
+        
+        // Hiệu ứng Copy thành công
+        const copyBtn = document.getElementById('copy-btn');
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> COPIED!';
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+        }, 1500);
+    }
+    
+    // Khởi tạo ban đầu
+    selectSeparator('-');
+</script>
+
+{{ end }}
