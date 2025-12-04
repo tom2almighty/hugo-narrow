@@ -2,22 +2,22 @@
 <div class="container mx-auto max-w-4xl">
     <h1 class="text-3xl font-bold mb-8 text-center">{{ .Title }}</h1>
     <div class="p-6 md:p-8 rounded-lg shadow-lg mb-8 border border-gray-200 bg-card">
-        <label for="inputText" class="block text-foreground group-hover:text-primary mb-4 text-lg font-semibold leading-tight transition-colors duration-200">INPUT STRING: (Article title, tutorial title or any web page title)</label>
-        <textarea id="inputText" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium resize-none dark:text-white" placeholder="Nhập tiêu đề hoặc đoạn text tại đây..."></textarea>
+        <label for="inputText" class="block text-foreground group-hover:text-primary mb-4 text-lg font-semibold leading-tight transition-colors duration-200">Nhập tiêu đề hoặc đoạn text tại đây</label>
+        <textarea id="inputText" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium resize-none dark:text-white"></textarea>
     </div>
 
-    <div class="flex flex-col md:flex-row gap-6 mb-8 items-start">
+    <div class="flex flex-col md:flex-row gap-6 mb-8 items-center align-center">
         <div class="flex flex-wrap gap-3 md:w-1/2">
             <label class="inline-flex items-center cursor-pointer">
                 <input type="radio" name="separator" value="-" checked class="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500 hidden" id="dash-sep">
                 <span id="dash-btn" onclick="selectSeparator('-')" class="px-4 py-2 text-sm font-semibold rounded-md border transition duration-150 cursor-pointer text-white bg-blue-800 hover:bg-blue-900 border-blue-800">
-                    Separate with dash (-)
+                    Dấu gạch ngang (-)
                 </span>
             </label>
             <label class="inline-flex items-center cursor-pointer">
                 <input type="radio" name="separator" value="_" class="form-radio h-4 w-4 focus:ring-gray-500 hidden" id="underscore-sep">
                 <span id="underscore-btn" onclick="selectSeparator('_')" class="px-4 py-2 text-sm font-semibold rounded-md border transition duration-150 cursor-pointer bg-gray-200 hover:bg-gray-300 border-gray-300">
-                    Separate with underscore (_)
+                    Dấu gạch chân (_)
                 </span>
             </label>
         </div>
@@ -25,34 +25,34 @@
         <div class="flex flex-wrap gap-4 md:w-1/2 md:justify-end">
             <label class="inline-flex items-center">
                 <input type="checkbox" id="removeStopwords" class="form-checkbox h-4 w-4">
-                <span class="ml-2 text-sm">Remove stop words</span>
+                <span class="ml-2 text-sm">Xóa ký tự trắng trước sau</span>
             </label>
             <label class="inline-flex items-center">
                 <input type="checkbox" id="removeNumbers" class="form-checkbox h-4 w-4">
-                <span class="ml-2 text-sm">Remove numbers</span>
+                <span class="ml-2 text-sm">Xóa số</span>
             </label>
         </div>
     </div>
 
     <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
         <button onclick="processSlug()" class="px-6 py-3 text-lg font-bold rounded-md bg-gray-800 text-white hover:bg-gray-900 transition duration-150 shadow-lg w-full md:w-auto cursor-pointer bg-primary">
-            SLUGIFY (GENERATE SLUG)
+            Tạo slug
         </button>
         <div class="flex gap-4 w-full md:w-auto">
-            <button onclick="clearFields()" class="px-6 py-3 text-sm font-bold rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition duration-150 w-1/2 md:w-auto cursor-pointer">
-                CLEAR
+            <button onclick="clearFields()" class="px-6 py-3 text-sm font-bold rounded-md border border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 dark:hover:border-gray-900 transition duration-150 w-1/2 md:w-auto cursor-pointer uppercase">
+                Xóa
             </button>
-            <button onclick="resetOptions()" class="px-6 py-3 text-sm font-bold rounded-md border border-gray-300 bg-white hover:bg-gray-50 transition duration-150 w-1/2 md:w-auto cursor-pointer">
+            <button onclick="resetOptions()" class="px-6 py-3 text-sm font-bold rounded-md border border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 dark:hover:border-gray-900 transition duration-150 w-1/2 md:w-auto cursor-pointer">
                 RESET
             </button>
         </div>
     </div>
 
     <div class="bg-card p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
-        <label for="outputSlug" class="block text-lg font-semibold mb-2 uppercase tracking-wide">OUTPUT: (Clean URL slug)</label>
-        <div class="relative flex gap-3">
-            <input type="text" id="outputSlug" readonly class="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 font-medium text-blue-700 pr-16" placeholder="Kết quả slug sẽ xuất hiện ở đây...">
-            <button onclick="copyToClipboard()" id="copy-btn" class=" transition duration-150 text-sm font-semibold cursor-pointer px-4 w-[150px]">
+        <label for="outputSlug" class="block text-lg font-semibold mb-2 tracking-wide">Kết quả slug sẽ xuất hiện ở đây</label>
+        <div class="relative sm:flex gap-3 sm:text-left text-right">
+            <input type="text" id="outputSlug" readonly class="w-full p-4 border border-gray-300 rounded-lg font-medium text-blue-700 pr-16  dark:text-white">
+            <button onclick="copyToClipboard()" id="copy-btn" class="sm:block sm:w-[150px] w-full transition duration-150 text-sm font-semibold cursor-pointer px-4 py-4">
                 <i class="far fa-copy mr-1"></i> COPY
             </button>
         </div>
@@ -112,8 +112,8 @@
      * Hàm chuyển đổi chính (Lõi Slugify)
      */
     function slugify(text, separator) {
-        const from = "áàảãạăằẳẵặâầẩẫậéèẻẽẹêềểễệíìỉĩịóòỏõọôồổỗộơờởỡợúùủũụưừửữựýỳỷỹỵđ";
-        const to   = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd";
+        const from = "áàảãạăằẳẵặâầẩẫaậéèẻẽẹêềểễệíìỉĩịóòỏõọôồổỗộơờởỡợúùủũụưừửữựýỳỷỹỵđ";
+        const to   = "aaaaaaaaaaaaaaaaeeeeeeeeeeiiiiiooooooooooooooouuuuuuuuuuyyyyyd";
         
         let cleanedText = text.toLowerCase();
 
