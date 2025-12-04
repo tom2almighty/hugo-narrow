@@ -49,14 +49,17 @@
   <header class="mb-8">
     {{ partial "content/post-meta.html" . }}
   </header>
+  <!-- TOC -->
+  {{ partial "ui/toc-inline.html" . }}
+  <!-- End toc -->
 
   <!-- 文章内容 -->
-  <article class="prose prose-neutral dark:prose-invert mb-12 max-w-none">
+  <article class="prose prose-neutral dark:prose-invert mb-12 max-w-none" id="content-detail">
     {{ .Content }}
   </article>
 
   <!-- 许可证信息 -->
-  {{ partial "content/post-license.html" . }}
+  <!-- {{ partial "content/post-license.html" . }} -->
 
 
   <!-- 上一篇/下一篇导航 -->

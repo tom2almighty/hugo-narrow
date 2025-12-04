@@ -219,6 +219,7 @@ code:
   collapse: "Thu gọn"
   expand: "Mở rộng"
   clickToExpand: "Nhấp để mở rộng và xem thêm"
+  copy: 'Sao chép'
 
 # Liên kết
 links: "Liên kết"

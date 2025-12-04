@@ -1,5 +1,6 @@
 /* Hugo Narrow 主题 - 主样式文件 */
 @import "tailwindcss";
+@source "hugo_stats.json";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

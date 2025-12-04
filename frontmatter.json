@@ -1,0 +1,155 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.framework.id": "hugo",
+  "frontMatter.content.publicFolder": "static",
+  "frontMatter.preview.host": "https://new-tech-blog.vercel.app",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Bài viết (Posts)",
+      "path": "[[workspace]]/content/posts",
+      "previewPath": "/posts",
+      "contentTypes": ["post"]
+    },
+    {
+      "title": "Trang tĩnh (Pages)",
+      "path": "[[workspace]]/content",
+      "exclude": ["posts", "categories"],
+      "contentTypes": ["page"]
+    },
+    {
+      "title": "SEO Danh mục (Categories)",
+      "path": "[[workspace]]/content/categories",
+      "contentTypes": ["category-term"]
+    }
+  ],
+  "frontMatter.taxonomy.categories": [
+    "Lập trình Web",
+    "Game Dev",
+    "Thủ thuật máy tính",
+    "Review",
+    "Chuyện nghề",
+    "Khác"
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "post",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Tiêu đề",
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "title": "Slug (URL)",
+          "name": "slug",
+          "type": "string",
+          "description": "Để trống sẽ tự tạo từ tiêu đề. Chỉ dùng chữ thường, không dấu, gạch ngang."
+        },
+        {
+          "title": "Ngày đăng",
+          "name": "date",
+          "type": "datetime",
+          "default": "{{now}}"
+        },
+        {
+          "title": "Ảnh đại diện (Cover)",
+          "name": "cover",
+          "type": "image",
+          "previewImage": true
+        },
+        {
+          "title": "Mô tả ngắn (Summary)",
+          "name": "summary",
+          "type": "string",
+          "wysiwyg": true
+        },
+        {
+          "title": "Danh mục",
+          "name": "categories",
+          "type": "categories",
+          "multiple": true
+        },
+        {
+          "title": "Thẻ (Tags)",
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "SEO Meta Tags",
+          "name": "meta",
+          "type": "fields",
+          "fields": [
+            {
+              "title": "Meta Description",
+              "name": "description",
+              "type": "string",
+              "wysiwyg": true
+            },
+            {
+              "title": "Meta Keywords",
+              "name": "keywords",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "title": "Nháp (Draft)",
+          "name": "draft",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Tiêu đề",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Slug (URL)",
+          "name": "slug",
+          "type": "string"
+        },
+        {
+          "title": "Nội dung SEO",
+          "name": "meta",
+          "type": "fields",
+          "fields": [
+            {
+              "title": "Description",
+              "name": "description",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "category-term",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Tên Danh mục (Title)",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Slug (URL muốn hiển thị)",
+          "name": "slug",
+          "type": "string",
+          "description": "Ví dụ: lap-trinh-web -> web-dev"
+        },
+        {
+          "title": "Mô tả SEO",
+          "name": "description",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
