@@ -3,6 +3,7 @@
 
   Usage:
   {{ partial "features/icon.html" (dict "name" "sun" "class" "h-5 w-5" "id" "sun-icon") }}
+  {{ partial "features/icon.html" (dict "name" "heart" "size" "lg") }}
 
   Parameters:
   - name: Icon name (required) - corresponds to SVG file in assets/icons/
@@ -11,6 +12,12 @@
   - size: Predefined size (optional) - "xs", "sm", "md", "lg", "xl", "2xl"
   - ariaLabel: Accessibility label (optional)
   - hidden: Whether to add aria-hidden="true" (optional, defaults to false)
+
+  How it works:
+  - Preserves original SVG attributes (viewBox, fill, stroke, etc.)
+  - Removes width/height attributes to allow CSS control
+  - Adds class, id, and aria attributes to the original SVG
+  - Works with both filled and stroke icons automatically
 */}}
 
 {{- $name := .name -}}
@@ -44,22 +51,31 @@
 {{- $icon := resources.Get $iconPath -}}
 
 {{- if $icon -}}
-  {{/* Get the SVG content and process it */}}
   {{- $content := $icon.Content -}}
-  {{- $content = replaceRE `<svg[^>]*>` "" $content -}}
-  {{- $content = replaceRE `</svg>` "" $content -}}
 
-  {{/* Build the final SVG with our attributes */}}
-  <svg
-    {{- if $id }} id="{{ $id }}"{{ end }}
-    {{- if $finalClass }} class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    {{- if $ariaLabel }} aria-label="{{ $ariaLabel }}"{{ end }}
-    {{- if $hidden }} aria-hidden="true"{{ end }}>
-    {{- $content | safeHTML -}}
-  </svg>
+  {{/* Remove width/height attributes that conflict with CSS */}}
+  {{- $content = replaceRE `\s+width="[^"]*"` "" $content -}}
+  {{- $content = replaceRE `\s+height="[^"]*"` "" $content -}}
+
+  {{/* Build attributes to add to SVG tag */}}
+  {{- $attrs := "" -}}
+  {{- if $finalClass -}}
+    {{- $attrs = printf ` class="%s"` ($finalClass | strings.TrimSpace) -}}
+  {{- end -}}
+  {{- if $id -}}
+    {{- $attrs = printf `%s id="%s"` $attrs $id -}}
+  {{- end -}}
+  {{- if $ariaLabel -}}
+    {{- $attrs = printf `%s aria-label="%s"` $attrs $ariaLabel -}}
+  {{- end -}}
+  {{- if $hidden -}}
+    {{- $attrs = printf `%s aria-hidden="true"` $attrs -}}
+  {{- end -}}
+
+  {{/* Insert attributes into the opening SVG tag - match only the first occurrence */}}
+  {{- $content = replaceRE `^(\s*)<svg` (printf `$1<svg%s` $attrs) $content 1 -}}
+
+  {{- $content | safeHTML -}}
 {{- else -}}
   {{/* Fallback if icon not found */}}
   <svg
