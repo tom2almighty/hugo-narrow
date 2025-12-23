@@ -1,17 +1,17 @@
-<header class="{{- if site.Params.stickyHeader -}}sticky top-0 z-50{{ end }} mx-auto max-w-4xl px-4 py-6">
+<header class="{{- if site.Params.header.sticky -}}sticky top-0 z-50{{ end }} mx-auto max-w-4xl px-4 py-6">
   <div
     class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
     <!-- 桌面端布局 -->
     <div class="hidden w-full items-center md:flex">
       <!-- 左侧：站点 Logo -->
       <div class="flex items-center">
-        {{ if ne site.Params.logo.image "" }}
+        {{ if ne site.Params.header.logo.image "" }}
           <a
-            href="{{ if site.Params.logo.link }}{{ site.Params.logo.link | relLangURL }}{{ else }}{{ site.Home.RelPermalink }}{{ end }}"
+            href="{{ if site.Params.header.logo.link }}{{ site.Params.header.logo.link | relLangURL }}{{ else }}{{ site.Home.RelPermalink }}{{ end }}"
             class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
             aria-label="{{ site.Title }}">
             <img
-              src="{{ site.Params.logo.image }}"
+              src="{{ site.Params.header.logo.image }}"
               alt="{{ site.Title }}"
               class="h-full w-full object-cover" />
           </a>

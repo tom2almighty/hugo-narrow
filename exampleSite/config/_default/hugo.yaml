@@ -1,0 +1,69 @@
+baseURL: https://hugo-narrow.vercel.app/
+languageCode: en-US
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: false
+title: Hugo Narrow
+theme: "hugo-narrow"
+
+hasCJKLanguage: true
+enableEmoji: true
+
+permalinks:
+  posts: /posts/:slug/
+  pages: /:slug/
+
+# pagination
+pagination:
+  pagerSize: 6
+  path: "page"
+
+# 分类法配置
+taxonomies:
+  category: categories
+  tag: tags
+
+markup:
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+    ordered: false
+  goldmark:
+    renderer:
+      unsafe: true
+    extensions:
+      extras:
+        delete:
+          enable: true
+        insert:
+          enable: true
+        mark:
+          enable: true
+        subscript:
+          enable: false
+        superscript:
+          enable: false   
+      strikethrough: false 
+  highlight:
+    codeFences: true
+    guessSyntax: false
+    lineNos: false
+    lineNumbersInTable: false # Set to false
+    noClasses: false
+    style: github # No need to change
+    tabWidth: 2
+
+outputs:
+  home: ["HTML", "RSS", "JSON", "WebAppManifest"]
+
+# 自定义输出格式
+outputFormats:
+  WebAppManifest:
+    mediaType: "application/manifest+json"
+    baseName: "site"
+    isPlainText: true
+
+module:
+  hugoVersion:
+    extended: true
+    min: 0.146.0
+

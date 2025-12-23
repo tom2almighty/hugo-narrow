@@ -1,7 +1,7 @@
-{{- if and hugo.IsMultilingual (site.Params.showLanguageSwitch | default true) -}}
+{{- if and hugo.IsMultilingual (site.Params.header.showLanguageSwitch | default true) -}}
 {{- $currentLang := .Language.Lang -}}
 {{- $currentPage := . -}}
-{{- $languageSwitchMode := site.Params.languageSwitchMode | default "dropdown" -}}
+{{- $languageSwitchMode := site.Params.header.languageSwitchMode | default "dropdown" -}}
 {{/*  点击切换模式  */}}
 {{- if eq $languageSwitchMode "cycle" -}}
   {{- $languages := slice -}}

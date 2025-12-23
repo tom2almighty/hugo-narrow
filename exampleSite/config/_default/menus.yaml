@@ -1,0 +1,63 @@
+main:
+  - name: nav.posts
+    pageRef: /posts
+    weight: 20
+    params:
+      icon: posts
+  - name: nav.categories
+    pageRef: /categories
+    weight: 30
+    params:
+      icon: categories
+  - name: nav.tags
+    pageRef: /tags
+    weight: 40
+    params:
+      icon: tags
+  - name: nav.archives
+    pageRef: /archives
+    weight: 50
+    params:
+      icon: archive
+
+# footer menu
+footer:
+  - name: About
+    pageRef: /about
+    weight: 10
+    params:
+      icon: about
+  - name: Contact
+    url: https://google.com
+    weight: 20
+    params:
+      icon: contact
+  - name: RSS Feed
+    url: /index.xml
+    weight: 30
+    params:
+      icon: rss
+
+# footer social link
+social:
+  - name: GitHub
+    url: https://github.com/username
+    weight: 10
+    params:
+      icon: github
+  - name: Twitter
+    url: https://twitter.com/username
+    weight: 20
+    params:
+      icon: twitter
+  - name: LinkedIn
+    url: https://linkedin.com/in/username
+    weight: 30
+    params:
+      icon: linkedin
+  - name: Email
+    url: mailto:your.email@example.com
+    weight: 40
+    params:
+      icon: email
+
