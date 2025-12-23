@@ -1,0 +1,13 @@
+{{/* 最近文章区域 */}}
+{{ $recentPostsCount := site.Params.home.recentPostsCount | default 5 }}
+{{ $posts := where site.RegularPages "Section" "posts" | first $recentPostsCount }}
+
+{{ partial "content/post-list.html" (dict
+  "posts" $posts
+  "title" (i18n "home.recent_posts" | default "最近文章")
+  "showTitle" true
+  "showViewAll" true
+  "viewAllUrl" ("/posts/" | relLangURL)
+  )
+}}
+
