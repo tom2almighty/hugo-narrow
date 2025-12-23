@@ -1,0 +1,39 @@
+{{/* 侧边栏目录组件
+
+  显示在页面左侧或右侧的固定目录
+  使用固定定位，不影响正文居中布局
+  只在大屏幕（≥1280px）且配置为 left/right 模式时显示
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+{{ $tocPosition := .Site.Params.toc.position | default "card" }}
+{{ $tocMaxWidth := .Site.Params.toc.maxWidth | default "280px" }}
+{{ $tocMaxHeight := .Site.Params.toc.maxHeight | default "80vh" }}
+
+{{- if and .IsPage .TableOfContents (or (eq $tocPosition "left") (eq $tocPosition "right")) }}
+  <!-- 侧边栏目录容器 - 使用固定定位 -->
+  <aside
+    id="toc-sidebar"
+    class="toc-sidebar hidden xl:block fixed top-24 {{ if eq $tocPosition "left" }}toc-sidebar-left{{ else }}toc-sidebar-right{{ end }}"
+    style="max-width: {{ $tocMaxWidth }}; max-height: {{ $tocMaxHeight }};"
+    aria-label="{{ i18n "toc.navigation" | default "文章目录导航" }}">
+
+    <!-- 目录标题 -->
+    <div class="mb-4 flex items-center gap-2">
+      {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
+      <h2 class="text-foreground text-sm font-semibold">
+        {{ i18n "toc.title" | default "目录" }}
+      </h2>
+    </div>
+
+    <!-- 目录内容 -->
+    <nav
+      id="toc-sidebar-content"
+      class="toc-sidebar-scroll overflow-y-auto pr-2"
+      style="max-height: calc({{ $tocMaxHeight }} - 3rem);">
+      {{ .TableOfContents }}
+    </nav>
+  </aside>
+{{- end }}
+

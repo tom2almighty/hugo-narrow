@@ -229,3 +229,9 @@ readingProgress:
   smoothScroll: true
   hideOnComplete: false
 
+# TOC (Table of Contents) 配置
+toc:
+  position: "left"      # 可选值: "card" (当前模式), "left" (左侧), "right" (右侧)
+  maxWidth: "280px"     # 侧边栏目录最大宽度
+  maxHeight: "80vh"     # 侧边栏目录最大高度
+

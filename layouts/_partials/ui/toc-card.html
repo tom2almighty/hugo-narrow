@@ -1,23 +1,25 @@
 {{/* 目录卡片组件
 
   显示文章目录，支持当前阅读位置高亮和点击跳转
+  只在 card 模式或小屏幕时显示
 
   @context {page} . 当前文章页面对象
 */}}
 
+{{ $tocPosition := .Site.Params.toc.position | default "card" }}
 
-<!-- 目录卡片遮罩层 -->
+<!-- 目录卡片遮罩层 - 只在 card 模式或小屏幕时显示 -->
 <div
   id="toc-overlay"
-  class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 backdrop-blur-sm transition-all duration-300"
+  class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 backdrop-blur-sm transition-all duration-300 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"
   role="dialog"
   aria-modal="true"
   aria-labelledby="toc-title"></div>
 
-<!-- 目录卡片 -->
+<!-- 目录卡片 - 只在 card 模式或小屏幕时显示 -->
 <div
   id="toc-card"
-  class="pointer-events-none fixed inset-4 z-50 flex w-auto scale-95 items-center justify-center opacity-0 transition-all duration-300 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:block sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2"
+  class="pointer-events-none fixed inset-4 z-50 flex w-auto scale-95 items-center justify-center opacity-0 transition-all duration-300 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:block sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"
   role="dialog"
   aria-modal="true"
   aria-labelledby="toc-title">

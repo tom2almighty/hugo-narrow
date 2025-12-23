@@ -43,11 +43,12 @@
     {{ end }}
 
 
-    <!-- 目录按钮 - 只在文章页面显示 -->
+    <!-- 目录按钮 - 只在文章页面显示，且在侧边栏模式下的大屏幕隐藏 -->
     {{ if .IsPage }}
+      {{ $tocPosition := .Site.Params.toc.position | default "card" }}
       <button
         id="dock-toc"
-        class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2"
+        class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"
         title="{{ i18n "dock.toc" | default "目录" }}"
         aria-label="{{ i18n "dock.toc" | default "目录" }}">
         {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
@@ -56,8 +57,8 @@
         >
       </button>
 
-      <!-- 分隔线 -->
-      <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2"></div>
+      <!-- 分隔线 - 在侧边栏模式下的大屏幕隐藏 -->
+      <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"></div>
     {{ end }}
 
 
