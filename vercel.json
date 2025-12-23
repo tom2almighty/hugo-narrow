@@ -4,5 +4,5 @@
       "HUGO_VERSION": "0.146.0"
     }
   },
-  "buildCommand": "mkdir -p exampleSite/themes && ln -s $(pwd) exampleSite/themes/hugo-narrow && hugo -s exampleSite --minify --gc"
+  "buildCommand": "cp -r . exampleSite/themes/hugo-narrow && hugo -s exampleSite --minify --gc"
 }
