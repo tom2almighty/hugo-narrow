@@ -154,8 +154,8 @@
   @apply hover:text-primary hover:bg-primary/10;
 }
 
-#toc-sidebar-content a.active {
-  @apply text-primary bg-primary/10 font-medium;
+#toc-sidebar-content li.active > a {
+  @apply text-primary bg-primary/10 translate-x-0.5 -translate-y-px scale-[1.02] font-medium;
 }
 
 #toc-sidebar-content ul ul {
