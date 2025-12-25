@@ -46,6 +46,7 @@ dock: "scroll"
 
 # TOC (Table of Contents)
 toc:
+  enabled: false         # Enable or disable TOC globally
   position: "left"      # Options: card left right
   maxWidth: "280px"
   maxHeight: "80vh"

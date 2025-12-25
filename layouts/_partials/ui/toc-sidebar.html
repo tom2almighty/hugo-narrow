@@ -7,9 +7,25 @@
   @context {page} . 当前文章页面对象
 */}}
 
-{{ $tocPosition := .Site.Params.toc.position | default "card" }}
-{{ $tocMaxWidth := .Site.Params.toc.maxWidth | default "280px" }}
-{{ $tocMaxHeight := .Site.Params.toc.maxHeight | default "80vh" }}
+{{- $globalTocConfig := .Site.Params.toc | default dict }}
+{{- $tocPosition := $globalTocConfig.position | default "card" }}
+{{- $tocMaxWidth := $globalTocConfig.maxWidth | default "280px" }}
+{{- $tocMaxHeight := $globalTocConfig.maxHeight | default "80vh" }}
+
+{{/* frontmatter 参数覆盖 */}}
+{{- if isset .Params "toc" }}
+  {{- if reflect.IsMap .Params.toc }}
+    {{- if isset .Params.toc "position" }}
+      {{- $tocPosition = .Params.toc.position }}
+    {{- end }}
+    {{- if isset .Params.toc "maxWidth" }}
+      {{- $tocMaxWidth = .Params.toc.maxWidth }}
+    {{- end }}
+    {{- if isset .Params.toc "maxHeight" }}
+      {{- $tocMaxHeight = .Params.toc.maxHeight }}
+    {{- end }}
+  {{- end }}
+{{- end }}
 
 {{- if and .IsPage .TableOfContents (or (eq $tocPosition "left") (eq $tocPosition "right")) }}
   <!-- 侧边栏目录容器 - 使用固定定位 -->

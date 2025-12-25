@@ -43,22 +43,48 @@
     {{ end }}
 
 
-    <!-- 目录按钮 - 只在文章页面显示，且在侧边栏模式下的大屏幕隐藏 -->
+    <!-- 目录按钮 - 只在文章页面且 TOC 启用时显示，且在侧边栏模式下的大屏幕隐藏 -->
     {{ if .IsPage }}
-      {{ $tocPosition := .Site.Params.toc.position | default "card" }}
-      <button
-        id="dock-toc"
-        class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"
-        title="{{ i18n "dock.toc" | default "目录" }}"
-        aria-label="{{ i18n "dock.toc" | default "目录" }}">
-        {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
-        <span class="hidden sm:inline"
-          >{{ i18n "dock.toc" | default "目录" }}</span
-        >
-      </button>
+      {{- $tocEnabled := true }}
+      {{- $globalTocConfig := .Site.Params.toc | default dict }}
+      {{- if isset $globalTocConfig "enabled" }}
+        {{- $tocEnabled = $globalTocConfig.enabled }}
+      {{- end }}
+      {{- if isset .Params "toc" }}
+        {{- if reflect.IsMap .Params.toc }}
+          {{- if isset .Params.toc "enabled" }}
+            {{- $tocEnabled = .Params.toc.enabled }}
+          {{- end }}
+        {{- else }}
+          {{- $tocEnabled = .Params.toc }}
+        {{- end }}
+      {{- end }}
 
-      <!-- 分隔线 - 在侧边栏模式下的大屏幕隐藏 -->
-      <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"></div>
+      {{- if $tocEnabled }}
+        {{- $tocPosition := $globalTocConfig.position | default "card" }}
+        {{/* frontmatter 参数覆盖 */}}
+        {{- if isset .Params "toc" }}
+          {{- if reflect.IsMap .Params.toc }}
+            {{- if isset .Params.toc "position" }}
+              {{- $tocPosition = .Params.toc.position }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+
+        <button
+          id="dock-toc"
+          class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"
+          title="{{ i18n "dock.toc" | default "目录" }}"
+          aria-label="{{ i18n "dock.toc" | default "目录" }}">
+          {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
+          <span class="hidden sm:inline"
+            >{{ i18n "dock.toc" | default "目录" }}</span
+          >
+        </button>
+
+        <!-- 分隔线 - 在侧边栏模式下的大屏幕隐藏 -->
+        <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"></div>
+      {{- end }}
     {{ end }}
 
 

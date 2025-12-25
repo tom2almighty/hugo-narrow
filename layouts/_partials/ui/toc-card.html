@@ -6,7 +6,17 @@
   @context {page} . 当前文章页面对象
 */}}
 
-{{ $tocPosition := .Site.Params.toc.position | default "card" }}
+{{- $globalTocConfig := .Site.Params.toc | default dict }}
+{{- $tocPosition := $globalTocConfig.position | default "card" }}
+
+{{/* frontmatter 参数覆盖 */}}
+{{- if isset .Params "toc" }}
+  {{- if reflect.IsMap .Params.toc }}
+    {{- if isset .Params.toc "position" }}
+      {{- $tocPosition = .Params.toc.position }}
+    {{- end }}
+  {{- end }}
+{{- end }}
 
 <!-- 目录卡片遮罩层 - 只在 card 模式或小屏幕时显示 -->
 <div
