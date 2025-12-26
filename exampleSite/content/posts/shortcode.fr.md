@@ -79,14 +79,12 @@ Crée des boutons stylés avec les couleurs du thème :
 
 ### Link Card
 
-Affiche une carte de lien avec l'icône du site :
-
 ```markdown
-{{</* link title="Hugo" url="https://gohugo.io" description="The world's fastest website building framework" */>}}
+{{</* link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" */>}}
 ```
 
-**Exemple :**
-{{< link title="Hugo" url="<https://gohugo.io>" description="Le framework le plus rapide au monde pour créer des sites web." >}}
+**Exemple:**
+{{< link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" >}}
 
 ### Bilibili
 

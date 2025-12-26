@@ -82,11 +82,11 @@ Hugo はいくつかの[組み込みショートコード](https://gohugo.io/sho
 サイトのアイコン付きリンクカードを表示します：
 
 ```markdown
-{{</* link title="Hugo" url="https://gohugo.io" description="The world's fastest website building framework" */>}}
+{{</* link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" */>}}
 ```
 
-**例：**
-{{< link title="Hugo" url="<https://gohugo.io>" description="世界で最も高速なウェブサイト構築フレームワーク。" >}}
+**例:**
+{{< link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" >}}
 
 ### Bilibili
 

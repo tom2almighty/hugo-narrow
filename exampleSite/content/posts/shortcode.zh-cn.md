@@ -90,12 +90,11 @@ Hugo 提供了一些[内置短代码](https://gohugo.io/shortcodes/)，这些内
 显示带网站图标的链接卡片：
 
 ```markdown
-{{</* link title="Hugo" url="https://gohugo.io" description="世界上最快的网站构建框架" */>}}
+{{</* link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" */>}}
 ```
 
-**示例：**
-
-{{< link title="Hugo" url="<https://gohugo.io>" description="世界上最快的网站构建框架" >}}
+**示例:**
+{{< link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" >}}
 
 ### Bilibili
 

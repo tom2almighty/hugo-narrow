@@ -82,11 +82,11 @@ Create styled buttons with theme colors:
 Display a link card with a website icon:
 
 ```markdown
-{{</* link title="Hugo" url="https://gohugo.io" description="The world's fastest website building framework" */>}}
+{{</* link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" */>}}
 ```
 
-**Example:**
-{{< link title="Hugo" url="<https://gohugo.io>" description="The world's fastest framework for building websites." >}}
+**Examples:**
+{{< link title="Google" description="The world largest search engine." url="https://google.com" icon="https://google.com/favicon.ico" >}}
 
 ### Bilibili
 
