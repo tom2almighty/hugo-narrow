@@ -277,58 +277,26 @@
 /* 链接样式 */
 .prose a {
   color: var(--tw-prose-links);
-  text-decoration: none;
-  font-weight: 500;
-  position: relative;
+  text-decoration: underline;
+  text-decoration-color: var(--tw-prose-links);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
   transition: all 0.3s ease;
-  padding: 2px 4px;
-  margin: -2px -4px;
-  border-radius: 4px;
-  background: transparent;
-}
-
-.prose a:not(.footnote-ref):not(.footnote-backref)::before {
-  content: "";
-  position: absolute;
-  bottom: 1px;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--tw-prose-links);
-  transition: width 0.3s ease;
-  transform-origin: right;
-}
-
-.prose a::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-  border-radius: 4px;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.3s ease;
-  z-index: -1;
 }
 
 .prose a:hover {
   color: var(--color-primary);
+  text-decoration-color: transparent;
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 4px;
 }
 
+.prose a.btn-component {
+  text-decoration: none;
 
-.prose a:hover::after {
-  opacity: 1;
-  transform: scale(1);
 }
-
-
-.prose a:not(.footnote-ref):not(.footnote-backref):hover::before {
-  width: 0;
-}
-
 
 
 /* 列表样式 */
