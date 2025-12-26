@@ -49,7 +49,7 @@
   {{- $customColor = $variant -}}
 {{- end -}}
 
-{{- $baseClasses := "btn-component inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none cursor-pointer" -}}
+{{- $baseClasses := "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none cursor-pointer" -}}
 
 {{- $variantClasses := "" -}}
 {{- if $isCustomColor -}}
@@ -79,7 +79,7 @@
 
 {{- $textColor := "white" -}}
 
-<span class="button-wrapper inline-block my-2 mr-2">
+<span class="inline-block my-2 mr-2">
   {{- if $url -}}
     {{- if eq $target "_blank" -}}
       <a

@@ -275,7 +275,7 @@
 }
 
 /* 链接样式 */
-.prose a {
+.prose p > a {
   color: var(--tw-prose-links);
   text-decoration: underline;
   text-decoration-color: var(--tw-prose-links);
@@ -284,19 +284,15 @@
   transition: all 0.3s ease;
 }
 
-.prose a:hover {
+.prose p > a:hover {
   color: var(--color-primary);
   text-decoration-color: transparent;
-  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
   padding: 2px 4px;
   margin: -2px -4px;
   border-radius: 4px;
 }
 
-.prose a.btn-component {
-  text-decoration: none;
-
-}
 
 
 /* 列表样式 */

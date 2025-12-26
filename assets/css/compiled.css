@@ -3231,7 +3231,7 @@
     opacity: 1;
     transform: scale(1);
   }
-  .prose a {
+  .prose p > a {
     color: var(--tw-prose-links);
     text-decoration: underline;
     text-decoration-color: var(--tw-prose-links);
@@ -3239,19 +3239,16 @@
     text-underline-offset: 2px;
     transition: all 0.3s ease;
   }
-  .prose a:hover {
+  .prose p > a:hover {
     color: var(--color-primary);
     text-decoration-color: transparent;
     background: var(--color-primary);
     @supports (color: color-mix(in lab, red, red)) {
-      background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
     }
     padding: 2px 4px;
     margin: -2px -4px;
     border-radius: 4px;
-  }
-  .prose a.btn-component {
-    text-decoration: none;
   }
   .prose ul {
     list-style: none;
