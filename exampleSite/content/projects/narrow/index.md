@@ -13,7 +13,7 @@ tags:
   - Open Source
 categories:
   - projects
-cover: "images/narrow.webp"
+cover: "narrow.webp"
 github: "https://github.com/tom2almighty/hugo-narrow"
 demo: "https://hugo-narrow.vercel.app/"
 website: "https://hugo-narrow-docs.vercel.app/"
