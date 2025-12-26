@@ -1,0 +1,39 @@
+{{- /*
+  Icon shortcode - Hugo Narrow theme
+  
+  Displays an SVG icon from the assets/icons/ directory.
+  
+  Parameters:
+  - name (positional or named): Icon name (required) - corresponds to SVG file in assets/icons/
+  - size (named): Predefined size (optional) - "xs", "sm", "md", "lg", "xl", "2xl", default: "md"
+  - class (named): Custom CSS classes (optional)
+  
+  Usage:
+    {{< icon "heart" >}}
+    {{< icon name="github" size="lg" >}}
+    {{< icon "sun" class="text-primary" >}}
+    {{< icon name="moon" size="xl" class="text-yellow-500" >}}
+  
+  Available icons:
+  See assets/icons/ directory for all available icons.
+  Common icons: heart, github, sun, moon, search, home, arrow-right, etc.
+*/ -}}
+
+{{- /* Get parameters */ -}}
+{{- $name := .Get "name" | default (.Get 0) -}}
+{{- $size := .Get "size" | default "md" -}}
+{{- $class := .Get "class" | default "" -}}
+
+{{- /* Validate icon name */ -}}
+{{- if not $name -}}
+  {{- errorf "The %q shortcode requires an icon name. Usage: {{< icon \"name\" >}} or {{< icon name=\"name\" >}}. See %s" .Name .Position -}}
+{{- end -}}
+
+
+<span class="inline-flex items-center align-middle mx-1">
+  {{- partial "features/icon.html" (dict 
+    "name" $name 
+    "size" $size 
+    "class" $class
+  ) -}}
+</span>

@@ -9,6 +9,7 @@
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-orange-500: oklch(70.5% 0.213 47.604);
+    --color-yellow-500: oklch(79.5% 0.184 86.047);
     --color-green-500: oklch(72.3% 0.219 149.579);
     --color-green-600: oklch(62.7% 0.194 149.214);
     --color-teal-500: oklch(70.4% 0.14 182.503);
@@ -476,6 +477,9 @@
   .-mx-4 {
     margin-inline: calc(var(--spacing) * -4);
   }
+  .mx-1 {
+    margin-inline: calc(var(--spacing) * 1);
+  }
   .mx-2 {
     margin-inline: calc(var(--spacing) * 2);
   }
@@ -484,6 +488,9 @@
   }
   .mx-auto {
     margin-inline: auto;
+  }
+  .my-2 {
+    margin-block: calc(var(--spacing) * 2);
   }
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
@@ -571,6 +578,9 @@
   }
   .inline {
     display: inline;
+  }
+  .inline-block {
+    display: inline-block;
   }
   .inline-flex {
     display: inline-flex;
@@ -1257,6 +1267,9 @@
       background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
     }
   }
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
   .bg-transparent {
     background-color: transparent;
   }
@@ -1633,6 +1646,9 @@
   .text-right {
     text-align: right;
   }
+  .align-middle {
+    vertical-align: middle;
+  }
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1749,8 +1765,14 @@
   .text-primary-foreground {
     color: var(--color-primary-foreground);
   }
+  .text-secondary-foreground {
+    color: var(--color-secondary-foreground);
+  }
   .text-white {
     color: var(--color-white);
+  }
+  .text-yellow-500 {
+    color: var(--color-yellow-500);
   }
   .uppercase {
     text-transform: uppercase;
@@ -1933,6 +1955,13 @@
       }
     }
   }
+  .hover\:border-primary {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--color-primary);
+      }
+    }
+  }
   .hover\:border-primary\/20 {
     &:hover {
       @media (hover: hover) {
@@ -2040,6 +2069,16 @@
       }
     }
   }
+  .hover\:bg-secondary\/90 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-secondary);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-secondary) 90%, transparent);
+        }
+      }
+    }
+  }
   .hover\:text-accent-foreground {
     &:hover {
       @media (hover: hover) {
@@ -2115,6 +2154,14 @@
       --tw-ring-color: var(--color-primary);
       @supports (color: color-mix(in lab, red, red)) {
         --tw-ring-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+      }
+    }
+  }
+  .focus\:ring-secondary\/20 {
+    &:focus {
+      --tw-ring-color: var(--color-secondary);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-secondary) 20%, transparent);
       }
     }
   }
@@ -3186,52 +3233,25 @@
   }
   .prose a {
     color: var(--tw-prose-links);
-    text-decoration: none;
-    font-weight: 500;
-    position: relative;
+    text-decoration: underline;
+    text-decoration-color: var(--tw-prose-links);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
     transition: all 0.3s ease;
-    padding: 2px 4px;
-    margin: -2px -4px;
-    border-radius: 4px;
-    background: transparent;
   }
-  .prose a:not(.footnote-ref):not(.footnote-backref)::before {
-    content: "";
-    position: absolute;
-    bottom: 1px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--tw-prose-links);
-    transition: width 0.3s ease;
-    transform-origin: right;
-  }
-  .prose a::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .prose a:hover {
+    color: var(--color-primary);
+    text-decoration-color: transparent;
     background: var(--color-primary);
     @supports (color: color-mix(in lab, red, red)) {
       background: color-mix(in srgb, var(--color-primary) 15%, transparent);
     }
+    padding: 2px 4px;
+    margin: -2px -4px;
     border-radius: 4px;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 0.3s ease;
-    z-index: -1;
   }
-  .prose a:hover {
-    color: var(--color-primary);
-  }
-  .prose a:hover::after {
-    opacity: 1;
-    transform: scale(1);
-  }
-  .prose a:not(.footnote-ref):not(.footnote-backref):hover::before {
-    width: 0;
+  .prose a.btn-component {
+    text-decoration: none;
   }
   .prose ul {
     list-style: none;

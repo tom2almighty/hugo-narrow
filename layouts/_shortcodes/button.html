@@ -1,0 +1,122 @@
+{{- /*
+  Button shortcode - Hugo Narrow theme
+
+  Creates a styled button/link with theme colors and variants.
+
+  Parameters:
+  - text (named): Button text (required, or use .Inner)
+  - url (named): Link URL (optional, creates clickable button if provided)
+  - variant (named): Style variant (optional) - "primary", "secondary", "outline", or hex color like "#FF5733"
+  - size (named): Button size (optional) - "sm", "md", "lg", default: "md"
+  - icon (named): Icon name from assets/icons/ (optional)
+  - target (named): Link target (optional) - "_blank", "_self", default: "_self"
+  - rel (named): Link rel attribute (optional), auto-adds "noopener noreferrer" for _blank
+
+  Usage:
+    {{< button text="Learn More" url="/about" >}}
+    {{< button text="Custom Color" url="/page" variant="#FF5733" >}}
+    {{< button text="GitHub" url="https://github.com" icon="github" target="_blank" >}}
+    {{< button url="/contact" variant="secondary" >}}Contact Us{{< /button >}}
+    {{< button text="Static Button" variant="outline" >}}
+
+  Variants:
+  - primary: Main action button with primary color
+  - secondary: Secondary action with muted colors
+  - outline: Outlined button with transparent background
+  - #RRGGBB: Custom hex color (e.g., #FF5733)
+*/ -}}
+
+{{- $text := .Get "text" | default (.Inner | markdownify | plainify) -}}
+{{- $url := .Get "url" -}}
+{{- $variant := .Get "variant" | default "primary" -}}
+{{- $size := .Get "size" | default "md" -}}
+{{- $icon := .Get "icon" | default "" -}}
+{{- $target := .Get "target" | default "_self" -}}
+{{- $rel := .Get "rel" | default "" -}}
+
+{{- if not $text -}}
+  {{- errorf "The %q shortcode requires button text via 'text' parameter or inner content. See %s" .Name .Position -}}
+{{- end -}}
+
+{{- if and $url (eq $target "_blank") (not $rel) -}}
+  {{- $rel = "noopener noreferrer" -}}
+{{- end -}}
+
+{{- $isCustomColor := false -}}
+{{- $customColor := "" -}}
+{{- if hasPrefix $variant "#" -}}
+  {{- $isCustomColor = true -}}
+  {{- $customColor = $variant -}}
+{{- end -}}
+
+{{- $baseClasses := "btn-component inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none cursor-pointer" -}}
+
+{{- $variantClasses := "" -}}
+{{- if $isCustomColor -}}
+  {{- $variantClasses = "shadow-sm hover:shadow-md" -}}
+{{- else if eq $variant "primary" -}}
+  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-sm hover:shadow-md" -}}
+{{- else if eq $variant "secondary" -}}
+  {{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-secondary/20 shadow-sm hover:shadow-md" -}}
+{{- else if eq $variant "outline" -}}
+  {{- $variantClasses = "border-2 border-border bg-transparent text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary focus:ring-primary/20" -}}
+{{- else -}}
+  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-sm hover:shadow-md" -}}
+{{- end -}}
+
+{{- $sizeClasses := "" -}}
+{{- if eq $size "sm" -}}
+  {{- $sizeClasses = "px-3 py-1.5 text-sm" -}}
+{{- else if eq $size "md" -}}
+  {{- $sizeClasses = "px-4 py-2 text-base" -}}
+{{- else if eq $size "lg" -}}
+  {{- $sizeClasses = "px-6 py-3 text-lg" -}}
+{{- else -}}
+  {{- $sizeClasses = "px-4 py-2 text-base" -}}
+{{- end -}}
+
+{{- $allClasses := printf "%s %s %s" $baseClasses $variantClasses $sizeClasses -}}
+
+{{- $textColor := "white" -}}
+
+<span class="button-wrapper inline-block my-2 mr-2">
+  {{- if $url -}}
+    {{- if eq $target "_blank" -}}
+      <a
+        href="{{ $url }}"
+        class="{{ $allClasses }}"
+        {{- if $isCustomColor }} style="background-color: {{ $customColor }}; color: {{ $textColor }};"{{ end }}
+        target="_blank"
+        {{- with $rel }} rel="{{ . }}"{{ end }}
+      >
+        {{- if $icon -}}
+          {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
+        {{- end -}}
+        <span>{{ $text }}</span>
+      </a>
+    {{- else -}}
+      <a
+        href="{{ $url }}"
+        class="{{ $allClasses }}"
+        {{- if $isCustomColor }} style="background-color: {{ $customColor }}; color: {{ $textColor }};"{{ end }}
+      >
+        {{- if $icon -}}
+          {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
+        {{- end -}}
+        <span>{{ $text }}</span>
+      </a>
+    {{- end -}}
+  {{- else -}}
+    <button
+      class="{{ $allClasses }}"
+      {{- if $isCustomColor }} style="background-color: {{ $customColor }}; color: {{ $textColor }};"{{ end }}
+      type="button"
+    >
+      {{- if $icon -}}
+        {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
+      {{- end -}}
+      <span>{{ $text }}</span>
+    </button>
+  {{- end -}}
+</span>
+
