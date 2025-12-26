@@ -10,6 +10,7 @@ enableEmoji: true
 
 permalinks:
   posts: /posts/:slug/
+  projects: /projects/:slug/
   pages: /:slug/
 
 # pagination

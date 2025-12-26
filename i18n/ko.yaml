@@ -4,6 +4,7 @@ nav:
   menu: "메뉴"
   home: "홈"
   posts: "게시글"
+  projects: "프로젝트"
   tags: "태그"
   categories: "카테고리"
   about: "소개"
@@ -236,3 +237,24 @@ code:
 
 # 링크
 links: "링크"
+
+# 프로젝트
+project:
+  featured_projects: "주요 프로젝트"
+  all_projects: "모든 프로젝트"
+  view_all_projects: "모든 프로젝트 보기"
+  view_project: "프로젝트 보기"
+  demo: "라이브 데모"
+  source: "소스 코드"
+  github: "GitHub"
+  website: "웹사이트"
+  tech_stack: "기술 스택"
+  status: "상태"
+  status_completed: "완료"
+  status_in_progress: "진행 중"
+  status_planning: "계획 중"
+  no_projects: "아직 프로젝트가 없습니다"
+  no_projects_desc: "아직 게시된 프로젝트가 없습니다. 나중에 다시 확인해주세요."
+  list_desc: "여기에 게시된 모든 프로젝트가 있으며, 제 작업과 실험을 보여줍니다."
+  total_projects: "총 {{ .count }}개 프로젝트"
+  featured: "주요"

@@ -1,0 +1,64 @@
+{{ define "main" }}
+  <div class="mx-auto max-w-6xl">
+    <!-- 面包屑导航 -->
+    {{ partial "navigation/breadcrumb.html" . }}
+
+    <!-- 页面标题和描述 -->
+    <header class="mb-8">
+      <h1 class="text-foreground mb-4 text-3xl font-bold">
+        {{ i18n "nav.projects" | default "Projects" }}
+      </h1>
+
+      {{ if .Content }}
+        <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">
+          {{ .Content }}
+        </div>
+      {{ else }}
+        <p class="text-muted-foreground mb-6">
+          {{ i18n "project.list_desc" | default "Here are all published projects, showcasing my work and experiments." }}
+        </p>
+      {{ end }}
+
+      <!-- 项目统计 -->
+      {{ $totalProjects := len (where .Site.RegularPages "Section" "projects") }}
+      {{ if gt $totalProjects 0 }}
+        <div class="text-muted-foreground text-sm">
+          {{ i18n "project.total_projects" (dict "count" $totalProjects) }}
+        </div>
+      {{ end }}
+    </header>
+
+    <!-- 项目网格 -->
+    {{ $projects := .Paginator.Pages }}
+    {{ if $projects }}
+      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+        {{ range $projects }}
+          {{ partial "content/project-card.html" (dict "page" .) }}
+        {{ end }}
+      </div>
+
+      <!-- 分页 -->
+      {{ partial "navigation/pagination.html" . }}
+    {{ else }}
+      <!-- 空状态 -->
+      <div class="py-16 text-center">
+        <div class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+          {{ partial "features/icon.html" (dict "name" "folder" "size" "xl" "ariaLabel" "") }}
+        </div>
+        <h2 class="text-foreground mb-3 text-xl font-medium">
+          {{ i18n "project.no_projects" | default "No projects yet" }}
+        </h2>
+        <p class="text-muted-foreground mb-6">
+          {{ i18n "project.no_projects_desc" | default "No projects have been published yet. Please check back later." }}
+        </p>
+        <a
+          href="{{ "/" | relLangURL }}"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+          {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+          {{ i18n "nav.back_home" | default "Back to Home" }}
+        </a>
+      </div>
+    {{ end }}
+  </div>
+{{ end }}
+

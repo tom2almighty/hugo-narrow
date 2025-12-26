@@ -46,7 +46,7 @@ dock: "scroll"
 
 # TOC (Table of Contents)
 toc:
-  enabled: false         # Enable or disable TOC globally
+  enabled: true         # Enable or disable TOC globally
   position: "left"      # Options: card left right
   maxWidth: "280px"
   maxHeight: "80vh"
@@ -95,12 +95,12 @@ home:
   recentPostsCount: 5  # Number of recent posts to show on the home page
 
   # Content order configuration - customize the order of home page sections
-  # Available sections: author-section, recent-posts, page-content
+  # Available sections: author-section, recent-posts, featured-projects, page-content
   # You can add your custom content by creating files in `layouts/_partials/home/` folder, then add it to the list
   contentOrder:
     - author-section
     - custom_1.html
-    - custom_2.html
+    - featured-projects.html
     - recent-posts
     - page-content
 

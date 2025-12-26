@@ -4,6 +4,7 @@ nav:
   menu: "メニュー"
   home: "ホーム"
   posts: "記事"
+  projects: "プロジェクト"
   tags: "タグ"
   categories: "カテゴリー"
   about: "について"
@@ -237,3 +238,24 @@ code:
 
 # リンク関連
 links: "リンク"
+
+# プロジェクト関連
+project:
+  featured_projects: "注目のプロジェクト"
+  all_projects: "すべてのプロジェクト"
+  view_all_projects: "すべてのプロジェクトを見る"
+  view_project: "プロジェクトを見る"
+  demo: "デモ"
+  source: "ソースコード"
+  github: "GitHub"
+  website: "ウェブサイト"
+  tech_stack: "技術スタック"
+  status: "ステータス"
+  status_completed: "完了"
+  status_in_progress: "進行中"
+  status_planning: "計画中"
+  no_projects: "プロジェクトはまだありません"
+  no_projects_desc: "プロジェクトはまだ公開されていません。後でもう一度確認してください。"
+  list_desc: "ここには公開されているすべてのプロジェクトがあり、私の作品と実験を紹介しています。"
+  total_projects: "全 {{ .count }} プロジェクト"
+  featured: "注目"

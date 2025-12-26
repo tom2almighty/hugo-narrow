@@ -4,6 +4,7 @@ nav:
   menu: "Menü"
   home: "Startseite"
   posts: "Beiträge"
+  projects: "Projekte"
   tags: "Tags"
   categories: "Kategorien"
   about: "Über"
@@ -236,3 +237,24 @@ code:
 
 # Links
 links: "Links"
+
+# Projekte
+project:
+  featured_projects: "Ausgewählte Projekte"
+  all_projects: "Alle Projekte"
+  view_all_projects: "Alle Projekte anzeigen"
+  view_project: "Projekt anzeigen"
+  demo: "Live-Demo"
+  source: "Quellcode"
+  github: "GitHub"
+  website: "Website"
+  tech_stack: "Tech-Stack"
+  status: "Status"
+  status_completed: "Abgeschlossen"
+  status_in_progress: "In Bearbeitung"
+  status_planning: "Planung"
+  no_projects: "Noch keine Projekte"
+  no_projects_desc: "Es wurden noch keine Projekte veröffentlicht. Bitte schauen Sie später wieder vorbei."
+  list_desc: "Hier sind alle veröffentlichten Projekte, die meine Arbeit und Experimente zeigen."
+  total_projects: "{{ .count }} Projekte insgesamt"
+  featured: "Ausgewählt"

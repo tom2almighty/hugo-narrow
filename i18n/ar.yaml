@@ -4,6 +4,7 @@ nav:
   menu: "القائمة"
   home: "الرئيسية"
   posts: "المقالات"
+  projects: "المشاريع"
   tags: "الوسوم"
   categories: "التصنيفات"
   about: "حول"
@@ -100,3 +101,24 @@ search:
 
 # الروابط
 links: "روابط"
+
+# المشاريع
+project:
+  featured_projects: "المشاريع المميزة"
+  all_projects: "جميع المشاريع"
+  view_all_projects: "عرض جميع المشاريع"
+  view_project: "عرض المشروع"
+  demo: "عرض مباشر"
+  source: "الكود المصدري"
+  github: "GitHub"
+  website: "الموقع"
+  tech_stack: "التقنيات المستخدمة"
+  status: "الحالة"
+  status_completed: "مكتمل"
+  status_in_progress: "قيد التنفيذ"
+  status_planning: "قيد التخطيط"
+  no_projects: "لا توجد مشاريع بعد"
+  no_projects_desc: "لم يتم نشر أي مشاريع بعد. يرجى المراجعة لاحقاً."
+  list_desc: "هنا جميع المشاريع المنشورة، تعرض أعمالي وتجاربي."
+  total_projects: "{{ .count }} مشاريع إجمالاً"
+  featured: "مميز"

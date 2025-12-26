@@ -4,6 +4,7 @@ nav:
   menu: "Меню"
   home: "Главная"
   posts: "Статьи"
+  projects: "Проекты"
   tags: "Теги"
   categories: "Категории"
   about: "О нас"
@@ -222,3 +223,24 @@ code:
 
 # Ссылки
 links: "Ссылки"
+
+# Проекты
+project:
+  featured_projects: "Избранные проекты"
+  all_projects: "Все проекты"
+  view_all_projects: "Посмотреть все проекты"
+  view_project: "Посмотреть проект"
+  demo: "Живая демонстрация"
+  source: "Исходный код"
+  github: "GitHub"
+  website: "Веб-сайт"
+  tech_stack: "Технологический стек"
+  status: "Статус"
+  status_completed: "Завершено"
+  status_in_progress: "В процессе"
+  status_planning: "Планирование"
+  no_projects: "Пока нет проектов"
+  no_projects_desc: "Проекты еще не опубликованы. Пожалуйста, зайдите позже."
+  list_desc: "Здесь представлены все опубликованные проекты, демонстрирующие мою работу и эксперименты."
+  total_projects: "Всего {{ .count }} проектов"
+  featured: "Избранное"

@@ -4,6 +4,7 @@ nav:
   menu: "菜单"
   home: "首页"
   posts: "文章"
+  projects: "项目"
   tags: "标签"
   categories: "分类"
   about: "关于"
@@ -237,3 +238,24 @@ code:
 
 # 链接相关
 links: "链接"
+
+# 项目相关
+project:
+  featured_projects: "特色项目"
+  all_projects: "所有项目"
+  view_all_projects: "查看所有项目"
+  view_project: "查看项目"
+  demo: "在线演示"
+  source: "源代码"
+  github: "GitHub"
+  website: "网站"
+  tech_stack: "技术栈"
+  status: "状态"
+  status_completed: "已完成"
+  status_in_progress: "进行中"
+  status_planning: "计划中"
+  no_projects: "暂无项目"
+  no_projects_desc: "还没有发布任何项目，请稍后再来查看。"
+  list_desc: "这里是所有已发布的项目，展示我的作品和实验。"
+  total_projects: "共 {{ .count }} 个项目"
+  featured: "精选"

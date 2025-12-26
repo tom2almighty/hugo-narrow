@@ -4,6 +4,7 @@ nav:
   menu: "選單"
   home: "首頁"
   posts: "文章"
+  projects: "專案"
   tags: "標籤"
   categories: "分類"
   about: "關於"
@@ -100,3 +101,24 @@ search:
 
 # 連結
 links: "連結"
+
+# 專案相關
+project:
+  featured_projects: "特色專案"
+  all_projects: "所有專案"
+  view_all_projects: "查看所有專案"
+  view_project: "查看專案"
+  demo: "線上展示"
+  source: "原始碼"
+  github: "GitHub"
+  website: "網站"
+  tech_stack: "技術棧"
+  status: "狀態"
+  status_completed: "已完成"
+  status_in_progress: "進行中"
+  status_planning: "計劃中"
+  no_projects: "暫無專案"
+  no_projects_desc: "還沒有發布任何專案，請稍後再來查看。"
+  list_desc: "這裡是所有已發布的專案，展示我的作品和實驗。"
+  total_projects: "共 {{ .count }} 個專案"
+  featured: "精選"

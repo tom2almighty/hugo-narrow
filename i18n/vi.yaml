@@ -222,3 +222,24 @@ code:
 
 # Liên kết
 links: "Liên kết"
+
+# Dự án
+project:
+  featured_projects: "Dự án nổi bật"
+  all_projects: "Tất cả dự án"
+  view_all_projects: "Xem tất cả dự án"
+  view_project: "Xem dự án"
+  demo: "Demo trực tiếp"
+  source: "Mã nguồn"
+  github: "GitHub"
+  website: "Trang web"
+  tech_stack: "Công nghệ sử dụng"
+  status: "Trạng thái"
+  status_completed: "Hoàn thành"
+  status_in_progress: "Đang thực hiện"
+  status_planning: "Đang lên kế hoạch"
+  no_projects: "Chưa có dự án"
+  no_projects_desc: "Chưa có dự án nào được công bố. Vui lòng quay lại sau."
+  list_desc: "Đây là tất cả các dự án đã công bố, thể hiện công việc và thử nghiệm của tôi."
+  total_projects: "Tổng cộng {{ .count }} dự án"
+  featured: "Nổi bật"

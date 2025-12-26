@@ -1,0 +1,165 @@
+{{ define "main" }}
+  <!-- 面包屑导航 -->
+  {{ partial "navigation/breadcrumb.html" . }}
+
+  <!-- 项目封面图片 -->
+  {{- if .Params.cover -}}
+    {{/* 使用通用图片处理器 */}}
+    {{- partial "content/image-processor.html" (dict
+      "context" .
+      "src" .Params.cover
+      "alt" .Title
+      "enableModal" false
+      "enableResponsive" true
+      "enablePlaceholder" false
+      "outputType" "data"
+    ) -}}
+    {{- $coverImage := .Scratch.Get "imageUrl" -}}
+    {{- $imageResource := .Scratch.Get "imageResource" -}}
+    {{- $placeholderData := .Scratch.Get "placeholderData" | default dict -}}
+    {{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
+    {{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
+
+    {{- if $coverImage -}}
+      <div class="relative mb-8 -mx-4 sm:mx-0 sm:rounded-xl overflow-hidden">
+        <div class="relative h-64 md:h-96 w-full">
+          <img
+            src="{{ $coverImage }}"
+            alt="{{ .Title }}"
+            class="h-full w-full object-cover"
+            loading="eager"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <!-- 图片加载失败时的占位图 -->
+          <div class="{{ index $gradients $colorIndex }} absolute inset-0 bg-gradient-to-br" style="display: none;">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="flex h-24 w-24 items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-sm">
+                <span class="text-3xl font-bold text-white">{{ substr .Title 0 1 | upper }}</span>
+              </div>
+            </div>
+            <!-- 装饰元素 -->
+            <div class="absolute top-8 right-8 h-20 w-20 rounded-full bg-white/15"></div>
+            <div class="absolute bottom-8 left-8 h-16 w-16 rounded-full bg-white/20"></div>
+          </div>
+
+          <!-- 渐变遮罩 -->
+          <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent"></div>
+
+          <!-- 装饰元素 -->
+          <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-8 right-8 h-20 w-20 rounded-full bg-white/15"></div>
+            <div class="absolute bottom-8 left-8 h-16 w-16 rounded-full bg-white/20"></div>
+          </div>
+        </div>
+      </div>
+    {{- end -}}
+  {{ end }}
+
+  <!-- 项目头部信息 -->
+  <header class="mb-8">
+    <!-- 标题 -->
+    <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+      {{ .Title }}
+    </h1>
+
+    <!-- 摘要 -->
+    {{ if .Params.summary }}
+      <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
+        {{ .Params.summary | plainify }}
+      </div>
+    {{ end }}
+
+    <!-- 项目元信息 -->
+    <div class="bg-muted/30 border-border flex flex-wrap items-center gap-4 rounded-lg border p-4 text-sm">
+      <!-- 发布日期 -->
+      <div class="flex items-center gap-2">
+        {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
+        <span class="text-muted-foreground">{{ i18n "post.published_on" | default "Published on" }}:</span>
+        <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-foreground font-medium">
+          {{ .Date.Format (i18n "time.date_format" | default "January 02, 2006") }}
+        </time>
+      </div>
+
+      <!-- 项目状态 -->
+      {{ if .Params.status }}
+        <div class="flex items-center gap-2">
+          {{ partial "features/icon.html" (dict "name" "status" "size" "sm" "ariaLabel" "") }}
+          <span class="text-muted-foreground">{{ i18n "project.status" | default "Status" }}:</span>
+          <span class="text-foreground font-medium">
+            {{ if eq .Params.status "completed" }}
+              {{ i18n "project.status_completed" | default "Completed" }}
+            {{ else if eq .Params.status "in_progress" }}
+              {{ i18n "project.status_in_progress" | default "In Progress" }}
+            {{ else if eq .Params.status "planning" }}
+              {{ i18n "project.status_planning" | default "Planning" }}
+            {{ else }}
+              {{ .Params.status }}
+            {{ end }}
+          </span>
+        </div>
+      {{ end }}
+    </div>
+
+    <!-- 项目链接 -->
+    {{ if or .Params.github .Params.demo .Params.website }}
+      <div class="mt-4 flex flex-wrap gap-3">
+        {{ if .Params.github }}
+          <a 
+            href="{{ .Params.github }}" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors">
+            {{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
+            {{ i18n "project.github" | default "GitHub" }}
+          </a>
+        {{ end }}
+        {{ if .Params.demo }}
+          <a 
+            href="{{ .Params.demo }}" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            {{ partial "features/icon.html" (dict "name" "link" "size" "sm" "ariaLabel" "") }}
+            {{ i18n "project.demo" | default "Live Demo" }}
+          </a>
+        {{ end }}
+        {{ if .Params.website }}
+          <a 
+            href="{{ .Params.website }}" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors">
+            {{ partial "features/icon.html" (dict "name" "link" "size" "sm" "ariaLabel" "") }}
+            {{ i18n "project.website" | default "Website" }}
+          </a>
+        {{ end }}
+      </div>
+    {{ end }}
+
+    <!-- 技术栈 -->
+    {{ if .Params.tech_stack }}
+      <div class="mt-6">
+        <h2 class="text-foreground mb-3 text-sm font-semibold uppercase tracking-wide">
+          {{ i18n "project.tech_stack" | default "Tech Stack" }}
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {{ range .Params.tech_stack }}
+            <span class="bg-muted/50 text-foreground border-muted/30 rounded-md border px-3 py-1.5 text-sm font-medium">
+              {{ . }}
+            </span>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </header>
+
+  <!-- 项目内容 -->
+  <article class="prose prose-neutral dark:prose-invert mb-12 max-w-none">
+    {{ .Content }}
+  </article>
+
+  <!-- 评论组件 -->
+  {{ partial "features/comments.html" . }}
+
+{{ end }}
+

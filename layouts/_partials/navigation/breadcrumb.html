@@ -34,6 +34,9 @@
             {{ else if eq .Section "categories" }}
               {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
               <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.categories" | default "分类" }}</span>
+            {{ else if eq .Section "projects" }}
+              {{ partial "features/icon.html" (dict "name" "projects" "size" "sm" "ariaLabel" "") }}
+              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.projects" | default "项目" }}</span>
             {{ else }}
               {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
               <span class="max-w-[4rem] md:max-w-none truncate">{{ .Title }}</span>
@@ -111,6 +114,9 @@
                 {{ else if eq .Section "archives" }}
                   {{ partial "features/icon.html" (dict "name" "archive" "size" "sm" "ariaLabel" "") }}
                   <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.archives" | default "归档" }}</span>
+                {{ else if eq .Section "projects" }}
+                  {{ partial "features/icon.html" (dict "name" "projects" "size" "sm" "ariaLabel" "") }}
+                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.projects" | default "项目" }}</span>
                 {{ else }}
                   {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
                   <span class="max-w-[4rem] md:max-w-none truncate">{{ .Section | title }}</span>

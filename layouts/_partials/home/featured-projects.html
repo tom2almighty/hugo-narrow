@@ -1,0 +1,115 @@
+{{/* 特色项目区域 - 首页展示 */}}
+
+{{ $featuredProjects := where (where .Site.RegularPages "Section" "projects") "Params.featured" true }}
+
+{{ if $featuredProjects }}
+  <section class="mb-6">
+    <!-- 标题 -->
+    <div class="mb-6">
+      <h2 class="text-foreground text-2xl font-bold">
+        {{ i18n "project.featured_projects" | default "Featured Projects" }}
+      </h2>
+    </div>
+
+    <!-- 项目网格 - 响应式布局 -->
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {{ range first 3 $featuredProjects }}
+        {{ $project := . }}
+        
+        {{/* 使用通用图片处理器 */}}
+        {{- if $project.Params.cover -}}
+          {{- partial "content/image-processor.html" (dict
+            "context" $project
+            "src" $project.Params.cover
+            "enablePlaceholder" true
+            "outputType" "data"
+          ) -}}
+        {{- else -}}
+          {{- partial "content/image-processor.html" (dict
+            "context" $project
+            "src" ""
+            "enablePlaceholder" true
+            "outputType" "data"
+          ) -}}
+        {{- end -}}
+
+        {{- $coverImage := $project.Scratch.Get "imageUrl" -}}
+        {{- $placeholderData := $project.Scratch.Get "placeholderData" | default dict -}}
+        {{- $randomImage := $placeholderData.randomImage | default "" -}}
+        {{- $useRandomImage := $placeholderData.useRandomImage | default false -}}
+        {{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
+        {{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
+
+        {{- $summaryContent := "" -}}
+        {{- if $project.Params.summary -}}
+          {{- $summaryContent = $project.Params.summary -}}
+        {{- else if $project.Params.description -}}
+          {{- $summaryContent = $project.Params.description -}}
+        {{- else if $project.Summary -}}
+          {{- $summaryContent = $project.Summary | plainify | truncate 100 -}}
+        {{- end -}}
+
+        <!-- 项目卡片 -->
+        <a
+          href="{{ $project.RelPermalink }}"
+          class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 group block rounded-xl border p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
+
+          <!-- 项目缩略图 - 带边距 -->
+          {{ if or $coverImage $useRandomImage }}
+            <div class="relative h-32 w-full overflow-hidden rounded-lg mb-3">
+              {{- if $coverImage -}}
+                <img
+                  src="{{ $coverImage }}"
+                  alt="{{ $project.Title }}"
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              {{- else if $useRandomImage -}}
+                <img
+                  src="{{ $randomImage }}"
+                  alt="{{ $project.Title }}"
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              {{- end -}}
+            </div>
+          {{ else }}
+            <div class="relative h-32 w-full overflow-hidden rounded-lg mb-3 bg-gradient-to-br {{ index $gradients $colorIndex }} flex items-center justify-center">
+              <div class="text-muted-foreground/30 text-4xl font-bold">
+                {{ substr $project.Title 0 1 | upper }}
+              </div>
+            </div>
+          {{ end }}
+
+          <!-- 项目信息 -->
+          <div class="flex flex-col">
+            <h3 class="text-foreground group-hover:text-primary mb-2 text-base font-semibold leading-tight transition-colors duration-200 truncate">
+              {{ $project.Title }}
+            </h3>
+
+            {{ if $summaryContent }}
+              <p class="text-muted-foreground text-sm leading-relaxed truncate">
+                {{ $summaryContent }}
+              </p>
+            {{ end }}
+          </div>
+        </a>
+      {{ end }}
+    </div>
+
+    <!-- 查看所有项目按钮 -->
+    {{ $projectsCount := len (where .Site.RegularPages "Section" "projects") }}
+    {{ if gt $projectsCount (len $featuredProjects) }}
+      <div class="mt-8 mb-6 text-center">
+        <a
+          href="{{ "/projects/" | relLangURL }}"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95">
+          {{ partial "features/icon.html" (dict "name" "projects" "size" "md" "ariaLabel" (i18n "nav.projects")) }}
+          <span>{{ i18n "project.view_all_projects" | default "View All Projects" }}</span>
+          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
+        </a>
+      </div>
+    {{ end }}
+  </section>
+{{ end }}
+
