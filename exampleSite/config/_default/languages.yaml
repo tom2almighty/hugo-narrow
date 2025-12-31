@@ -8,15 +8,15 @@ zh-cn:
   languageName: "简体中文"
   weight: 2
 
-ja:
-  languageCode: ja-JP
-  languageName: "日本語"
-  weight: 3
+# ja:
+#   languageCode: ja-JP
+#   languageName: "日本語"
+#   weight: 3
 
-fr:
-  languageCode: fr-FR
-  languageName: "Français"
-  weight: 4
+# fr:
+#   languageCode: fr-FR
+#   languageName: "Français"
+#   weight: 4
 
 # de:
 #   languageCode: de-DE

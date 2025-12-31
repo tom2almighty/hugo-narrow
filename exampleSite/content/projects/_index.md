@@ -4,4 +4,3 @@ description: "Explore my portfolio of projects, from web development to AI appli
 ---
 
 Welcome to my projects showcase! Here you'll find a collection of my work, including web applications, open-source contributions, and experimental projects.
-
