@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-4xl">
     {{ $contentOrder := site.Params.home.contentOrder }}
     {{ if not $contentOrder }}
-      {{ $contentOrder = slice "author-section" "recent-posts" "page-content" }}
+      {{ $contentOrder = slice "author-section" "page-content" "recent-posts" }}
     {{ end }}
     {{ range $contentOrder }}
       {{ $sectionName := . }}

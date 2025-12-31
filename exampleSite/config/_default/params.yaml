@@ -99,10 +99,10 @@ home:
   # You can add your custom content by creating files in `layouts/_partials/home/` folder, then add it to the list
   contentOrder:
     - author-section
-    - custom_1.html
-    - featured-projects.html
-    - recent-posts
     - page-content
+    - recent-posts
+    - featured-projects.html
+
 
 
 

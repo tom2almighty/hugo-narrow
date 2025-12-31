@@ -1,5 +1,6 @@
 ---
 title: "Accueil"
+date: 2025-12-31
 author:
   name: "Hugo Narrow"
   title: "Un thème Hugo épuré et minimaliste"
@@ -16,3 +17,5 @@ author:
       url: "mailto:hello@example.com"
       icon: "email"
 ---
+
+🎉 **Refonte du site !** Nous avons complètement repensé notre site web avec des temps de chargement plus rapides, une nouvelle interface magnifique et une expérience utilisateur plus fluide. Bienvenue pour découvrir les nouvelles fonctionnalités !

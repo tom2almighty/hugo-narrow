@@ -1,9 +1,24 @@
-{{/* 页面内容 */}}
 {{ if .Content }}
-  <section class="page-content mt-12">
-    <div class="prose max-w-none">
-      {{ .Content }}
+<div class="bg-primary/10 border-primary/30 rounded-xl border p-6 shadow-sm mb-6 hover:shadow-md transition-shadow duration-300">
+  <div class="flex items-start gap-4">
+    <!-- 图标容器 -->
+    <div class="text-primary text-2xl shrink-0 mt-0.5" aria-hidden="true">
+      📢
     </div>
-  </section>
-{{ end }}
 
+    <!-- 内容区域 -->
+    <div class="flex-1 space-y-2">
+      <div class="text-foreground/80 leading-relaxed">
+        {{ .Content }}
+      </div>
+      
+      <!-- 日期 -->
+      {{ with .Params.date }}
+      <div class="text-muted-foreground/60 text-xs mt-3">
+          {{ .Format (i18n "time.date_format" | default "2006年01月02日") }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</div>
+{{ end }}

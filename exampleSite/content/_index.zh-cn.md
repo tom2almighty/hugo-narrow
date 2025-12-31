@@ -1,5 +1,6 @@
 ---
 title: "首页"
+date: 2025-12-31
 author:
   name: "Hugo Narrow"
   title: "简洁的 Hugo 主题"
@@ -16,3 +17,5 @@ author:
       url: "mailto:hello@example.com"
       icon: "email"
 ---
+
+🎉 **网站全新改版！** 我们对网站进行了全面升级，带来了更快的加载速度、更美观的界面设计和更流畅的用户体验。欢迎探索新功能！
