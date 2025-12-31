@@ -6,7 +6,7 @@
 */}}
 
 {{/* 获取配置参数 */}}
-{{ $relatedCount := .Site.Params.post.relatedPostsCount | default 3 }}
+{{ $relatedCount := .Params.relatedPostsCount | default .Site.Params.post.relatedPostsCount | default 3 }}
 {{ $showRelated := .Params.showRelated | default .Site.Params.post.showRelated | default true }}
 {{ $related := .Site.RegularPages.Related . | first $relatedCount }}
 
