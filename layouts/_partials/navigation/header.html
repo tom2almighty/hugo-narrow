@@ -2,7 +2,7 @@
   <div
     class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
     <!-- 桌面端布局 -->
-    <div class="hidden w-full items-center md:flex">
+    <div class="hidden w-full items-center md:flex md:min-w-0">
       <!-- 左侧：站点 Logo -->
       <div class="flex items-center">
         {{ if ne site.Params.header.logo.image "" }}
@@ -27,8 +27,8 @@
       </div>
 
       <!-- 中间：桌面端导航 -->
-      <nav class="mx-8 flex flex-1 items-center justify-center">
-        <div class="flex items-center space-x-1">
+      <nav class="mx-8 flex flex-1 items-center justify-center min-w-0">
+        <div class="flex items-center space-x-1 flex-wrap justify-center">
           {{ $currentPage := . }}
           {{ range site.Menus.main }}
             {{/* 生成语言感知的URL */}}
