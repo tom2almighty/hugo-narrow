@@ -11,10 +11,24 @@
   @context {page} . 当前文章页面对象
 */}}
 
-{{- $commentsConfig := .Site.Params.comments -}}
-{{- $commentSystem := $commentsConfig.system -}}
+{{- $commentsConfig := dict 
+  "enabled" false
+  "system" ""
+-}}
 
-{{- if and $commentsConfig.enabled (not .Params.comments_disabled) -}}
+{{/* 合并全局配置 */}}
+{{- with .Site.Params.comments -}}
+  {{- $commentsConfig = merge $commentsConfig . -}}
+{{- end -}}
+
+{{/* 合并页面配置 */}}
+{{- with .Params.comments -}}
+  {{- $commentsConfig = merge $commentsConfig . -}}
+{{- end -}}
+
+{{/* 判断是否加载评论 */}}
+{{- if and $commentsConfig.enabled $commentsConfig.system -}}
+  {{- $commentSystem := $commentsConfig.system -}}
   <section
     id="comments"
     class="bg-card border-border mx-auto mt-12 max-w-4xl rounded-2xl border p-8 px-4 shadow-sm">
