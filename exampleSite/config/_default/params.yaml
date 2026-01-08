@@ -51,6 +51,15 @@ toc:
   maxWidth: "280px"
   maxHeight: "80vh"
 
+# Series (Document Series Navigation)
+series:
+  enabled: true         # Enable or disable Series globally
+  position: "right"     # Options: card left right
+  maxWidth: "280px"
+  maxHeight: "80vh"
+  showProgress: true    # Show reading progress (e.g., "2/5")
+  showInHeader: true    # Show series info card in article header
+
 
 
 # Default color scheme

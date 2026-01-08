@@ -1,0 +1,225 @@
+{{/* 统一导航卡片组件
+
+  支持 TOC 和 Series 的 Tab 切换显示
+  只在 card 模式或小屏幕时显示
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+{{- $globalTocConfig := .Site.Params.toc | default dict }}
+{{- $tocEnabled := $globalTocConfig.enabled | default true }}
+{{- $tocPosition := $globalTocConfig.position | default "card" }}
+
+{{- $globalSeriesConfig := .Site.Params.series | default dict }}
+{{- $seriesEnabled := $globalSeriesConfig.enabled | default false }}
+{{- $seriesPosition := $globalSeriesConfig.position | default "card" }}
+{{- $showProgress := $globalSeriesConfig.showProgress | default true }}
+
+{{/* frontmatter 参数覆盖 - TOC */}}
+{{- if isset .Params "toc" }}
+  {{- if reflect.IsMap .Params.toc }}
+    {{- if isset .Params.toc "enabled" }}
+      {{- $tocEnabled = .Params.toc.enabled }}
+    {{- end }}
+    {{- if isset .Params.toc "position" }}
+      {{- $tocPosition = .Params.toc.position }}
+    {{- end }}
+  {{- else }}
+    {{- $tocEnabled = .Params.toc }}
+  {{- end }}
+{{- end }}
+
+{{/* frontmatter 参数覆盖 - Series */}}
+{{- if isset .Params "series" }}
+  {{- if reflect.IsMap .Params.series }}
+    {{- if isset .Params.series "enabled" }}
+      {{- $seriesEnabled = .Params.series.enabled }}
+    {{- end }}
+    {{- if isset .Params.series "position" }}
+      {{- $seriesPosition = .Params.series.position }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* 获取当前页面所属的 series */}}
+{{- $currentSeries := .GetTerms "series" }}
+{{- $seriesPages := slice }}
+{{- $currentIndex := 0 }}
+{{- $totalCount := 0 }}
+
+{{- if $currentSeries }}
+  {{- $seriesPage := index $currentSeries 0 }}
+  {{- $seriesPages = $seriesPage.Pages.ByParam "series_order" }}
+  {{- $totalCount = len $seriesPages }}
+  
+  {{/* 找到当前页面在系列中的位置 */}}
+  {{- range $index, $page := $seriesPages }}
+    {{- if eq $page.RelPermalink $.RelPermalink }}
+      {{- $currentIndex = add $index 1 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* 判断是否需要显示 Tab */}}
+{{- $showTabs := and $tocEnabled $seriesEnabled $currentSeries .TableOfContents }}
+{{- $showTocOnly := and $tocEnabled (not (and $seriesEnabled $currentSeries)) }}
+{{- $showSeriesOnly := and $seriesEnabled $currentSeries (not $tocEnabled) }}
+
+{{/* 只在至少有一个功能启用时显示卡片 */}}
+{{- if or $showTabs $showTocOnly $showSeriesOnly }}
+  <!-- 导航卡片遮罩层 - 只在 card 模式或小屏幕时显示 -->
+  <div
+    id="navigation-overlay"
+    class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 backdrop-blur-sm transition-all duration-300 {{ if and (ne $tocPosition "card") (ne $seriesPosition "card") }}xl:hidden{{ end }}"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="navigation-title"></div>
+
+  <!-- 导航卡片 - 只在 card 模式或小屏幕时显示 -->
+  <div
+    id="navigation-card"
+    class="pointer-events-none fixed inset-4 z-50 flex w-auto scale-95 items-center justify-center opacity-0 transition-all duration-300 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:block sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 {{ if and (ne $tocPosition "card") (ne $seriesPosition "card") }}xl:hidden{{ end }}"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="navigation-title">
+    <div
+      class="bg-card border-border w-full max-w-sm overflow-hidden rounded-xl border shadow-xl sm:max-w-md">
+      <!-- 卡片头部 -->
+      <div
+        class="border-border bg-muted/30 flex items-center justify-between border-b p-4">
+        <div class="flex items-center gap-3">
+          {{ partial "features/icon.html" (dict "name" "list" "size" "md" "ariaLabel" "") }}
+          <h2 id="navigation-title" class="text-foreground text-lg font-semibold">
+            {{ if $showTabs }}
+              {{ i18n "navigation.title" | default "导航" }}
+            {{ else if $showTocOnly }}
+              {{ i18n "toc.title" | default "目录" }}
+            {{ else }}
+              {{ i18n "series.title" | default "系列文章" }}
+            {{ end }}
+          </h2>
+        </div>
+
+        <!-- 关闭按钮 -->
+        <button
+          id="navigation-close"
+          class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 rounded-lg p-2 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
+          title="{{ i18n "navigation.close" | default "关闭" }}"
+          aria-label="{{ i18n "navigation.close" | default "关闭导航" }}">
+          {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
+        </button>
+      </div>
+
+      {{/* Tab 切换按钮 - 只在双功能启用时显示 */}}
+      {{- if $showTabs }}
+        <div class="border-border flex border-b">
+          <button
+            id="nav-tab-toc"
+            class="nav-tab active flex-1 border-b-2 border-primary px-4 py-3 text-sm font-medium text-primary transition-colors"
+            data-tab="toc"
+            aria-selected="true">
+            {{ i18n "toc.title" | default "目录" }}
+          </button>
+          <button
+            id="nav-tab-series"
+            class="nav-tab text-muted-foreground hover:text-foreground flex-1 border-b-2 border-transparent px-4 py-3 text-sm font-medium transition-colors"
+            data-tab="series"
+            aria-selected="false">
+            {{ i18n "series.title" | default "系列" }}
+            {{- if and $showProgress (gt $totalCount 0) }}
+              <span class="ml-1 text-xs">({{ $currentIndex }}/{{ $totalCount }})</span>
+            {{- end }}
+          </button>
+        </div>
+      {{- end }}
+
+      <!-- 导航内容 -->
+      <div class="max-h-96 overflow-y-auto p-4">
+        {{/* TOC 内容 */}}
+        <nav
+          id="nav-content-toc"
+          class="nav-content {{ if not $showTabs }}block{{ else }}block{{ end }}"
+          aria-label="{{ i18n "toc.navigation" | default "文章目录导航" }}">
+          {{- if .TableOfContents }}
+            <div id="toc-content">
+              {{ .TableOfContents }}
+            </div>
+          {{- else }}
+            <div class="text-muted-foreground py-8 text-center">
+              <div
+                class="bg-muted/50 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
+                {{ partial "features/icon.html" (dict "name" "text" "size" "md" "ariaLabel" "") }}
+              </div>
+              <p class="text-sm">
+                {{ i18n "toc.empty" | default "此文章没有标题" }}
+              </p>
+            </div>
+          {{- end }}
+        </nav>
+
+        {{/* Series 内容 */}}
+        {{- if and $seriesEnabled $currentSeries }}
+          <nav
+            id="nav-content-series"
+            class="nav-content {{ if $showTabs }}hidden{{ else }}block{{ end }}"
+            aria-label="{{ i18n "series.navigation" | default "系列文章导航" }}">
+            {{- if $currentSeries }}
+              {{- $seriesPage := index $currentSeries 0 }}
+              <!-- Series 名称 -->
+              <div class="mb-4 rounded-lg bg-primary/10 px-3 py-2">
+                <h3 class="text-primary text-sm font-medium">
+                  {{ $seriesPage.LinkTitle }}
+                </h3>
+                {{- if and $showProgress (gt $totalCount 0) }}
+                  <p class="text-muted-foreground mt-1 text-xs">
+                    {{ i18n "series.progress" (dict "current" $currentIndex "total" $totalCount) | default (printf "第 %d 篇，共 %d 篇" $currentIndex $totalCount) }}
+                  </p>
+                {{- end }}
+              </div>
+            {{- end }}
+
+            {{- if $seriesPages }}
+              <ol class="space-y-2">
+                {{- range $index, $page := $seriesPages }}
+                  {{- $isCurrent := eq $page.RelPermalink $.RelPermalink }}
+                  <li>
+                    <a
+                      href="{{ $page.RelPermalink }}"
+                      class="group block rounded-lg px-3 py-2 text-sm transition-all duration-200 {{ if $isCurrent }}bg-primary/20 text-primary font-medium{{ else }}text-muted-foreground hover:bg-muted/50 hover:text-foreground{{ end }}"
+                      {{ if $isCurrent }}aria-current="page"{{ end }}>
+                      <div class="flex items-start gap-2">
+                        <span class="flex-shrink-0 {{ if $isCurrent }}text-primary{{ else }}text-muted-foreground/60{{ end }}">
+                          {{ add $index 1 }}.
+                        </span>
+                        <span class="flex-1">{{ $page.LinkTitle }}</span>
+                        {{- if $isCurrent }}
+                          <span class="flex-shrink-0">
+                            {{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") }}
+                          </span>
+                        {{- end }}
+                      </div>
+                    </a>
+                  </li>
+                {{- end }}
+              </ol>
+            {{- else }}
+              <div class="text-muted-foreground py-8 text-center">
+                <p class="text-sm">
+                  {{ i18n "series.empty" | default "此文章不属于任何系列" }}
+                </p>
+              </div>
+            {{- end }}
+          </nav>
+        {{- end }}
+      </div>
+
+      <!-- 卡片底部 -->
+      <div class="border-border bg-muted/20 border-t px-4 py-3">
+        <div class="text-muted-foreground text-center text-xs">
+          <span>{{ i18n "navigation.tip" | default "点击标题快速跳转" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{{- end }}
+

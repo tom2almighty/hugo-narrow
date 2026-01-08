@@ -7,6 +7,7 @@ nav:
   projects: "プロジェクト"
   tags: "タグ"
   categories: "カテゴリー"
+  series: "シリーズ"
   about: "について"
   contact: "お問い合わせ"
   archive: "アーカイブ"
@@ -55,6 +56,7 @@ post:
   updated_on: "更新日"
   tags: "タグ"
   categories: "カテゴリー"
+  series: "シリーズ"
   share: "シェア"
   previous: "前の記事"
   next: "次の記事"
@@ -205,7 +207,9 @@ comments:
 dock:
   aria_label: "クイックアクションツールバー"
   back: "戻る"
+  navigation: "ナビゲーション"
   toc: "目次"
+  series: "シリーズ"
   search: "検索"
   comments: "コメント"
   back_to_top: "トップに戻る"
@@ -226,6 +230,19 @@ toc:
   navigation: "目次ナビゲーション"
   empty: "この記事には見出しがありません"
   tip: "クリックしてセクションにジャンプ"
+
+# シリーズ関連
+series:
+  title: "シリーズ"
+  navigation: "シリーズナビゲーション"
+  empty: "この記事はシリーズに含まれていません"
+  current: "現在の記事"
+  progress: "第{{ .current }}部、全{{ .total }}部"
+  total: "{{ .count }}記事"
+  part: "第{{ .current }}部"
+  previous: "前へ"
+  next: "次へ"
+  view_all: "すべて表示"
 
 # コードブロック関連
 code:

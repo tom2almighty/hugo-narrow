@@ -7,6 +7,7 @@ nav:
   projects: "Proyectos"
   tags: "Etiquetas"
   categories: "Categorías"
+  series: "Serie"
   about: "Acerca de"
   contact: "Contacto"
   archive: "Archivo"
@@ -55,6 +56,7 @@ post:
   updated_on: "Actualizado el"
   tags: "Etiquetas"
   categories: "Categorías"
+  series: "Serie"
   share: "Compartir"
   previous: "Anterior"
   next: "Siguiente"
@@ -204,7 +206,9 @@ comments:
 dock:
   aria_label: "Barra de herramientas de acciones rápidas"
   back: "Volver"
+  navigation: "Navegación"
   toc: "Tabla de contenidos"
+  series: "Serie"
   search: "Buscar"
   comments: "Comentarios"
   back_to_top: "Volver arriba"
@@ -225,6 +229,19 @@ toc:
   navigation: "Navegación de tabla de contenidos"
   empty: "No hay encabezados en este artículo"
   tip: "Haz clic para ir a la sección"
+
+# Serie
+series:
+  title: "Serie"
+  navigation: "Navegación de serie"
+  empty: "Este artículo no forma parte de ninguna serie"
+  current: "Artículo actual"
+  progress: "Parte {{ .current }} de {{ .total }}"
+  total: "{{ .count }} artículos"
+  part: "Parte {{ .current }}"
+  previous: "Anterior"
+  next: "Siguiente"
+  view_all: "Ver todo"
 
 # Bloques de código
 code:

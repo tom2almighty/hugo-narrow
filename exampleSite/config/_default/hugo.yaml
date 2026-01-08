@@ -22,6 +22,7 @@ pagination:
 taxonomies:
   category: categories
   tag: tags
+  series: series
 
 markup:
   tableOfContents:

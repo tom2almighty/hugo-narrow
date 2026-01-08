@@ -1,0 +1,161 @@
+{{/* 侧边栏 Series 组件
+
+  显示在页面左侧或右侧的固定系列文章列表
+  使用固定定位，不影响正文居中布局
+  只在大屏幕（≥1280px）且配置为 left/right 模式时显示
+
+  @context {page} . 当前文章页面对象
+*/}}
+
+{{- $globalSeriesConfig := .Site.Params.series | default dict }}
+{{- $seriesEnabled := $globalSeriesConfig.enabled | default false }}
+{{- $seriesPosition := $globalSeriesConfig.position | default "card" }}
+{{- $seriesMaxWidth := $globalSeriesConfig.maxWidth | default "280px" }}
+{{- $seriesMaxHeight := $globalSeriesConfig.maxHeight | default "80vh" }}
+{{- $showProgress := $globalSeriesConfig.showProgress | default true }}
+
+{{/* frontmatter 参数覆盖 */}}
+{{- if isset .Params "series" }}
+  {{- if reflect.IsMap .Params.series }}
+    {{- if isset .Params.series "enabled" }}
+      {{- $seriesEnabled = .Params.series.enabled }}
+    {{- end }}
+    {{- if isset .Params.series "position" }}
+      {{- $seriesPosition = .Params.series.position }}
+    {{- end }}
+    {{- if isset .Params.series "maxWidth" }}
+      {{- $seriesMaxWidth = .Params.series.maxWidth }}
+    {{- end }}
+    {{- if isset .Params.series "maxHeight" }}
+      {{- $seriesMaxHeight = .Params.series.maxHeight }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* 获取当前页面所属的 series */}}
+{{- $currentSeries := .GetTerms "series" }}
+{{- $seriesPages := slice }}
+{{- $currentIndex := 0 }}
+{{- $totalCount := 0 }}
+
+{{- if $currentSeries }}
+  {{- $seriesPage := index $currentSeries 0 }}
+  {{- $seriesPages = $seriesPage.Pages.ByParam "series_order" }}
+  {{- $totalCount = len $seriesPages }}
+  
+  {{/* 找到当前页面在系列中的位置 */}}
+  {{- range $index, $page := $seriesPages }}
+    {{- if eq $page.RelPermalink $.RelPermalink }}
+      {{- $currentIndex = add $index 1 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- if and .IsPage $seriesEnabled $currentSeries (or (eq $seriesPosition "left") (eq $seriesPosition "right")) }}
+  {{/* 检查 TOC 是否也在同一侧 */}}
+  {{- $globalTocConfig := .Site.Params.toc | default dict }}
+  {{- $tocEnabled := $globalTocConfig.enabled | default true }}
+  {{- $tocPosition := $globalTocConfig.position | default "card" }}
+
+  {{/* frontmatter 参数覆盖 - 读取 TOC 配置 */}}
+  {{- if isset .Params "toc" }}
+    {{- if reflect.IsMap .Params.toc }}
+      {{- if isset .Params.toc "enabled" }}
+        {{- $tocEnabled = .Params.toc.enabled }}
+      {{- end }}
+      {{- if isset .Params.toc "position" }}
+        {{- $tocPosition = .Params.toc.position }}
+      {{- end }}
+    {{- else }}
+      {{- $tocEnabled = .Params.toc }}
+    {{- end }}
+  {{- end }}
+
+  {{/* 判断是否需要调整位置（Series 和 TOC 在同一侧） */}}
+  {{- $samePosition := and $tocEnabled .TableOfContents (eq $tocPosition $seriesPosition) }}
+  {{- $hasToc := and $tocEnabled .TableOfContents }}
+
+  {{/* 计算 Series 的 top 位置 */}}
+  {{- $seriesTop := "6rem" }}
+  {{- $hasSameSide := "" }}
+  {{- if $samePosition }}
+    {{/* 如果 TOC 在同一侧，使用 data 属性标记，由 JS 动态计算位置 */}}
+    {{- $hasSameSide = "true" }}
+    {{/* 初始位置设置一个合理的默认值 */}}
+    {{- $seriesTop = "calc(6rem + 30rem)" | safeCSS }}
+  {{- end }}
+
+  <!-- 侧边栏 Series 容器 - 使用固定定位 -->
+  <aside
+    id="series-sidebar"
+    class="series-sidebar hidden xl:block fixed {{ if eq $seriesPosition "left" }}series-sidebar-left{{ else }}series-sidebar-right{{ end }}"
+    data-same-side="{{ $hasSameSide }}"
+    style="max-width: {{ $seriesMaxWidth }}; max-height: {{ $seriesMaxHeight }}; top: {{ $seriesTop }};"
+    aria-label="{{ i18n "series.navigation" | default "系列文章导航" }}">
+
+    <!-- Series 标题 -->
+    <div class="mb-4 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        {{ partial "features/icon.html" (dict "name" "book-open" "size" "sm" "ariaLabel" "") }}
+        <h2 class="text-foreground text-sm font-semibold">
+          {{ i18n "series.title" | default "系列文章" }}
+        </h2>
+      </div>
+      {{- if and $showProgress (gt $totalCount 0) }}
+        <span class="text-muted-foreground text-xs font-medium">
+          {{ $currentIndex }}/{{ $totalCount }}
+        </span>
+      {{- end }}
+    </div>
+
+    <!-- Series 名称 -->
+    {{- if $currentSeries }}
+      {{- $seriesPage := index $currentSeries 0 }}
+      <div class="mb-3 rounded-lg bg-primary/10 px-3 py-2">
+        <h3 class="text-primary text-sm font-medium line-clamp-2">
+          {{ $seriesPage.LinkTitle }}
+        </h3>
+      </div>
+    {{- end }}
+
+    <!-- Series 内容 -->
+    <nav
+      id="series-sidebar-content"
+      class="series-sidebar-scroll overflow-y-auto pr-2"
+      style="max-height: calc({{ $seriesMaxHeight }} - 8rem);">
+      {{- if $seriesPages }}
+        <ol class="space-y-2">
+          {{- range $index, $page := $seriesPages }}
+            {{- $isCurrent := eq $page.RelPermalink $.RelPermalink }}
+            <li>
+              <a
+                href="{{ $page.RelPermalink }}"
+                class="group block rounded-lg px-3 py-2 text-sm transition-all duration-200 {{ if $isCurrent }}bg-primary/20 text-primary font-medium{{ else }}text-muted-foreground hover:bg-muted/50 hover:text-foreground{{ end }}"
+                {{ if $isCurrent }}aria-current="page"{{ end }}>
+                <div class="flex items-start gap-2">
+                  <span class="flex-shrink-0 {{ if $isCurrent }}text-primary{{ else }}text-muted-foreground/60{{ end }}">
+                    {{ add $index 1 }}.
+                  </span>
+                  <span class="flex-1 line-clamp-2">{{ $page.LinkTitle }}</span>
+                  {{- if $isCurrent }}
+                    <span class="flex-shrink-0">
+                      {{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") }}
+                    </span>
+                  {{- end }}
+                </div>
+              </a>
+            </li>
+          {{- end }}
+        </ol>
+      {{- else }}
+        <!-- 空状态 -->
+        <div class="text-muted-foreground py-8 text-center">
+          <p class="text-xs">
+            {{ i18n "series.empty" | default "此文章不属于任何系列" }}
+          </p>
+        </div>
+      {{- end }}
+    </nav>
+  </aside>
+{{- end }}
+

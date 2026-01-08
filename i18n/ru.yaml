@@ -7,6 +7,7 @@ nav:
   projects: "Проекты"
   tags: "Теги"
   categories: "Категории"
+  series: "Серия"
   about: "О нас"
   contact: "Контакты"
   archive: "Архив"
@@ -55,6 +56,7 @@ post:
   updated_on: "Обновлено"
   tags: "Теги"
   categories: "Категории"
+  series: "Серия"
   share: "Поделиться"
   previous: "Предыдущая"
   next: "Следующая"
@@ -191,8 +193,11 @@ comments:
 
 # Нижняя панель
 dock:
+  aria_label: "Панель быстрых действий"
   back: "Назад"
+  navigation: "Навигация"
   toc: "Содержание"
+  series: "Серия"
   search: "Поиск"
   comments: "Комментарии"
   back_to_top: "Наверх"
@@ -208,13 +213,28 @@ alert:
 
 # Содержание
 toc:
+  close: "Закрыть"
   title: "Содержание"
   navigation: "Навигация по содержанию"
   empty: "В этой статье нет заголовков"
   tip: "Нажмите, чтобы перейти к разделу"
 
+# Серия
+series:
+  title: "Серия"
+  navigation: "Навигация по серии"
+  empty: "Эта статья не является частью серии"
+  current: "Текущая статья"
+  progress: "Часть {{ .current }} из {{ .total }}"
+  total: "{{ .count }} статей"
+  part: "Часть {{ .current }}"
+  previous: "Предыдущая"
+  next: "Следующая"
+  view_all: "Показать все"
+
 # Блоки кода
 code:
+  copy: "Копировать"
   copied: "Скопировано"
   selected: "Выбрано"
   collapse: "Свернуть"

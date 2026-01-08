@@ -7,6 +7,7 @@ nav:
   projects: "Projets"
   tags: "Étiquettes"
   categories: "Catégories"
+  series: "Série"
   about: "À propos"
   contact: "Contact"
   archive: "Archive"
@@ -55,6 +56,7 @@ post:
   updated_on: "Mis à jour le"
   tags: "Étiquettes"
   categories: "Catégories"
+  series: "Série"
   share: "Partager"
   previous: "Précédent"
   next: "Suivant"
@@ -195,8 +197,11 @@ comments:
 
 # Dock inférieur
 dock:
+  aria_label: "Barre d'outils d'actions rapides"
   back: "Retour"
+  navigation: "Navigation"
   toc: "Table des matières"
+  series: "Série"
   search: "Rechercher"
   comments: "Commentaires"
   back_to_top: "Retour en haut"
@@ -212,13 +217,28 @@ alert:
 
 # Table des matières
 toc:
+  close: "Fermer"
   title: "Table des matières"
   navigation: "Navigation dans la table des matières"
   empty: "Aucun titre dans cet article"
   tip: "Cliquez pour accéder à la section"
 
+# Série
+series:
+  title: "Série"
+  navigation: "Navigation de série"
+  empty: "Cet article ne fait partie d'aucune série"
+  current: "Article actuel"
+  progress: "Partie {{ .current }} sur {{ .total }}"
+  total: "{{ .count }} articles"
+  part: "Partie {{ .current }}"
+  previous: "Précédent"
+  next: "Suivant"
+  view_all: "Voir tout"
+
 # Blocs de code
 code:
+  copy: "Copier"
   copied: "Copié"
   selected: "Sélectionné"
   collapse: "Réduire"

@@ -124,6 +124,7 @@
 .toc-sidebar {
   width: 280px;
   z-index: 30;
+  top: 6rem; /* 默认位置 24px = 6rem */
 }
 
 /* 左侧定位 - 计算公式：(100vw - 896px) / 2 - 280px - 32px */
@@ -135,6 +136,76 @@
 /* 右侧定位 - 计算公式：(100vw - 896px) / 2 - 280px - 32px */
 .toc-sidebar-right {
   right: max(1rem, calc((100vw - 896px) / 2 - 280px - 2rem));
+}
+
+/* Series 侧边栏样式 */
+.series-sidebar {
+  width: 280px;
+  z-index: 30;
+}
+
+/* Series 左侧定位 - 计算公式：(100vw - 896px) / 2 - 280px - 32px */
+.series-sidebar-left {
+  left: max(1rem, calc((100vw - 896px) / 2 - 280px - 2rem));
+}
+
+/* Series 右侧定位 - 计算公式：(100vw - 896px) / 2 - 280px - 32px */
+.series-sidebar-right {
+  right: max(1rem, calc((100vw - 896px) / 2 - 280px - 2rem));
+}
+
+/* Series 侧边栏滚动条样式 */
+.series-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent) transparent;
+}
+
+.series-sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.series-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.series-sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent);
+  border-radius: 3px;
+}
+
+.series-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
+}
+
+/* Series 侧边栏动画 */
+.series-sidebar {
+  animation: series-sidebar-fade-in 0.3s ease-out;
+}
+
+@keyframes series-sidebar-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.series-sidebar.series-sidebar-right {
+  animation-name: series-sidebar-fade-in-right;
+}
+
+@keyframes series-sidebar-fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 #toc-sidebar-content {

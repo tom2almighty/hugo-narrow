@@ -7,6 +7,7 @@ nav:
   projects: "المشاريع"
   tags: "الوسوم"
   categories: "التصنيفات"
+  series: "السلسلة"
   about: "حول"
   contact: "اتصل بنا"
   archive: "الأرشيف"
@@ -55,6 +56,7 @@ post:
   updated_on: "تم التحديث في"
   tags: "الوسوم"
   categories: "التصنيفات"
+  series: "السلسلة"
   share: "مشاركة"
   previous: "السابق"
   next: "التالي"
@@ -122,3 +124,46 @@ project:
   list_desc: "هنا جميع المشاريع المنشورة، تعرض أعمالي وتجاربي."
   total_projects: "{{ .count }} مشاريع إجمالاً"
   featured: "مميز"
+
+
+# جدول المحتويات
+toc:
+  close: "إغلاق"
+  title: "جدول المحتويات"
+  navigation: "التنقل في جدول المحتويات"
+  empty: "لا توجد عناوين في هذا المقال"
+  tip: "انقر للانتقال إلى القسم"
+
+# السلسلة
+series:
+  title: "السلسلة"
+  navigation: "التنقل في السلسلة"
+  empty: "هذا المقال ليس جزءاً من أي سلسلة"
+  current: "المقال الحالي"
+  progress: "الجزء {{ .current }} من {{ .total }}"
+  total: "{{ .count }} مقالات"
+  part: "الجزء {{ .current }}"
+  previous: "السابق"
+  next: "التالي"
+  view_all: "عرض الكل"
+
+# كتل الكود
+code:
+  copy: "نسخ"
+  copied: "تم النسخ"
+  selected: "محدد"
+  collapse: "طي"
+  expand: "توسيع"
+  clickToExpand: "انقر للتوسيع وعرض المزيد"
+
+# Dock
+dock:
+  aria_label: "شريط الأدوات السريع"
+  back: "رجوع"
+  navigation: "التنقل"
+  toc: "جدول المحتويات"
+  series: "السلسلة"
+  search: "بحث"
+  comments: "التعليقات"
+  back_to_top: "العودة للأعلى"
+  top: "الأعلى"

@@ -37,6 +37,9 @@
             {{ else if eq .Section "projects" }}
               {{ partial "features/icon.html" (dict "name" "projects" "size" "sm" "ariaLabel" "") }}
               <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.projects" | default "项目" }}</span>
+            {{ else if eq .Section "series" }}
+              {{ partial "features/icon.html" (dict "name" "library" "size" "sm" "ariaLabel" "") }}
+              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.series" | default "系列" }}</span>
             {{ else }}
               {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
               <span class="max-w-[4rem] md:max-w-none truncate">{{ .Title }}</span>
@@ -85,6 +88,31 @@
                   class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
                   {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
                   <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.categories" | default "分类" }}</span>
+                </a>
+                <span class="text-muted-foreground/50 flex-shrink-0"
+                  >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span
+                >
+                <span class="text-foreground font-medium min-w-0 flex items-center gap-0.5 md:gap-1">
+                  <span class="max-w-[6rem] md:max-w-[12rem] lg:max-w-none truncate">{{ .Title }}</span>
+                </span>
+              </div>
+            {{ end }}
+          {{ else if eq .Data.Singular "series" }}
+            <!-- Series 相关页面 -->
+            {{ if .IsNode }}
+              <!-- Series 列表页 (/series/) -->
+              <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium flex-shrink-0">
+                {{ partial "features/icon.html" (dict "name" "library" "size" "sm" "ariaLabel" "") }}
+                <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.series" | default "系列" }}</span>
+              </span>
+            {{ else }}
+              <!-- 特定 Series 页 (/series/hugo-tutorial/) -->
+              <div class="flex items-center gap-1 md:gap-2 min-w-0">
+                <a
+                  href="{{ "/series/" | relLangURL }}"
+                  class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
+                  {{ partial "features/icon.html" (dict "name" "library" "size" "sm" "ariaLabel" "") }}
+                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.series" | default "系列" }}</span>
                 </a>
                 <span class="text-muted-foreground/50 flex-shrink-0"
                   >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span

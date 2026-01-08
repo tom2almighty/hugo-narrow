@@ -19,7 +19,7 @@
 {{- end }}
 
 
-<!-- Gumshoe 库 - 只在文章页面且 TOC 启用时加载 -->
+<!-- Gumshoe 库 - 只在文章页面且 TOC 或 Series 启用时加载 -->
 {{- if .IsPage }}
   {{- $tocEnabled := true }}
   {{- $globalTocConfig := .Site.Params.toc | default dict }}
@@ -35,13 +35,27 @@
       {{- $tocEnabled = .Params.toc }}
     {{- end }}
   {{- end }}
-  {{- if $tocEnabled }}
+
+  {{- $seriesEnabled := false }}
+  {{- $globalSeriesConfig := .Site.Params.series | default dict }}
+  {{- if isset $globalSeriesConfig "enabled" }}
+    {{- $seriesEnabled = $globalSeriesConfig.enabled }}
+  {{- end }}
+  {{- if isset .Params "series" }}
+    {{- if reflect.IsMap .Params.series }}
+      {{- if isset .Params.series "enabled" }}
+        {{- $seriesEnabled = .Params.series.enabled }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+
+  {{- if or $tocEnabled $seriesEnabled }}
     <script src="{{ "js/gumshoe.polyfills.min.js" | relURL }}"></script>
   {{- end }}
 {{- end }}
 
 
-<!-- 目录功能脚本 - 只在文章页面且 TOC 启用时加载，需要在 dock.js 之前加载 -->
+<!-- 统一导航功能脚本 - 只在文章页面且 TOC 或 Series 启用时加载，需要在 dock.js 之前加载 -->
 {{- if .IsPage }}
   {{- $tocEnabled := true }}
   {{- $globalTocConfig := .Site.Params.toc | default dict }}
@@ -57,12 +71,48 @@
       {{- $tocEnabled = .Params.toc }}
     {{- end }}
   {{- end }}
-  {{- if $tocEnabled }}
-    {{- with resources.Get "js/toc.js" }}
+
+  {{- $seriesEnabled := false }}
+  {{- $globalSeriesConfig := .Site.Params.series | default dict }}
+  {{- if isset $globalSeriesConfig "enabled" }}
+    {{- $seriesEnabled = $globalSeriesConfig.enabled }}
+  {{- end }}
+  {{- if isset .Params "series" }}
+    {{- if reflect.IsMap .Params.series }}
+      {{- if isset .Params.series "enabled" }}
+        {{- $seriesEnabled = .Params.series.enabled }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+
+  {{- if or $tocEnabled $seriesEnabled }}
+    {{- with resources.Get "js/navigation.js" }}
       {{- $opts := dict
         "minify" (not hugo.IsDevelopment)
         "sourceMap" (cond hugo.IsDevelopment "external" "")
-        "targetPath" "js/toc.js"
+        "targetPath" "js/navigation.js"
+      }}
+      {{- with . | js.Build $opts }}
+        {{- if hugo.IsDevelopment }}
+          <script src="{{ .RelPermalink }}" defer></script>
+        {{- else }}
+          {{- with . | fingerprint }}
+            <script
+              src="{{ .RelPermalink }}"
+              integrity="{{ .Data.Integrity }}"
+              crossorigin="anonymous"
+              defer></script>
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+
+    {{/* 侧边栏位置调整脚本 */}}
+    {{- with resources.Get "js/sidebar-position.js" }}
+      {{- $opts := dict
+        "minify" (not hugo.IsDevelopment)
+        "sourceMap" (cond hugo.IsDevelopment "external" "")
+        "targetPath" "js/sidebar-position.js"
       }}
       {{- with . | js.Build $opts }}
         {{- if hugo.IsDevelopment }}
