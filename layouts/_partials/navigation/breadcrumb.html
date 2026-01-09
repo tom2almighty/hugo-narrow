@@ -1,174 +1,43 @@
+{{ if and (not .IsHome) .Ancestors }}
 <nav
   class="breadcrumb mb-4 md:mb-6 py-1"
   aria-label="{{ i18n "nav.breadcrumb" | default "面包屑导航" }}">
   <ol class="text-muted-foreground flex items-center space-x-1 md:space-x-2 text-sm overflow-x-auto whitespace-nowrap scrollbar-hide py-1">
-    <!-- 首页链接 -->
-    <li class="flex-shrink-0">
-      <a
-        href="{{ "/" | relLangURL }}"
-        class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02]">
-        {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" (i18n "nav.home")) }}
-        <span class="max-w-[4rem] md:max-w-none truncate">{{ i18n "nav.home" | default "首页" }}</span>
-      </a>
-    </li>
-
-    <!-- 分隔符和当前页面 -->
-    {{ if not .IsHome }}
-      <li class="flex items-center gap-1 md:gap-2 min-w-0">
-        <span class="text-muted-foreground/50 flex-shrink-0"
-          >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
-        </span>
-
-        {{ if .IsSection }}
-          <!-- 分区页面 (如 posts 列表页) -->
-          <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium min-w-0 flex-shrink-0">
-            {{ if eq .Section "posts" }}
-              {{ partial "features/icon.html" (dict "name" "posts" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.posts" | default "文章" }}</span>
-            {{ else if eq .Section "archives" }}
-              {{ partial "features/icon.html" (dict "name" "archive" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.archives" | default "归档" }}</span>
-            {{ else if eq .Section "tags" }}
-              {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.tags" | default "标签" }}</span>
-            {{ else if eq .Section "categories" }}
-              {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.categories" | default "分类" }}</span>
-            {{ else if eq .Section "projects" }}
-              {{ partial "features/icon.html" (dict "name" "projects" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.projects" | default "项目" }}</span>
-            {{ else if eq .Section "series" }}
-              {{ partial "features/icon.html" (dict "name" "library" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.series" | default "系列" }}</span>
-            {{ else }}
-              {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[4rem] md:max-w-none truncate">{{ .Title }}</span>
-            {{ end }}
+    {{ range $index, $ancestor := .Ancestors.Reverse }}
+      {{ if eq $index 0 }}
+        <!-- 首页链接 -->
+        <li class="flex-shrink-0">
+          <a
+            href="{{ $ancestor.RelPermalink }}"
+            class="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02]">
+            <span class="max-w-[4rem] md:max-w-none truncate">{{ $ancestor.Title }}</span>
+          </a>
+        </li>
+      {{ else }}
+        <!-- 中间层级 -->
+        <li class="flex items-center gap-1 md:gap-2 min-w-0">
+          <span class="text-muted-foreground/50 flex-shrink-0"
+            >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
           </span>
-        {{ else if .Data.Singular }}
-          <!-- 分类法页面 (标签/分类列表页或术语页) -->
-          {{ if eq .Data.Singular "tag" }}
-            <!-- 标签相关页面 -->
-            {{ if .IsNode }}
-              <!-- 标签列表页 (/tags/) -->
-              <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium flex-shrink-0">
-                {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
-                <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.tags" | default "标签" }}</span>
-              </span>
-            {{ else }}
-              <!-- 特定标签页 (/tags/hugo/) -->
-              <div class="flex items-center gap-1 md:gap-2 min-w-0">
-                <a
-                  href="{{ "/tags/" | relLangURL }}"
-                  class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
-                  {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.tags" | default "标签" }}</span>
-                </a>
-                <span class="text-muted-foreground/50 flex-shrink-0"
-                  >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span
-                >
-                <span class="text-foreground font-medium min-w-0 flex items-center gap-0.5 md:gap-1">
-                  <span class="max-w-[6rem] md:max-w-[12rem] lg:max-w-none truncate">{{ .Title }}</span>
-                </span>
-              </div>
-            {{ end }}
-          {{ else if eq .Data.Singular "category" }}
-            <!-- 分类相关页面 -->
-            {{ if .IsNode }}
-              <!-- 分类列表页 (/categories/) -->
-              <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium flex-shrink-0">
-                {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-                <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.categories" | default "分类" }}</span>
-              </span>
-            {{ else }}
-              <!-- 特定分类页 (/categories/tech/) -->
-              <div class="flex items-center gap-1 md:gap-2 min-w-0">
-                <a
-                  href="{{ "/categories/" | relLangURL }}"
-                  class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
-                  {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.categories" | default "分类" }}</span>
-                </a>
-                <span class="text-muted-foreground/50 flex-shrink-0"
-                  >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span
-                >
-                <span class="text-foreground font-medium min-w-0 flex items-center gap-0.5 md:gap-1">
-                  <span class="max-w-[6rem] md:max-w-[12rem] lg:max-w-none truncate">{{ .Title }}</span>
-                </span>
-              </div>
-            {{ end }}
-          {{ else if eq .Data.Singular "series" }}
-            <!-- Series 相关页面 -->
-            {{ if .IsNode }}
-              <!-- Series 列表页 (/series/) -->
-              <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium flex-shrink-0">
-                {{ partial "features/icon.html" (dict "name" "library" "size" "sm" "ariaLabel" "") }}
-                <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.series" | default "系列" }}</span>
-              </span>
-            {{ else }}
-              <!-- 特定 Series 页 (/series/hugo-tutorial/) -->
-              <div class="flex items-center gap-1 md:gap-2 min-w-0">
-                <a
-                  href="{{ "/series/" | relLangURL }}"
-                  class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
-                  {{ partial "features/icon.html" (dict "name" "library" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.series" | default "系列" }}</span>
-                </a>
-                <span class="text-muted-foreground/50 flex-shrink-0"
-                  >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span
-                >
-                <span class="text-foreground font-medium min-w-0 flex items-center gap-0.5 md:gap-1">
-                  <span class="max-w-[6rem] md:max-w-[12rem] lg:max-w-none truncate">{{ .Title }}</span>
-                </span>
-              </div>
-            {{ end }}
-          {{ else }}
-            <!-- 其他分类法 -->
-            <span class="text-foreground font-medium min-w-0">
-              <span class="max-w-[8rem] md:max-w-[16rem] lg:max-w-none truncate">{{ .Title }}</span>
-            </span>
-          {{ end }}
-        {{ else if .IsPage }}
-          <!-- 单页面 -->
-          <div class="flex items-center gap-1 md:gap-2 min-w-0">
-            {{ if ne .Section "" }}
-              <!-- 有分区的页面，先显示分区链接 -->
-              <a
-                href="{{ .Section | relLangURL }}"
-                class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-0.5 md:gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
-                {{ if eq .Section "posts" }}
-                  {{ partial "features/icon.html" (dict "name" "posts" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.posts" | default "文章" }}</span>
-                {{ else if eq .Section "archives" }}
-                  {{ partial "features/icon.html" (dict "name" "archive" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.archives" | default "归档" }}</span>
-                {{ else if eq .Section "projects" }}
-                  {{ partial "features/icon.html" (dict "name" "projects" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[3rem] md:max-w-none truncate">{{ i18n "nav.projects" | default "项目" }}</span>
-                {{ else }}
-                  {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-                  <span class="max-w-[4rem] md:max-w-none truncate">{{ .Section | title }}</span>
-                {{ end }}
-              </a>
-              <span class="text-muted-foreground/50 flex-shrink-0"
-                >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}</span
-              >
-            {{ end }}
-            <!-- 当前页面标题 -->
-            <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium min-w-0">
-              {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
-              <span class="max-w-[8rem] md:max-w-[16rem] lg:max-w-none truncate">{{ .Title }}</span>
-            </span>
-          </div>
-        {{ else if .IsNode }}
-          <!-- 其他节点页面 -->
-          <span class="text-foreground flex items-center gap-0.5 md:gap-1 font-medium min-w-0 flex-shrink-0">
-            {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-            <span class="max-w-[8rem] md:max-w-[16rem] lg:max-w-none truncate">{{ .Title }}</span>
-          </span>
-        {{ end }}
-      </li>
+          <a
+            href="{{ $ancestor.RelPermalink }}"
+            class="text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] flex-shrink-0">
+            <span class="max-w-[4rem] md:max-w-none truncate">{{ $ancestor.Title }}</span>
+          </a>
+        </li>
+      {{ end }}
     {{ end }}
+
+    <!-- 当前页面 -->
+    <li class="flex items-center gap-1 md:gap-2 min-w-0">
+      <span class="text-muted-foreground/50 flex-shrink-0"
+        >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+      </span>
+      <span class="text-foreground font-medium min-w-0">
+        <span class="max-w-[8rem] md:max-w-[16rem] lg:max-w-none truncate">{{ .Title }}</span>
+      </span>
+    </li>
 
   </ol>
 </nav>
+{{ end }}
