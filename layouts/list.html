@@ -1,61 +1,62 @@
 {{ define "main" }}
+  {{ $mainSections := .Site.MainSections | default (slice "posts") }}
+  {{ $currentSection := .Section }}
+  {{ $isMainSection := in $mainSections $currentSection }}
+
   <div class="mx-auto max-w-4xl px-4 py-6">
-    <!-- 面包屑导航 -->
-    {{ partial "navigation/breadcrumb.html" . }}
-
-
     <!-- 页面标题和描述 -->
     <header class="mb-8">
       <h1 class="text-foreground mb-4 text-3xl font-bold">
-        {{ if eq .Section "posts" }}
-          {{ i18n "nav.posts" | default "文章" }}
-        {{ else if eq .Section "archives" }}
-          {{ i18n "nav.archives" | default "归档" }}
-        {{ else if eq .Section "tags" }}
-          {{ i18n "nav.tags" | default "标签" }}
-        {{ else if eq .Section "categories" }}
-          {{ i18n "nav.categories" | default "分类" }}
-        {{ else }}
           {{ .Title }}
-        {{ end }}
       </h1>
 
       {{ if .Content }}
         <div class="prose prose-neutral dark:prose-invert max-w-none">
           {{ .Content }}
         </div>
-      {{ else if eq .Section "posts" }}
+      {{ else }}
         <p class="text-muted-foreground">
-          {{ i18n "post.list_desc" | default "这里是所有已发布的文章，按时间倒序排列。" }}
+          {{ if $isMainSection }}
+            {{ i18n "post.list_desc" | default "这里是所有已发布的文章，按时间倒序排列。" }}
+          {{ else }}
+            {{ i18n "section.list_desc" | default "浏览此分类下的所有内容。" }}
+          {{ end }}
         </p>
       {{ end }}
 
-
       <!-- 文章统计信息 -->
-      {{ if eq .Section "posts" }}
-        <div class="text-muted-foreground mt-4 flex items-center gap-4 text-sm">
+      <div class="text-muted-foreground mt-4 flex items-center gap-4 text-sm">
+        <div class="flex items-center gap-1">
+          {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+          <span>
+            {{ if $isMainSection }}
+              {{ i18n "post.total_posts" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 篇文章" .Paginator.TotalNumberOfElements) }}
+            {{ else }}
+              {{ i18n "section.total_items" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 项内容" .Paginator.TotalNumberOfElements) }}
+            {{ end }}
+          </span>
+        </div>
+        {{ if gt .Paginator.TotalPages 1 }}
           <div class="flex items-center gap-1">
-            {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-            <span
-              >{{ i18n "post.total_posts" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 篇文章" .Paginator.TotalNumberOfElements) }}</span
-            >
+            {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
+            <span>
+              {{ i18n "nav.total_pages" (dict "count" .Paginator.TotalPages) | default (printf "共 %d 页" .Paginator.TotalPages) }}
+            </span>
           </div>
-          {{ if gt .Paginator.TotalPages 1 }}
-            <div class="flex items-center gap-1">
-              {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
-              <span
-                >{{ i18n "nav.total_pages" (dict "count" .Paginator.TotalPages) | default (printf "共 %d 页" .Paginator.TotalPages) }}</span
-              >
-            </div>
+        {{ end }}
+      </div>
+    </header>
+
+    <!-- 内容列表 -->
+    {{ $pages := .Paginator.Pages }}
+    {{ if $pages }}
+      {{ if $isMainSection }}
+        <div class="space-y-4">
+          {{ range $pages }}
+            {{ partial "content/card-base.html" (dict "page" .) }}
           {{ end }}
         </div>
       {{ end }}
-    </header>
-
-    <!-- 文章列表 -->
-    {{ $posts := .Paginator.Pages }}
-    {{ if $posts }}
-      {{ partial "content/post-list.html" (dict "posts" $posts) }}
     {{ else }}
       <!-- 空状态 -->
       <div class="py-16 text-center">
@@ -64,10 +65,18 @@
           {{ partial "features/icon.html" (dict "name" "folder" "size" "xl" "ariaLabel" "") }}
         </div>
         <h2 class="text-foreground mb-3 text-xl font-medium">
-          {{ i18n "post.no_posts" | default "暂无文章" }}
+          {{ if $isMainSection }}
+            {{ i18n "post.no_posts" | default "暂无文章" }}
+          {{ else }}
+            {{ i18n "section.no_content" | default "暂无内容" }}
+          {{ end }}
         </h2>
         <p class="text-muted-foreground mb-6">
-          {{ i18n "post.no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
+          {{ if $isMainSection }}
+            {{ i18n "post.no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
+          {{ else }}
+            {{ i18n "section.no_content_desc" | default "此分类下还没有任何内容，请稍后再来查看。" }}
+          {{ end }}
         </p>
         <a
           href="{{ "/" | relLangURL }}"
@@ -77,7 +86,6 @@
         </a>
       </div>
     {{ end }}
-
 
     <!-- 分页导航 -->
     {{ partial "navigation/pagination.html" . }}

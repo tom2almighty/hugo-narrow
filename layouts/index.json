@@ -1,7 +1,8 @@
 {{- .Scratch.Add "pages" slice -}}
 
 {{- .Scratch.Add "posts" slice -}}
-{{- range $index, $value := (where .Site.RegularPages "Section" "==" "posts") -}}
+{{- $mainSections := .Site.MainSections -}}
+{{- range $index, $value := (where .Site.RegularPages "Section" "in" $mainSections) -}}
 {{- $.Scratch.Add "posts" (dict "title" $value.Title "text" $value.Plain "link" $value.RelPermalink) -}}
 {{- end -}}
 

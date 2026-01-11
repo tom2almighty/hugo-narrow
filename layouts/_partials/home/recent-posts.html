@@ -1,13 +1,22 @@
 {{/* 最近文章区域 */}}
-{{ $recentPostsCount := site.Params.home.recentPostsCount | default 5 }}
-{{ $posts := where site.RegularPages "Section" "posts" | first $recentPostsCount }}
+{{ $recentPostsCount := .Site.Params.home.recentPostsCount | default 5 }}
+
+{{/* 使用 MainSections 获取主要内容区域 */}}
+{{ $mainSections := .Site.MainSections | default (slice "posts") }}
+{{ $posts := where .Site.RegularPages "Section" "in" $mainSections | first $recentPostsCount }}
+
+{{/* 使用第一个主要 section */}}
+{{ $viewAllUrl := "/" }}
+{{ if $mainSections }}
+  {{ $firstSection := index $mainSections 0 }}
+  {{ $viewAllUrl = printf "/%s/" $firstSection | relLangURL }}
+{{ end }}
 
 {{ partial "content/post-list.html" (dict
   "posts" $posts
   "title" (i18n "home.recent_posts" | default "最近文章")
   "showTitle" true
   "showViewAll" true
-  "viewAllUrl" ("/posts/" | relLangURL)
+  "viewAllUrl" $viewAllUrl
   )
 }}
-
