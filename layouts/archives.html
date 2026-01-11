@@ -1,8 +1,4 @@
 {{ define "main" }}
-  <!-- 面包屑导航 -->
-  {{ partial "navigation/breadcrumb.html" . }}
-
-
   <!-- 页面标题和描述 -->
   <header class="mb-8">
     <div class="mb-4 flex items-center gap-3">
@@ -24,7 +20,9 @@
 
 
     <!-- 统计信息 -->
-    {{ $allPosts := where .Site.RegularPages "Section" "posts" }}
+    {{/* 使用 MainSections 获取主要内容区域 */}}
+    {{ $mainSections := .Site.MainSections }}
+    {{ $allPosts := where .Site.RegularPages "Section" "in" $mainSections }}
     <div class="text-muted-foreground flex items-center gap-4 text-sm">
       <div class="flex items-center gap-1">
         {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
