@@ -1,14 +1,13 @@
 {{/* 最近文章区域 */}}
 {{ $recentPostsCount := .Site.Params.home.recentPostsCount | default 5 }}
 
-{{/* 使用 MainSections 获取主要内容区域 */}}
 {{ $mainSections := .Site.MainSections | default (slice "posts") }}
-{{ $posts := where .Site.RegularPages "Section" "in" $mainSections | first $recentPostsCount }}
+{{ $firstSection := index $mainSections 0 }}
 
-{{/* 使用第一个主要 section */}}
+{{ $posts := where .Site.RegularPages "Section" $firstSection | first $recentPostsCount }}
+
 {{ $viewAllUrl := "/" }}
 {{ if $mainSections }}
-  {{ $firstSection := index $mainSections 0 }}
   {{ $viewAllUrl = printf "/%s/" $firstSection | relLangURL }}
 {{ end }}
 
