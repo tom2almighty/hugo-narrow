@@ -1,25 +1,30 @@
 main:
-  - name: nav.posts
+  - identifier: nav.posts
+    name: Posts
     pageRef: /posts
     weight: 20
     params:
       icon: posts
-  - name: nav.projects
+  - identifier: nav.projects
+    name: Projects
     pageRef: /projects
     weight: 25
     params:
       icon: projects
-  - name: nav.categories
+  - identifier: nav.categories
+    name: Categories
     pageRef: /categories
     weight: 30
     params:
       icon: categories
-  - name: nav.tags
+  - identifier: nav.tags
+    name: Tags
     pageRef: /tags
     weight: 40
     params:
       icon: tags
-  - name: nav.archives
+  - identifier: nav.archives
+    name: Archives
     pageRef: /archives
     weight: 50
     params:

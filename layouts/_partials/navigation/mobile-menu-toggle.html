@@ -42,13 +42,7 @@
           {{ if .Params.icon }}
             {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
           {{ end }}
-          <span
-            >{{ if hasPrefix .Name "nav." }}
-              {{ i18n .Name }}
-            {{ else }}
-              {{ .Name }}
-            {{ end }}</span
-          >
+          <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
         </a>
       {{ end }}
     </nav>

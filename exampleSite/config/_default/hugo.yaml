@@ -8,6 +8,12 @@ theme: "hugo-narrow"
 hasCJKLanguage: true
 enableEmoji: true
 
+
+# Main Section Configuration (Optional)
+# If not configured, Hugo will automatically select the section with the most pages
+# This configuration affects functions such as recent articles on the homepage, search index, and archive pages
+mainSections: ["posts"]  # Multiple values can be configured, e.g. ["posts", "blog", "articles"]
+
 permalinks:
   posts: /posts/:slug/
   projects: /projects/:slug/
@@ -18,7 +24,7 @@ pagination:
   pagerSize: 6
   path: "page"
 
-# 分类法配置
+
 taxonomies:
   category: categories
   tag: tags
@@ -57,7 +63,7 @@ markup:
 outputs:
   home: ["HTML", "RSS", "JSON", "WebAppManifest"]
 
-# 自定义输出格式
+# Custom output formats
 outputFormats:
   WebAppManifest:
     mediaType: "application/manifest+json"
