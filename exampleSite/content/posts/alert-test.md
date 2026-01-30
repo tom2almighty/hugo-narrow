@@ -6,6 +6,7 @@ draft: false
 description: "Testing GitHub-style Alert and folding features"
 tags: ["test", "alert", "markdown"]
 categories: ["Github"]
+series: ["Test","Alert"]
 ---
 
 # GitHub Style Alert Testing

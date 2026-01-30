@@ -6,6 +6,7 @@ description: "Testing code highlighting features"
 tags: ["test", "code", "syntax-highlighting"]
 categories: ["code-highlighting"]
 slug: code-highlighting-test
+series: ["Test"]
 ---
 
 # Code Highlighting Test

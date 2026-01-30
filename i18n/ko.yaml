@@ -7,7 +7,6 @@ nav:
   projects: "프로젝트"
   tags: "태그"
   categories: "카테고리"
-  series: "시리즈"
   about: "소개"
   contact: "연락처"
   archive: "아카이브"
@@ -56,7 +55,6 @@ post:
   updated_on: "수정일"
   tags: "태그"
   categories: "카테고리"
-  series: "시리즈"
   share: "공유"
   previous: "이전"
   next: "다음"
@@ -206,9 +204,7 @@ comments:
 dock:
   aria_label: "바로가기 도구 모음"
   back: "뒤로"
-  navigation: "탐색"
   toc: "목차"
-  series: "시리즈"
   search: "검색"
   comments: "댓글"
   back_to_top: "맨 위로"
@@ -229,19 +225,6 @@ toc:
   navigation: "글 목차"
   empty: "이 글에는 제목이 없습니다"
   tip: "제목을 클릭하면 해당 위치로 이동합니다"
-
-# 시리즈 관련
-series:
-  title: "시리즈"
-  navigation: "시리즈 탐색"
-  empty: "이 글은 시리즈에 포함되지 않습니다"
-  current: "현재 글"
-  progress: "{{ .total }}개 중 {{ .current }}번째"
-  total: "총 {{ .count }}개"
-  part: "{{ .current }}번째"
-  previous: "이전"
-  next: "다음"
-  view_all: "전체 보기"
 
 # 코드 블록 관련
 code:

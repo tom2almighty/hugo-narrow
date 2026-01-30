@@ -4,10 +4,8 @@ nav:
   menu: "Menu"
   home: "Trang chủ"
   posts: "Bài viết"
-  projects: "Dự án"
   tags: "Thẻ"
   categories: "Chuyên mục"
-  series: "Chuỗi bài viết"
   about: "Giới thiệu"
   contact: "Liên hệ"
   archive: "Lưu trữ"
@@ -56,7 +54,6 @@ post:
   updated_on: "Cập nhật ngày"
   tags: "Thẻ"
   categories: "Chuyên mục"
-  series: "Chuỗi bài viết"
   share: "Chia sẻ"
   previous: "Trước"
   next: "Tiếp"
@@ -193,11 +190,8 @@ comments:
 
 # Bottom Dock
 dock:
-  aria_label: "Thanh công cụ hành động nhanh"
   back: "Quay lại"
-  navigation: "Điều hướng"
   toc: "Mục lục"
-  series: "Chuỗi bài viết"
   search: "Tìm kiếm"
   comments: "Bình luận"
   back_to_top: "Quay lại đầu trang"
@@ -213,28 +207,13 @@ alert:
 
 # TOC related
 toc:
-  close: "Đóng"
   title: "Mục lục"
   navigation: "Điều hướng mục lục"
   empty: "Không có tiêu đề trong bài viết này"
   tip: "Nhấp để chuyển đến phần"
 
-# Chuỗi bài viết
-series:
-  title: "Chuỗi bài viết"
-  navigation: "Điều hướng chuỗi bài viết"
-  empty: "Bài viết này không thuộc chuỗi nào"
-  current: "Bài viết hiện tại"
-  progress: "Phần {{ .current }} trong {{ .total }}"
-  total: "{{ .count }} bài viết"
-  part: "Phần {{ .current }}"
-  previous: "Trước"
-  next: "Tiếp"
-  view_all: "Xem tất cả"
-
 # Code block related
 code:
-  copy: "Sao chép"
   copied: "Đã sao chép"
   selected: "Đã chọn"
   collapse: "Thu gọn"

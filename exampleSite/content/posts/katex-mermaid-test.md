@@ -6,6 +6,8 @@ description: "Testing KaTeX and Mermaid features"
 katex: true
 mermaid: true
 tags: ['Math', 'Mermaid']
+series: ["Test"]
+series_order: 1
 ---
 
 # KaTeX and Mermaid Test

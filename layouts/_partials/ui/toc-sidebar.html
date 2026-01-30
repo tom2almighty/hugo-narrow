@@ -28,28 +28,10 @@
 {{- end }}
 
 {{- if and .IsPage .TableOfContents (or (eq $tocPosition "left") (eq $tocPosition "right")) }}
-  {{/* 检查 Series 是否也在同一侧 */}}
-  {{- $globalSeriesConfig := .Site.Params.series | default dict }}
-  {{- $seriesEnabled := $globalSeriesConfig.enabled | default false }}
-  {{- $seriesPosition := $globalSeriesConfig.position | default "card" }}
-  {{- $currentSeries := .GetTerms "series" }}
-
-  {{/* frontmatter 参数覆盖 - 读取 Series 配置 */}}
-  {{- if isset .Params "series" }}
-    {{- if reflect.IsMap .Params.series }}
-      {{- if isset .Params.series "enabled" }}
-        {{- $seriesEnabled = .Params.series.enabled }}
-      {{- end }}
-      {{- if isset .Params.series "position" }}
-        {{- $seriesPosition = .Params.series.position }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-
   <!-- 侧边栏目录容器 - 使用固定定位 -->
   <aside
     id="toc-sidebar"
-    class="toc-sidebar hidden xl:block fixed {{ if eq $tocPosition "left" }}toc-sidebar-left{{ else }}toc-sidebar-right{{ end }}"
+    class="toc-sidebar hidden xl:block fixed top-24 {{ if eq $tocPosition "left" }}toc-sidebar-left{{ else }}toc-sidebar-right{{ end }}"
     style="max-width: {{ $tocMaxWidth }}; max-height: {{ $tocMaxHeight }};"
     aria-label="{{ i18n "toc.navigation" | default "文章目录导航" }}">
 

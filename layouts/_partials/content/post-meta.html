@@ -1,12 +1,31 @@
 {{/* 文章元信息组件
 
-  显示文章标题、发布时间、阅读时间、标签、分类等信息
+显示文章标题、发布时间、阅读时间、分类法信息等
 
-  @context {page} . 当前文章页面对象
+
+@context {page} . 当前文章页面对象
 */}}
 
+{{/* 获取当前页面所属的 series */}}
+{{- $currentSeries := .GetTerms "series" }}
+{{- $seriesPage := "" }}
+{{- $seriesPages := slice }}
+{{- $totalCount := 0 }}
+{{- $currentIndex := 0 }}
 
-<div class="post-meta">
+{{- if $currentSeries }}
+{{- $seriesPage = index $currentSeries 0 }}
+{{- $seriesPages = $seriesPage.Pages.ByParam "series_order" }}
+{{- $totalCount = len $seriesPages }}
+
+{{- range $index, $page := $seriesPages }}
+{{- if eq $page.RelPermalink $.RelPermalink }}
+{{- $currentIndex = add $index 1 }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+<div class="post-meta mb-8">
   <!-- 文章标题 -->
   <h1 class="text-foreground mb-6 text-3xl leading-tight font-bold md:text-4xl">
     {{ .Title }}
@@ -14,137 +33,159 @@
 
   <!-- 文章摘要 -->
   {{ if .Params.summary }}
-    <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
-      {{ .Params.summary | plainify }}
-    </div>
+  <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
+    {{ .Params.summary | plainify }}
+  </div>
   {{ end }}
 
-
   <!-- 元信息区域 -->
-  <div class="bg-card border-border flex flex-col gap-4 rounded-xl border p-6">
-    <!-- 发布时间和阅读时间 -->
-    <div
-      class="text-muted-foreground flex flex-wrap items-center gap-4 text-sm">
-      <!-- 发布时间 -->
-      <div class="flex items-center gap-2">
-        {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post.published_on")) }}
-        <time datetime="{{ .Date.Format "2006-01-02" }}">
-          {{ .Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
-        </time>
+  <div class="bg-card border-border rounded-xl border">
+
+    {{/* 如果有 Series，使用 flex 左右分栏布局 */}}
+    {{- if $currentSeries }}
+    <div class="flex flex-col lg:flex-row">
+
+      {{/* 左侧：文章元信息 */}}
+      <div class="flex-shrink-0 lg:w-3/5 p-6 border-b lg:border-b-0 lg:border-r border-border">
+        {{- else }}
+        {{/* 没有 Series 时，单栏显示 */}}
+        <div class="p-6">
+          {{- end }}
+
+          <!-- 发布时间和阅读时间 -->
+          <div class="text-muted-foreground flex gap-3 text-sm mb-4">
+            <!-- 发布时间 -->
+            <div class="flex items-center gap-2">
+              {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n
+              "post.published_on")) }}
+              <time datetime="{{ .Date.Format " 2006-01-02" }}">
+                {{ .Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
+              </time>
+            </div>
+
+            <!-- 更新时间 -->
+            {{ if ne .Date .Lastmod }}
+            <div class="flex items-center gap-2">
+              {{ partial "features/icon.html" (dict "name" "edit" "size" "sm" "ariaLabel" (i18n "post.updated_on")) }}
+              <span>
+                {{ i18n "post.updated_on" | default "更新于" }}
+                {{ .Lastmod.Format (i18n "time.date_format" | default "2006年01月02日") }}
+              </span>
+            </div>
+            {{ end }}
+
+            <!-- 阅读时间 -->
+            {{ if .ReadingTime }}
+            <div class="flex items-center gap-2">
+              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post.reading_time"))
+              }}
+              <span>{{ .ReadingTime }} {{ i18n "time.minute" | default "分钟" }}</span>
+            </div>
+            {{ end }}
+
+            <!-- 字数统计 -->
+            {{ if .WordCount }}
+            <div class="flex items-center gap-2">
+              {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post.words_count")) }}
+              <span>{{ .WordCount }} {{ i18n "post.words" | default "字" }}</span>
+            </div>
+            {{ end }}
+          </div>
+
+          <!-- 分类法 -->
+          {{- $taxonomies := .Site.Taxonomies }}
+          {{- if $taxonomies }}
+          <div class="space-y-3 pt-4 border-t border-border">
+            {{- range $taxonomyName, $taxonomy := $taxonomies }}
+            {{- $terms := $.GetTerms $taxonomyName }}
+            {{- if $terms }}
+            <div class="flex items-center gap-2">
+              <div class="flex-shrink-0">
+                {{ partial "features/icon.html" (dict "name" $taxonomyName "size" "sm" "ariaLabel" "") }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <span class="text-muted-foreground text-sm font-medium">
+                    {{ i18n $taxonomyName | default ($taxonomyName | humanize) }}:
+                  </span>
+                  {{- range $terms }}
+                  <a href="{{ .RelPermalink }}"
+                    class="inline-flex items-center rounded-full px-2.5 py-1 text-sm font-medium transition-all duration-200 bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground">
+                    {{ .LinkTitle }}
+                  </a>
+                  {{- end }}
+                </div>
+              </div>
+            </div>
+            {{- end }}
+            {{- end }}
+          </div>
+          {{- end }}
+
+          <!-- 作者信息 -->
+          {{ if .Params.author }}
+          <div class="flex items-center gap-2 pt-4 border-t border-border mt-4">
+            {{ partial "features/icon.html" (dict "name" "user" "size" "sm" "ariaLabel" (i18n "post.author")) }}
+            <span class="text-muted-foreground text-sm">
+              {{ i18n "post.author" | default "作者" }}:
+            </span>
+            <span class="text-foreground text-sm font-medium">
+              {{ .Params.author }}
+            </span>
+          </div>
+          {{ end }}
+
+          {{- if $currentSeries }}
+        </div>
+
+        {{/* 右侧：Series 文章列表 */}}
+        <div class="flex-1 lg:w-2/5 flex flex-col bg-accent/5">
+          <!-- Series 标题栏 -->
+          <div class="flex-shrink-0 p-4 border-b border-border">
+            <div class="flex items-center justify-between gap-3">
+              <a href="{{ $seriesPage.RelPermalink }}"
+                class="flex items-center gap-2 min-w-0 flex-1 group px-3 py-2 rounded-lg bg-accent/30 hover:bg-accent/50 transition-colors">
+                <h3 class="text-foreground text-sm font-semibold truncate group-hover:text-primary transition-colors">
+                  {{ $seriesPage.LinkTitle }}
+                </h3>
+              </a>
+              <span
+                class="bg-primary text-primary-foreground rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap">
+                {{ $currentIndex }}/{{ $totalCount }}
+              </span>
+            </div>
+          </div>
+
+          <!-- 文章列表 -->
+          <nav class="flex-1 max-h-32 overflow-y-auto p-4">
+            <ol class="space-y-1.5">
+              {{- range $index, $page := $seriesPages }}
+              {{- $isCurrent := eq $page.RelPermalink $.RelPermalink }}
+              <li>
+                <a href="{{ $page.RelPermalink }}"
+                  class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all group {{ if $isCurrent }}bg-primary/15 text-primary font-medium shadow-sm{{ else }}text-muted-foreground hover:text-foreground hover:bg-muted/50{{ end }}"
+                  {{ if $isCurrent }}aria-current="page" {{ end }}>
+                  <span
+                    class="font-mono text-xs flex-shrink-0 {{ if $isCurrent }}text-primary{{ else }}opacity-50 group-hover:opacity-100{{ end }} transition-opacity">
+                    {{ printf "%02d" (add $index 1) }}
+                  </span>
+                  <span class="flex-1 truncate">{{ $page.LinkTitle }}</span>
+                  {{- if $isCurrent }}
+                  <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  {{- end }}
+                </a>
+              </li>
+              {{- end }}
+            </ol>
+          </nav>
+        </div>
       </div>
-
-      <!-- 更新时间 -->
-      {{ if ne .Date .Lastmod }}
-        <div class="flex items-center gap-2">
-          {{ partial "features/icon.html" (dict "name" "edit" "size" "sm" "ariaLabel" (i18n "post.updated_on")) }}
-          <time datetime="{{ .Lastmod.Format "2006-01-02" }}">
-            {{ i18n "post.updated_on" | default "更新于" }}
-            {{ .Lastmod.Format (i18n "time.date_format" | default "2006年01月02日") }}
-          </time>
-        </div>
-      {{ end }}
-
-
-      <!-- 阅读时间 -->
-      {{ if .ReadingTime }}
-        <div class="flex items-center gap-2">
-          {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post.reading_time")) }}
-          <span
-            >{{ .ReadingTime }} {{ i18n "time.minute" | default "分钟" }}</span
-          >
-        </div>
-      {{ end }}
-
-
-      <!-- 字数统计 -->
-      {{ if .WordCount }}
-        <div class="flex items-center gap-2">
-          {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post.words_count")) }}
-          <span>{{ .WordCount }} {{ i18n "post.words" | default "字" }}</span>
-        </div>
-      {{ end }}
-
+      {{- else }}
     </div>
-
-    <!-- Series、分类和标签 -->
-    {{ $currentSeries := .GetTerms "series" }}
-    {{ if or $currentSeries .Params.categories .Params.tags }}
-      <div class="flex flex-wrap items-center gap-4">
-        <!-- Series -->
-        {{ if $currentSeries }}
-          <div class="flex items-center gap-2">
-            {{ partial "features/icon.html" (dict "name" "book-open" "size" "sm" "ariaLabel" (i18n "post.series")) }}
-            <span class="text-muted-foreground mr-2 text-sm"
-              >{{ i18n "post.series" | default "系列" }}:</span
-            >
-            <div class="flex flex-wrap gap-2">
-              {{ range $currentSeries }}
-                <a
-                  href="{{ .RelPermalink }}"
-                  class="bg-accent/80 text-accent-foreground hover:bg-accent focus:ring-accent/20 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:shadow-md focus:ring-2 focus:outline-none">
-                  {{ partial "features/icon.html" (dict "name" "library" "size" "xs" "ariaLabel" "") }}
-                  {{ .LinkTitle }}
-                </a>
-              {{ end }}
-            </div>
-          </div>
-        {{ end }}
-
-        <!-- 分类 -->
-        {{ if .Params.categories }}
-          <div class="flex items-center gap-2">
-            {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" (i18n "post.categories")) }}
-            <span class="text-muted-foreground mr-2 text-sm"
-              >{{ i18n "post.categories" | default "分类" }}:</span
-            >
-            <div class="flex flex-wrap gap-2">
-              {{ range .Params.categories }}
-                <a
-                  href="{{ "/categories/" | relLangURL }}{{ . | urlize }}/"
-                  class="bg-primary/10 text-primary hover:bg-primary/20 focus:ring-primary/20 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 hover:shadow-md focus:ring-2 focus:outline-none">
-                  {{ . }}
-                </a>
-              {{ end }}
-            </div>
-          </div>
-        {{ end }}
-
-
-        <!-- 标签 -->
-        {{ if .Params.tags }}
-          <div class="flex items-center gap-2">
-            {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" (i18n "post.tags")) }}
-            <span class="text-muted-foreground mr-2 text-sm"
-              >{{ i18n "post.tags" | default "标签" }}:</span
-            >
-            <div class="flex flex-wrap gap-2">
-              {{ range .Params.tags }}
-                <a
-                  href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/"
-                  class="bg-muted/50 text-muted-foreground hover:bg-primary/10 hover:text-primary focus:ring-primary/20 inline-flex items-center rounded px-2 py-1 text-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
-                  #{{ . }}
-                </a>
-              {{ end }}
-            </div>
-          </div>
-        {{ end }}
-
-      </div>
-    {{ end }}
-
-
-    <!-- 作者信息 -->
-    {{ if .Params.author }}
-      <div class="border-border flex items-center gap-2 border-t pt-2">
-        {{ partial "features/icon.html" (dict "name" "user" "size" "sm" "ariaLabel" (i18n "post.author")) }}
-        <span class="text-muted-foreground text-sm"
-          >{{ i18n "post.author" | default "作者" }}:</span
-        >
-        <span class="text-foreground text-sm font-medium"
-          >{{ .Params.author }}</span
-        >
-      </div>
-    {{ end }}
-
+    {{- end }}
   </div>
 </div>

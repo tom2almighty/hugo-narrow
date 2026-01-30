@@ -7,7 +7,6 @@ nav:
   projects: "專案"
   tags: "標籤"
   categories: "分類"
-  series: "系列"
   about: "關於"
   contact: "聯絡"
   archive: "歸檔"
@@ -56,7 +55,6 @@ post:
   updated_on: "更新於"
   tags: "標籤"
   categories: "分類"
-  series: "系列"
   share: "分享"
   previous: "上一篇"
   next: "下一篇"
@@ -124,46 +122,3 @@ project:
   list_desc: "這裡是所有已發布的專案，展示我的作品和實驗。"
   total_projects: "共 {{ .count }} 個專案"
   featured: "精選"
-
-
-# 目錄相關
-toc:
-  close: "關閉"
-  title: "目錄"
-  navigation: "文章目錄導航"
-  empty: "此文章沒有標題"
-  tip: "點擊標題快速跳轉"
-
-# 系列文章相關
-series:
-  title: "系列文章"
-  navigation: "系列文章導航"
-  empty: "此文章不屬於任何系列"
-  current: "當前文章"
-  progress: "第 {{ .current }} 篇，共 {{ .total }} 篇"
-  total: "共 {{ .count }} 篇"
-  part: "第 {{ .current }} 篇"
-  previous: "上一篇"
-  next: "下一篇"
-  view_all: "查看全部"
-
-# 程式碼區塊相關
-code:
-  copy: "複製"
-  copied: "已複製"
-  selected: "已選擇"
-  collapse: "收起"
-  expand: "展開"
-  clickToExpand: "點擊展開查看更多"
-
-# Dock 相關
-dock:
-  aria_label: "快捷操作工具列"
-  back: "返回"
-  navigation: "導航"
-  toc: "目錄"
-  series: "系列"
-  search: "搜尋"
-  comments: "評論"
-  back_to_top: "返回頂部"
-  top: "頂部"

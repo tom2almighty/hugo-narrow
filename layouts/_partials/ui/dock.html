@@ -43,7 +43,7 @@
     {{ end }}
 
 
-    <!-- 导航按钮 - 只在文章页面且 TOC 或 Series 启用时显示，且在侧边栏模式下的大屏幕隐藏 -->
+    <!-- 目录按钮 - 只在文章页面且 TOC 启用时显示，且在侧边栏模式下的大屏幕隐藏 -->
     {{ if .IsPage }}
       {{- $tocEnabled := true }}
       {{- $globalTocConfig := .Site.Params.toc | default dict }}
@@ -60,26 +60,8 @@
         {{- end }}
       {{- end }}
 
-      {{- $seriesEnabled := false }}
-      {{- $globalSeriesConfig := .Site.Params.series | default dict }}
-      {{- if isset $globalSeriesConfig "enabled" }}
-        {{- $seriesEnabled = $globalSeriesConfig.enabled }}
-      {{- end }}
-      {{- if isset .Params "series" }}
-        {{- if reflect.IsMap .Params.series }}
-          {{- if isset .Params.series "enabled" }}
-            {{- $seriesEnabled = .Params.series.enabled }}
-          {{- end }}
-        {{- end }}
-      {{- end }}
-
-      {{- $currentSeries := .GetTerms "series" }}
-      {{- $hasAnySeries := and $seriesEnabled $currentSeries }}
-
-      {{- if or $tocEnabled $hasAnySeries }}
+      {{- if $tocEnabled }}
         {{- $tocPosition := $globalTocConfig.position | default "card" }}
-        {{- $seriesPosition := $globalSeriesConfig.position | default "card" }}
-
         {{/* frontmatter 参数覆盖 */}}
         {{- if isset .Params "toc" }}
           {{- if reflect.IsMap .Params.toc }}
@@ -88,39 +70,20 @@
             {{- end }}
           {{- end }}
         {{- end }}
-        {{- if isset .Params "series" }}
-          {{- if reflect.IsMap .Params.series }}
-            {{- if isset .Params.series "position" }}
-              {{- $seriesPosition = .Params.series.position }}
-            {{- end }}
-          {{- end }}
-        {{- end }}
-
-        {{/* 判断按钮文本 */}}
-        {{- $buttonText := "" }}
-        {{- $buttonIcon := "list" }}
-        {{- if and $tocEnabled $hasAnySeries }}
-          {{- $buttonText = i18n "dock.navigation" | default "导航" }}
-          {{- $buttonIcon = "menu" }}
-        {{- else if $tocEnabled }}
-          {{- $buttonText = i18n "dock.toc" | default "目录" }}
-          {{- $buttonIcon = "list" }}
-        {{- else }}
-          {{- $buttonText = i18n "dock.series" | default "系列" }}
-          {{- $buttonIcon = "book-open" }}
-        {{- end }}
 
         <button
-          id="dock-navigation"
-          class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2 {{ if and (ne $tocPosition "card") (ne $seriesPosition "card") }}xl:hidden{{ end }}"
-          title="{{ $buttonText }}"
-          aria-label="{{ $buttonText }}">
-          {{ partial "features/icon.html" (dict "name" $buttonIcon "size" "sm" "ariaLabel" "") }}
-          <span class="hidden sm:inline">{{ $buttonText }}</span>
+          id="dock-toc"
+          class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"
+          title="{{ i18n "dock.toc" | default "目录" }}"
+          aria-label="{{ i18n "dock.toc" | default "目录" }}">
+          {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
+          <span class="hidden sm:inline"
+            >{{ i18n "dock.toc" | default "目录" }}</span
+          >
         </button>
 
         <!-- 分隔线 - 在侧边栏模式下的大屏幕隐藏 -->
-        <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2 {{ if and (ne $tocPosition "card") (ne $seriesPosition "card") }}xl:hidden{{ end }}"></div>
+        <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2 {{ if ne $tocPosition "card" }}xl:hidden{{ end }}"></div>
       {{- end }}
     {{ end }}
 

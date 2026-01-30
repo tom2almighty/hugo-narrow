@@ -7,7 +7,6 @@ nav:
   projects: "Projects"
   tags: "Tags"
   categories: "Categories"
-  series: "Series"
   about: "About"
   contact: "Contact"
   archive: "Archive"
@@ -56,7 +55,6 @@ post:
   updated_on: "Updated on"
   tags: "Tags"
   categories: "Categories"
-  series: "Series"
   share: "Share"
   previous: "Previous"
   next: "Next"
@@ -208,9 +206,7 @@ comments:
 dock:
   aria_label: "Quick action toolbar"
   back: "Back"
-  navigation: "Navigation"
   toc: "Table of Contents"
-  series: "Series"
   search: "Search"
   comments: "Comments"
   back_to_top: "Back to Top"
@@ -224,11 +220,6 @@ alert:
   warning: "Warning"
   caution: "Caution"
 
-# Navigation related
-navigation:
-  title: "Navigation"
-  close: "Close"
-
 # TOC related
 toc:
   close: "Close"
@@ -236,19 +227,6 @@ toc:
   navigation: "Table of Contents Navigation"
   empty: "No headings in this article"
   tip: "Click to jump to the section"
-
-# Series related
-series:
-  title: "Series"
-  navigation: "Series Navigation"
-  empty: "This article is not part of any series"
-  current: "Current Article"
-  progress: "Part {{ .current }} of {{ .total }}"
-  total: "{{ .count }} articles"
-  part: "Part {{ .current }}"
-  previous: "Previous"
-  next: "Next"
-  view_all: "View All"
 
 # Code block related
 code:

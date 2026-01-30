@@ -44,7 +44,7 @@
       {{ block "main" . }}{{ end }}
     </main>
 
-    <!-- 侧边栏 TOC 和 Series - 使用固定定位，不影响正文布局 -->
+    <!-- 侧边栏 TOC - 使用固定定位，不影响正文布局 -->
     {{- if .IsPage }}
       {{- $tocEnabled := true }}
       {{- $globalTocConfig := .Site.Params.toc | default dict }}
@@ -60,25 +60,8 @@
           {{- $tocEnabled = .Params.toc }}
         {{- end }}
       {{- end }}
-
-      {{- $seriesEnabled := false }}
-      {{- $globalSeriesConfig := .Site.Params.series | default dict }}
-      {{- if isset $globalSeriesConfig "enabled" }}
-        {{- $seriesEnabled = $globalSeriesConfig.enabled }}
-      {{- end }}
-      {{- if isset .Params "series" }}
-        {{- if reflect.IsMap .Params.series }}
-          {{- if isset .Params.series "enabled" }}
-            {{- $seriesEnabled = .Params.series.enabled }}
-          {{- end }}
-        {{- end }}
-      {{- end }}
-
       {{- if $tocEnabled }}
         {{ partial "ui/toc-sidebar.html" . }}
-      {{- end }}
-      {{- if $seriesEnabled }}
-        {{ partial "ui/series-sidebar.html" . }}
       {{- end }}
     {{- end }}
 
@@ -87,9 +70,25 @@
     <!-- 底部 Dock -->
     {{ partial "ui/dock.html" . }}
 
-    <!-- 导航卡片 -->
+    <!-- 目录卡片 - 只在有目录的页面且 TOC 启用时显示 -->
     {{- if .IsPage }}
-      {{ partial "ui/navigation-card.html" . }}
+      {{- $tocEnabled := true }}
+      {{- $globalTocConfig := .Site.Params.toc | default dict }}
+      {{- if isset $globalTocConfig "enabled" }}
+        {{- $tocEnabled = $globalTocConfig.enabled }}
+      {{- end }}
+      {{- if isset .Params "toc" }}
+        {{- if reflect.IsMap .Params.toc }}
+          {{- if isset .Params.toc "enabled" }}
+            {{- $tocEnabled = .Params.toc.enabled }}
+          {{- end }}
+        {{- else }}
+          {{- $tocEnabled = .Params.toc }}
+        {{- end }}
+      {{- end }}
+      {{- if and $tocEnabled .TableOfContents }}
+        {{ partial "ui/toc-card.html" . }}
+      {{- end }}
     {{- end }}
     {{ partial "features/katex.html" . }}
     {{ partial "features/mermaid.html" . }}

@@ -7,7 +7,6 @@ nav:
   projects: "Progetti"
   tags: "Tag"
   categories: "Categorie"
-  series: "Serie"
   about: "Chi siamo"
   contact: "Contatti"
   archive: "Archivio"
@@ -56,7 +55,6 @@ post:
   updated_on: "Aggiornato il"
   tags: "Tag"
   categories: "Categorie"
-  series: "Serie"
   share: "Condividi"
   previous: "Precedente"
   next: "Successivo"
@@ -193,11 +191,8 @@ comments:
 
 # Bottom Dock
 dock:
-  aria_label: "Barra degli strumenti azioni rapide"
   back: "Indietro"
-  navigation: "Navigazione"
   toc: "Indice"
-  series: "Serie"
   search: "Cerca"
   comments: "Commenti"
   back_to_top: "Torna su"
@@ -213,28 +208,13 @@ alert:
 
 # TOC related
 toc:
-  close: "Chiudi"
   title: "Indice"
   navigation: "Navigazione nell'indice"
   empty: "Nessun titolo in questo articolo"
   tip: "Clicca per saltare alla sezione"
 
-# Serie
-series:
-  title: "Serie"
-  navigation: "Navigazione della serie"
-  empty: "Questo articolo non fa parte di alcuna serie"
-  current: "Articolo corrente"
-  progress: "Parte {{ .current }} di {{ .total }}"
-  total: "{{ .count }} articoli"
-  part: "Parte {{ .current }}"
-  previous: "Precedente"
-  next: "Successivo"
-  view_all: "Vedi tutto"
-
 # Code block related
 code:
-  copy: "Copia"
   copied: "Copiato"
   selected: "Selezionato"
   collapse: "Comprimi"

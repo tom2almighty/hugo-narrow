@@ -193,30 +193,30 @@
     });
   }
 
-  // 导航按钮 - 只在文章页面存在（TOC 或 Series）
-  const navigationBtn = document.getElementById("dock-navigation");
-  if (navigationBtn) {
-    navigationBtn.addEventListener("click", function (e) {
+  // 目录按钮 - 只在文章页面存在
+  const tocBtn = document.getElementById("dock-toc");
+  if (tocBtn) {
+    tocBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
-      // 调用导航功能，带重试机制
-      function tryToggleNavigation(retries = 5) {
-        if (window.Navigation && window.Navigation.initialized) {
+      // 调用目录功能，带重试机制
+      function tryToggleTOC(retries = 5) {
+        if (window.TOC && window.TOC.initialized) {
           // 如果搜索modal是打开状态，先关闭搜索
           if (window.Search && window.Search.isVisible && window.Search.isVisible()) {
             window.Search.hide();
           }
-
-          // 切换导航状态
-          window.Navigation.toggle();
-        } else if (window.Navigation && !window.Navigation.initialized && retries > 0) {
-          setTimeout(() => tryToggleNavigation(retries - 1), 200);
-        } else if (!window.Navigation && retries > 0) {
-          setTimeout(() => tryToggleNavigation(retries - 1), 200);
+          
+          // 切换目录状态
+          window.TOC.toggle();
+        } else if (window.TOC && !window.TOC.initialized && retries > 0) {
+          setTimeout(() => tryToggleTOC(retries - 1), 200);
+        } else if (!window.TOC && retries > 0) {
+          setTimeout(() => tryToggleTOC(retries - 1), 200);
         }
       }
 
-      tryToggleNavigation();
+      tryToggleTOC();
     });
   }
 
@@ -229,11 +229,11 @@
       // 调用搜索功能，带重试机制
       function tryToggleSearch(retries = 5) {
         if (window.Search) {
-          // 如果导航modal是打开状态，先关闭导航
-          if (window.Navigation && window.Navigation.initialized && window.Navigation.isVisible && window.Navigation.isVisible()) {
-            window.Navigation.hide();
+          // 如果目录modal是打开状态，先关闭目录
+          if (window.TOC && window.TOC.initialized && window.TOC.isVisible && window.TOC.isVisible()) {
+            window.TOC.hide();
           }
-
+          
           // 切换搜索状态（如果已打开则关闭，否则打开）
           if (window.Search.isVisible && window.Search.isVisible()) {
             window.Search.hide();
