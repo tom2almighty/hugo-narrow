@@ -38,12 +38,12 @@
           {{- end }}
 
           <!-- 发布时间和阅读时间 -->
-          <div class="text-muted-foreground flex gap-3 text-sm mb-4">
+          <div class="text-muted-foreground flex flex-wrap items-center gap-3 text-sm mb-4">
             <!-- 发布时间 -->
             <div class="flex items-center gap-2">
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n
               "post.published_on")) }}
-              <time datetime="{{ .Date.Format " 2006-01-02" }}">
+              <time datetime="{{ .Date.Format `2006-01-02` }}">
                 {{ .Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
               </time>
             </div>
@@ -124,7 +124,7 @@
         </div>
 
         {{/* 右侧：Series 文章列表 */}}
-        <div class="flex-1 lg:w-2/5 flex flex-col bg-accent/5" id="series-container">
+        <div class="flex-1 lg:w-2/5 flex flex-col" id="series-container">
           <!-- Series 标题栏 (Tabs) -->
           <div class="flex-shrink-0 p-4 border-b border-border">
             <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth" id="series-tabs">
@@ -153,19 +153,19 @@
               <!-- 跳转到分类页的按钮 (仅针对当前激活的 Series，通过 JS 更新 href) -->
               <a href="#" id="series-link-btn"
                 class="ml-auto flex-shrink-0 p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
-                title="{{ i18n " post.view_series_archive" | default "查看系列归档" }}">
+                title="{{ i18n `post.view_series_archive` | default `查看系列归档` }}">
                 {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm") }}
               </a>
             </div>
           </div>
 
           <!-- Series 内容列表区域 -->
-          <div class="flex-1 relative overflow-hidden">
+          <div class="flex-1">
             {{- range $dataIndex, $seriesPage := $currentSeries }}
             {{- $seriesPages := $seriesPage.Pages.ByParam "series_order" }}
 
             <nav id="series-content-{{ $dataIndex }}"
-              class="series-content absolute inset-0 overflow-y-auto p-4 transition-opacity duration-300 {{ if eq $dataIndex 0 }}opacity-100 z-10 block{{ else }}opacity-0 z-0 hidden{{ end }}"
+              class="series-content overflow-y-auto max-h-32 p-4 transition-opacity duration-300 {{ if eq $dataIndex 0 }}opacity-100 z-10 block{{ else }}opacity-0 z-0 hidden{{ end }}"
               data-link="{{ $seriesPage.RelPermalink }}">
               <ol class="space-y-1.5">
                 {{- range $index, $page := $seriesPages }}
