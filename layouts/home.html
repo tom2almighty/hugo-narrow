@@ -1,13 +1,11 @@
 {{ define "main" }}
-  <div class="mx-auto max-w-4xl">
-    {{ $contentOrder := site.Params.home.contentOrder }}
-    {{ if not $contentOrder }}
-      {{ $contentOrder = slice "author-section" "page-content" "recent-posts" }}
-    {{ end }}
-    {{ range $contentOrder }}
-      {{ $sectionName := . }}
-      {{ $partialPath := printf "home/%s.html" $sectionName }}
-      {{ partial $partialPath $ }}
-    {{ end }}
-  </div>
+  {{ $contentOrder := site.Params.home.contentOrder }}
+  {{ if not $contentOrder }}
+    {{ $contentOrder = slice "author-section" "page-content" "recent-posts" }}
+  {{ end }}
+  {{ range $contentOrder }}
+    {{ $sectionName := . }}
+    {{ $partialPath := printf "home/%s.html" $sectionName }}
+    {{ partial $partialPath $ }}
+  {{ end }}
 {{ end }}

@@ -21,10 +21,34 @@ class TOCManager {
   // 检测 TOC 模式
   detectMode() {
     const sidebar = document.getElementById("toc-sidebar");
-    if (sidebar && window.innerWidth >= 1280) {
-      return "sidebar";
+
+    // 如果没有侧边栏元素，使用 card 模式
+    if (!sidebar) {
+      return "card";
     }
-    return "card";
+
+    // 检查窗口宽度是否满足最小要求（1280px）
+    if (window.innerWidth < 1280) {
+      return "card";
+    }
+
+    // 计算侧边栏的实际可用宽度
+    // 获取侧边栏的父容器（aside 元素）
+    const asideContainer = sidebar.closest('aside');
+    if (!asideContainer) {
+      return "card";
+    }
+
+    // 获取父容器的实际宽度
+    const asideWidth = asideContainer.getBoundingClientRect().width;
+
+    // 如果侧边栏宽度小于 200px，说明空间不足，切换到 card 模式
+    const MIN_SIDEBAR_WIDTH = 200;
+    if (asideWidth < MIN_SIDEBAR_WIDTH) {
+      return "card";
+    }
+
+    return "sidebar";
   }
 
   // 初始化

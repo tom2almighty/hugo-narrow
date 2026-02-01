@@ -44,11 +44,14 @@ header:
 # Options: "scroll" (show on scroll up), "always" (always visible), "float" (floating button)
 dock: "scroll"
 
+
+# Content width
+contentWidth: "56rem"
+
 # TOC (Table of Contents)
 toc:
   enabled: true         # Enable or disable TOC globally
-  position: "card"      # Options: card left right
-  maxWidth: "280px"
+  position: "left"      # Options: card left right
   maxHeight: "80vh"
 
 

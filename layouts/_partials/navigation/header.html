@@ -1,28 +1,22 @@
-<header class="{{- if site.Params.header.sticky -}}sticky top-0 z-50{{ end }} mx-auto max-w-4xl px-4 py-6">
-  <div
-    class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
+<header class="{{- if site.Params.header.sticky -}}sticky top-0 z-50{{ end }} px-4 py-6">
+  <div class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm">
     <!-- 桌面端布局 -->
     <div class="hidden w-full items-center md:flex md:min-w-0">
       <!-- 左侧：站点 Logo -->
       <div class="flex items-center">
         {{ if ne site.Params.header.logo.image "" }}
-          <a
-            href="{{ if site.Params.header.logo.link }}{{ site.Params.header.logo.link | relLangURL }}{{ else }}{{ site.Home.RelPermalink }}{{ end }}"
-            class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
-            aria-label="{{ site.Title }}">
-            <img
-              src="{{ site.Params.header.logo.image }}"
-              alt="{{ site.Title }}"
-              class="h-full w-full object-cover" />
-          </a>
+        <a href="{{ if site.Params.header.logo.link }}{{ site.Params.header.logo.link | relLangURL }}{{ else }}{{ site.Home.RelPermalink }}{{ end }}"
+          class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
+          aria-label="{{ site.Title }}">
+          <img src="{{ site.Params.header.logo.image }}" alt="{{ site.Title }}" class="h-full w-full object-cover" />
+        </a>
         {{ else }}
-          <!-- 默认 Logo：使用站点标题首字母 -->
-          <a
-            href="{{ site.Home.RelPermalink }}"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
-            aria-label="{{ site.Title }}">
-            {{ substr site.Title 0 1 | upper }}
-          </a>
+        <!-- 默认 Logo：使用站点标题首字母 -->
+        <a href="{{ site.Home.RelPermalink }}"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
+          aria-label="{{ site.Title }}">
+          {{ substr site.Title 0 1 | upper }}
+        </a>
         {{ end }}
       </div>
 
@@ -31,28 +25,27 @@
         <div class="flex items-center space-x-1 flex-wrap justify-center">
           {{ $currentPage := . }}
           {{ range site.Menus.main }}
-            {{/* 生成语言感知的URL */}}
-            {{ $menuURL := .URL }}
-            {{ if .PageRef }}
-              {{ with site.GetPage .PageRef }}
-                {{ $menuURL = .RelPermalink }}
-              {{ else }}
-                {{ $menuURL = .URL | relLangURL }}
-              {{ end }}
-            {{ end }}
-            {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
-            <a
-              href="{{ $menuURL }}"
-              class="nav-link {{ if $isActive }}
+          {{/* 生成语言感知的URL */}}
+          {{ $menuURL := .URL }}
+          {{ if .PageRef }}
+          {{ with site.GetPage .PageRef }}
+          {{ $menuURL = .RelPermalink }}
+          {{ else }}
+          {{ $menuURL = .URL | relLangURL }}
+          {{ end }}
+          {{ end }}
+          {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
+          <a href="{{ $menuURL }}"
+            class="nav-link {{ if $isActive }}
                 nav-active-indicator bg-accent text-accent-foreground
               {{ else }}
                 text-muted-foreground hover:text-primary hover:bg-primary/10
               {{ end }} focus:ring-primary/20 relative flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none">
-              {{ if .Params.icon }}
-                {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
-              {{ end }}
-              <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
-            </a>
+            {{ if .Params.icon }}
+            {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+            {{ end }}
+            <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+          </a>
           {{ end }}
         </div>
       </nav>
