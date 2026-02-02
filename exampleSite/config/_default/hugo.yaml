@@ -47,10 +47,10 @@ markup:
         mark:
           enable: true
         subscript:
-          enable: false
+          enable: true
         superscript:
-          enable: false   
-      strikethrough: false 
+          enable: true   
+      strikethrough: true 
   highlight:
     codeFences: true
     guessSyntax: false

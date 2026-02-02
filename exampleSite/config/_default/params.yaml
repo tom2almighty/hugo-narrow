@@ -46,12 +46,14 @@ dock: "scroll"
 
 
 # Content width
+# The ,max content width is set to "56rem" by default, which is a good balance between readability and aesthetics.
+# You can change it to "56rem" to make the content wider, or "48rem" to make it narrower.
 contentWidth: "56rem"
 
 # TOC (Table of Contents)
 toc:
   enabled: true         # Enable or disable TOC globally
-  position: "left"      # Options: card left right
+  position: "card"      # Options: card left right
   maxHeight: "80vh"
 
 

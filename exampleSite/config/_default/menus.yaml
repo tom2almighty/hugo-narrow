@@ -2,46 +2,42 @@ main:
   - identifier: nav.posts
     name: Posts
     pageRef: /posts
-    weight: 20
+    weight: 10
     params:
       icon: posts
-  - identifier: nav.projects
-    name: Projects
-    pageRef: /projects
-    weight: 25
-    params:
-      icon: projects
+
   - identifier: nav.categories
     name: Categories
     pageRef: /categories
-    weight: 30
+    weight: 20
     params:
       icon: categories
   - identifier: nav.tags
     name: Tags
     pageRef: /tags
-    weight: 40
+    weight: 30
     params:
       icon: tags
   - identifier: nav.archives
     name: Archives
     pageRef: /archives
-    weight: 50
+    weight: 40
     params:
       icon: archive
 
 # footer menu
 footer:
-  - name: About
-    pageRef: /about
+  - identifier: nav.projects
+    name: Projects
+    pageRef: /projects
     weight: 10
     params:
-      icon: about
-  - name: Contact
-    url: https://google.com
+      icon: projects
+  - name: About
+    pageRef: /about
     weight: 20
     params:
-      icon: contact
+      icon: about
   - name: RSS Feed
     url: /index.xml
     weight: 30

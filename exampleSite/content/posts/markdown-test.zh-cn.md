@@ -1,10 +1,10 @@
 ---
-title: "Markdown 语法测试文档"
+title: "Markdown 语法指南"
 date: 2024-01-15T10:00:00+08:00
 draft: false
-summary: "这是一个包含各种 Markdown 语法的测试文档，用于验证文档样式的完整性。"
-categories: ["测试"]
-tags: ["markdown", "文档", "样式"]
+summary: "这是一篇包含各种 Markdown 语法的文章。"
+categories: ["Markdown"]
+tags: ["markdown"]
 ---
 
 # 一级标题
@@ -96,33 +96,26 @@ tags: ["markdown", "文档", "样式"]
 
 ### 代码块
 
-```javascript
-function greet(name) {
-  console.log(`你好，${name}！`);
+```javascript {lineNos=true hl_lines=[3,6,8] filename=main.js}
+function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-greet('世界');
-```
 
-```python
-def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
+const result = fibonacci(10);
+console.log(`The 10th Fibonacci number is: ${result}`);
 
-print(fibonacci(10))
-```
-
-```css
-.prose {
-  max-width: none;
-  color: var(--tw-prose-body);
-}
-
-.prose h1 {
-  font-size: 2.25rem;
-  font-weight: 700;
-}
+// Async/Await
+const asyncFunction = async () => {
+  try {
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 ```
 
 ## 表格
@@ -133,7 +126,6 @@ print(fibonacci(10))
 | 较长的内容 | 中等     | 短     |
 | 数据 A | 数据 B   | 数据 C |
 
-## 水平分割线
 
 ---
 
@@ -175,23 +167,37 @@ E = mc^2^ 是爱因斯坦的质能方程。
 
 按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 复制文本。
 
-## 缩写
 
-HTML 是*超文本标记语言*的缩写。
+## 数学公式
 
-*[HTML]: 超文本标记语言
+行内公式: $E = mc^2$
 
-## 数学公式（如果支持 KaTeX）
+### 块级公式
 
-行内公式：$E = mc^2$
+$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$$
 
-块级公式：
+$$e^{i\pi} + 1 = 0$$
 
-$$
-\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
-$$
+$$\begin{pmatrix} a & b \\\\ c & d \end{pmatrix} \begin{pmatrix} x \\\\ y \end{pmatrix} = \begin{pmatrix} ax + by \\\\ cx + dy \end{pmatrix}$$
 
-## 提示框（如果支持）
+## 图表
+
+```mermaid
+sequenceDiagram
+    participant 用户
+    participant 浏览器
+    participant 服务器
+    participant 数据库
+
+    用户->>浏览器: 输入网址
+    浏览器->>服务器: 发送HTTP请求
+    服务器->>数据库: 查询数据
+    数据库-->>服务器: 返回数据
+    服务器-->>浏览器: 返回HTML
+    浏览器-->>用户: 显示页面
+```
+
+## 提示框
 
 > [!NOTE]
 > 这是一个注意事项。
@@ -208,6 +214,10 @@ $$
 > [!CAUTION]
 > 这是一个注意事项。
 
+> [!NOTE]+ 自定义标题（默认展开）
+> 这是一个可折叠的提示框，默认展开，点击折叠。
+
+
 ## 详情（如果支持）
 
 <details>
@@ -223,28 +233,3 @@ $$
 
 </details>
 
-## 混合内容测试
-
-这个段落包含多种格式：**粗体**、*斜体*、`代码`、[链接](https://example.com)、~~删除线~~、==高亮==。
-
-### 复杂列表
-
-1. 包含**粗体**文本的第一项
-   - 包含`代码`的嵌套项
-   - 包含[链接](https://example.com)的另一个嵌套项
-2. 包含*斜体*文本的第二项
-   1. 有序嵌套项
-   2. 另一个有序嵌套项
-3. 包含~~删除线~~文本的第三项
-
-### 复杂表格
-
-| 功能 | 状态 | 描述 |
-|------|:----:|----|
-| **粗体** | ✅ | 支持粗体文本 |
-| *斜体* | ✅ | 支持斜体 |
-| `代码` | ✅ | 支持行内代码 |
-| [链接](https://example.com) | ✅ | 支持链接 |
-| ~~删除线~~ | ❌ | 需要测试 |
-
-这个测试文档涵盖了大多数常见的 Markdown 语法，可以用来验证文档样式的完整性和美观性。

@@ -1,10 +1,10 @@
 ---
-title: "Markdown Syntax Test Document"
+title: "Markdown Syntax Guide"
 date: 2024-01-15T10:00:00+08:00
 draft: false
-summary: "This is a test document containing various Markdown syntax to verify the completeness of prose styles."
-categories: ["Test"]
-tags: ["markdown", "prose", "style"]
+summary: "This is a post which includes all available Markdown syntax."
+categories: ["Markdown"]
+tags: ["markdown"]
 ---
 
 # Heading 1
@@ -96,33 +96,26 @@ This is a paragraph with `console.log('Hello World')` inside.
 
 ### Code Blocks
 
-```javascript
-function greet(name) {
-  console.log(`Hello, ${name}!`);
+```javascript {lineNos=true hl_lines=[3,6,8] filename=main.js}
+function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-greet('World');
-```
 
-```python
-def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
+const result = fibonacci(10);
+console.log(`The 10th Fibonacci number is: ${result}`);
 
-print(fibonacci(10))
-```
-
-```css
-.prose {
-  max-width: none;
-  color: var(--tw-prose-body);
-}
-
-.prose h1 {
-  font-size: 2.25rem;
-  font-weight: 700;
-}
+// Async/Await
+const asyncFunction = async () => {
+  try {
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 ```
 
 ## Tables
@@ -132,8 +125,6 @@ print(fibonacci(10))
 | Content 1  | Content 2    | Content 3   |
 | Longer content | Medium    | Short       |
 | Data A     | Data B       | Data C      |
-
-## Horizontal Rule
 
 ---
 
@@ -175,23 +166,36 @@ E = mc^2^ is Einstein's mass-energy equation.
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy text.
 
-## Abbreviations
-
-HTML is the abbreviation for *HyperText Markup Language*.
-
-*[HTML]: HyperText Markup Language
-
-## Math Formula (if KaTeX supported)
+## Math
 
 Inline formula: $E = mc^2$
 
-Block formula:
+### Block Formula
 
-$$
-\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
-$$
+$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$$
 
-## Admonitions (if supported)
+$$e^{i\pi} + 1 = 0$$
+
+$$\begin{pmatrix} a & b \\\\ c & d \end{pmatrix} \begin{pmatrix} x \\\\ y \end{pmatrix} = \begin{pmatrix} ax + by \\\\ cx + dy \end{pmatrix}$$
+
+## Mermaid
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+    participant Database
+
+    User->>Browser: Enter URL
+    Browser->>Server: Send HTTP Request
+    Server->>Database: Query Data
+    Database-->>Server: Return Data
+    Server-->>Browser: Return HTML
+    Browser-->>User: Display Page
+```
+
+## Alert
 
 > [!NOTE]
 > This is a note.
@@ -208,7 +212,11 @@ $$
 > [!CAUTION]
 > This is a caution.
 
-## Details (if supported)
+> [!NOTE]+ Custom Title (Click to Collapse)
+> This is an expanded foldable alert box by default. Click the title to collapse the content.
+
+
+## Details
 
 <details>
 <summary>Click to expand details</summary>
@@ -223,29 +231,4 @@ You can include any Markdown syntax here:
 
 </details>
 
-## Mixed Content Test
-
-This paragraph contains multiple formats: **bold**, *italic*, `code`, [link](https://example.com), ~~strikethrough~~, ==highlight==.
-
-### Complex List
-
-1. First item with **bold** text
-   - Nested item with `code`
-   - Another nested item with [link](https://example.com)
-2. Second item with *italic* text
-   1. Ordered nested item
-   2. Another ordered nested item
-3. Third item with ~~strikethrough~~ text
-
-### Complex Table
-
-| Feature | Status | Description         |
-|---------|:------:|--------------------|
-| **Bold** | ✅    | Supports bold text |
-| *Italic* | ✅    | Supports italic    |
-| `Code`   | ✅    | Supports inline code |
-| [Link](https://example.com) | ✅ | Supports links |
-| ~~Strikethrough~~ | ❌ | Needs testing   |
-
-This test document covers most common Markdown syntax and can be used to verify the completeness and aesthetics of prose styles.
 

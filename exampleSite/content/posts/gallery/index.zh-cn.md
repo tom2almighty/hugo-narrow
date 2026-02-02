@@ -1,10 +1,11 @@
 ---
-title: "图片渲染测试"
+title: "图库"
 date: 2024-01-16T22:30:00+08:00
 draft: false
-description: "测试图片渲染功能"
-tags: ["测试", "图片", "渲染"]
-categories: ["图片渲染"]
+description: "图库示例，包含两端对其的图库和使用短代码的瀑布流图库"
+tags: ["图库"]
+categories: ["图库"]
+cover: bundle.avif
 lightbox:
   enabled: true
 justified_gallery:

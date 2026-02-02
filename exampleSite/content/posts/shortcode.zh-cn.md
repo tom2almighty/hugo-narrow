@@ -1,5 +1,5 @@
 ---
-title: "短代码示例"
+title: "短代码"
 date: 2025-12-26
 draft: false
 description: "Hugo Narrow 主题可用的短代码"
