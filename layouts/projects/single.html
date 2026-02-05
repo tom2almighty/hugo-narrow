@@ -61,7 +61,7 @@
         {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
         <span class="text-muted-foreground">{{ i18n "post.published_on" | default "Published on" }}:</span>
         <time datetime="{{ .Date.Format "2006-01-02" }}" class="text-foreground font-medium">
-          {{ .Date.Format (i18n "time.date_format" | default "January 02, 2006") }}
+          {{ dateFormat (i18n "time.date_format" | default "January 02, 2006") .Date }}
         </time>
       </div>
 
@@ -89,9 +89,9 @@
     {{ if or .Params.github .Params.demo .Params.website }}
       <div class="mt-4 flex flex-wrap gap-3">
         {{ if .Params.github }}
-          <a 
-            href="{{ .Params.github }}" 
-            target="_blank" 
+          <a
+            href="{{ .Params.github }}"
+            target="_blank"
             rel="noopener noreferrer"
             class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors">
             {{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
@@ -99,9 +99,9 @@
           </a>
         {{ end }}
         {{ if .Params.demo }}
-          <a 
-            href="{{ .Params.demo }}" 
-            target="_blank" 
+          <a
+            href="{{ .Params.demo }}"
+            target="_blank"
             rel="noopener noreferrer"
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors">
             {{ partial "features/icon.html" (dict "name" "link" "size" "sm" "ariaLabel" "") }}
@@ -109,9 +109,9 @@
           </a>
         {{ end }}
         {{ if .Params.website }}
-          <a 
-            href="{{ .Params.website }}" 
-            target="_blank" 
+          <a
+            href="{{ .Params.website }}"
+            target="_blank"
             rel="noopener noreferrer"
             class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors">
             {{ partial "features/icon.html" (dict "name" "link" "size" "sm" "ariaLabel" "") }}
@@ -147,4 +147,3 @@
   {{ partial "features/comments.html" . }}
 
 {{ end }}
-
