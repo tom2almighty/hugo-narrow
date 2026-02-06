@@ -71,7 +71,7 @@
                 <div class="ml-12">
                   {{ $date := time (printf "%s-01" .Key) }}
                   <h3 class="text-foreground text-lg font-semibold">
-                    {{ $date.Format (i18n "time.month_format" | default "2006年01月") }}
+                    {{ time.Format (i18n "time.month_format" | default "2006年01月") $date }}
                   </h3>
                   <p class="text-muted-foreground text-xs">
                     {{ len .Pages }}
@@ -100,7 +100,7 @@
                           <div class="flex items-center gap-1">
                             {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
                             <time datetime="{{ .Date.Format "2006-01-02" }}">
-                              {{ .Date.Format "01-02" }}
+                              {{ dateFormat (i18n "time.date_format_short" | default "01-02") .Date }}
                             </time>
                           </div>
 

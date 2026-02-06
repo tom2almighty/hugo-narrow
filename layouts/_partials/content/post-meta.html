@@ -44,7 +44,7 @@
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n
               "post.published_on")) }}
               <time datetime="{{ .Date.Format `2006-01-02` }}">
-                {{ .Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
+                {{ dateFormat (i18n "time.date_format" | default "2006年01月02日") .Date }}
               </time>
             </div>
 
@@ -54,7 +54,7 @@
               {{ partial "features/icon.html" (dict "name" "edit" "size" "sm" "ariaLabel" (i18n "post.updated_on")) }}
               <span>
                 {{ i18n "post.updated_on" | default "更新于" }}
-                {{ .Lastmod.Format (i18n "time.date_format" | default "2006年01月02日") }}
+                {{ dateFormat (i18n "time.date_format" | default "2006年01月02日") .Lastmod }}
               </span>
             </div>
             {{ end }}
