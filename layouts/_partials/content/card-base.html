@@ -77,7 +77,7 @@
             <div class="flex items-center gap-1.5">
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post.published_on")) }}
               <time datetime="{{ $page.Date.Format "2006-01-02" }}" class="font-medium">
-                {{ $page.Date.Format (i18n "time.date_format" | default "2006年01月02日") }}
+                {{ dateFormat (i18n "time.date_format" | default "2006年01月02日") $page.Date }}
               </time>
             </div>
             {{ if $page.ReadingTime }}
