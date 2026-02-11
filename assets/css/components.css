@@ -121,6 +121,14 @@
 }
 
 
+.toc-aside-left #toc-sidebar {
+  @apply mr-4 ml-auto;
+}
+
+.toc-aside-right {
+  @apply ml-4 mr-auto;
+}
+
 
 #toc-sidebar-content {
   @apply text-sm leading-6;

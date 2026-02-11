@@ -3899,6 +3899,14 @@
     margin-block: calc(var(--spacing) * 1);
     padding: calc(var(--spacing) * 0);
   }
+  .toc-aside-left #toc-sidebar {
+    margin-right: calc(var(--spacing) * 4);
+    margin-left: auto;
+  }
+  .toc-aside-right {
+    margin-right: auto;
+    margin-left: calc(var(--spacing) * 4);
+  }
   #toc-sidebar-content {
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
