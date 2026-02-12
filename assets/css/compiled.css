@@ -3903,7 +3903,7 @@
     margin-right: calc(var(--spacing) * 4);
     margin-left: auto;
   }
-  .toc-aside-right {
+  .toc-aside-right #toc-sidebar {
     margin-right: auto;
     margin-left: calc(var(--spacing) * 4);
   }

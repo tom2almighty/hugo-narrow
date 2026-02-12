@@ -125,7 +125,7 @@
   @apply mr-4 ml-auto;
 }
 
-.toc-aside-right {
+.toc-aside-right #toc-sidebar {
   @apply ml-4 mr-auto;
 }
 
