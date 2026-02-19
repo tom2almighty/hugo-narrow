@@ -3,13 +3,13 @@ description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.
 keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
 defaultAuthor: "Hugo Narrow"
 language: "en-US"
-shortName: "Hugo Narrow"  # PWA
+shortName: "Hugo Narrow" # PWA
 images:
   - "/images/og-default.avif"
 
 # Favicon
 favicon:
-  svg: "/favicon.svg"  # SVG format favicon (recommended)
+  svg: "/favicon.svg" # SVG format favicon (recommended)
 
 # Author info
 author:
@@ -30,20 +30,19 @@ author:
 
 # Header configuration (modularized)
 header:
-  sticky: true  # Enable sticky navigation bar
+  sticky: true # Enable sticky navigation bar
   logo:
-    image: "/images/logo.svg"  # Logo path relative to static folder, leave empty to use site title first letter
-    link: "/"  # Click to home page
+    image: "/images/logo.svg" # Logo path relative to static folder, leave empty to use site title first letter
+    link: "/" # Click to home page
   # UI Components Control (header controls)
-  showThemeSwitch: true      # Set to false to hide theme style switcher (palette icon)
-  showDarkModeSwitch: true   # Set to false to hide dark mode switcher (sun/moon icon)
-  showLanguageSwitch: true   # Set to false to hide language switcher
-  languageSwitchMode: "dropdown"  # Language switch mode: "dropdown" (show panel) or "cycle" (direct cycle)
+  showThemeSwitch: true # Set to false to hide theme style switcher (palette icon)
+  showDarkModeSwitch: true # Set to false to hide dark mode switcher (sun/moon icon)
+  showLanguageSwitch: true # Set to false to hide language switcher
+  languageSwitchMode: "dropdown" # Language switch mode: "dropdown" (show panel) or "cycle" (direct cycle)
 
 # Dock display mode
 # Options: "scroll" (show on scroll up), "always" (always visible), "float" (floating button)
 dock: "scroll"
-
 
 # Content width
 # The ,max content width is set to "56rem" by default, which is a good balance between readability and aesthetics.
@@ -52,11 +51,9 @@ contentWidth: "56rem"
 
 # TOC (Table of Contents)
 toc:
-  enabled: true         # Enable or disable TOC globally
-  position: "card"      # Options: card left right
+  enabled: true # Enable or disable TOC globally
+  position: "card" # Options: card left right
   maxHeight: "80vh"
-
-
 
 # Default color scheme
 colorScheme: "default"
@@ -97,7 +94,7 @@ themes:
 
 # Home page configuration
 home:
-  recentPostsCount: 5  # Number of recent posts to show on the home page
+  recentPostsCount: 5 # Number of recent posts to show on the home page
 
   # Content order configuration - customize the order of home page sections
   # Available sections: author-section, recent-posts, featured-projects, page-content
@@ -108,13 +105,10 @@ home:
     - recent-posts
     - featured-projects.html
 
-
-
-
 # Post configuration
 post:
-  showRelated: true           # show related posts
-  relatedPostsCount: 3        # posts number
+  showRelated: true # show related posts
+  relatedPostsCount: 3 # posts number
   license:
     show: true
     author: "Hugo Narrow"
@@ -202,35 +196,30 @@ katex:
 mermaid:
   enabled: true
 
-# GLightbox
-lightbox:
-  enabled: false
-  loop: true
-  width: 80vw
-  height: 80vh
-  touchNavigation: true
-  draggable: true
-  zoomable: true
-  preload: true
-  descPosition: bottom
+# Gallery 配置
+gallery:
+  enabled: true
+  defaultLayout: justified # justified, masonry, grid
+  gap: 10
+  targetRowHeight: 200
+  lastRowBehavior: center # left, center, right, fill, hide
+  columnWidth: 200
+  columns: 4 # auto 或具体数字
+  showLayoutSwitcher: false # 是否显示布局切换按钮
 
-# Justified Gallery
-justified_gallery:
-  enabled: false
-  rowHeight: 300
-  gutter: 30
-  lastRow: center
-  transitionDuration: 0.3s
-  resizeDebounce: 100
-  rowHeightTolerance: 0.25
-  maxRowsCount: 999999
-  calculateItemsHeight: false
+# PhotoSwipe 灯箱
+lightbox:
+  enabled: true
+  bgOpacity: 0.8
+  showHideAnimationType: zoom
+  showAnimationDuration: 333
+  hideAnimationDuration: 333
 
 # Code block
 codeblock:
   collapse:
     enabled: true
-    defaultState: expanded  # expanded, collapsed
+    defaultState: expanded # expanded, collapsed
     autoCollapseLines: 30
     autoCollapseHeight: 400
     collapsedHeight: 120
@@ -242,5 +231,3 @@ readingProgress:
   showOnHomepage: false
   smoothScroll: true
   hideOnComplete: false
-
-

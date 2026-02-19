@@ -36,10 +36,23 @@
 {{- $canProcess := .Page.Scratch.Get "canProcess" -}}
 {{- $processedImages := .Page.Scratch.Get "processedImages" -}}
 
+{{/* 获取图片尺寸 */}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+{{- if and $imageResource (not $isExternal) -}}
+  {{- if reflect.IsMap $imageResource -}}
+    {{- $width = $imageResource.Width -}}
+    {{- $height = $imageResource.Height -}}
+  {{- end -}}
+{{- end -}}
+
 {{/* 生成 figure 元素 */}}
-<figure class="image-figure not-prose my-8" 
+<figure class="image-figure not-prose my-8"
         data-lightbox-enabled="{{ if $lightboxEnabled }}true{{ else }}false{{ end }}"
-        data-gallery-type="auto">
+        data-gallery-type="auto"
+        data-image-width="{{ $width }}"
+        data-image-height="{{ $height }}"
+        data-image-src="{{ $imageUrl }}">
   <div class="image-container">
     {{/* 使用图片处理器生成图片HTML */}}
     {{- partial "content/image-processor.html" (dict

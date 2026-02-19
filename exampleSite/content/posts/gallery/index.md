@@ -28,15 +28,3 @@ All images are from [Unsplash](https://unsplash.com/)
 ![https://unsplash.com/@flovayn](images/06.avif "Photo by -  Florian van Duyn")
 ![https://unsplash.com/@juanster](images/07.avif "Photo by - Juan Davila")
 ![https://unsplash.com/@davidmarcu](images/08.avif "Photo by - David Marcu")
-
-## Masonry by shortcodes
-{{< masonry columns=4 gutter=15 >}}
-![https://unsplash.com/@@tobbes_rd](images/01.avif "Photo by - Tobias Rademacher")
-![https://unsplash.com/@therawhunter](images/02.avif "Photo by - Massimiliano Morosinotto")
-![https://unsplash.com/@thesaboo](images/03.avif "Photo by - Sascha Bosshard")
-![https://unsplash.com/@yusufevli](images/04.avif "Photo by - Yusuf Evli")
-![https://unsplash.com/@flovayn](images/05.avif "Photo by - Jay Mantri")
-![https://unsplash.com/@flovayn](images/06.avif "Photo by -  Florian van Duyn")
-![https://unsplash.com/@juanster](images/07.avif "Photo by - Juan Davila")
-![https://unsplash.com/@davidmarcu](images/08.avif "Photo by - David Marcu")
-{{< /masonry >}}

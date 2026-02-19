@@ -65,10 +65,18 @@
 {{ end }}
 
 {{/* 图片画廊CSS - 条件加载 */}}
-{{ if .Scratch.Get "justifiedEnabled" }}
-  <link rel="stylesheet" href="/css/fjGallery.css">
-{{ end }}
-
 {{ if .Scratch.Get "lightboxEnabled" }}
-  <link rel="stylesheet" href="/css/glightbox.min.css">
+  {{- with resources.Get "css/photoswipe.css" }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | minify | fingerprint }}
+        <link
+          rel="stylesheet"
+          href="{{ .RelPermalink }}"
+          integrity="{{ .Data.Integrity }}"
+          crossorigin="anonymous">
+      {{- end }}
+    {{- end }}
+  {{- end }}
 {{ end }}

@@ -1,42 +1,55 @@
-/* Justified Gallery 样式 */
-.fj-gallery .glightbox {
-  @apply no-underline hover:no-underline focus:no-underline block overflow-hidden;
-  border-radius: 0.5rem;
+/* Gallery Layout Switcher */
+.gallery-layout-switcher {
+  @apply mb-4 flex justify-end gap-2;
 }
 
-.fj-gallery-item {
-  @apply overflow-hidden;
-  border-radius: 0.5rem;
+.gallery-layout-switcher .layout-btn {
+  @apply bg-surface border-border flex cursor-pointer items-center justify-center rounded-md border p-2 transition-all duration-200;
 }
 
-.fj-gallery img {
-  @apply transition-transform duration-300 ease-in-out;
-  border-radius: 0.5rem;
+.gallery-layout-switcher .layout-btn:hover {
+  @apply bg-surface-hover border-primary;
 }
 
-.fj-gallery img:hover {
-  @apply scale-105;
+.gallery-layout-switcher .layout-btn.active {
+  @apply bg-primary border-primary text-white;
 }
 
-.single-image .glightbox {
-  @apply no-underline hover:no-underline focus:no-underline inline-block overflow-hidden;
-  border-radius: 0.5rem;
+.gallery-layout-switcher .layout-btn svg {
+  @apply block;
 }
+
+/* Smart Gallery Container */
+.smart-gallery-container {
+  @apply my-8;
+}
+
+.smart-gallery {
+  @apply w-full;
+}
+
+/* SmartGallery Item Styles */
+.sg-item {
+  @apply cursor-pointer overflow-hidden rounded-lg transition-transform duration-200;
+}
+
+.sg-item:hover {
+  @apply scale-[1.02];
+}
+
+.sg-item img {
+  @apply block h-full w-full object-cover;
+}
+
+/* Single Image Styles */
 .single-image .image-container {
-  @apply overflow-hidden;
-  border-radius: 0.5rem;
+  @apply overflow-hidden rounded-lg;
 }
 
 .single-image img {
-  @apply transition-transform duration-300 ease-in-out;
-  border-radius: 0.5rem;
+  @apply rounded-lg transition-transform duration-300 ease-in-out;
 }
 
 .single-image img:hover {
   @apply scale-105;
-}
-
-.fj-gallery-item,
-.single-image .image-container {
-  position: relative;
 }
