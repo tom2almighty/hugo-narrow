@@ -3,6 +3,30 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-border: var(--color-border);
+  --color-card: var(--color-card);
+  --color-card-foreground: var(--color-card-foreground);
+  --color-popover: var(--color-popover);
+  --color-popover-foreground: var(--color-popover-foreground);
+
+  --color-note: var(--color-note);
+  --color-tip: var(--color-tip);
+  --color-important: var(--color-important);
+  --color-warning: var(--color-warning);
+  --color-caution: var(--color-caution);
+}
+
 
 @layer theme {
   @import "./themes.css";

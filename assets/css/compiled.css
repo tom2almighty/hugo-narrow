@@ -86,23 +86,6 @@
     --color-important: var(--color-important);
     --color-warning: var(--color-warning);
     --color-caution: var(--color-caution);
-    --reading-progress-bg: var(--color-border);
-    @supports (color: color-mix(in lab, red, red)) {
-      --reading-progress-bg: color-mix(
-    in srgb,
-    var(--color-border) 30%,
-    transparent
-  );
-    }
-    --reading-progress-shadow: var(--color-primary);
-    @supports (color: color-mix(in lab, red, red)) {
-      --reading-progress-shadow: color-mix(
-    in srgb,
-    var(--color-primary) 30%,
-    transparent
-  );
-    }
-    --reading-progress-height: 3px;
   }
 }
 @layer base {
@@ -262,9 +245,6 @@
   }
   .collapse {
     visibility: collapse;
-  }
-  .invisible {
-    visibility: hidden;
   }
   .visible {
     visibility: visible;
@@ -655,6 +635,9 @@
   }
   .h-96 {
     height: calc(var(--spacing) * 96);
+  }
+  .h-\[3px\] {
+    height: 3px;
   }
   .h-full {
     height: 100%;
@@ -1860,6 +1843,11 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-\[width\] {
+    transition-property: width;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-all {
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -2992,23 +2980,23 @@
   }
 }
 @layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
   }
+  ::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece {
+    background: transparent;
+  }
   ::-webkit-scrollbar-button {
     display: none;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-track-piece {
-    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-border);
     border-radius: 3px;
-    transition: background-color 0.2s ease;
   }
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--color-muted-foreground);
