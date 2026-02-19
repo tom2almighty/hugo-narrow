@@ -227,7 +227,4 @@ codeblock:
 # Reading progress
 readingProgress:
   enabled: true
-  height: 3
   showOnHomepage: false
-  smoothScroll: true
-  hideOnComplete: false
