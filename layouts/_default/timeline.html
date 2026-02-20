@@ -1,0 +1,96 @@
+{{ define "main" }}
+<article class="px-4 py-6">
+  <!-- 页面头部 -->
+  <header class="mb-8">
+    <div class="mb-4 flex items-center gap-3">
+      {{ partial "features/icon.html" (dict "name" "calendar" "size" "lg" "ariaLabel" "") }}
+      <h1 class="text-foreground text-3xl font-bold">
+        {{ .Title }}
+      </h1>
+    </div>
+
+    {{ if .Date }}
+    <div class="text-muted-foreground flex items-center gap-2 text-sm">
+      {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
+      <time datetime="{{ .Date.Format `2006-01-02` }}">
+        {{ .Date.Format (i18n "time.date_format" | default "2006-01-02") }}
+      </time>
+    </div>
+    {{ end }}
+    {{ if .Params.description }}
+      <p class="text-muted-foreground mt-4">
+        {{ .Params.description }}
+      </p>
+    {{ end }}
+  </header>
+
+  <!-- 页面内容 & Timeline -->
+  <div class="relative">
+    {{ $content := .Content }}
+    {{ $parts := split $content "<h2" }}
+    
+    {{ if gt (len $parts) 1 }}
+      <!-- 时间轴线 -->
+      <div class="bg-border absolute top-0 bottom-0 left-4 w-0.5"></div>
+      
+      <!-- Content before first h2 -->
+      {{ $preContent := index $parts 0 }}
+      {{ if ne (trim $preContent " \n\r\t") "" }}
+        <div class="mb-12 max-w-none ml-12">
+          {{ $preContent | safeHTML }}
+        </div>
+      {{ end }}
+
+      <!-- Render each timeline block -->
+      {{ range $index, $part := $parts }}
+        {{ if gt $index 0 }}
+          {{ $subparts := split $part "</h2>" }}
+          {{ $h2TagAndTitle := index $subparts 0 }}
+          {{ $body := "" }}
+          {{ if gt (len $subparts) 1 }}
+            {{ $body = index $subparts 1 }}
+          {{ end }}
+          
+          {{/* Extract ID and Title from the h2 tag */}}
+          {{ $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h2TagAndTitle }}
+          {{ $idMatch := findRE `id="([^"]*)"` $h2TagAndTitle }}
+          {{ $id := "" }}
+          {{ if $idMatch }}
+            {{ $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) }}
+          {{ end }}
+          
+          <div class="`mb-12 relative`">
+            <!-- 时间点标题 -->
+            <div class="relative mb-8 flex items-center">
+              <div class="bg-primary absolute left-0 z-10 flex h-8 w-8 items-center justify-center rounded-full">
+                {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "" "class" "text-primary-foreground") }}
+              </div>
+              <div class="ml-12">
+                <h2 {{ if $id }}id="{{ $id }}"{{ end }} class="text-foreground text-2xl font-bold m-0">{{ $title | safeHTML }}</h2>
+              </div>
+            </div>
+
+            <!-- 内容区域 -->
+            {{ if ne (trim $body " \n\r\t") "" }}
+            <div class="ml-12">
+              <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none group bg-card border-border hover:bg-accent/50 rounded-lg border p-6 transition-all duration-300">
+                {{ $body | safeHTML }}
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        {{ end }}
+      {{ end }}
+
+    {{ else }}
+      <div class="mb-12 max-w-none">
+        {{ .Content }}
+      </div>
+    {{ end }}
+
+  </div>
+
+  <!-- 评论组件 -->
+  {{ partial "features/comments.html" . }}
+</article>
+{{ end }}
