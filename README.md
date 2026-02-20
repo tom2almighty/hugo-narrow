@@ -19,9 +19,8 @@ A Modern Hugo Theme with Multiple Color Schemes - Built on TailwindCSS 4.
 - Multilingual Support
 - Katex Support
 - Mermaid Support
-- Lightbox by GLightbox
-- Justified Gallery with markdown
-- Masonry Gallery with shortcode
+- Lightbox by PhotoSwipe
+- Justified/Masonry/Grid Gallery with markdown
 
 ## 📕 Documentation
 
@@ -41,7 +40,6 @@ This project is open source under the [MIT License](LICENSE).
 - [Hugo](https://gohugo.io/) - Static site generator.
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework.
 - [KaTeX](https://katex.org/) - Math formula rendering.
-- [gumshoe](https://github.com/cferdinandi/gumshoe) - TOC scrollspy.
 - [Mermaid](https://mermaid.js.org/) - Chart library.
 - [Daisyui](https://daisyui.com/) - Color Scheme reference.
 - [Tweakcn](https://tweakcn.com/) - Color Scheme reference.
@@ -49,9 +47,7 @@ This project is open source under the [MIT License](LICENSE).
 - [Hugo Theme Stack](https://stack.jimmycai.com/) - Bilibili and Tencent Video shortcodes.
 - [Vercel](https://vercel.com) - Demo Site.
 - [iconify](https://iconify.design/) - Get icons here, thanks to all open source icon sets.
-- [Glightbox](https://github.com/biati-digital/glightbox) - Lightbox library.
-- [flickr-justified-gallery](https://github.com/nk-o/flickr-justified-gallery) - Justified image gallery.
-- [Macy.js](https://github.com/bigbite/macy.js) - Masonry layout library.
+- [PhotoSwipe](https://photoswipe.com/) - Lightbox library.
 - [Augment Code](https://www.augmentcode.com/) - Programming assistant.
 
 ---
