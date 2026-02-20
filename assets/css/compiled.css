@@ -752,11 +752,11 @@
   .max-w-6xl {
     max-width: var(--container-6xl);
   }
-  .max-w-\[4rem\] {
-    max-width: 4rem;
+  .max-w-16 {
+    max-width: calc(var(--spacing) * 16);
   }
-  .max-w-\[8rem\] {
-    max-width: 8rem;
+  .max-w-32 {
+    max-width: calc(var(--spacing) * 32);
   }
   .max-w-\[120px\] {
     max-width: 120px;
