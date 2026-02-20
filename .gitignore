@@ -19,5 +19,5 @@ go.sum
 yarn.lock
 .prettierrc
 .prettierignore
-.agent/
+.agents/
 workflows/

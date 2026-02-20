@@ -12,10 +12,6 @@
       "outputType" "data"
     ) -}}
     {{- $coverImage := .Scratch.Get "imageUrl" -}}
-    {{- $imageResource := .Scratch.Get "imageResource" -}}
-    {{- $placeholderData := .Scratch.Get "placeholderData" | default dict -}}
-    {{- $gradients := $placeholderData.gradients | default (slice "from-blue-500/20 to-purple-500/10") -}}
-    {{- $colorIndex := $placeholderData.colorIndex | default 0 -}}
 
     {{- if $coverImage -}}
       <div class="mb-8 overflow-hidden rounded-2xl">
@@ -23,19 +19,7 @@
           src="{{ $coverImage }}"
           alt="{{ .Title }}"
           class="h-64 w-full object-cover md:h-80"
-          loading="eager"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-        <!-- 图片加载失败时的占位图 -->
-        <div class="{{ index $gradients $colorIndex }} relative h-64 md:h-80 w-full bg-gradient-to-br" style="display: none;">
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="flex h-24 w-24 items-center justify-center rounded-full border border-white/30 bg-white/20 backdrop-blur-sm">
-              <span class="text-3xl font-bold text-white">{{ substr .Title 0 1 | upper }}</span>
-            </div>
-          </div>
-          <!-- 装饰元素 -->
-          <div class="absolute top-8 right-8 h-20 w-20 rounded-full bg-white/15"></div>
-          <div class="absolute bottom-8 left-8 h-16 w-16 rounded-full bg-white/20"></div>
-        </div>
+          loading="eager" />
       </div>
     {{- end -}}
   {{ end }}
