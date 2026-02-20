@@ -1,7 +1,7 @@
 <!doctype html>
 <html
   lang="{{ site.LanguageCode }}"
-  data-theme="{{ site.Params.colorScheme | default "default" }}">
+  data-theme="{{ site.Params.colorScheme | default `default` }}">
   <head>
     {{ partial "layout/head.html" . }}
     {{ $themeInit := resources.Get "js/theme-init.js" | resources.ExecuteAsTemplate "js/theme-init.js" . | minify }}
@@ -9,89 +9,25 @@
   </head>
 
 <body class="bg-background text-foreground min-h-screen antialiased">
-  {{- /* 获取 TOC 配置 */ -}}
-  {{- $tocPosition := "card" -}}
-  {{- $contentMaxWidth := site.Params.contentWidth | default "56rem" -}}
-  {{- $tocEnabled := false -}}
 
-  {{- if .IsPage -}}
-  {{- $globalTocConfig := .Site.Params.toc | default dict -}}
-  {{- $tocPosition = $globalTocConfig.position | default "card" -}}
+  <main class="mx-auto w-full" style="max-width: {{ .Site.Params.contentWidth | default `56rem` }}">
+    {{ partial "ui/reading-progress.html" . }}
 
-  {{- /* 检查 TOC 是否启用 */ -}}
-  {{- $tocEnabled = true -}}
-  {{- if isset $globalTocConfig "enabled" -}}
-  {{- $tocEnabled = $globalTocConfig.enabled -}}
-  {{- end -}}
+    {{ partial "navigation/header.html" . }}
 
-  {{- /* Frontmatter 覆盖全局配置 */ -}}
-  {{- if isset .Params "toc" -}}
-  {{- if reflect.IsMap .Params.toc -}}
-  {{- if isset .Params.toc "enabled" -}}
-  {{- $tocEnabled = .Params.toc.enabled -}}
-  {{- end -}}
-  {{- if isset .Params.toc "position" -}}
-  {{- $tocPosition = .Params.toc.position -}}
-  {{- end -}}
-  {{- else -}}
-  {{- $tocEnabled = .Params.toc -}}
-  {{- end -}}
-  {{- end -}}
-  {{- end -}}
+    <div class="px-4 py-6">
+      {{ partial "navigation/breadcrumb.html" . }}
+      {{ block "main" . }}{{ end }}
+    </div>
 
-  {{- /* 判断是否需要侧边栏 */ -}}
-  {{- $needSidebar := and .IsPage $tocEnabled .TableOfContents (or (eq $tocPosition "left") (eq $tocPosition "right"))
-  -}}
+    {{ partial "layout/footer.html" . }}
+    {{ partial "ui/dock.html" . }}
+    {{ partial "ui/toc.html" . }}
+    {{ partial "ui/search-modal.html" . }}
+    {{ partial "features/katex.html" . }}
+    {{ partial "features/mermaid.html" . }}
+  </main>
 
-  <div
-    class="grid grid-cols-1 {{ if $needSidebar }}xl:grid-cols-[minmax(14rem,1fr)_auto_minmax(14rem,1fr)]{{ end }} gap-3 p-4">
-
-    {{- /* 左侧区域 */ -}}
-    {{- if $needSidebar -}}
-    {{- if eq $tocPosition "left" -}}
-    <aside class="toc-aside-left hidden xl:block" aria-label="左侧目录">
-      {{ partial "ui/toc-sidebar.html" . }}
-    </aside>
-    {{- else -}}
-    <div class="hidden xl:block" aria-hidden="true"></div>
-    {{- end -}}
-    {{- end -}}
-
-    {{- /* 主内容区域 */ -}}
-    <main class="mx-auto w-full" style="max-width: {{ $contentMaxWidth }}">
-      <!-- 阅读进度条 -->
-      {{ partial "ui/reading-progress.html" . }}
-
-      {{ partial "navigation/header.html" . }}
-
-      <div class="px-4 py-6">
-        {{ partial "navigation/breadcrumb.html" . }}
-        {{ block "main" . }}{{ end }}
-      </div>
-
-      {{ partial "layout/footer.html" . }}
-      {{ partial "ui/dock.html" . }}
-      {{ partial "ui/search-modal.html" . }}
-
-      {{- if and .IsPage $tocEnabled .TableOfContents -}}
-      {{ partial "ui/toc-card.html" . }}
-      {{- end -}}
-      {{ partial "features/katex.html" . }}
-      {{ partial "features/mermaid.html" . }}
-    </main>
-
-    {{- /* 右侧区域 */ -}}
-    {{- if $needSidebar -}}
-    {{- if eq $tocPosition "right" -}}
-    <aside class="toc-aside-right hidden xl:block" aria-label="右侧目录">
-      {{ partial "ui/toc-sidebar.html" . }}
-    </aside>
-    {{- else -}}
-    <div class="hidden xl:block" aria-hidden="true"></div>
-    {{- end -}}
-    {{- end -}}
-
-  </div>
 </body>
 
 </html>

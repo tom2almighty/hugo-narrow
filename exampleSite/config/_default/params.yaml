@@ -52,8 +52,7 @@ contentWidth: "56rem"
 # TOC (Table of Contents)
 toc:
   enabled: true # Enable or disable TOC globally
-  position: "card" # Options: card left right
-  maxHeight: "80vh"
+  position: "side" # Options: center | side
 
 # Default color scheme
 colorScheme: "default"

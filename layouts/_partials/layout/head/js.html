@@ -19,45 +19,10 @@
 {{- end }}
 
 
-<!-- Gumshoe 库 - 只在文章页面且 TOC 启用时加载 -->
-{{- if .IsPage }}
-  {{- $tocEnabled := true }}
-  {{- $globalTocConfig := .Site.Params.toc | default dict }}
-  {{- if isset $globalTocConfig "enabled" }}
-    {{- $tocEnabled = $globalTocConfig.enabled }}
-  {{- end }}
-  {{- if isset .Params "toc" }}
-    {{- if reflect.IsMap .Params.toc }}
-      {{- if isset .Params.toc "enabled" }}
-        {{- $tocEnabled = .Params.toc.enabled }}
-      {{- end }}
-    {{- else }}
-      {{- $tocEnabled = .Params.toc }}
-    {{- end }}
-  {{- end }}
-  {{- if $tocEnabled }}
-    <script src="{{ "js/gumshoe.polyfills.min.js" | relURL }}"></script>
-  {{- end }}
-{{- end }}
-
-
 <!-- 目录功能脚本 - 只在文章页面且 TOC 启用时加载，需要在 dock.js 之前加载 -->
 {{- if .IsPage }}
-  {{- $tocEnabled := true }}
-  {{- $globalTocConfig := .Site.Params.toc | default dict }}
-  {{- if isset $globalTocConfig "enabled" }}
-    {{- $tocEnabled = $globalTocConfig.enabled }}
-  {{- end }}
-  {{- if isset .Params "toc" }}
-    {{- if reflect.IsMap .Params.toc }}
-      {{- if isset .Params.toc "enabled" }}
-        {{- $tocEnabled = .Params.toc.enabled }}
-      {{- end }}
-    {{- else }}
-      {{- $tocEnabled = .Params.toc }}
-    {{- end }}
-  {{- end }}
-  {{- if $tocEnabled }}
+  {{- $tocConfig := partial "config/toc.html" . }}
+  {{- if $tocConfig.enabled }}
     {{- with resources.Get "js/toc.js" }}
       {{- $opts := dict
         "minify" (not hugo.IsDevelopment)

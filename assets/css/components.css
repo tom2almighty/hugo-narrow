@@ -17,11 +17,7 @@
 }
 
 .search-result-selected {
-  background-color: color-mix(
-    in srgb,
-    var(--color-primary) 10%,
-    transparent
-  ) !important;
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
   color: var(--color-primary) !important;
 }
 
@@ -34,7 +30,6 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
 
 .line-clamp-2 {
   display: -webkit-box;
@@ -51,21 +46,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-.reading-progress-container {
-  height: var(--reading-progress-height);
-}
-
-.reading-progress-bg {
-  height: var(--reading-progress-height);
-  background-color: var(--reading-progress-bg);
-}
-
-.reading-progress-bar {
-  height: var(--reading-progress-height);
-  box-shadow: 0 0 8px var(--reading-progress-shadow);
-}
-
 
 
 @media (max-width: 480px) {
@@ -97,156 +77,32 @@
     right: 1rem;
     transform: translateX(0) translateY(24px);
   }
-  
+
   #dock[data-dock-mode="float"].translate-y-0 {
     transform: translateX(0) translateY(0);
   }
-  
+
   #dock[data-dock-mode="float"].translate-y-24 {
     transform: translateX(0) translateY(24px);
   }
 }
-  
-/* TOC 卡片样式 */
-#toc-content nav {
-  @apply text-sm leading-6;
-}
-
-#toc-content ul {
-  @apply m-0 list-none p-0;
-}
-
-#toc-content li {
-  @apply my-1 p-0;
-}
-
-
-.toc-aside-left #toc-sidebar {
-  @apply mr-4 ml-auto;
-}
-
-.toc-aside-right #toc-sidebar {
-  @apply ml-4 mr-auto;
-}
-
-
-#toc-sidebar-content {
-  @apply text-sm leading-6;
-}
-
-#toc-sidebar-content ul {
-  @apply m-0 list-none p-0;
-}
-
-#toc-sidebar-content li {
-  @apply my-1 p-0;
-}
-
-#toc-sidebar-content a {
-  @apply block py-1.5 px-2 rounded-md text-muted-foreground transition-colors duration-200;
-  @apply hover:text-primary hover:bg-primary/10;
-}
-
-#toc-sidebar-content li.active > a {
-  @apply text-primary bg-primary/10 translate-x-0.5 -translate-y-px scale-[1.02] font-medium;
-}
-
-#toc-sidebar-content ul ul {
-  @apply ml-3 mt-1;
-}
-
-
-
-
-#toc-content a {
-  @apply text-muted-foreground hover:text-primary hover:bg-primary/10 relative block rounded-lg border-l-2 border-transparent px-4 py-3 no-underline transition-all duration-200 ease-out hover:translate-x-0.5 hover:-translate-y-px hover:scale-[1.02];
-}
-
-/* Gumshoe 添加的 active 类样式 */
-#toc-content a.active,
-#toc-content li.active > a {
-  @apply text-primary bg-primary/10 translate-x-0.5 -translate-y-px scale-[1.02] font-medium;
-}
-
-#toc-content ul ul a {
-  @apply pl-6;
-}
-
-#toc-content ul ul ul a {
-  @apply pl-8;
-}
-
-#toc-content ul ul ul ul a {
-  @apply pl-10;
-}
-
-#toc-content ul ul ul ul ul a {
-  @apply pl-12;
-}
-
-#toc-content ul ul ul ul ul ul a {
-  @apply pl-14;
-}
-
-/* Justified Gallery 样式 */
-.fj-gallery .glightbox {
-  @apply no-underline hover:no-underline focus:no-underline block overflow-hidden;
-  border-radius: 0.5rem;
-}
-
-.fj-gallery-item {
-  @apply overflow-hidden;
-  border-radius: 0.5rem;
-}
-
-.fj-gallery img {
-  @apply transition-transform duration-300 ease-in-out;
-  border-radius: 0.5rem;
-}
-
-.fj-gallery img:hover {
-  @apply scale-105;
-}
-
-.single-image .glightbox {
-  @apply no-underline hover:no-underline focus:no-underline inline-block overflow-hidden;
-  border-radius: 0.5rem;
-}
-.single-image .image-container {
-  @apply overflow-hidden;
-  border-radius: 0.5rem;
-}
-
-.single-image img {
-  @apply transition-transform duration-300 ease-in-out;
-  border-radius: 0.5rem;
-}
-
-.single-image img:hover {
-  @apply scale-105;
-}
-
-.fj-gallery-item,
-.single-image .image-container {
-  position: relative;
-}
 
 
 .link-card {
-  @apply bg-card border border-border rounded-lg mb-2 p-4 transition-all duration-200 hover:scale-105;
+  @apply bg-card border-border mb-2 rounded-lg border p-4 transition-all duration-200 hover:scale-105;
   flex: 1 1 calc(33.333% - 1rem);
 }
 .link-card-title {
-  @apply text-foreground font-semibold m-0 p-0 text-sm hover:text-primary transition-colors truncate;
+  @apply text-foreground hover:text-primary m-0 truncate p-0 text-sm font-semibold transition-colors;
 }
 .link-card-content {
-  @apply text-muted-foreground m-0 p-0 text-xs mt-1 leading-relaxed line-clamp-2;
+  @apply text-muted-foreground m-0 mt-1 line-clamp-2 p-0 text-xs leading-relaxed;
 }
 .link-card-url {
-  @apply text-muted-foreground m-0 p-0 text-xs mt-1 font-mono opacity-70 truncate;
+  @apply text-muted-foreground m-0 mt-1 truncate p-0 font-mono text-xs opacity-70;
 }
 .link-card-arrow {
-  @apply flex-shrink-0 text-muted-foreground group-hover:text-primary transition-colors;
+  @apply text-muted-foreground group-hover:text-primary flex-shrink-0 transition-colors;
 }
 .link-card a::before {
   display: none;
@@ -255,22 +111,22 @@
   display: none;
 }
 .link-card-group {
-  @apply flex flex-wrap gap-4 w-full;
+  @apply flex w-full flex-wrap gap-4;
   justify-content: flex-start;
   align-items: stretch;
 }
 
 .link-card-group .link-card:only-child {
   flex: 0 0 auto;
-  @apply max-w-md w-full mx-auto;
+  @apply mx-auto w-full max-w-md;
 }
 .link-card-error {
-  @apply bg-muted/10 border border-muted/20 rounded-lg p-4 text-muted;
-  @apply w-full max-w-md mx-auto; 
+  @apply bg-muted/10 border-muted/20 text-muted rounded-lg border p-4;
+  @apply mx-auto w-full max-w-md;
 }
 .link-card-error p {
   @apply mb-2 last:mb-0;
 }
 .link-card-error ul {
-  @apply list-disc list-inside space-y-1 text-sm;
+  @apply list-inside list-disc space-y-1 text-sm;
 }
