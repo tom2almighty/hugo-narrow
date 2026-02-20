@@ -205,7 +205,6 @@ gallery:
   lastRowBehavior: center # left, center, right, fill, hide
   columnWidth: 200
   columns: 4 # auto 或具体数字
-  showLayoutSwitcher: false # 是否显示布局切换按钮
 
 # PhotoSwipe 灯箱
 lightbox:

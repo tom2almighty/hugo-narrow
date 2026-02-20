@@ -69,6 +69,7 @@ class SmartGalleryLayoutManager {
       lastRowBehavior: this.config.lastRowBehavior || this.config.lastrowbehavior || 'left',
       columnWidth: this.config.columnWidth !== undefined ? parseInt(this.config.columnWidth) : (this.config.columnwidth !== undefined ? parseInt(this.config.columnwidth) : 300),
       columns: this.config.columns !== undefined ? this.config.columns : 'auto',
+     placeholderColor: 'transparent',
       onItemClick: ({ index, event }) => {
         if (event && event.target.closest('.layout-btn')) {
           return;
@@ -266,11 +267,9 @@ class ImageGallery {
     galleryContainer.className = 'smart-gallery-container';
     galleryContainer.id = `gallery-${groupIndex}`;
 
-    // 创建布局切换器
-    if (this.config.galleryOptions?.showLayoutSwitcher !== false) {
-      const switcher = this.createLayoutSwitcher(galleryContainer.id);
-      galleryContainer.appendChild(switcher);
-    }
+   // 创建布局切换器
+   const switcher = this.createLayoutSwitcher(galleryContainer.id);
+   galleryContainer.appendChild(switcher);
 
     // 创建图库容器
     const galleryInner = document.createElement('div');
