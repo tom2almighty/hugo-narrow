@@ -62,6 +62,7 @@
 
     <!-- 滚动到评论区域按钮 - 只在文章页面且评论启用时显示 -->
     {{ $commentsEnabled := and .Site.Params.comments.enabled (ne .Params.comments false) }}
+    {{ if and .IsPage $commentsEnabled }}
       <button
         id="dock-comments"
         class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2"
@@ -75,7 +76,7 @@
 
       <!-- 分隔线 -->
       <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2"></div>
-
+    {{ end }}
 
     <!-- 返回顶部按钮 -->
     <button
@@ -92,6 +93,7 @@
 </div>
 
 <!-- 悬浮模式指示器 -->
+{{ if eq $dockMode "float" }}
 <div
   id="dock-float-trigger"
   class="pointer-events-auto fixed bottom-0 left-0 right-0 z-9998 cursor-pointer">
@@ -104,4 +106,5 @@
     </span>
   </div>
 </div>
+{{ end }}
 
