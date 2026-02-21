@@ -90,6 +90,9 @@ themes:
   twitter:
     name: "Twitter"
     order: 11
+  minimal:
+    name: "Minimal"
+    order: 12
 
 # Home page configuration
 home:
