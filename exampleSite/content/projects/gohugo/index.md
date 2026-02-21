@@ -8,21 +8,11 @@ summary: "A fast and flexible static site generator built with Go, powering thou
 featured: true
 tags:
   - Go
-  - Static Site Generator
-  - Web Development
-  - Open Source
+  - Hugo
 categories:
   - projects
-cover: "hugo.webp"
-github: "https://github.com/gohugoio/hugo"
-demo: "https://gohugo.io/"
-website: "https://gohugo.io/"
-tech_stack:
-  - Go
-  - HTML
-  - CSS
-  - JavaScript
-  - Markdown
+cover: "images/01.avif"
+url: "gohugo.io"
 status: "completed"
 ---
 

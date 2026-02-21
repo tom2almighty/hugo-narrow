@@ -8,21 +8,10 @@ summary: "使用 Go 构建的快速灵活的静态站点生成器，为全球数
 featured: true
 tags:
   - Go
-  - 静态站点生成器
-  - Web 开发
-  - 开源项目
+  - Hugo
 categories:
   - projects
-cover: "hugo.webp"
-github: "https://github.com/gohugoio/hugo"
-demo: "https://gohugo.io/"
-website: "https://gohugo.io/"
-tech_stack:
-  - Go
-  - HTML
-  - CSS
-  - JavaScript
-  - Markdown
+cover: "images/01.avif"
 status: "completed"
 ---
 

@@ -14,59 +14,7 @@
     <!-- 项目网格 - 响应式布局 -->
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       {{ range first 3 $featuredProjects }}
-        {{ $project := . }}
-        
-        {{/* 使用通用图片处理器 */}}
-        {{- $coverImage := "" -}}
-        {{- if $project.Params.cover -}}
-          {{- partial "content/image-processor.html" (dict
-            "context" $project
-            "src" $project.Params.cover
-            "enablePlaceholder" false
-            "outputType" "data"
-          ) -}}
-          {{- $coverImage = $project.Scratch.Get "imageUrl" -}}
-        {{- end -}}
-
-        {{- $summaryContent := "" -}}
-        {{- if $project.Params.summary -}}
-          {{- $summaryContent = $project.Params.summary -}}
-        {{- else if $project.Params.description -}}
-          {{- $summaryContent = $project.Params.description -}}
-        {{- else if $project.Summary -}}
-          {{- $summaryContent = $project.Summary | plainify | truncate 100 -}}
-        {{- end -}}
-
-        <!-- 项目卡片 -->
-        <a
-          href="{{ $project.RelPermalink }}"
-          class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 group block rounded-xl border p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
-
-          <!-- 项目缩略图 - 仅有有效封面时渲染 -->
-          {{ if $coverImage }}
-            <div class="relative h-32 w-full overflow-hidden rounded-lg mb-3">
-              <img
-                src="{{ $coverImage }}"
-                alt="{{ $project.Title }}"
-                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-          {{ end }}
-
-          <!-- 项目信息 -->
-          <div class="flex flex-col">
-            <h3 class="text-foreground group-hover:text-primary mb-2 text-base font-semibold leading-tight transition-colors duration-200 truncate">
-              {{ $project.Title }}
-            </h3>
-
-            {{ if $summaryContent }}
-              <p class="text-muted-foreground text-sm leading-relaxed truncate">
-                {{ $summaryContent }}
-              </p>
-            {{ end }}
-          </div>
-        </a>
+        {{ partial "content/project-card.html" (dict "page" .) }}
       {{ end }}
     </div>
 
@@ -85,4 +33,3 @@
     {{ end }}
   </section>
 {{ end }}
-

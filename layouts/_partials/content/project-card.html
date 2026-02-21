@@ -1,4 +1,4 @@
-{{/* 项目卡片组件 - 垂直布局（上图下文）
+{{/* 项目卡片组件 - 背景图片遮罩样式
   @context {page} .page 项目页面对象
 */}}
 
@@ -25,52 +25,77 @@
   {{- $summaryContent = $page.Summary | plainify | truncate 120 -}}
 {{- end -}}
 
-{{/* 项目卡片 - 垂直布局 */}}
-<article class="group">
-  <a href="{{ $page.RelPermalink }}" class="block">
-    <div class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex flex-col overflow-hidden rounded-xl border p-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none">
-
-      <!-- 项目封面图片（仅在有真实配置时渲染） -->
+{{/* 项目卡片 */}}
+<article class="group h-full">
+  <a href="{{ $page.RelPermalink }}" class="block h-full">
+    <div class="relative flex h-full flex-col overflow-hidden rounded-xl border border-border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none focus:ring-primary/20 bg-card min-h-64 p-6">
+      
+      <!-- 背景图片及遮罩 -->
       {{- if $coverImage -}}
-        <div class="relative h-32 w-full overflow-hidden rounded-lg mb-3">
-          <img
-            src="{{ $coverImage }}"
-            alt="{{ $page.Title }}"
-            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
-          />
-          <!-- Featured 标签 -->
-          {{ if $page.Params.featured }}
-            <div class="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+        <img
+          src="{{ $coverImage }}"
+          alt="{{ $page.Title }}"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+        <!-- 黑色渐变遮罩以保证文字可读性 -->
+        <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-black/30 transition-opacity duration-300 group-hover:opacity-100"></div>
+      {{- else -}}
+        <!-- 无背景图片时的 Hover 光效 (可选) -->
+        <div class="absolute inset-0 bg-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+      {{- end -}}
+
+      <!-- 文字颜色变量计算 -->
+      {{- $textColorClass := "text-foreground" -}}
+      {{- $mutedColorClass := "text-muted-foreground" -}}
+      {{- $tagBgClass := "bg-muted/50 text-foreground border-muted/30" -}}
+      {{- if $coverImage -}}
+        {{- $textColorClass = "text-white" -}}
+        {{- $mutedColorClass = "text-white/80" -}}
+        {{- $tagBgClass = "bg-white/20 text-white border-white/10 backdrop-blur-sm" -}}
+      {{- end -}}
+
+      <!-- 卡片文字内容区域 (设置 z-10 悬浮在背景之上) -->
+      <div class="relative z-10 flex flex-col flex-1 h-full">
+        <!-- Featured 标签 (顶部) -->
+        {{ if $page.Params.featured }}
+          <div class="mb-4">
+            <span class="bg-primary text-primary-foreground px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm inline-block">
               {{ i18n "project.featured" | default "Featured" }}
+            </span>
+          </div>
+        {{ end }}
+
+        <!-- 垂直居中撑开间隙 -->
+        <div class="flex-1"></div>
+
+        <!-- 卡片主体文字 (放在中下部) -->
+        <div class="mt-auto">
+          <!-- 项目标题 - 强制单行截断 -->
+          <h3 class="{{ $textColorClass }} mb-2 text-xl font-bold leading-tight transition-colors duration-200 truncate group-hover:text-primary {{ if $coverImage }}group-hover:text-white{{ end }}">
+            {{ $page.Title }}
+          </h3>
+
+          <!-- 项目摘要 - 最多两行截断 -->
+          {{ if $summaryContent }}
+            <p class="{{ $mutedColorClass }} text-sm leading-relaxed line-clamp-2 mb-4 drop-shadow-sm">
+              {{ $summaryContent }}
+            </p>
+          {{ end }}
+
+          <!-- 标签展示区, 严格限制最多显示 3 个 -->
+          {{ if $page.Params.tags }}
+            <div class="flex flex-wrap gap-2 w-full pt-1">
+              {{ range first 3 $page.Params.tags }}
+                <span class="{{ $tagBgClass }} shrink-0 rounded border px-2.5 py-0.5 text-xs font-medium">
+                  {{ . }}
+                </span>
+              {{ end }}
             </div>
           {{ end }}
         </div>
-      {{- end -}}
-
-        <!-- Featured 标签 -->
-        {{ if $page.Params.featured }}
-          <div class="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
-            {{ i18n "project.featured" | default "Featured" }}
-          </div>
-        {{ end }}
       </div>
 
-      <!-- 项目内容区域 - 底部 -->
-      <div class="flex flex-col">
-        <!-- 项目标题 - 单行截断 -->
-        <h3 class="text-foreground group-hover:text-primary mb-2 text-base font-semibold leading-tight transition-colors duration-200 truncate">
-          {{ $page.Title }}
-        </h3>
-
-        <!-- 项目摘要 - 单行显示 -->
-        {{ if $summaryContent }}
-          <p class="text-muted-foreground text-sm leading-relaxed truncate">
-            {{ $summaryContent }}
-          </p>
-        {{ end }}
-      </div>
     </div>
   </a>
 </article>
-

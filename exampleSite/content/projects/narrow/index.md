@@ -9,20 +9,11 @@ featured: true
 tags:
   - Hugo
   - Tailwind CSS
-  - Web Development
-  - Open Source
 categories:
   - projects
-cover: "narrow.webp"
-github: "https://github.com/tom2almighty/hugo-narrow"
-demo: "https://hugo-narrow.vercel.app/"
-website: "https://hugo-narrow-docs.vercel.app/"
-tech_stack:
-  - Hugo
-  - Tailwind CSS 4.0
-  - JavaScript
-  - YAML
-status: "completed"
+cover: images/02.avif
+status: "in_progress"
+url: "hugo-narrow.vercel.app"
 ---
 
 ## Project Overview
