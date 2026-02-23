@@ -12,7 +12,7 @@ categories:
   - projects
 cover: ""
 # Project-specific fields
-url: "" # Project URL without http(s)://
+link: "" # Project link 
 status: "completed"  # Options: completed, in_progress, planning
 ---
 

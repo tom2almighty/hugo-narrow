@@ -12,7 +12,7 @@ tags:
 categories:
   - projects
 cover: "images/01.avif"
-url: "gohugo.io"
+link: "https://gohugo.io"
 status: "completed"
 ---
 

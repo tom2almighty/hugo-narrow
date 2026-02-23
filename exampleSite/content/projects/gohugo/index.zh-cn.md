@@ -13,6 +13,7 @@ categories:
   - projects
 cover: "images/01.avif"
 status: "completed"
+link: "https://gohugo.io"
 ---
 
 ## 项目概述

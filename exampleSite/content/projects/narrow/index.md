@@ -13,7 +13,7 @@ categories:
   - projects
 cover: images/02.avif
 status: "in_progress"
-url: "hugo-narrow.vercel.app"
+link: "https://hugo-narrow.vercel.app"
 ---
 
 ## Project Overview
