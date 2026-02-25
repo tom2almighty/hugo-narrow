@@ -123,9 +123,9 @@ time:
   year: "год"
   years: "годы"
   ago: "назад"
-  date_format: "02 января 2006"
-  date_format_short: "02 янв"
-  month_format: "январь 2006"
+  date_format: "02.01.2006"
+  date_format_short: "02.01"
+  month_format: "02.01.2006"
 
 # Архивы
 archives:

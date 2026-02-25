@@ -123,9 +123,9 @@ time:
   year: "année"
   years: "années"
   ago: "il y a"
-  date_format: "02 janvier 2006"
-  date_format_short: "02 janv."
-  month_format: "janvier 2006"
+  date_format: "02.01.2006"
+  date_format_short: "02.01"
+  month_format: "02.01.2006"
 
 # Archives
 archives:

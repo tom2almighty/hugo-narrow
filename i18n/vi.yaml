@@ -122,9 +122,9 @@ time:
   year: "năm"
   years: "năm"
   ago: "trước"
-  date_format: "02 tháng 01 năm 2006"
-  date_format_short: "02 Thg 01"
-  month_format: "Tháng 01 năm 2006"
+  date_format: "02.01.2006"
+  date_format_short: "02.01"
+  month_format: "02.01.2006"
 
 # Archives related
 archives:
