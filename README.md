@@ -1,4 +1,4 @@
-<img src="https://cdn.jsdelivr.net/gh/tom2almighty/hugo-narrow@main/images/home.png"/>
+<img src="https://cdn.jsdelivr.net/gh/tom2almighty/hugo-narrow@main/images/screenshot.png"/>
 
 # Hugo Narrow
 
@@ -49,6 +49,7 @@ This project is open source under the [MIT License](LICENSE).
 - [iconify](https://iconify.design/) - Get icons here, thanks to all open source icon sets.
 - [PhotoSwipe](https://photoswipe.com/) - Lightbox library.
 - [Augment Code](https://www.augmentcode.com/) - Programming assistant.
+- [Awesome-Merge-Picture](https://github.com/XiCheng148/Awesome-Merge-Picture) - Screen Making.
 
 ---
 
