@@ -87,6 +87,35 @@
     if (searchItems) {
       searchItems.addEventListener("click", handleResultClick);
     }
+
+    // 自定义事件：供外部模块调用搜索弹窗
+    document.addEventListener("search:open", handleSearchOpenEvent);
+    document.addEventListener("search:close", handleSearchCloseEvent);
+    document.addEventListener("search:toggle", handleSearchToggleEvent);
+  }
+
+  function handleSearchOpenEvent(e) {
+    if (e?.detail) {
+      e.detail.handled = true;
+    }
+    if (e?.detail?.origin === "search-module") return;
+    showSearch();
+  }
+
+  function handleSearchCloseEvent(e) {
+    if (e?.detail) {
+      e.detail.handled = true;
+    }
+    if (e?.detail?.origin === "search-module") return;
+    hideSearch();
+  }
+
+  function handleSearchToggleEvent(e) {
+    if (e?.detail) {
+      e.detail.handled = true;
+    }
+    if (e?.detail?.origin === "search-module") return;
+    toggleSearch();
   }
 
   // 处理全局键盘事件
@@ -190,6 +219,12 @@
         searchInput.focus();
       }
     }, 100);
+
+    document.dispatchEvent(
+      new CustomEvent("search:open", {
+        detail: { origin: "search-module" },
+      }),
+    );
   }
 
   // 隐藏搜索模态框
@@ -211,6 +246,12 @@
     // 清空搜索内容和重置状态
     clearSearchContent();
     resetNavigation();
+
+    document.dispatchEvent(
+      new CustomEvent("search:close", {
+        detail: { origin: "search-module" },
+      }),
+    );
   }
 
   // 清空搜索内容
@@ -716,6 +757,12 @@
     } else {
       showSearch();
     }
+
+    document.dispatchEvent(
+      new CustomEvent("search:toggle", {
+        detail: { origin: "search-module" },
+      }),
+    );
   }
 
   // 暴露全局方法

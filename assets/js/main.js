@@ -131,7 +131,6 @@ class UIManager {
   setupMobileMenu() {
     // 这个方法现在主要用于向后兼容
     // 实际的事件处理由 setupDropdown("mobile-menu") 完成
-    console.log("移动端菜单使用统一的下拉菜单处理逻辑");
   }
 
   setupEventListeners() {
@@ -204,18 +203,19 @@ class UIManager {
       });
   }
 
+  emitThemeChanged() {
+    const detail = { colorScheme: this.colorScheme, theme: this.theme };
+
+    window.dispatchEvent(new CustomEvent("theme:changed", { detail }));
+    window.dispatchEvent(new CustomEvent("themeChanged", { detail }));
+  }
+
   setColorScheme(colorScheme) {
     this.colorScheme = colorScheme;
     localStorage.setItem("colorScheme", colorScheme);
     document.documentElement.setAttribute("data-theme", colorScheme);
     this.updateUI();
-
-    // 触发自定义事件，通知主题已更改
-    window.dispatchEvent(
-      new CustomEvent("themeChanged", {
-        detail: { colorScheme: colorScheme, theme: this.theme },
-      }),
-    );
+    this.emitThemeChanged();
   }
 
   setTheme(theme) {
@@ -223,13 +223,7 @@ class UIManager {
     localStorage.setItem("theme", theme);
     this.applyTheme();
     this.updateUI();
-
-    // 触发自定义事件，通知主题已更改
-    window.dispatchEvent(
-      new CustomEvent("themeChanged", {
-        detail: { colorScheme: this.colorScheme, theme: theme },
-      }),
-    );
+    this.emitThemeChanged();
   }
 
   applyTheme() {
@@ -312,5 +306,3 @@ class UIManager {
 document.addEventListener("DOMContentLoaded", () => {
   new UIManager();
 });
-
-console.log("Hugo site with advanced UI management loaded.");

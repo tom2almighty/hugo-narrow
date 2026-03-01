@@ -312,6 +312,12 @@ class TOCManager {
       });
     }
 
+    document.addEventListener("toc:toggle", () => {
+      if (this.position === "center" && this.centerToggle) {
+        this.centerToggle.click();
+      }
+    });
+
     // 全局点击遮罩关闭逻辑
     document.addEventListener("click", (e) => {
       let clickedInside = false;

@@ -177,17 +177,14 @@
 
           if (referrerUrl.origin === currentUrl.origin) {
             window.history.back();
-            console.log("返回按钮点击 - 浏览器返回");
             return;
           }
         }
 
         // 否则跳转到首页
         window.location.href = "/";
-        console.log("返回按钮点击 - 跳转首页");
       } catch (error) {
         // 如果出现错误，默认跳转到首页
-        console.warn("返回功能出错，跳转到首页:", error);
         window.location.href = "/";
       }
     });
@@ -201,21 +198,12 @@
     searchBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
-      // 调用搜索功能，带重试机制
-      function tryToggleSearch(retries = 5) {
-        if (window.Search) {
-          // 切换搜索状态（如果已打开则关闭，否则打开）
-          if (window.Search.isVisible && window.Search.isVisible()) {
-            window.Search.hide();
-          } else {
-            window.Search.show();
-          }
-        } else if (retries > 0) {
-          setTimeout(() => tryToggleSearch(retries - 1), 200);
-        }
-      }
+      const detail = { origin: "dock", handled: false };
+      document.dispatchEvent(new CustomEvent("search:toggle", { detail }));
 
-      tryToggleSearch();
+      if (!detail.handled && window.Search?.toggle) {
+        window.Search.toggle();
+      }
     });
   }
 
@@ -250,7 +238,6 @@
         for (const selector of commentSelectors) {
           commentElement = document.querySelector(selector);
           if (commentElement) {
-            console.log(`找到评论区域: ${selector}`);
             break;
           }
         }
@@ -262,17 +249,14 @@
             block: "start",
             inline: "nearest",
           });
-          console.log("评论按钮点击 - 滚动到评论区域");
         } else {
           // 如果找不到评论区域，滚动到页面底部
           window.scrollTo({
             top: document.documentElement.scrollHeight,
             behavior: "smooth",
           });
-          console.log("评论按钮点击 - 未找到评论区域，滚动到页面底部");
         }
       } catch (error) {
-        console.warn("滚动到评论区域失败:", error);
         // 出错时滚动到页面底部
         window.scrollTo({
           top: document.documentElement.scrollHeight,
@@ -312,13 +296,4 @@
       break;
   }
 
-  // 调试信息
-  if (
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
-  ) {
-    console.log(
-      "Dock initialized successfully - positioned at perfect center bottom",
-    );
-  }
 })();
