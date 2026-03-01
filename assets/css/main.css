@@ -34,6 +34,11 @@
 
 @layer base {
   @import "./base.css";
+  @import "./prose.typography.css";
+  @import "./prose.lists.css";
+  @import "./prose.code.css";
+  @import "./prose.table.css";
+  @import "./prose.misc.css";
 }
 
 @layer components {

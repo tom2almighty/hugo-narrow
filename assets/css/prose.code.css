@@ -1,0 +1,102 @@
+/* 代码样式 */
+.prose code {
+  @apply bg-muted rounded px-1.5 py-0.5 font-mono text-sm;
+  color: var(--tw-prose-code);
+  font-weight: 600;
+}
+
+/* 代码块样式 - 与 render hook 和 Chroma 配合 */
+.code-block-container {
+  margin: 1.5rem 0;
+  background: var(--color-card);
+}
+
+/* Chroma 生成的代码块样式 */
+.code-block-content .chroma {
+  @apply overflow-x-auto p-4 font-mono text-sm;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent !important;
+}
+
+.code-block-content .chroma pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  overflow: visible;
+}
+
+.code-block-content .chroma code {
+  @apply bg-transparent p-0;
+  font-weight: normal;
+  font-family: inherit;
+  background: transparent;
+}
+
+/* 内联行号样式 */
+.code-block-content .chroma .ln {
+  user-select: none;
+  margin-right: 0.4em;
+  padding: 0 0.4em 0 0.4em;
+  color: var(--chroma-ln, #7f7f7f);
+}
+
+.code-block-content .chroma .line {
+  display: flex;
+}
+
+.code-block-content .chroma .cl {
+  flex: 1;
+}
+
+/* 代码块折叠功能样式 */
+.collapse-overlay {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.collapse-overlay:hover {
+  backdrop-filter: blur(1px);
+}
+
+.collapse-overlay > div {
+  transition: transform 0.2s ease;
+}
+
+.collapse-overlay:hover > div {
+  transform: translateX(-50%) scale(1.05);
+}
+
+/* 折叠状态下的代码块内容 */
+.code-block-content {
+  transition: max-height 0.3s ease-out;
+  background: color-mix(in srgb, var(--color-muted) 30%, transparent);
+}
+
+/* 内联代码样式保持不变 */
+.prose code:not(.chroma code) {
+  @apply bg-muted rounded px-1.5 py-0.5 font-mono text-sm;
+  color: var(--tw-prose-code);
+  font-weight: 600;
+}
+
+/* 传统 pre 样式（作为后备） */
+.prose pre:not(.chroma) {
+  @apply overflow-x-auto p-4;
+  background: transparent;
+  margin: 0;
+  position: relative;
+}
+
+.prose pre:not(.chroma) code {
+  @apply bg-transparent p-0 text-sm;
+  color: var(--tw-prose-pre-code);
+  font-weight: normal;
+}
+
+/* 暗色模式下的代码块背景 */
+.dark .code-block-content {
+  background: color-mix(in srgb, var(--color-muted) 50%, transparent);
+}

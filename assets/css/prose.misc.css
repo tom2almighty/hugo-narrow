@@ -1,0 +1,159 @@
+/* 分隔线 */
+.prose hr {
+  @apply via-border my-8 h-px border-0 bg-gradient-to-r from-transparent to-transparent;
+}
+
+/* 图片样式 */
+.prose img {
+  @apply mx-auto rounded-lg shadow-md;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.prose figure {
+  margin: 2rem 0;
+}
+
+.prose figcaption {
+  @apply mt-2 text-center text-sm;
+  color: var(--tw-prose-captions);
+  font-style: italic;
+}
+
+/* 强调文本 */
+.prose strong {
+  color: var(--tw-prose-bold);
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+  color: var(--tw-prose-body);
+}
+
+/* 删除线文本 */
+.prose del,
+.prose s {
+  text-decoration: line-through;
+  color: var(--color-muted-foreground);
+  opacity: 0.8;
+}
+
+/* 高亮文本 */
+.prose mark {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 20%, transparent),
+    color-mix(in srgb, var(--color-accent) 20%, transparent)
+  );
+  color: var(--tw-prose-body);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+/* 上标和下标 */
+.prose sup {
+  font-size: 0.75rem;
+  line-height: 1;
+  vertical-align: super;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.prose sub {
+  font-size: 0.75rem;
+  line-height: 1;
+  vertical-align: sub;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* 键盘按键 */
+.prose kbd {
+  @apply inline-flex items-center rounded border px-2 py-1 font-mono text-xs font-semibold;
+  background: var(--color-muted);
+  color: var(--tw-prose-body);
+  border-color: var(--color-border);
+  box-shadow: 0 1px 2px
+    color-mix(in srgb, var(--color-foreground) 10%, transparent);
+  min-height: 1.5rem;
+}
+
+/* 缩写 */
+.prose abbr {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--color-primary);
+  cursor: help;
+}
+
+/* 详情折叠 (Details/Summary) */
+.prose details {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--color-card);
+}
+
+.prose details summary {
+  padding: 1rem 1.5rem;
+  background: color-mix(in srgb, var(--color-muted) 50%, transparent);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--tw-prose-headings);
+  border-bottom: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+  position: relative;
+  user-select: none;
+}
+
+.prose details summary:hover {
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 10%,
+    var(--color-muted)
+  );
+  color: var(--color-primary);
+}
+
+.prose details summary::marker {
+  content: none;
+}
+
+.prose details summary::before {
+  content: "▶";
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+}
+
+.prose details[open] summary::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.prose details[open] summary {
+  border-bottom-color: var(--color-border);
+}
+
+.prose details > *:not(summary) {
+  padding: 1rem 1.5rem 0;
+  margin: 0;
+}
+
+.prose details > *:last-child {
+  padding-bottom: 1.5rem;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 1em 0;
+}

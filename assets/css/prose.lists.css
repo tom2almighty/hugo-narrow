@@ -1,0 +1,188 @@
+/* ========== 基础列表重置 ========== */
+.prose ul,
+.prose ol {
+  padding-left: 0;
+  margin: 1rem 0;
+}
+
+.prose ul {
+  list-style: none;
+}
+
+.prose ol {
+  list-style: none;
+  counter-reset: item;
+}
+
+/* ========== 列表项通用 ========== */
+.prose li {
+  position: relative;
+  margin: 0.35rem 0;
+  color: var(--tw-prose-body);
+}
+
+.prose ul > li {
+  padding-left: 1.25rem;
+}
+
+.prose ol > li {
+  padding-left: 2rem;
+  counter-increment: item;
+}
+
+/* ========== 无序列表标记 ========== */
+
+/* 一级：实心圆 */
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+/* 二级：空心圆 */
+.prose ul ul > li::before {
+  background: transparent;
+  border: 2px solid var(--color-primary);
+}
+
+/* 三级：实心方块 */
+.prose ul ul ul > li::before {
+  width: 4px;
+  height: 4px;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 0;
+  top: 0.75em;
+}
+
+/* ========== 有序列表标记 ========== */
+
+/* 一级 */
+.prose ol > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/* 二级 */
+.prose ol ol > li::before {
+  width: 1.1rem;
+  height: 1.1rem;
+  top: 0.45em;
+  font-size: 0.7rem;
+  background: color-mix(in srgb, var(--color-primary) 70%, white);
+}
+
+/* 三级 */
+.prose ol ol ol > li::before {
+  width: 1rem;
+  height: 1rem;
+  top: 0.5em;
+  font-size: 0.65rem;
+  background: color-mix(in srgb, var(--color-primary) 50%, white);
+}
+
+/* ========== 嵌套缩进（统一收窄） ========== */
+.prose ul ul,
+.prose ul ol,
+.prose ol ul,
+.prose ol ol {
+  margin: 0.25rem 0;
+  padding-left: 1rem;
+}
+
+/* ========== 任务列表 ========== */
+.prose ul > li:has(> input[type="checkbox"]) {
+  padding-left: 1.75rem;
+}
+
+/* 隐藏该 li 的默认圆点标记 */
+.prose ul > li:has(> input[type="checkbox"])::before {
+  display: none;
+}
+
+.prose ul > li > input[type="checkbox"] {
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid var(--color-border);
+  border-radius: 0.25rem;
+  background: var(--color-background);
+  transition: all 0.2s ease;
+}
+
+.prose ul > li > input[type="checkbox"]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.prose ul > li > input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.prose ul > li > input[type="checkbox"]:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+/* ========== 定义列表 ========== */
+.prose dl {
+  margin: 1.25rem 0;
+}
+
+.prose dt {
+  position: relative;
+  padding-left: 1rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: var(--tw-prose-headings);
+}
+
+.prose dt::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.prose dd {
+  margin: 0 0 0.5rem 1.5rem;
+  padding-left: 0.75rem;
+  color: var(--tw-prose-body);
+  border-left: 2px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+}
