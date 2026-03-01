@@ -3,7 +3,7 @@
 {{- if .IsPage -}}
   {{- $globalEnabled := true -}}
   {{- $globalPosition := "center" -}}
-  
+
   {{- $globalToc := .Site.Params.toc | default dict -}}
   {{- if isset $globalToc "enabled" -}}
     {{- $globalEnabled = $globalToc.enabled -}}
@@ -11,10 +11,10 @@
   {{- if isset $globalToc "position" -}}
     {{- $globalPosition = $globalToc.position -}}
   {{- end -}}
-  
+
   {{- $pageEnabled := $globalEnabled -}}
   {{- $pagePosition := $globalPosition -}}
-  
+
   {{- if isset .Params "toc" -}}
     {{- if reflect.IsMap .Params.toc -}}
       {{- if isset .Params.toc "enabled" -}}
@@ -27,7 +27,7 @@
       {{- $pageEnabled = .Params.toc -}}
     {{- end -}}
   {{- end -}}
-  
+
   {{- $tocConfig = dict "enabled" $pageEnabled "position" $pagePosition -}}
 {{- end -}}
 
