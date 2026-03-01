@@ -39,7 +39,7 @@
   --color-popover: oklch(0.269 0 0);
   --color-popover-foreground: oklch(0.985 0 0);
 
---color-note: oklch(0.67 0.15 252.5);
+  --color-note: oklch(0.67 0.15 252.5);
   --color-tip: oklch(0.67 0.15 162.48);
   --color-important: oklch(0.67 0.15 282.5);
   --color-warning: oklch(0.67 0.15 82.5);
@@ -63,11 +63,11 @@
   --color-popover: oklch(1 0 0);
   --color-popover-foreground: oklch(0.27 0.02 98.94);
 
---color-note: oklch(0.55 0.12 220);
---color-tip: oklch(0.55 0.12 150);
---color-important: oklch(0.55 0.12 280);
---color-warning: oklch(0.55 0.12 80);
---color-caution: oklch(0.55 0.12 15);
+  --color-note: oklch(0.55 0.12 220);
+  --color-tip: oklch(0.55 0.12 150);
+  --color-important: oklch(0.55 0.12 280);
+  --color-warning: oklch(0.55 0.12 80);
+  --color-caution: oklch(0.55 0.12 15);
 }
 
 [data-theme="claude"].dark {
@@ -185,11 +185,11 @@
   --color-popover: oklch(0.18 0 0);
   --color-popover-foreground: oklch(0.985 0.001 247.838);
 
---color-note: oklch(0.75 0.14 220);
---color-tip: oklch(0.75 0.14 150);
---color-important: oklch(0.75 0.14 280);
---color-warning: oklch(0.75 0.14 80);
---color-caution: oklch(0.75 0.14 15);
+  --color-note: oklch(0.75 0.14 220);
+  --color-tip: oklch(0.75 0.14 150);
+  --color-important: oklch(0.75 0.14 280);
+  --color-warning: oklch(0.75 0.14 80);
+  --color-caution: oklch(0.75 0.14 15);
 }
 
 
@@ -210,11 +210,11 @@
   --color-popover: oklch(0.951 0.007 260.731);
   --color-popover-foreground: oklch(0.324 0.022 264.182);
 
---color-note: oklch(0.55 0.08 220);
---color-tip: oklch(0.55 0.08 150);
---color-important: oklch(0.55 0.08 280);
---color-warning: oklch(0.55 0.08 80);
---color-caution: oklch(0.55 0.08 15);
+  --color-note: oklch(0.55 0.08 220);
+  --color-tip: oklch(0.55 0.08 150);
+  --color-important: oklch(0.55 0.08 280);
+  --color-warning: oklch(0.55 0.08 80);
+  --color-caution: oklch(0.55 0.08 15);
 }
 
 [data-theme="nord"].dark {
@@ -283,11 +283,11 @@
   --color-popover: oklch(0.3184 0.0176 341.4465);
   --color-popover-foreground: oklch(0.9397 0.0119 51.3156);
 
---color-note: oklch(0.72 0.16 220);
---color-tip: oklch(0.72 0.16 150);
---color-important: oklch(0.72 0.16 280);
---color-warning: oklch(0.72 0.16 80);
---color-caution: oklch(0.72 0.16 15);
+  --color-note: oklch(0.72 0.16 220);
+  --color-tip: oklch(0.72 0.16 150);
+  --color-important: oklch(0.72 0.16 280);
+  --color-warning: oklch(0.72 0.16 80);
+  --color-caution: oklch(0.72 0.16 15);
 }
 
 [data-theme="abyss"] {
