@@ -1,21 +1,4 @@
-{{/*  {{ with (templates.Defer (dict "key" "global")) }}
-  {{ with resources.Get "css/main.css" }}
-    {{ $opts := dict "minify" (not hugo.IsDevelopment) }}
-    {{ with . | css.TailwindCSS $opts }}
-      {{ if hugo.IsDevelopment }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" />
-      {{ else }}
-        {{ with . | fingerprint }}
-          <link
-            rel="stylesheet"
-            href="{{ .RelPermalink }}"
-            integrity="{{ .Data.Integrity }}"
-            crossorigin="anonymous" />
-        {{ end }}
-      {{ end }}
-    {{ end }}
-  {{ end }}
-{{ end }}  */}}
+{{/* legacy Tailwind pipeline removed (kept compiled.css pipeline below) */}}
 
 {{/* main css */}}
 {{ with resources.Get "css/compiled.css" }}
@@ -27,11 +10,11 @@
         rel="stylesheet"
         href="{{ .RelPermalink }}"
         integrity="{{ .Data.Integrity }}"
-        crossorigin="anonymous" />
+        crossorigin="anonymous"
+      />
     {{ end }}
   {{ end }}
 {{ end }}
-
 
 {{/* chroma styles */}}
 {{ with resources.Get "css/chroma.css" }}
@@ -43,11 +26,11 @@
         rel="stylesheet"
         href="{{ .RelPermalink }}"
         integrity="{{ .Data.Integrity }}"
-        crossorigin="anonymous" />
+        crossorigin="anonymous"
+      />
     {{ end }}
   {{ end }}
 {{ end }}
-
 
 {{/* custom styles */}}
 {{ range (resources.Match "css/custom/*.css") }}
@@ -59,7 +42,8 @@
         rel="stylesheet"
         href="{{ .RelPermalink }}"
         integrity="{{ .Data.Integrity }}"
-        crossorigin="anonymous" />
+        crossorigin="anonymous"
+      />
     {{ end }}
   {{ end }}
 {{ end }}
@@ -68,14 +52,15 @@
 {{ if .Scratch.Get "lightboxEnabled" }}
   {{- with resources.Get "css/photoswipe.css" }}
     {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
+      <link rel="stylesheet" href="{{ .RelPermalink }}" />
     {{- else }}
       {{- with . | minify | fingerprint }}
         <link
           rel="stylesheet"
           href="{{ .RelPermalink }}"
           integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous">
+          crossorigin="anonymous"
+        />
       {{- end }}
     {{- end }}
   {{- end }}

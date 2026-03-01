@@ -47,7 +47,8 @@
     onmouseover="this.style.backgroundColor = this.style.getPropertyValue('--hover-bg')"
     onmouseout="this.style.backgroundColor = 'color-mix(in srgb, var(--color-{{ $config.colorVar }}) 10%, transparent)'"
     role="alert"
-    aria-labelledby="{{ $alertId }}-title">
+    aria-labelledby="{{ $alertId }}-title"
+  >
     {{/* Alert header */}}
     <div
       class="{{ if $isCollapsible }}
@@ -56,22 +57,19 @@
       {{ if $isCollapsible }}
         onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
         aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
-        onkeydown="if(event.key==='Enter'||event.key===' '){toggleAlert('{{ $alertId }}');event.preventDefault();}"
-      {{ end }}>
+        onkeydown="if(event.key==='Enter'||event.code==='Space'){toggleAlert('{{ $alertId }}');event.preventDefault();}"
+      {{ end }}
+    >
       <div class="flex items-center gap-3">
         {{/* Alert title */}}
-        <h4
-          id="{{ $alertId }}-title"
-          class="m-0 font-semibold text-foreground/90">
+        <h4 id="{{ $alertId }}-title" class="text-foreground/90 m-0 font-semibold">
           {{ $title }}
         </h4>
       </div>
 
       {{/* Collapse indicator */}}
       {{ if $isCollapsible }}
-        <div
-          class="flex-shrink-0 transition-transform duration-200"
-          id="{{ $alertId }}-chevron">
+        <div class="flex-shrink-0 transition-transform duration-200" id="{{ $alertId }}-chevron">
           {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
         </div>
       {{ end }}
@@ -82,7 +80,8 @@
       id="{{ $alertId }}-content"
       class="alert-content {{ if and $isCollapsible (not $isExpanded) }}
         hidden
-      {{ end }} px-6 pb-6">
+      {{ end }} px-6 pb-6"
+    >
       <div class="prose prose-sm text-foreground/90 max-w-none">
         {{ .Text }}
       </div>
@@ -91,40 +90,41 @@
 {{- else -}}
   {{/* Regular blockquote */}}
   <blockquote
-    class="border-primary bg-muted/30 hover:bg-muted/40 my-6 rounded-r-lg border-l-4 py-4 pr-4 pl-6 italic transition-all duration-200 ease-out hover:translate-x-1">
+    class="border-primary bg-muted/30 hover:bg-muted/40 my-6 rounded-r-lg border-l-4 py-4 pr-4 pl-6 italic transition-all duration-200 ease-out hover:translate-x-1"
+  >
     <div class="prose prose-sm max-w-none">
       {{ .Text }}
     </div>
   </blockquote>
 {{- end -}}
 
+
 <script>
-function toggleAlert(alertId) {
-  const content = document.getElementById(alertId + '-content');
-  const chevron = document.getElementById(alertId + '-chevron');
-  const header = content.previousElementSibling;
-  
-  if (content.classList.contains('hidden')) {
-    content.classList.remove('hidden');
-    chevron.style.transform = 'rotate(0deg)';
-    header.setAttribute('aria-expanded', 'true');
-  } else {
-    content.classList.add('hidden');
-    chevron.style.transform = 'rotate(-90deg)';
-    header.setAttribute('aria-expanded', 'false');
-  }
-}
+  function toggleAlert(alertId) {
+    const content = document.getElementById(alertId + "-content");
+    const chevron = document.getElementById(alertId + "-chevron");
+    const header = content.previousElementSibling;
 
-// Initialize chevron rotation for collapsed alerts
-document.addEventListener('DOMContentLoaded', function() {
-  const collapsedAlerts = document.querySelectorAll('.alert-content.hidden');
-  collapsedAlerts.forEach(function(content) {
-    const alertId = content.id.replace('-content', '');
-    const chevron = document.getElementById(alertId + '-chevron');
-    if (chevron) {
-      chevron.style.transform = 'rotate(-90deg)';
+    if (content.classList.contains("hidden")) {
+      content.classList.remove("hidden");
+      chevron.style.transform = "rotate(0deg)";
+      header.setAttribute("aria-expanded", "true");
+    } else {
+      content.classList.add("hidden");
+      chevron.style.transform = "rotate(-90deg)";
+      header.setAttribute("aria-expanded", "false");
     }
-  });
-});
-</script>
+  }
 
+  // Initialize chevron rotation for collapsed alerts
+  document.addEventListener("DOMContentLoaded", function () {
+    const collapsedAlerts = document.querySelectorAll(".alert-content.hidden");
+    collapsedAlerts.forEach(function (content) {
+      const alertId = content.id.replace("-content", "");
+      const chevron = document.getElementById(alertId + "-chevron");
+      if (chevron) {
+        chevron.style.transform = "rotate(-90deg)";
+      }
+    });
+  });
+</script>
