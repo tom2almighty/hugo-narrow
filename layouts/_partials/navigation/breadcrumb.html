@@ -1,46 +1,51 @@
 {{ if and (not .IsHome) .Ancestors }}
-<nav
-  class="breadcrumb mb-4 md:mb-6 py-1"
-  aria-label="{{ i18n "nav.breadcrumb" | default "面包屑导航" }}">
-  <ol class="text-muted-foreground flex items-center space-x-1 md:space-x-2 text-sm overflow-x-auto whitespace-nowrap scrollbar-hide py-1">
-    {{ range $index, $ancestor := .Ancestors.Reverse }}
-      {{ if eq $index 0 }}
-        <!-- 首页链接 -->
-        <li class="shrink-0">
-          <a
-            href="{{ $ancestor.RelPermalink }}"
-            class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02]">
-            {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-            <span class="max-w-16 md:max-w-none truncate">{{ $ancestor.Title }}</span>
-          </a>
-        </li>
-      {{ else }}
-        <!-- 中间层级 -->
-        <li class="flex items-center gap-1 md:gap-2 min-w-0">
-          <span class="text-muted-foreground/50 shrink-0"
-            >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
-          </span>
-          <a
-            href="{{ $ancestor.RelPermalink }}"
-            class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-1 rounded-lg px-1 md:px-3 py-0.5 md:py-1.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] shrink-0">
-            {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-            <span class="max-w-16 md:max-w-none truncate">{{ $ancestor.Title }}</span>
-          </a>
-        </li>
+  <nav
+    class="breadcrumb mb-4 py-1 md:mb-6"
+    aria-label="{{ i18n "nav.breadcrumb" | default "面包屑导航" }}"
+  >
+    <ol
+      class="text-muted-foreground scrollbar-hide flex items-center space-x-1 overflow-x-auto py-1 text-sm whitespace-nowrap md:space-x-2"
+    >
+      {{ range $index, $ancestor := .Ancestors.Reverse }}
+        {{ if eq $index 0 }}
+          <!-- 首页链接 -->
+          <li class="shrink-0">
+            <a
+              href="{{ $ancestor.RelPermalink }}"
+              class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex items-center gap-1 rounded-lg px-1 py-0.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] md:px-3 md:py-1.5"
+            >
+              {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+              <span class="max-w-16 truncate md:max-w-none">{{ $ancestor.Title }}</span>
+            </a>
+          </li>
+        {{ else }}
+          <!-- 中间层级 -->
+          <li class="flex min-w-0 items-center gap-1 md:gap-2">
+            <span class="text-muted-foreground/50 shrink-0"
+              >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+            </span>
+            <a
+              href="{{ $ancestor.RelPermalink }}"
+              class="text-muted-foreground hover:text-primary hover:bg-primary/10 flex shrink-0 items-center gap-1 rounded-lg px-1 py-0.5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] md:px-3 md:py-1.5"
+            >
+              {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
+              <span class="max-w-16 truncate md:max-w-none">{{ $ancestor.Title }}</span>
+            </a>
+          </li>
+        {{ end }}
       {{ end }}
-    {{ end }}
 
-    <!-- 当前页面 -->
-    <li class="flex items-center gap-1 md:gap-2 min-w-0">
-      <span class="text-muted-foreground/50 shrink-0"
-        >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
-      </span>
-      <span class="text-foreground font-medium flex items-center gap-1 min-w-0">
-        {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
-        <span class="max-w-32 md:max-w-[16rem] lg:max-w-none truncate">{{ .Title }}</span>
-      </span>
-    </li>
 
-  </ol>
-</nav>
+      <!-- 当前页面 -->
+      <li class="flex min-w-0 items-center gap-1 md:gap-2">
+        <span class="text-muted-foreground/50 shrink-0"
+          >{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+        </span>
+        <span class="text-foreground flex min-w-0 items-center gap-1 font-medium">
+          {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
+          <span class="max-w-32 truncate md:max-w-[16rem] lg:max-w-none">{{ .Title }}</span>
+        </span>
+      </li>
+    </ol>
+  </nav>
 {{ end }}

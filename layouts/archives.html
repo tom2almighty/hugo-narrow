@@ -49,7 +49,8 @@
           <!-- 年份标题 -->
           <div class="relative mb-8 flex items-center">
             <div
-              class="bg-primary absolute left-0 z-10 flex h-8 w-8 items-center justify-center rounded-full">
+              class="bg-primary absolute left-0 z-10 flex h-8 w-8 items-center justify-center rounded-full"
+            >
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "" "class" "text-primary-foreground") }}
             </div>
             <div class="ml-12">
@@ -67,7 +68,8 @@
               <!-- 月份标题 -->
               <div class="relative mb-4 flex items-center">
                 <div
-                  class="bg-accent border-background absolute left-2 z-10 h-4 w-4 rounded-full border-2"></div>
+                  class="bg-accent border-background absolute left-2 z-10 h-4 w-4 rounded-full border-2"
+                ></div>
                 <div class="ml-12">
                   {{ $date := time (printf "%s-01" .Key) }}
                   <h3 class="text-foreground text-lg font-semibold">
@@ -84,19 +86,20 @@
               <div class="ml-12 space-y-3">
                 {{ range .Pages }}
                   <article
-                    class="group bg-card border-border hover:bg-accent/50 rounded-lg border p-4 transition-all duration-300">
+                    class="group bg-card border-border hover:bg-accent/50 rounded-lg border p-4 transition-all duration-300"
+                  >
                     <div class="flex items-center justify-between gap-4">
                       <div class="min-w-0 flex-1">
                         <h4
-                          class="text-foreground group-hover:text-primary mb-3 font-medium transition-colors duration-200">
+                          class="text-foreground group-hover:text-primary mb-3 font-medium transition-colors duration-200"
+                        >
                           <a href="{{ .RelPermalink }}" class="block">
                             {{ .LinkTitle }}
                           </a>
                         </h4>
 
                         <!-- 文章元信息 -->
-                        <div
-                          class="text-muted-foreground flex items-center gap-4 text-xs">
+                        <div class="text-muted-foreground flex items-center gap-4 text-xs">
                           <div class="flex items-center gap-1">
                             {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
                             <time datetime="{{ .Date.Format "2006-01-02" }}">
@@ -134,8 +137,7 @@
   {{ else }}
     <!-- 空状态 -->
     <div class="py-16 text-center">
-      <div
-        class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+      <div class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
         {{ partial "features/icon.html" (dict "name" "archive" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
@@ -146,7 +148,8 @@
       </p>
       <a
         href="{{ "/" | relLangURL }}"
-        class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300">
+        class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
+      >
         {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
         <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>
       </a>

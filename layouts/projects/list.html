@@ -16,6 +16,7 @@
         </p>
       {{ end }}
 
+
       <!-- 项目统计 -->
       {{ $totalProjects := len (where .Site.RegularPages "Section" "projects") }}
       {{ if gt $totalProjects 0 }}
@@ -28,7 +29,7 @@
     <!-- 项目网格 -->
     {{ $projects := .Paginator.Pages }}
     {{ if $projects }}
-      <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+      <div class="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {{ range $projects }}
           {{ partial "content/project-card.html" (dict "page" .) }}
         {{ end }}
@@ -39,7 +40,9 @@
     {{ else }}
       <!-- 空状态 -->
       <div class="py-16 text-center">
-        <div class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+        <div
+          class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
+        >
           {{ partial "features/icon.html" (dict "name" "folder" "size" "xl" "ariaLabel" "") }}
         </div>
         <h2 class="text-foreground mb-3 text-xl font-medium">
@@ -50,7 +53,8 @@
         </p>
         <a
           href="{{ "/" | relLangURL }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+        >
           {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
           {{ i18n "nav.back_home" | default "Back to Home" }}
         </a>
@@ -58,4 +62,3 @@
     {{ end }}
   </div>
 {{ end }}
-

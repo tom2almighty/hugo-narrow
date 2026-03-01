@@ -12,7 +12,7 @@
     </div>
 
     <!-- 项目网格 - 响应式布局 -->
-    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {{ range first 3 $featuredProjects }}
         {{ partial "content/project-card.html" (dict "page" .) }}
       {{ end }}
@@ -24,7 +24,8 @@
       <div class="mt-8 mb-6 text-center">
         <a
           href="{{ "/projects/" | relLangURL }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95">
+          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95"
+        >
           {{ partial "features/icon.html" (dict "name" "projects" "size" "md" "ariaLabel" (i18n "nav.projects")) }}
           <span>{{ i18n "project.view_all_projects" | default "View All Projects" }}</span>
           {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}

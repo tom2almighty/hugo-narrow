@@ -27,10 +27,12 @@
 
 
 <div
-  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-xl border shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md">
+  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-xl border shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
+>
   {{/* Code block header */}}
   <div
-    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3">
+    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3"
+  >
     {{/* Language/filename display */}}
     <div class="flex items-center gap-2">
       <div class="text-muted-foreground shrink-0">
@@ -54,7 +56,8 @@
           data-auto-collapse-height="{{ $autoCollapseHeight }}"
           data-collapsed-height="{{ $collapsedHeight }}"
           title="{{ i18n `code.collapse` | default `折叠代码` }}"
-          aria-label="{{ i18n `code.collapse` | default `折叠代码` }}">
+          aria-label="{{ i18n `code.collapse` | default `折叠代码` }}"
+        >
           <span class="collapse-icon">
             {{ partial "features/icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
           </span>
@@ -69,13 +72,12 @@
         class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
         data-code-id="{{ $codeId }}"
         title="{{ i18n `code.copy` | default `复制代码` }}"
-        aria-label="{{ i18n `code.copy` | default `复制代码` }}">
+        aria-label="{{ i18n `code.copy` | default `复制代码` }}"
+      >
         <span class="copy-icon">
           {{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") }}
         </span>
-        <span class="copy-text hidden sm:inline"
-          >{{ i18n "code.copy" | default "复制" }}</span
-        >
+        <span class="copy-text hidden sm:inline">{{ i18n "code.copy" | default "复制" }}</span>
       </button>
     </div>
   </div>
@@ -85,9 +87,11 @@
     {{ $highlighted.Wrapped }}
     {{/* Collapse overlay (hidden by default) */}}
     <div
-      class="collapse-overlay to-card/90 pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-transparent opacity-0 transition-opacity duration-300">
+      class="collapse-overlay to-card/90 pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-transparent opacity-0 transition-opacity duration-300"
+    >
       <div
-        class="text-muted-foreground bg-card/80 border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-full border px-3 py-1.5 text-xs backdrop-blur-sm transition-all duration-200">
+        class="text-muted-foreground bg-card/80 border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-full border px-3 py-1.5 text-xs backdrop-blur-sm transition-all duration-200"
+      >
         {{ i18n "code.clickToExpand" | default "点击展开查看更多" }}
       </div>
     </div>

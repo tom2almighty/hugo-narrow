@@ -12,19 +12,22 @@
         "enableResponsive" true
         "enablePlaceholder" false
         "outputType" "data"
-      ) -}}
+        )
+      -}}
       {{- $coverImage := .Scratch.Get "imageUrl" -}}
 
       {{- if $coverImage -}}
-        <div class="mb-8 overflow-hidden rounded-2xl shadow-sm border border-border">
+        <div class="border-border mb-8 overflow-hidden rounded-2xl border shadow-sm">
           <img
             src="{{ $coverImage }}"
             alt="{{ .Title }}"
-            class="aspect-video w-full object-cover md:h-112 md:aspect-auto"
-            loading="eager" />
+            class="aspect-video w-full object-cover md:aspect-auto md:h-112"
+            loading="eager"
+          />
         </div>
       {{- end -}}
     {{ end }}
+
 
     <!-- 标题 -->
     <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">
@@ -43,14 +46,17 @@
   <div class="mb-12">
     <div class="bg-card border-border relative overflow-hidden rounded-2xl border shadow-sm">
       <!-- 柔和的顶部装饰条 -->
-      <div class="absolute top-0 left-0 h-1 w-full bg-linear-to-r from-primary/60 to-primary/20"></div>
+      <div
+        class="from-primary/60 to-primary/20 absolute top-0 left-0 h-1 w-full bg-linear-to-r"
+      ></div>
 
       <div class="p-6 md:p-8 lg:p-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 items-start">
-          
+        <div class="grid grid-cols-1 items-start gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
           <!-- 发布日期 -->
           <div class="flex flex-col gap-3">
-            <span class="text-muted-foreground text-xs font-bold tracking-widest uppercase flex items-center gap-1.5">
+            <span
+              class="text-muted-foreground flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase"
+            >
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
               {{ i18n "post.published_on" | default "Published" }}
             </span>
@@ -64,15 +70,33 @@
           <!-- 项目状态 -->
           {{ if .Params.status }}
             <div class="flex flex-col gap-3">
-              <span class="text-muted-foreground text-xs font-bold tracking-widest uppercase flex items-center gap-1.5">
+              <span
+                class="text-muted-foreground flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase"
+              >
                 {{ partial "features/icon.html" (dict "name" "status" "size" "xs" "ariaLabel" "") }}
                 {{ i18n "project.status" | default "Status" }}
               </span>
-              <div class="text-foreground text-base font-semibold flex items-center">
+              <div class="text-foreground flex items-center text-base font-semibold">
                 <!-- 状态指示圆点 -->
-                <span class="relative flex h-2.5 w-2.5 mr-2.5 mt-0.5">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ if eq .Params.status "completed" }}bg-green-400{{ else if eq .Params.status "in_progress" }}bg-blue-400{{ else }}bg-primary{{ end }} opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 {{ if eq .Params.status "completed" }}bg-green-500{{ else if eq .Params.status "in_progress" }}bg-blue-500{{ else }}bg-primary{{ end }}"></span>
+                <span class="relative mt-0.5 mr-2.5 flex h-2.5 w-2.5">
+                  <span
+                    class="{{ if eq .Params.status "completed" }}
+                      bg-green-400
+                    {{ else if eq .Params.status "in_progress" }}
+                      bg-blue-400
+                    {{ else }}
+                      bg-primary
+                    {{ end }} absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                  ></span>
+                  <span
+                    class="{{ if eq .Params.status "completed" }}
+                      bg-green-500
+                    {{ else if eq .Params.status "in_progress" }}
+                      bg-blue-500
+                    {{ else }}
+                      bg-primary
+                    {{ end }} relative inline-flex h-2.5 w-2.5 rounded-full"
+                  ></span>
                 </span>
                 <span>
                   {{ if eq .Params.status "completed" }}
@@ -88,17 +112,23 @@
               </div>
             </div>
           {{ end }}
-          
+
+
           <!-- Tags 标签 -->
           {{ if .Params.tags }}
             <div class="flex flex-col gap-3 lg:col-span-2">
-              <span class="text-muted-foreground text-xs font-bold tracking-widest uppercase flex items-center gap-1.5">
-                 {{ partial "features/icon.html" (dict "name" "tag" "size" "xs" "ariaLabel" "") }}
-                 {{ i18n "project.tags" | default "Tags" }}
+              <span
+                class="text-muted-foreground flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase"
+              >
+                {{ partial "features/icon.html" (dict "name" "tag" "size" "xs" "ariaLabel" "") }}
+                {{ i18n "project.tags" | default "Tags" }}
               </span>
               <div class="flex flex-wrap gap-2.5">
                 {{ range .Params.tags }}
-                  <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/" class="bg-muted/40 text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary inline-flex rounded-lg border px-3 py-1.5 text-sm font-medium transition-all shadow-sm">
+                  <a
+                    href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/"
+                    class="bg-muted/40 text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary inline-flex rounded-lg border px-3 py-1.5 text-sm font-medium shadow-sm transition-all"
+                  >
                     {{ . }}
                   </a>
                 {{ end }}
@@ -115,8 +145,11 @@
               href="{{ .Params.link }}"
               target="_blank"
               rel="noopener noreferrer"
-              class="group flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-primary/20">
-              <span class="tracking-wide">{{ i18n "project.visit_project" | default "Visit" }}</span>
+              class="group bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground focus:ring-primary/20 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all focus:ring-2 focus:outline-none"
+            >
+              <span class="tracking-wide"
+                >{{ i18n "project.visit_project" | default "Visit" }}</span
+              >
               {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "ariaLabel" "") }}
             </a>
           </div>
@@ -131,10 +164,9 @@
       {{ .Content }}
     </article>
   </div>
-      
+
   <!-- 评论组件 -->
   <div class="mt-12">
     {{ partial "features/comments.html" . }}
   </div>
-
 {{ end }}

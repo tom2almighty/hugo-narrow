@@ -4,7 +4,6 @@
 {{- $url := .url -}}
 {{- $icon := .icon -}}
 
-
 {{- if and (not $title) $link (reflect.IsMap $link) -}}
   {{- $title = $link.title -}}
 {{- end -}}
@@ -21,29 +20,46 @@
   {{- $icon = $link.icon -}}
 {{- end -}}
 
+
 <div class="link-card">
-  <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 h-full">
-    <div class="flex-shrink-0 self-center w-12 h-12 rounded-full bg-muted border-2 border-border flex items-center justify-center">
+  <a
+    href="{{ $url }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="flex h-full items-center space-x-3"
+  >
+    <div
+      class="bg-muted border-border flex h-12 w-12 flex-shrink-0 items-center justify-center self-center rounded-full border-2"
+    >
       {{ if $icon }}
-        <img src="{{ $icon }}" alt="{{ $title }}" class="w-12 h-12 rounded-full object-cover border-2 border-border" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img
+          src="{{ $icon }}"
+          alt="{{ $title }}"
+          class="border-border h-12 w-12 rounded-full border-2 object-cover"
+          onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';"
+        />
         {{ partial "features/icon.html" (dict "name" "link" "class" "w-6 h-6 text-muted-foreground hidden" "id" "link-icon") }}
       {{ else }}
         {{ $parsedURL := urls.Parse $url }}
         {{ $baseURL := printf "%s://%s" $parsedURL.Scheme $parsedURL.Host }}
         {{ $faviconIco := printf "%s/favicon.ico" $baseURL }}
         {{ $faviconSvg := printf "%s/favicon.svg" $baseURL }}
-        <img src="{{ $faviconIco }}" 
-             alt="{{ $title }}" 
-             class="w-12 h-12 rounded-full object-cover border-2 border-border" 
-             onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <img src="{{ $faviconSvg }}" 
-             alt="{{ $title }}" 
-             class="w-12 h-12 rounded-full object-cover border-2 border-border hidden" 
-             onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img
+          src="{{ $faviconIco }}"
+          alt="{{ $title }}"
+          class="border-border h-12 w-12 rounded-full border-2 object-cover"
+          onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';"
+        />
+        <img
+          src="{{ $faviconSvg }}"
+          alt="{{ $title }}"
+          class="border-border hidden h-12 w-12 rounded-full border-2 object-cover"
+          onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';"
+        />
         {{ partial "features/icon.html" (dict "name" "link" "class" "w-6 h-6 text-muted-foreground hidden" "id" "link-icon") }}
       {{ end }}
     </div>
-    <div class="flex-1 min-w-0">
+    <div class="min-w-0 flex-1">
       <h3 class="link-card-title">{{ $title }}</h3>
       <p class="link-card-content">{{ $description }}</p>
       <div class="link-card-url">{{ $url | replaceRE "^https?://" "" }}</div>

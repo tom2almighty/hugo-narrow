@@ -6,7 +6,8 @@
     data-dropdown-type="mobile-menu"
     aria-label="{{ i18n "nav.menu" }}"
     aria-expanded="false"
-    aria-haspopup="true">
+    aria-haspopup="true"
+  >
     {{ partial "features/icon.html" (dict "name" "menu" "size" "md" "ariaLabel" (i18n "nav.menu")) }}
   </button>
 
@@ -16,7 +17,8 @@
     class="mobile-menu dropdown-menu border-border bg-popover/95 absolute top-12 left-0 z-[60] hidden w-80 max-w-[calc(100vw-2rem)] rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-all duration-200 ease-out md:hidden"
     data-dropdown-type="mobile-menu"
     role="menu"
-    aria-labelledby="mobile-menu-toggle">
+    aria-labelledby="mobile-menu-toggle"
+  >
     <nav class="flex flex-col">
       {{ $currentPage := . }}
       {{ range site.Menus.main }}
@@ -38,7 +40,8 @@
             text-muted-foreground hover:text-primary hover:bg-primary/10
           {{ end }} focus:ring-primary/20 relative flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium transition-all duration-200 ease-out hover:translate-x-1 focus:ring-2 focus:outline-none"
           role="menuitem"
-          {{ if $isActive }}aria-current="page"{{ end }}>
+          {{ if $isActive }}aria-current="page"{{ end }}
+        >
           {{ if .Params.icon }}
             {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
           {{ end }}

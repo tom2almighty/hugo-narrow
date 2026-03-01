@@ -1,5 +1,4 @@
 {{ define "main" }}
-
   <!-- 文章封面 -->
   {{- if .Params.cover -}}
     {{/* 使用通用图片处理器 */}}
@@ -11,7 +10,8 @@
       "enableResponsive" true
       "enablePlaceholder" false
       "outputType" "data"
-    ) -}}
+      )
+    -}}
     {{- $coverImage := .Scratch.Get "imageUrl" -}}
 
     {{- if $coverImage -}}
@@ -19,8 +19,9 @@
         <img
           src="{{ $coverImage }}"
           alt="{{ .Title }}"
-          class="aspect-video w-full max-h-[50vh] md:max-h-[60vh] object-cover"
-          loading="eager" />
+          class="aspect-video max-h-[50vh] w-full object-cover md:max-h-[60vh]"
+          loading="eager"
+        />
       </div>
     {{- end -}}
   {{ end }}

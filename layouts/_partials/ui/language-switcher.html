@@ -1,86 +1,87 @@
 {{- if and hugo.IsMultilingual (site.Params.header.showLanguageSwitch | default true) -}}
-{{- $currentLang := .Language.Lang -}}
-{{- $currentPage := . -}}
-{{- $languageSwitchMode := site.Params.header.languageSwitchMode | default "dropdown" -}}
-{{/*  点击切换模式  */}}
-{{- if eq $languageSwitchMode "cycle" -}}
-  {{- $languages := slice -}}
-  {{- range site.Languages -}}
-    {{- $languages = $languages | append . -}}
-  {{- end -}}
-  
-
-  {{- $currentIndex := 0 -}}
-  {{- range $index, $lang := $languages -}}
-    {{- if eq $lang.Lang $currentLang -}}
-      {{- $currentIndex = $index -}}
+  {{- $currentLang := .Language.Lang -}}
+  {{- $currentPage := . -}}
+  {{- $languageSwitchMode := site.Params.header.languageSwitchMode | default "dropdown" -}}
+  {{/* 点击切换模式 */}}
+  {{- if eq $languageSwitchMode "cycle" -}}
+    {{- $languages := slice -}}
+    {{- range site.Languages -}}
+      {{- $languages = $languages | append . -}}
     {{- end -}}
-  {{- end -}}
-  
 
-  {{- $nextIndex := mod (add $currentIndex 1) (len $languages) -}}
-  {{- $nextLang := index $languages $nextIndex -}}
-  
-  {{- $targetURL := "/" -}}
-  {{- if $currentPage.IsTranslated -}}
-    {{- range $currentPage.Translations -}}
-      {{- if eq .Language.Lang $nextLang.Lang -}}
-        {{- $targetURL = .RelPermalink -}}
+    {{- $currentIndex := 0 -}}
+    {{- range $index, $lang := $languages -}}
+      {{- if eq $lang.Lang $currentLang -}}
+        {{- $currentIndex = $index -}}
       {{- end -}}
     {{- end -}}
-    {{- if eq $targetURL "/" -}}
-      {{- $targetURL = printf "/%s/" $nextLang.Lang -}}
-    {{- end -}}
-  {{- else -}}
-    {{- $targetURL = printf "/%s/" $nextLang.Lang -}}
-  {{- end -}}
 
-  <div class="relative">
-    <a
-      href="{{ $targetURL }}"
-      class="language-cycle-btn border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
-      aria-label="{{ i18n "language.toggle" }}"
-      data-language-mode="cycle">
-      {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "language.toggle")) }}
-    </a>
-  </div>
-{{- else -}}
-  {{- /* 下拉菜单模式 */ -}}
-  {{- $languageMenuContent := "" -}}
-  {{- range site.Languages -}}
-    {{- $lang := .Lang -}}
-    {{- $langName := .LanguageName -}}
-    {{- $isCurrent := eq $lang $currentLang -}}
+    {{- $nextIndex := mod (add $currentIndex 1) (len $languages) -}}
+    {{- $nextLang := index $languages $nextIndex -}}
 
-    {{- /* 获取当前页面在目标语言下的URL */ -}}
     {{- $targetURL := "/" -}}
     {{- if $currentPage.IsTranslated -}}
       {{- range $currentPage.Translations -}}
-        {{- if eq .Language.Lang $lang -}}
+        {{- if eq .Language.Lang $nextLang.Lang -}}
           {{- $targetURL = .RelPermalink -}}
         {{- end -}}
       {{- end -}}
       {{- if eq $targetURL "/" -}}
-        {{- $targetURL = printf "/%s/" $lang -}}
+        {{- $targetURL = printf "/%s/" $nextLang.Lang -}}
       {{- end -}}
     {{- else -}}
-      {{- $targetURL = printf "/%s/" $lang -}}
+      {{- $targetURL = printf "/%s/" $nextLang.Lang -}}
     {{- end -}}
 
-    {{- $languageMenuContent = printf "%s<a href=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\" role=\"menuitem\"%s><span class=\"font-medium\">%s</span></a>" $languageMenuContent $targetURL (cond $isCurrent " aria-current=\"true\"" "") $langName -}}
-  {{- end -}}
 
-  {{- /* 使用统一的下拉菜单组件 */ -}}
-  {{- partial "ui/dropdown-button.html" (dict
-    "type" "language"
-    "icon" "language"
-    "ariaLabel" (i18n "language.toggle")
-    "buttonId" "language-toggle"
-    "dropdownId" "language-dropdown"
-    "menuWidth" "w-40"
-    "showCondition" true
-    "content" (safeHTML $languageMenuContent)
-  ) -}}
-{{- end -}}
+    <div class="relative">
+      <a
+        href="{{ $targetURL }}"
+        class="language-cycle-btn border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+        aria-label="{{ i18n "language.toggle" }}"
+        data-language-mode="cycle"
+      >
+        {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "language.toggle")) }}
+      </a>
+    </div>
+  {{- else -}}
+    {{- /* 下拉菜单模式 */ -}}
+    {{- $languageMenuContent := "" -}}
+    {{- range site.Languages -}}
+      {{- $lang := .Lang -}}
+      {{- $langName := .LanguageName -}}
+      {{- $isCurrent := eq $lang $currentLang -}}
+
+      {{- /* 获取当前页面在目标语言下的URL */ -}}
+      {{- $targetURL := "/" -}}
+      {{- if $currentPage.IsTranslated -}}
+        {{- range $currentPage.Translations -}}
+          {{- if eq .Language.Lang $lang -}}
+            {{- $targetURL = .RelPermalink -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if eq $targetURL "/" -}}
+          {{- $targetURL = printf "/%s/" $lang -}}
+        {{- end -}}
+      {{- else -}}
+        {{- $targetURL = printf "/%s/" $lang -}}
+      {{- end -}}
+
+      {{- $languageMenuContent = printf "%s<a href=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\" role=\"menuitem\"%s><span class=\"font-medium\">%s</span></a>" $languageMenuContent $targetURL (cond $isCurrent " aria-current=\"true\"" "") $langName -}}
+    {{- end -}}
+
+    {{- /* 使用统一的下拉菜单组件 */ -}}
+    {{- partial "ui/dropdown-button.html" (dict
+      "type" "language"
+      "icon" "language"
+      "ariaLabel" (i18n "language.toggle")
+      "buttonId" "language-toggle"
+      "dropdownId" "language-dropdown"
+      "menuWidth" "w-40"
+      "showCondition" true
+      "content" (safeHTML $languageMenuContent)
+      )
+    -}}
+  {{- end -}}
 
 {{- end -}}

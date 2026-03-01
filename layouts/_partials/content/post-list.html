@@ -37,7 +37,8 @@
       <div class="mt-8 mb-6 text-center">
         <a
           href="{{ $viewAllUrl }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95">
+          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95"
+        >
           {{ partial "features/icon.html" (dict "name" "posts" "size" "md" "ariaLabel" (i18n "nav.posts")) }}
           <span>{{ i18n "home.view_all_posts" | default "查看所有文章" }}</span>
           {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
@@ -49,8 +50,7 @@
 {{ else }}
   <!-- 空状态 -->
   <div class="py-12 text-center">
-    <div
-      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+    <div class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
       {{ partial "features/icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
     </div>
     <h3 class="text-foreground mb-2 text-lg font-medium">

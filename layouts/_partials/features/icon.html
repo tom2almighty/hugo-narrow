@@ -1,25 +1,17 @@
-{{/*
-  Icon partial template
+{{/* Icon partial template
 
   Usage:
-  {{ partial "features/icon.html" (dict "name" "sun" "class" "h-5 w-5" "id" "sun-icon") }}
-  {{ partial "features/icon.html" (dict "name" "heart" "size" "lg") }}
+  {{ partial "features/icon.html" (dict "name" "sun" "class" "h-5 w-5" "id" "sun-icon")
+}}
+{{ partial "features/icon.html" (dict "name" "heart" "size" "lg") }}
 
-  Parameters:
-  - name: Icon name (required) - corresponds to SVG file in assets/icons/
-  - class: CSS classes to apply to the SVG (optional)
-  - id: HTML id attribute (optional)
-  - size: Predefined size (optional) - "xs", "sm", "md", "lg", "xl", "2xl"
-  - ariaLabel: Accessibility label (optional)
-  - hidden: Whether to add aria-hidden="true" (optional, defaults to false)
-
-  How it works:
-  - Preserves original SVG attributes (viewBox, fill, stroke, etc.)
-  - Removes width/height attributes to allow CSS control
-  - Adds class, id, and aria attributes to the original SVG
-  - Works with both filled and stroke icons automatically
-*/}}
-
+Parameters: - name: Icon name (required) - corresponds to SVG file in assets/icons/ - class: CSS
+classes to apply to the SVG (optional) - id: HTML id attribute (optional) - size: Predefined size
+(optional) - "xs", "sm", "md", "lg", "xl", "2xl" - ariaLabel: Accessibility label (optional) -
+hidden: Whether to add aria-hidden="true" (optional, defaults to false) How it works: - Preserves
+original SVG attributes (viewBox, fill, stroke, etc.) - Removes width/height attributes to allow CSS
+control - Adds class, id, and aria attributes to the original SVG - Works with both filled and
+stroke icons automatically */}}
 {{- $name := .name -}}
 {{- $class := .class | default "" -}}
 {{- $id := .id | default "" -}}
@@ -79,14 +71,20 @@
 {{- else -}}
   {{/* Fallback if icon not found */}}
   <svg
-    {{- if $id }} id="{{ $id }}"{{ end }}
-    {{- if $finalClass }} class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
+    {{- if $id }}id="{{ $id }}"{{ end }}
+    {{- if $finalClass }}class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
     fill="none"
     stroke="currentColor"
     viewBox="0 0 24 24"
-    {{- if $ariaLabel }} aria-label="{{ $ariaLabel }}"{{ end }}
-    {{- if $hidden }} aria-hidden="true"{{ end }}>
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+    {{- if $ariaLabel }}aria-label="{{ $ariaLabel }}"{{ end }}
+    {{- if $hidden }}aria-hidden="true"{{ end }}
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
   </svg>
   {{/* Log warning in development */}}
   {{- if hugo.IsDevelopment -}}

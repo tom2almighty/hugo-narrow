@@ -80,13 +80,14 @@
         <a
           href="{{ .Page.RelPermalink }}"
           class="bg-card border-border group {{ $sizeClass }} hover:bg-primary/10 hover:text-primary hover:border-primary/50 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg border px-3 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
-          data-taxonomy="{{ $taxonomySingular }}">
+          data-taxonomy="{{ $taxonomySingular }}"
+        >
           <span
-            class="text-foreground group-hover:text-primary font-medium transition-colors duration-200">
+            class="text-foreground group-hover:text-primary font-medium transition-colors duration-200"
+          >
             {{ .Page.LinkTitle }}
           </span>
-          <span
-            class="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-xs font-medium">
+          <span class="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-xs font-medium">
             {{ .Count }}
           </span>
         </a>
@@ -95,8 +96,7 @@
   {{ else }}
     <!-- 空状态 -->
     <div class="py-16 text-center">
-      <div
-        class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+      <div class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
         {{ partial "features/icon.html" (dict "name" "tag" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">

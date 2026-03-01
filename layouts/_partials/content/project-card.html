@@ -12,7 +12,8 @@
     "src" $page.Params.cover
     "enablePlaceholder" false
     "outputType" "data"
-  ) -}}
+    )
+  -}}
   {{- $coverImage = $page.Scratch.Get "imageUrl" -}}
 {{- end -}}
 
@@ -28,8 +29,9 @@
 {{/* 项目卡片 */}}
 <article class="group h-full">
   <a href="{{ $page.RelPermalink }}" class="block h-full">
-    <div class="relative flex h-full flex-col overflow-hidden rounded-xl border border-border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none focus:ring-primary/20 bg-card min-h-64 p-6">
-      
+    <div
+      class="border-border focus:ring-primary/20 bg-card relative flex h-full min-h-64 flex-col overflow-hidden rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none"
+    >
       <!-- 背景图片及遮罩 -->
       {{- if $coverImage -}}
         <img
@@ -39,11 +41,16 @@
           loading="lazy"
         />
         <!-- 黑色渐变遮罩以保证文字可读性 -->
-        <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-black/30 transition-opacity duration-300 group-hover:opacity-100"></div>
+        <div
+          class="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-black/30 transition-opacity duration-300 group-hover:opacity-100"
+        ></div>
       {{- else -}}
         <!-- 无背景图片时的 Hover 光效 (可选) -->
-        <div class="absolute inset-0 bg-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+        <div
+          class="bg-primary/5 absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        ></div>
       {{- end -}}
+
 
       <!-- 文字颜色变量计算 -->
       {{- $textColorClass := "text-foreground" -}}
@@ -55,16 +62,20 @@
         {{- $tagBgClass = "bg-white/20 text-white border-white/10 backdrop-blur-sm" -}}
       {{- end -}}
 
+
       <!-- 卡片文字内容区域 (设置 z-10 悬浮在背景之上) -->
-      <div class="relative z-10 flex flex-col flex-1 h-full">
+      <div class="relative z-10 flex h-full flex-1 flex-col">
         <!-- Featured 标签 (顶部) -->
         {{ if $page.Params.featured }}
           <div class="mb-4">
-            <span class="bg-primary text-primary-foreground px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm inline-block">
+            <span
+              class="bg-primary text-primary-foreground inline-block rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm"
+            >
               {{ i18n "project.featured" | default "Featured" }}
             </span>
           </div>
         {{ end }}
+
 
         <!-- 垂直居中撑开间隙 -->
         <div class="flex-1"></div>
@@ -72,22 +83,31 @@
         <!-- 卡片主体文字 (放在中下部) -->
         <div class="mt-auto">
           <!-- 项目标题 - 强制单行截断 -->
-          <h3 class="{{ $textColorClass }} mb-2 text-xl font-bold leading-tight transition-colors duration-200 truncate group-hover:text-primary {{ if $coverImage }}group-hover:text-white{{ end }}">
+          <h3
+            class="{{ $textColorClass }} group-hover:text-primary {{ if $coverImage }}
+              group-hover:text-white
+            {{ end }} mb-2 truncate text-xl leading-tight font-bold transition-colors duration-200"
+          >
             {{ $page.Title }}
           </h3>
 
           <!-- 项目摘要 - 最多两行截断 -->
           {{ if $summaryContent }}
-            <p class="{{ $mutedColorClass }} text-sm leading-relaxed line-clamp-2 mb-4 drop-shadow-sm">
+            <p
+              class="{{ $mutedColorClass }} mb-4 line-clamp-2 text-sm leading-relaxed drop-shadow-sm"
+            >
               {{ $summaryContent }}
             </p>
           {{ end }}
 
+
           <!-- 标签展示区, 严格限制最多显示 3 个 -->
           {{ if $page.Params.tags }}
-            <div class="flex flex-wrap gap-2 w-full pt-1">
+            <div class="flex w-full flex-wrap gap-2 pt-1">
               {{ range first 3 $page.Params.tags }}
-                <span class="{{ $tagBgClass }} shrink-0 rounded border px-2.5 py-0.5 text-xs font-medium">
+                <span
+                  class="{{ $tagBgClass }} shrink-0 rounded border px-2.5 py-0.5 text-xs font-medium"
+                >
                   {{ . }}
                 </span>
               {{ end }}
@@ -95,7 +115,6 @@
           {{ end }}
         </div>
       </div>
-
     </div>
   </a>
 </article>

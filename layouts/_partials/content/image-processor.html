@@ -1,6 +1,4 @@
-{{/* 
-  图片处理器
-*/}}
+{{/* 图片处理器 */}}
 
 {{- $context := .context -}}
 {{- $src := .src | string -}}
@@ -28,7 +26,7 @@
   {{- else if hasPrefix $src "/" -}}
     {{- $searchPath = strings.TrimPrefix "/" $src -}}
   {{- end -}}
-  
+
   {{/* 优先级查找：页面资源 -> 全局资源 -> 静态文件 */}}
   {{- with $context.Resources.GetMatch $searchPath -}}
     {{- $resource = . -}}
@@ -64,8 +62,7 @@
       {{ $mediaType := $resource.MediaType.SubType }}
       {{ if in (slice "jpeg" "jpg" "png" "gif" "webp" "svg") $mediaType }}
         {{ if ne $mediaType "svg" }}
-    width="{{ $resource.Width }}"
-    height="{{ $resource.Height }}"
+          width="{{ $resource.Width }}" height="{{ $resource.Height }}"
         {{ end }}
       {{ end }}
     {{ end }}
@@ -73,5 +70,6 @@
     decoding="async"
     data-gallery-src="{{ $finalUrl }}"
     data-gallery-alt="{{ $alt }}"
-    data-gallery-title="{{ $caption }}" />
+    data-gallery-title="{{ $caption }}"
+  />
 {{- end -}}

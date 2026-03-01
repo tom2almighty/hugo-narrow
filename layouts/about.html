@@ -12,7 +12,7 @@
   </header>
 
   <!-- 个人描述卡片 -->
-  <div class="bg-card border border-border rounded-lg p-6 mb-8 shadow-sm">
+  <div class="bg-card border-border mb-8 rounded-lg border p-6 shadow-sm">
     <div class="prose prose-neutral dark:prose-invert max-w-none">
       {{ .Content }}
     </div>
@@ -25,12 +25,13 @@
       <h2 class="text-foreground mb-6 text-2xl font-bold">{{ T "links" }}</h2>
       <div class="link-card-group">
         {{ range $links }}
-          {{ partial "content/link.html" (dict 
+          {{ partial "content/link.html" (dict
             "title" .name
             "description" .description
             "url" .url
             "icon" .icon
-          ) }}
+            )
+          }}
         {{ end }}
       </div>
     </div>

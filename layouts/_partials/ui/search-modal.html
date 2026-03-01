@@ -1,12 +1,14 @@
 <!-- 搜索模态框遮罩层 -->
 <div
   id="search-overlay"
-  class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 transition-opacity duration-300"></div>
+  class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 transition-opacity duration-300"
+></div>
 
 <!-- 搜索模态框 -->
 <div
   id="search-modal"
-  class="bg-card border-border pointer-events-none fixed top-1/2 left-1/2 z-50 max-h-[80vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 scale-95 transform overflow-hidden rounded-xl border opacity-0 shadow-xl transition-all duration-300">
+  class="bg-card border-border pointer-events-none fixed top-1/2 left-1/2 z-50 max-h-[80vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 scale-95 transform overflow-hidden rounded-xl border opacity-0 shadow-xl transition-all duration-300"
+>
   <!-- 搜索头部 -->
   <div class="border-border flex items-center gap-3 border-b p-4">
     <!-- 搜索图标 -->
@@ -21,7 +23,8 @@
         id="search-clear"
         class="text-muted-foreground hover:text-foreground hover:bg-muted/50 pointer-events-none absolute top-1/2 left-0 z-10 h-5 w-5 -translate-y-1/2 rounded opacity-0 transition-all duration-200"
         title="{{ i18n "search.clear" | default "清空" }}"
-        aria-label="{{ i18n "search.clear" | default "清空搜索" }}">
+        aria-label="{{ i18n "search.clear" | default "清空搜索" }}"
+      >
         {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
       </button>
 
@@ -32,7 +35,8 @@
         placeholder="{{ i18n "search.placeholder" | default "搜索文章..." }}"
         class="text-foreground placeholder:text-muted-foreground w-full border-none bg-transparent pl-8 text-lg outline-none"
         autocomplete="off"
-        spellcheck="false" />
+        spellcheck="false"
+      />
     </div>
 
     <!-- 关闭按钮 -->
@@ -40,7 +44,8 @@
       id="search-close"
       class="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex h-6 w-6 items-center justify-center rounded-md p-0.5 transition-all duration-200"
       title="{{ i18n "search.close" | default "关闭" }}"
-      aria-label="{{ i18n "search.close" | default "关闭搜索" }}">
+      aria-label="{{ i18n "search.close" | default "关闭搜索" }}"
+    >
       {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
     </button>
   </div>
@@ -48,11 +53,8 @@
   <!-- 搜索结果区域 -->
   <div id="search-results" class="max-h-96 overflow-y-auto">
     <!-- 空状态 -->
-    <div
-      id="search-empty"
-      class="flex flex-col items-center justify-center py-12 text-center">
-      <div
-        class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+    <div id="search-empty" class="flex flex-col items-center justify-center py-12 text-center">
+      <div class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
         {{ partial "features/icon.html" (dict "name" "search" "size" "lg" "ariaLabel" "") }}
       </div>
       <h3 class="text-foreground mb-2 text-lg font-semibold">
@@ -64,22 +66,19 @@
     </div>
 
     <!-- 加载状态 -->
-    <div
-      id="search-loading"
-      class="flex hidden items-center justify-center py-8">
+    <div id="search-loading" class="flex hidden items-center justify-center py-8">
       <div
-        class="mr-3 h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
-      <span class="text-muted-foreground"
-        >{{ i18n "search.loading" | default "搜索中..." }}</span
-      >
+        class="mr-3 h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent"
+      ></div>
+      <span class="text-muted-foreground">{{ i18n "search.loading" | default "搜索中..." }}</span>
     </div>
 
     <!-- 无结果状态 -->
     <div
       id="search-no-results"
-      class="flex hidden flex-col items-center justify-center py-12 text-center">
-      <div
-        class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+      class="flex hidden flex-col items-center justify-center py-12 text-center"
+    >
+      <div class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
         {{ partial "features/icon.html" (dict "name" "text" "size" "lg" "ariaLabel" "") }}
       </div>
       <h3 class="text-foreground mb-2 text-lg font-semibold">
@@ -96,8 +95,8 @@
       <div
         id="search-stats"
         class="text-muted-foreground border-border border-b px-4 py-3 text-sm"
-        data-template="{{ i18n "search.results_count" }}">
-      </div>
+        data-template="{{ i18n "search.results_count" }}"
+      ></div>
 
       <!-- 结果项容器 -->
       <div id="search-items" class="divide-border divide-y">
@@ -108,41 +107,23 @@
 
   <!-- 搜索底部提示 -->
   <div class="border-border bg-muted/20 border-t px-4 py-3">
-    <div
-      class="text-muted-foreground flex items-center justify-between text-xs">
+    <div class="text-muted-foreground flex items-center justify-between text-xs">
       <div class="flex items-center gap-2 md:gap-4">
         <div class="flex items-center gap-1">
-          <kbd
-            class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs"
-            >↑↓</kbd
-          >
-          <span class="hidden sm:inline"
-            >{{ i18n "search.hint_navigate" | default "导航" }}</span
-          >
+          <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs">↑↓</kbd>
+          <span class="hidden sm:inline">{{ i18n "search.hint_navigate" | default "导航" }}</span>
         </div>
         <div class="flex items-center gap-1">
-          <kbd
-            class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs"
-            >↵</kbd
-          >
-          <span class="hidden sm:inline"
-            >{{ i18n "search.hint_select" | default "选择" }}</span
-          >
+          <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs">↵</kbd>
+          <span class="hidden sm:inline">{{ i18n "search.hint_select" | default "选择" }}</span>
         </div>
         <div class="flex items-center gap-1">
-          <kbd
-            class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs"
-            >ESC</kbd
-          >
-          <span class="hidden sm:inline"
-            >{{ i18n "search.hint_close" | default "关闭" }}</span
-          >
+          <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs">ESC</kbd>
+          <span class="hidden sm:inline">{{ i18n "search.hint_close" | default "关闭" }}</span>
         </div>
       </div>
       <div class="search-hint-desktop flex items-center gap-1">
-        <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs"
-          >⌘K</kbd
-        >
+        <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs">⌘K</kbd>
         <span>{{ i18n "search.hint_shortcut" | default "快捷键" }}</span>
       </div>
     </div>

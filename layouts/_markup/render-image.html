@@ -1,5 +1,4 @@
-{{/*
-  Hugo Markdown 图片渲染器
+{{/* Hugo Markdown 图片渲染器
   处理业务逻辑：灯箱功能、类名、结构等
 */}}
 
@@ -27,7 +26,8 @@
   "caption" $caption
   "enablePlaceholder" false
   "outputType" "data"
-) -}}
+  )
+-}}
 
 {{/* 获取处理结果 */}}
 {{- $imageUrl := .Page.Scratch.Get "imageUrl" -}}
@@ -47,12 +47,18 @@
 {{- end -}}
 
 {{/* 生成 figure 元素 */}}
-<figure class="image-figure not-prose my-8"
-        data-lightbox-enabled="{{ if $lightboxEnabled }}true{{ else }}false{{ end }}"
-        data-gallery-type="auto"
-        data-image-width="{{ $width }}"
-        data-image-height="{{ $height }}"
-        data-image-src="{{ $imageUrl }}">
+<figure
+  class="image-figure not-prose my-8"
+  data-lightbox-enabled="{{ if $lightboxEnabled }}
+    true
+  {{ else }}
+    false
+  {{ end }}"
+  data-gallery-type="auto"
+  data-image-width="{{ $width }}"
+  data-image-height="{{ $height }}"
+  data-image-src="{{ $imageUrl }}"
+>
   <div class="image-container">
     {{/* 使用图片处理器生成图片HTML */}}
     {{- partial "content/image-processor.html" (dict
@@ -62,7 +68,8 @@
       "caption" $caption
       "enablePlaceholder" false
       "outputType" "img"
-    ) -}}
+      )
+    -}}
   </div>
 
   {{/* 图片说明 */}}

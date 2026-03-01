@@ -1,5 +1,4 @@
 <footer class="px-4 py-6">
-
   <!-- 外部链接菜单 -->
   {{ if site.Menus.footer }}
     <nav class="mb-6">
@@ -19,7 +18,8 @@
             {{ if strings.HasPrefix $menuURL "http" }}
               target="_blank" rel="noopener noreferrer"
             {{ end }}
-            class="nav-link hover:text-primary hover:bg-primary/10 text-muted-foreground flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105">
+            class="nav-link hover:text-primary hover:bg-primary/10 text-muted-foreground flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105"
+          >
             {{ if .Params.icon }}
               {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
             {{ end }}
@@ -40,25 +40,24 @@
   <!-- 底部区域：版权信息和社交媒体 -->
   <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
     <!-- 版权信息 -->
-    <div class="text-muted-foreground text-sm text-center md:text-left">
+    <div class="text-muted-foreground text-center text-sm md:text-left">
       <p class="mb-2">
-        &copy; {{ now.Year }} {{ site.Title }}.
-        {{ i18n "footer.all_rights_reserved" }}.
+        &copy; {{ now.Year }} {{ site.Title }}. {{ i18n "footer.all_rights_reserved" }}.
       </p>
       <p class="flex flex-wrap items-center justify-center gap-1 md:justify-start">
         <span>Powered by</span>
-        <a 
-          href="https://gohugo.io/" 
-          target="_blank" 
+        <a
+          href="https://gohugo.io/"
+          target="_blank"
           rel="noopener noreferrer"
           class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
         >
           Hugo
         </a>
         <span>&</span>
-        <a 
-          href="https://github.com/tom2almighty/hugo-narrow" 
-          target="_blank" 
+        <a
+          href="https://github.com/tom2almighty/hugo-narrow"
+          target="_blank"
           rel="noopener noreferrer"
           class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
         >
@@ -77,8 +76,9 @@
               target="_blank" rel="noopener noreferrer"
             {{ end }}
             class="text-muted-foreground hover:text-primary focus:ring-primary/20 rounded-lg p-1 transition-all duration-300 ease-out hover:scale-110 focus:ring-2 focus:outline-none"
-            title={{ or (T .Identifier) .Name | safeHTML }}
-            aria-label="{{ .Name }}">
+            title="{{ or (T .Identifier) .Name | safeHTML }}"
+            aria-label="{{ .Name }}"
+          >
             {{ if .Params.icon }}
               {{ partial "features/icon.html" (dict "name" .Params.icon "size" "lg" "ariaLabel" .Name) }}
             {{ end }}
@@ -88,5 +88,4 @@
     {{ end }}
 
   </div>
-
 </footer>

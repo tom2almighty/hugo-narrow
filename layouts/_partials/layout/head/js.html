@@ -12,7 +12,8 @@
         <script
           src="{{ .RelPermalink }}"
           integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous"
+        ></script>
       {{- end }}
     {{- end }}
   {{- end }}
@@ -38,7 +39,8 @@
               src="{{ .RelPermalink }}"
               integrity="{{ .Data.Integrity }}"
               crossorigin="anonymous"
-              defer></script>
+              defer
+            ></script>
           {{- end }}
         {{- end }}
       {{- end }}
@@ -63,7 +65,8 @@
           src="{{ .RelPermalink }}"
           integrity="{{ .Data.Integrity }}"
           crossorigin="anonymous"
-          defer></script>
+          defer
+        ></script>
       {{- end }}
     {{- end }}
   {{- end }}
@@ -86,12 +89,12 @@
           src="{{ .RelPermalink }}"
           integrity="{{ .Data.Integrity }}"
           crossorigin="anonymous"
-          defer></script>
+          defer
+        ></script>
       {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}
-
 
 {{/* Gallery JavaScript */}}
 {{ if .Scratch.Get "galleryEnabled" }}
@@ -100,8 +103,8 @@
 
 {{ if .Scratch.Get "lightboxEnabled" }}
   <script type="module">
-    import PhotoSwipeLightbox from '/js/photoswipe-lightbox.esm.min.js';
-    import PhotoSwipe from '/js/photoswipe.esm.min.js';
+    import PhotoSwipeLightbox from "/js/photoswipe-lightbox.esm.min.js";
+    import PhotoSwipe from "/js/photoswipe.esm.min.js";
     window.PhotoSwipeLightbox = PhotoSwipeLightbox;
     window.PhotoSwipe = PhotoSwipe;
   </script>
@@ -123,13 +126,13 @@
             src="{{ .RelPermalink }}"
             integrity="{{ .Data.Integrity }}"
             crossorigin="anonymous"
-            defer></script>
+            defer
+          ></script>
         {{- end }}
       {{- end }}
     {{- end }}
   {{- end }}
 {{ end }}
-
 
 
 <!-- 自定义 JS 文件 -->
@@ -151,12 +154,12 @@
           src="{{ .RelPermalink }}"
           integrity="{{ .Data.Integrity }}"
           crossorigin="anonymous"
-          defer></script>
+          defer
+        ></script>
       {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}
-
 
 {{ if .Site.Params.analytics.enabled -}}
   {{ partial "features/analytics.html" . }}

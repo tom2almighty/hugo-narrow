@@ -9,12 +9,13 @@
 
   样式：与 header 保持一致的遮罩效果
   行为：根据配置参数控制显示模式
-    - scroll: 向上滚动时显示（默认）
-    - always: 始终显示
-    - float: 悬浮显示
+  - scroll: 向上滚动时显示（默认）
+  - always: 始终显示
+  - float: 悬浮显示
 */}}
 
 {{ $dockMode := .Site.Params.dock | default "scroll" }}
+
 
 <!-- 底部 Dock -->
 <div
@@ -22,20 +23,21 @@
   class="pointer-events-none fixed bottom-4 left-1/2 z-9999 w-fit -translate-x-1/2 translate-y-24 opacity-0 transition-all duration-300 ease-out sm:right-0 sm:left-0 sm:mx-auto sm:translate-x-0"
   data-dock-mode="{{ $dockMode }}"
   role="toolbar"
-  aria-label="{{ i18n "dock.aria_label" | default "快捷操作工具栏" }}">
+  aria-label="{{ i18n "dock.aria_label" | default "快捷操作工具栏" }}"
+>
   <nav
-    class="border-border bg-card/80 scrollbar-hide xs:px-3 xs:py-2 mx-auto flex max-w-[calc(100vw-2rem)] min-w-fit items-center justify-center overflow-x-auto rounded-2xl border px-4 py-3 shadow-lg backdrop-blur-sm sm:px-4 sm:py-3">
+    class="border-border bg-card/80 scrollbar-hide xs:px-3 xs:py-2 mx-auto flex max-w-[calc(100vw-2rem)] min-w-fit items-center justify-center overflow-x-auto rounded-2xl border px-4 py-3 shadow-lg backdrop-blur-sm sm:px-4 sm:py-3"
+  >
     <!-- 返回按钮 - 在非首页显示 -->
     {{ if not .IsHome }}
       <button
         id="dock-back"
         class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2"
         title="{{ i18n "dock.back" | default "返回" }}"
-        aria-label="{{ i18n "dock.back" | default "返回" }}">
+        aria-label="{{ i18n "dock.back" | default "返回" }}"
+      >
         {{ partial "features/icon.html" (dict "name" "arrow-left" "size" "sm" "ariaLabel" "") }}
-        <span class="hidden sm:inline"
-          >{{ i18n "dock.back" | default "返回" }}</span
-        >
+        <span class="hidden sm:inline">{{ i18n "dock.back" | default "返回" }}</span>
       </button>
 
       <!-- 分隔线 -->
@@ -43,18 +45,14 @@
     {{ end }}
 
 
-
-
-
-      <button
+    <button
       id="dock-search"
       class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-3 xs:py-1.5 flex shrink-0 items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-4 sm:py-2"
       title="{{ i18n "dock.search" | default "搜索" }}"
-      aria-label="{{ i18n "dock.search" | default "搜索" }}">
+      aria-label="{{ i18n "dock.search" | default "搜索" }}"
+    >
       {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
-      <span class="hidden md:inline"
-        >{{ i18n "dock.search" | default "搜索" }}</span
-      >
+      <span class="hidden md:inline">{{ i18n "dock.search" | default "搜索" }}</span>
     </button>
 
     <!-- 分隔线 -->
@@ -67,44 +65,45 @@
         id="dock-comments"
         class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2"
         title="{{ i18n "dock.comments" | default "评论" }}"
-        aria-label="{{ i18n "dock.comments" | default "评论" }}">
+        aria-label="{{ i18n "dock.comments" | default "评论" }}"
+      >
         {{ partial "features/icon.html" (dict "name" "message-circle" "size" "sm" "ariaLabel" "") }}
-        <span class="hidden sm:inline"
-          >{{ i18n "dock.comments" | default "评论" }}</span
-        >
+        <span class="hidden sm:inline">{{ i18n "dock.comments" | default "评论" }}</span>
       </button>
 
       <!-- 分隔线 -->
       <div class="bg-border xs:mx-1 mx-2 h-6 w-px sm:mx-2"></div>
     {{ end }}
 
+
     <!-- 返回顶部按钮 -->
     <button
       id="dock-top"
       class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 xs:px-2 xs:py-1.5 flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none sm:px-3 sm:py-2"
       title="{{ i18n "dock.back_to_top" | default "返回顶部" }}"
-      aria-label="{{ i18n "dock.back_to_top" | default "返回顶部" }}">
+      aria-label="{{ i18n "dock.back_to_top" | default "返回顶部" }}"
+    >
       {{ partial "features/icon.html" (dict "name" "arrow-up" "size" "sm" "ariaLabel" "") }}
-      <span class="hidden sm:inline"
-        >{{ i18n "dock.top" | default "顶部" }}</span
-      >
+      <span class="hidden sm:inline">{{ i18n "dock.top" | default "顶部" }}</span>
     </button>
   </nav>
 </div>
 
 <!-- 悬浮模式指示器 -->
 {{ if eq $dockMode "float" }}
-<div
-  id="dock-float-trigger"
-  class="pointer-events-auto fixed bottom-0 left-0 right-0 z-9998 cursor-pointer">
-  <div class="absolute inset-0 bg-linear-to-t from-muted-foreground/20 to-transparent h-8 transition-all duration-200 ease-out"></div>
-  
-  <!-- 图标 -->
-  <div class="relative mx-auto flex h-8 w-12 items-center justify-center">
-    <span id="dock-float-icon">
-      {{ partial "features/icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
-    </span>
-  </div>
-</div>
-{{ end }}
+  <div
+    id="dock-float-trigger"
+    class="pointer-events-auto fixed right-0 bottom-0 left-0 z-9998 cursor-pointer"
+  >
+    <div
+      class="from-muted-foreground/20 absolute inset-0 h-8 bg-linear-to-t to-transparent transition-all duration-200 ease-out"
+    ></div>
 
+    <!-- 图标 -->
+    <div class="relative mx-auto flex h-8 w-12 items-center justify-center">
+      <span id="dock-float-icon">
+        {{ partial "features/icon.html" (dict "name" "chevron-up" "size" "xs" "ariaLabel" "") }}
+      </span>
+    </div>
+  </div>
+{{ end }}

@@ -18,7 +18,8 @@
       label="{{ $config.label | default "comment" }}"
       theme="{{ $config.theme | default "preferred-color-scheme" }}"
       crossorigin="anonymous"
-      async></script>
+      async
+    ></script>
   </div>
 
   {{/* 主题切换支持 */}}
@@ -62,8 +63,7 @@
   </script>
 {{ else }}
   <div id="{{ $id }}" class="py-8 text-center">
-    <div
-      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+    <div class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
       {{ partial "features/icon.html" (dict "name" "github" "size" "lg" "ariaLabel" "") }}
     </div>
     <h3 class="text-foreground mb-2 text-lg font-medium">

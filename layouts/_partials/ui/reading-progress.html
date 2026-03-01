@@ -12,32 +12,38 @@
 {{- end -}}
 
 {{- if $shouldShow -}}
-<div id="reading-progress-bar"
-  class="pointer-events-none fixed top-0 left-0 z-50 h-[3px] w-0
-         bg-gradient-to-r from-primary to-primary/80
-         transition-[width] duration-150 ease-out">
-</div>
+  <div
+    id="reading-progress-bar"
+    class="from-primary to-primary/80 pointer-events-none fixed top-0 left-0 z-50 h-[3px] w-0 bg-gradient-to-r transition-[width] duration-150 ease-out"
+  ></div>
 
-<script>
-  (function () {
-    const bar = document.getElementById("reading-progress-bar");
-    if (!bar) return;
+  <script>
+    (function () {
+      const bar = document.getElementById("reading-progress-bar");
+      if (!bar) return;
 
-    function update() {
-      const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.width = total > 0 ? (scrolled / total * 100) + "%" : "0%";
-    }
-
-    let ticking = false;
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        requestAnimationFrame(() => { update(); ticking = false; });
-        ticking = true;
+      function update() {
+        const scrolled = window.scrollY;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = total > 0 ? (scrolled / total) * 100 + "%" : "0%";
       }
-    }, { passive: true });
 
-    update();
-  })();
-</script>
+      let ticking = false;
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              update();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+
+      update();
+    })();
+  </script>
 {{- end -}}

@@ -13,9 +13,7 @@
   <div id="{{ $id }}" class="waline-container"></div>
 
   {{/* 加载 Waline CSS */}}
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
 
   {{/* 加载 Waline JS */}}
   <script type="module">
@@ -30,8 +28,7 @@
   </script>
 {{ else }}
   <div id="{{ $id }}" class="py-8 text-center">
-    <div
-      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+    <div class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
       {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
     </div>
     <h3 class="text-foreground mb-2 text-lg font-medium">

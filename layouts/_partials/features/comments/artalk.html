@@ -12,9 +12,7 @@
 {{ if $config.server }}
   <div id="{{ $id }}" class="artalk-container"></div>
   {{/* 加载 Artalk CSS */}}
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
 
   <script type="module">
     import Artalk from 'https://esm.sh/artalk@2.9.1'
@@ -62,11 +60,9 @@
     // 初始化时设置主题
     updateArtalkTheme();
   </script>
-  
 {{ else }}
   <div id="{{ $id }}" class="py-8 text-center">
-    <div
-      class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+    <div class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
       {{ partial "features/icon.html" (dict "name" "server" "size" "lg" "ariaLabel" "") }}
     </div>
     <h3 class="text-foreground mb-2 text-lg font-medium">

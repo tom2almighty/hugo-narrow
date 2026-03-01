@@ -13,19 +13,17 @@
   - rel (named): Link rel attribute (optional), auto-adds "noopener noreferrer" for _blank
 
   Usage:
-    {{< button text="Learn More" url="/about" >}}
-    {{< button text="Custom Color" url="/page" variant="#FF5733" >}}
-    {{< button text="GitHub" url="https://github.com" icon="github" target="_blank" >}}
-    {{< button url="/contact" variant="secondary" >}}Contact Us{{< /button >}}
-    {{< button text="Static Button" variant="outline" >}}
+  {{< button text="Learn More" url="/about"
+>}}
+{{< button text="Custom Color" url="/page" variant="#FF5733" >}}
+{{< button text="GitHub" url="https://github.com" icon="github" target="_blank" >}}
+{{< button url="/contact" variant="secondary" >}}Contact
+Us{{< /button >}}
+{{< button text="Static Button" variant="outline" >}}
 
-  Variants:
-  - primary: Main action button with primary color
-  - secondary: Secondary action with muted colors
-  - outline: Outlined button with transparent background
-  - #RRGGBB: Custom hex color (e.g., #FF5733)
-*/ -}}
-
+Variants: - primary: Main action button with primary color - secondary: Secondary action with muted
+colors - outline: Outlined button with transparent background - #RRGGBB: Custom hex color (e.g.,
+#FF5733) */ -}}
 {{- $text := .Get "text" | default (.Inner | markdownify | plainify) -}}
 {{- $url := .Get "url" -}}
 {{- $variant := .Get "variant" | default "primary" -}}
@@ -79,15 +77,18 @@
 
 {{- $textColor := "white" -}}
 
-<span class="inline-block my-2 mr-2">
+
+<span class="my-2 mr-2 inline-block">
   {{- if $url -}}
     {{- if eq $target "_blank" -}}
       <a
         href="{{ $url }}"
         class="{{ $allClasses }}"
-        {{- if $isCustomColor }} style="background-color: {{ $customColor }}; color: {{ $textColor }};"{{ end }}
+        {{- if $isCustomColor }}
+          style="background-color: {{ $customColor }}; color: {{ $textColor }};"
+        {{ end }}
         target="_blank"
-        {{- with $rel }} rel="{{ . }}"{{ end }}
+        {{- with $rel }}rel="{{ . }}"{{ end }}
       >
         {{- if $icon -}}
           {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
@@ -98,7 +99,9 @@
       <a
         href="{{ $url }}"
         class="{{ $allClasses }}"
-        {{- if $isCustomColor }} style="background-color: {{ $customColor }}; color: {{ $textColor }};"{{ end }}
+        {{- if $isCustomColor }}
+          style="background-color: {{ $customColor }}; color: {{ $textColor }};"
+        {{ end }}
       >
         {{- if $icon -}}
           {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
@@ -109,7 +112,9 @@
   {{- else -}}
     <button
       class="{{ $allClasses }}"
-      {{- if $isCustomColor }} style="background-color: {{ $customColor }}; color: {{ $textColor }};"{{ end }}
+      {{- if $isCustomColor }}
+        style="background-color: {{ $customColor }}; color: {{ $textColor }};"
+      {{ end }}
       type="button"
     >
       {{- if $icon -}}
@@ -119,4 +124,3 @@
     </button>
   {{- end -}}
 </span>
-
