@@ -98,6 +98,27 @@
   color: var(--tw-prose-headings);
 }
 
+/* 标题锚点链接 */
+.prose .heading-anchor {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.375rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: var(--color-muted-foreground);
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor,
+.prose .heading-anchor:focus {
+  opacity: 1;
+}
+
+.prose .heading-anchor:hover {
+  color: var(--color-primary);
+}
+
 /* 段落和文本 */
 .prose p {
   @apply leading-7;
