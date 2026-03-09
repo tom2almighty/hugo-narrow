@@ -25,6 +25,29 @@ main:
     params:
       icon: archive
 
+  # Example: parent item with dropdown submenu children
+  - identifier: nav.more
+    name: More
+    weight: 50
+    params:
+      icon: layers
+
+  - identifier: nav.more.about
+    name: About
+    pageRef: /about
+    parent: nav.more
+    weight: 1
+    params:
+      icon: about
+
+  - identifier: nav.more.projects
+    name: Projects
+    pageRef: /projects
+    parent: nav.more
+    weight: 2
+    params:
+      icon: projects
+
 # footer menu
 footer:
   - identifier: nav.projects

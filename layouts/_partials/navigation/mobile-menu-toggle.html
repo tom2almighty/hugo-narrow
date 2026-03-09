@@ -31,22 +31,68 @@
             {{ $menuURL = .URL | relLangURL }}
           {{ end }}
         {{ end }}
-        {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
-        <a
-          href="{{ $menuURL }}"
-          class="nav-link {{ if $isActive }}
-            nav-active-indicator bg-accent text-accent-foreground
-          {{ else }}
-            text-muted-foreground hover:text-primary hover:bg-primary/10
-          {{ end }} focus:ring-primary/20 relative flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium transition-all duration-200 ease-out hover:translate-x-1 focus:ring-2 focus:outline-none"
-          role="menuitem"
-          {{ if $isActive }}aria-current="page"{{ end }}
-        >
-          {{ if .Params.icon }}
-            {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
-          {{ end }}
-          <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
-        </a>
+        {{ if .HasChildren }}
+          {{/* 有子菜单的父项：渲染为折叠手风琴 */}}
+          {{ $identifier := .Identifier }}
+          <div>
+            <button
+              class="nav-link mobile-submenu-toggle text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 relative flex w-full items-center gap-3 rounded-md px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+              data-submenu-id="{{ $identifier }}"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              {{ if .Params.icon }}
+                {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+              {{ end }}
+              <span class="flex-1 text-left">{{ or (T .Identifier) .Name | safeHTML }}</span>
+              {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "class" "submenu-chevron transition-transform duration-200") }}
+            </button>
+            <div
+              class="mobile-submenu hidden pl-4"
+              data-submenu-id="{{ $identifier }}"
+            >
+              {{ range .Children }}
+                {{ $childURL := .URL }}
+                {{ if .PageRef }}
+                  {{ with site.GetPage .PageRef }}
+                    {{ $childURL = .RelPermalink }}
+                  {{ else }}
+                    {{ $childURL = .URL | relLangURL }}
+                  {{ end }}
+                {{ end }}
+                {{ $isChildActive := eq $currentPage.RelPermalink $childURL }}
+                <a
+                  href="{{ $childURL }}"
+                  class="nav-link {{ if $isChildActive }}nav-active-indicator bg-accent text-accent-foreground{{ else }}text-muted-foreground hover:text-primary hover:bg-primary/10{{ end }} focus:ring-primary/20 relative flex items-center gap-3 rounded-md px-4 py-2.5 text-sm transition-all duration-200 ease-out hover:translate-x-1 focus:ring-2 focus:outline-none"
+                  role="menuitem"
+                  {{ if $isChildActive }}aria-current="page"{{ end }}
+                >
+                  {{ if .Params.icon }}
+                    {{ partial "features/icon.html" (dict "name" .Params.icon "size" "sm" "ariaLabel" .Name) }}
+                  {{ end }}
+                  <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                </a>
+              {{ end }}
+            </div>
+          </div>
+        {{ else }}
+          {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
+          <a
+            href="{{ $menuURL }}"
+            class="nav-link {{ if $isActive }}
+              nav-active-indicator bg-accent text-accent-foreground
+            {{ else }}
+              text-muted-foreground hover:text-primary hover:bg-primary/10
+            {{ end }} focus:ring-primary/20 relative flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium transition-all duration-200 ease-out hover:translate-x-1 focus:ring-2 focus:outline-none"
+            role="menuitem"
+            {{ if $isActive }}aria-current="page"{{ end }}
+          >
+            {{ if .Params.icon }}
+              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+            {{ end }}
+            <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+          </a>
+        {{ end }}
       {{ end }}
     </nav>
   </div>
