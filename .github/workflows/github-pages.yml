@@ -44,6 +44,7 @@ jobs:
             --minify \
             --destination=dist \
             --baseURL "${{ steps.pages.outputs.base_url }}"
+            --relativeURLs true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
