@@ -1,4 +1,202 @@
-// UI管理器 - 管理主题、下拉菜单等界面交互
+// ── ToolDropdown：工具类下拉菜单（主题/语言/配色） ──────────────────
+class ToolDropdown {
+  constructor(uiManager) {
+    this.ui = uiManager;
+    this.types = ["color-scheme", "theme", "language"];
+    this.setup();
+  }
+
+  setup() {
+    this.types.forEach((type) => this.bindToggle(type));
+  }
+
+  bindToggle(type) {
+    const toggleSelector = `.dropdown-toggle[data-dropdown-type="${type}"]`;
+    const dropdownSelector = `.dropdown-menu[data-dropdown-type="${type}"]`;
+
+    document.querySelectorAll(toggleSelector).forEach((toggle, index) => {
+      const dropdown = document.querySelectorAll(dropdownSelector)[index]
+        || document.querySelector(dropdownSelector);
+      if (!toggle || !dropdown) return;
+
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // 关闭导航面板（互斥）
+        this.ui.navDisclosure.closePanel();
+
+        // 关闭其他工具下拉
+        this.closeAllExcept(type);
+
+        // 切换当前下拉
+        const isHidden = dropdown.classList.contains("hidden");
+        dropdown.classList.toggle("hidden");
+        toggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+      });
+    });
+  }
+
+  closeAllExcept(exceptType) {
+    this.types.forEach((type) => {
+      if (type === exceptType) return;
+      document.querySelectorAll(`.dropdown-menu[data-dropdown-type="${type}"]`)
+        .forEach((d) => d.classList.add("hidden"));
+      document.querySelectorAll(`.dropdown-toggle[data-dropdown-type="${type}"]`)
+        .forEach((t) => t.setAttribute("aria-expanded", "false"));
+    });
+  }
+
+  closeAll() {
+    this.closeAllExcept(null);
+  }
+}
+
+// ── NavDisclosure：导航展开面板（移动端宽面板 + 桌面端子菜单） ────────
+class NavDisclosure {
+  constructor(uiManager) {
+    this.ui = uiManager;
+    this.panel = document.getElementById("mobile-nav-panel");
+    this.toggle = document.getElementById("mobile-nav-toggle");
+    this.setup();
+  }
+
+  setup() {
+    this.setupPanelToggle();
+    this.setupAccordions();
+    this.setupDesktopSubmenus();
+    this.setupPanelLinkClose();
+  }
+
+  // 汉堡按钮 → 切换宽面板
+  setupPanelToggle() {
+    if (!this.toggle || !this.panel) return;
+
+    this.toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      // 关闭工具下拉（互斥）
+      this.ui.toolDropdown.closeAll();
+
+      const isHidden = this.panel.classList.contains("hidden");
+      if (isHidden) {
+        this.openPanel();
+      } else {
+        this.closePanel();
+      }
+    });
+  }
+
+  openPanel() {
+    if (!this.panel || !this.toggle) return;
+    this.panel.classList.remove("hidden");
+    this.toggle.setAttribute("aria-expanded", "true");
+  }
+
+  closePanel() {
+    if (!this.panel) return;
+    this.panel.classList.add("hidden");
+    if (this.toggle) {
+      this.toggle.setAttribute("aria-expanded", "false");
+    }
+    // 重置所有手风琴子菜单
+    this.closeAllAccordions();
+  }
+
+  // 手风琴子菜单（同一时间只展开一个）
+  setupAccordions() {
+    document.querySelectorAll(".nav-accordion-toggle").forEach((toggle) => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = toggle.getAttribute("data-accordion-id");
+        const panel = document.querySelector(`.nav-accordion-panel[data-accordion-id="${id}"]`);
+        if (!panel) return;
+
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+        // 先折叠所有
+        this.closeAllAccordions();
+
+        // 若之前是关闭的，则打开
+        if (!isOpen) {
+          panel.style.gridTemplateRows = "1fr";
+          panel.setAttribute("aria-hidden", "false");
+          toggle.setAttribute("aria-expanded", "true");
+          toggle.querySelector(".accordion-chevron")?.classList.add("rotate-180");
+          toggle.classList.add("bg-primary/10", "text-primary");
+        }
+      });
+    });
+  }
+
+  closeAllAccordions() {
+    document.querySelectorAll(".nav-accordion-panel").forEach((panel) => {
+      panel.style.gridTemplateRows = "0fr";
+      panel.setAttribute("aria-hidden", "true");
+    });
+    document.querySelectorAll(".nav-accordion-toggle").forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.querySelector(".accordion-chevron")?.classList.remove("rotate-180");
+      toggle.classList.remove("bg-primary/10", "text-primary");
+    });
+  }
+
+  // 桌面端子菜单（保留 absolute 浮层行为）
+  setupDesktopSubmenus() {
+    document.querySelectorAll(".nav-submenu-toggle").forEach((toggle) => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = toggle.getAttribute("data-submenu-id");
+        const submenu = document.querySelector(`.nav-submenu[data-submenu-id="${id}"]`);
+        if (!submenu) return;
+
+        const isOpen = !submenu.classList.contains("hidden");
+
+        // 关闭工具下拉（互斥）
+        this.ui.toolDropdown.closeAll();
+        // 关闭所有桌面端子菜单
+        this.closeAllDesktopSubmenus();
+
+        if (!isOpen) {
+          submenu.classList.remove("hidden");
+          toggle.setAttribute("aria-expanded", "true");
+          toggle.querySelector(".submenu-chevron")?.classList.add("rotate-180");
+        }
+      });
+    });
+  }
+
+  closeAllDesktopSubmenus() {
+    document.querySelectorAll(".nav-submenu").forEach((submenu) => {
+      submenu.classList.add("hidden");
+      const id = submenu.getAttribute("data-submenu-id");
+      const toggle = document.querySelector(`.nav-submenu-toggle[data-submenu-id="${id}"]`);
+      if (toggle) {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.querySelector(".submenu-chevron")?.classList.remove("rotate-180");
+      }
+    });
+  }
+
+  // 面板内链接点击 → 自动关闭面板（事件委托，一次性绑定）
+  setupPanelLinkClose() {
+    if (!this.panel) return;
+
+    this.panel.addEventListener("click", (e) => {
+      const link = e.target.closest("a[href]");
+      if (link) {
+        setTimeout(() => this.closePanel(), 100);
+      }
+    });
+  }
+
+  // 关闭所有导航相关（面板 + 桌面子菜单）
+  closeAll() {
+    this.closePanel();
+    this.closeAllDesktopSubmenus();
+  }
+}
+
+// ── UIManager：协调层 ─────────────────────────────────────────────
 class UIManager {
   constructor() {
     this.theme = localStorage.getItem("theme") || "system";
@@ -10,245 +208,57 @@ class UIManager {
   }
 
   init() {
-    this.setupEventListeners();
+    // 先创建两套子系统（互相引用通过 this.ui）
+    this.navDisclosure = new NavDisclosure(this);
+    this.toolDropdown = new ToolDropdown(this);
+    this.setupGlobalListeners();
     this.updateUI();
   }
 
-  // 通用下拉菜单处理函数 - 统一处理所有类型的菜单
-  setupDropdown(type) {
-    const toggleSelector = `.dropdown-toggle[data-dropdown-type="${type}"]`;
-    const dropdownSelector = `.dropdown-menu[data-dropdown-type="${type}"]`;
-
-    const toggles = document.querySelectorAll(toggleSelector);
-    const dropdowns = document.querySelectorAll(dropdownSelector);
-
-    toggles.forEach((toggle, index) => {
-      const dropdown = dropdowns[index] || dropdowns[0];
-      if (toggle && dropdown) {
-        toggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-
-          // 关闭其他所有类型的菜单
-          this.closeOtherMenus(type);
-
-          // 关闭同类型的其他下拉菜单
-          document.querySelectorAll(dropdownSelector).forEach(d => {
-            if (d !== dropdown) {
-              d.classList.add("hidden");
-              // 更新对应按钮的 aria-expanded
-              const correspondingToggle = document.querySelector(`${toggleSelector}[aria-labelledby="${d.getAttribute('aria-labelledby')}"], ${toggleSelector}[aria-controls="${d.id}"]`);
-              if (correspondingToggle) {
-                correspondingToggle.setAttribute("aria-expanded", "false");
-              }
-            }
-          });
-
-          // 切换当前下拉菜单
-          const isHidden = dropdown.classList.contains("hidden");
-          dropdown.classList.toggle("hidden");
-
-          // 更新当前按钮的 aria-expanded 属性
-          toggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
-
-          // 如果是移动端菜单，添加特殊处理
-          if (type === "mobile-menu") {
-            this.handleMobileMenuClick(dropdown, toggle);
-          }
-        });
-      }
-    });
-  }
-
-  // 关闭其他类型的菜单 - 统一处理所有菜单类型
-  closeOtherMenus(currentType) {
-    const allTypes = ['color-scheme', 'theme', 'language', 'mobile-menu'];
-    allTypes.forEach(type => {
-      if (type !== currentType) {
-        document.querySelectorAll(`.dropdown-menu[data-dropdown-type="${type}"]`)
-          .forEach(d => {
-            d.classList.add("hidden");
-            // 更新对应按钮的 aria-expanded
-            const toggle = document.querySelector(`.dropdown-toggle[data-dropdown-type="${type}"]`);
-            if (toggle) {
-              toggle.setAttribute("aria-expanded", "false");
-            }
-          });
-      }
-    });
-  }
-
-  // 关闭所有下拉菜单
-  closeAllDropdowns() {
-    document.querySelectorAll(".dropdown-menu")
-      .forEach(d => {
-        d.classList.add("hidden");
-        // 更新对应按钮的 aria-expanded
-        const dropdownType = d.getAttribute("data-dropdown-type");
-        if (dropdownType) {
-          const toggle = document.querySelector(`.dropdown-toggle[data-dropdown-type="${dropdownType}"]`);
-          if (toggle) {
-            toggle.setAttribute("aria-expanded", "false");
-          }
-        }
-      });
-
-    // 关闭所有导航子菜单
-    document.querySelectorAll(".nav-submenu").forEach(submenu => {
-      submenu.classList.add("hidden");
-      const id = submenu.getAttribute("data-submenu-id");
-      const toggle = document.querySelector(`.nav-submenu-toggle[data-submenu-id="${id}"]`);
-      if (toggle) {
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.querySelector(".submenu-chevron")?.classList.remove("rotate-180");
-      }
-    });
-
-    // 关闭所有移动端子菜单
-    document.querySelectorAll(".mobile-submenu").forEach(submenu => {
-      submenu.classList.add("hidden");
-      const id = submenu.getAttribute("data-submenu-id");
-      const toggle = document.querySelector(`.mobile-submenu-toggle[data-submenu-id="${id}"]`);
-      if (toggle) {
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.querySelector(".submenu-chevron")?.classList.remove("rotate-180");
-      }
-    });
-  }
-
-  // 关闭移动端菜单 - 保持向后兼容
-  closeMobileMenu() {
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
-
-    if (mobileMenu) {
-      mobileMenu.classList.add("hidden");
-    }
-
-    if (mobileMenuToggle) {
-      mobileMenuToggle.setAttribute("aria-expanded", "false");
-    }
-  }
-
-  // 关闭所有菜单（包括下拉菜单和移动端菜单）
+  // 关闭所有菜单
   closeAllMenus() {
-    this.closeAllDropdowns();
+    this.toolDropdown.closeAll();
+    this.navDisclosure.closeAll();
   }
 
-  // 移动端菜单特殊处理 - 点击菜单项后自动关闭
-  handleMobileMenuClick(dropdown, toggle) {
-    // 点击菜单项后关闭菜单
-    dropdown.addEventListener("click", (e) => {
-      const link = e.target.closest('a[href]');
-      if (link) {
-        // 延迟关闭，让导航有时间完成
-        setTimeout(() => {
-          dropdown.classList.add("hidden");
-          toggle.setAttribute("aria-expanded", "false");
-        }, 100);
-      }
-    });
-  }
-
-  // 设置移动端菜单 - 保持向后兼容，但现在使用统一的 setupDropdown
-  setupMobileMenu() {
-    // 这个方法现在主要用于向后兼容
-    // 实际的事件处理由 setupDropdown("mobile-menu") 完成
-  }
-
-  // 设置导航子菜单（桌面端下拉，移动端手风琴）
-  setupNavSubmenus() {
-    // 桌面端：点击父项切换下拉子菜单
-    document.querySelectorAll(".nav-submenu-toggle").forEach(toggle => {
-      toggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const id = toggle.getAttribute("data-submenu-id");
-        const submenu = document.querySelector(`.nav-submenu[data-submenu-id="${id}"]`);
-        if (!submenu) return;
-
-        const isOpen = !submenu.classList.contains("hidden");
-
-        // 关闭所有菜单（包括此子菜单）
-        this.closeAllMenus();
-
-        // 若之前是关闭状态，则打开
-        if (!isOpen) {
-          submenu.classList.remove("hidden");
-          toggle.setAttribute("aria-expanded", "true");
-          toggle.querySelector(".submenu-chevron")?.classList.add("rotate-180");
-        }
-      });
-    });
-
-    // 移动端：点击父项折叠/展开子菜单
-    document.querySelectorAll(".mobile-submenu-toggle").forEach(toggle => {
-      toggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const id = toggle.getAttribute("data-submenu-id");
-        const submenu = document.querySelector(`.mobile-submenu[data-submenu-id="${id}"]`);
-        if (!submenu) return;
-
-        const isHidden = submenu.classList.contains("hidden");
-        submenu.classList.toggle("hidden");
-        toggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
-        toggle.querySelector(".submenu-chevron")?.classList.toggle("rotate-180", isHidden);
-      });
-    });
-  }
-
-  setupEventListeners() {
-    // 设置所有下拉菜单，包括移动端菜单
-    this.setupDropdown("mobile-menu");
-    this.setupDropdown("color-scheme");
-    this.setupDropdown("theme");
-    this.setupDropdown("language");
-    this.setupNavSubmenus();
-
+  setupGlobalListeners() {
     // 主题风格选择事件
-    const colorSchemeDropdowns = document.querySelectorAll(
-      '.dropdown-menu[data-dropdown-type="color-scheme"]',
-    );
-    colorSchemeDropdowns.forEach((dropdown) => {
-      if (dropdown) {
+    document.querySelectorAll('.dropdown-menu[data-dropdown-type="color-scheme"]')
+      .forEach((dropdown) => {
         dropdown.addEventListener("click", (e) => {
           const button = e.target.closest("[data-color-scheme]");
           if (button) {
-            const newColorScheme = button.getAttribute("data-color-scheme");
-            this.setColorScheme(newColorScheme);
+            this.setColorScheme(button.getAttribute("data-color-scheme"));
             this.closeAllMenus();
           }
         });
-      }
-    });
+      });
 
     // 明暗模式选择事件
-    const themeDropdowns = document.querySelectorAll(
-      '.dropdown-menu[data-dropdown-type="theme"]',
-    );
-    themeDropdowns.forEach((dropdown) => {
-      if (dropdown) {
+    document.querySelectorAll('.dropdown-menu[data-dropdown-type="theme"]')
+      .forEach((dropdown) => {
         dropdown.addEventListener("click", (e) => {
           const button = e.target.closest("[data-theme]");
           if (button) {
-            const newTheme = button.getAttribute("data-theme");
-            this.setTheme(newTheme);
+            this.setTheme(button.getAttribute("data-theme"));
             this.closeAllMenus();
           }
         });
-      }
-    });
+      });
 
-    // 点击外部关闭所有菜单 - 统一处理
+    // 点击外部关闭所有菜单
     document.addEventListener("click", (e) => {
-      // 检查是否点击在任何菜单相关元素内
-      const isClickInsideMenu = e.target.closest('.dropdown-toggle, .dropdown-menu, .nav-submenu-toggle, .nav-submenu');
-
-      // 如果点击在外部，关闭所有菜单
-      if (!isClickInsideMenu) {
+      const isInside = e.target.closest(
+        ".dropdown-toggle, .dropdown-menu, " +
+        ".nav-submenu-toggle, .nav-submenu, " +
+        ".nav-panel-toggle, #mobile-nav-panel"
+      );
+      if (!isInside) {
         this.closeAllMenus();
       }
     });
 
-    // 键盘导航支持 - ESC键关闭所有菜单
+    // ESC 关闭
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         this.closeAllMenus();
@@ -256,8 +266,7 @@ class UIManager {
     });
 
     // 监听系统主题变化
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
+    window.matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", () => {
         if (this.theme === "system") {
           this.applyTheme();

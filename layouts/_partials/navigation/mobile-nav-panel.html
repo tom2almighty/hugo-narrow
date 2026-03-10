@@ -1,0 +1,97 @@
+<!-- 移动端锚定式宽导航面板 -->
+<div
+  id="mobile-nav-panel"
+  class="mt-2 hidden md:hidden"
+  role="navigation"
+  aria-label="{{ i18n "nav.menu" }}"
+>
+  <div
+    class="border-border bg-popover/95 overflow-hidden rounded-xl border shadow-lg backdrop-blur-sm"
+  >
+    <!-- grid 容器用于平滑高度过渡 -->
+    <nav class="flex flex-col p-2">
+      {{ $currentPage := . }}
+      {{ range site.Menus.main }}
+        {{/* 生成语言感知的URL */}}
+        {{ $menuURL := .URL }}
+        {{ if .PageRef }}
+          {{ with site.GetPage .PageRef }}
+            {{ $menuURL = .RelPermalink }}
+          {{ else }}
+            {{ $menuURL = .URL | relLangURL }}
+          {{ end }}
+        {{ end }}
+        {{ if .HasChildren }}
+          {{/* 有子菜单的父项：手风琴折叠 */}}
+          {{ $identifier := .Identifier }}
+          <div class="nav-accordion-group">
+            <button
+              class="nav-accordion-toggle text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+              data-accordion-id="{{ $identifier }}"
+              aria-expanded="false"
+              aria-controls="accordion-{{ $identifier }}"
+            >
+              {{ if .Params.icon }}
+                {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+              {{ end }}
+              <span class="flex-1 text-left">{{ or (T .Identifier) .Name | safeHTML }}</span>
+              {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "class" "accordion-chevron transition-transform duration-300") }}
+            </button>
+            <!-- 子菜单：grid-rows 过渡实现平滑展开 -->
+            <div
+              id="accordion-{{ $identifier }}"
+              class="nav-accordion-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
+              data-accordion-id="{{ $identifier }}"
+              aria-hidden="true"
+            >
+              <div class="overflow-hidden">
+                <div class="border-primary/20 ml-4 space-y-0.5 border-l-2 py-1 pl-3">
+                  {{ range .Children }}
+                    {{ $childURL := .URL }}
+                    {{ if .PageRef }}
+                      {{ with site.GetPage .PageRef }}
+                        {{ $childURL = .RelPermalink }}
+                      {{ else }}
+                        {{ $childURL = .URL | relLangURL }}
+                      {{ end }}
+                    {{ end }}
+                    {{ $isChildActive := eq $currentPage.RelPermalink $childURL }}
+                    <a
+                      href="{{ $childURL }}"
+                      class="nav-panel-link {{ if $isChildActive }}bg-accent text-accent-foreground{{ else }}text-muted-foreground hover:text-primary hover:bg-primary/10{{ end }} focus:ring-primary/20 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+                      role="menuitem"
+                      {{ if $isChildActive }}aria-current="page"{{ end }}
+                    >
+                      {{ if .Params.icon }}
+                        {{ partial "features/icon.html" (dict "name" .Params.icon "size" "sm" "ariaLabel" .Name) }}
+                      {{ end }}
+                      <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                    </a>
+                  {{ end }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {{ else }}
+          {{ $isActive := eq $currentPage.RelPermalink $menuURL }}
+          <a
+            href="{{ $menuURL }}"
+            class="nav-panel-link {{ if $isActive }}
+              bg-accent text-accent-foreground
+            {{ else }}
+              text-muted-foreground hover:text-primary hover:bg-primary/10
+            {{ end }} focus:ring-primary/20 flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+            role="menuitem"
+            {{ if $isActive }}aria-current="page"{{ end }}
+          >
+            {{ if .Params.icon }}
+              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+            {{ end }}
+            <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+          </a>
+        {{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</div>
+

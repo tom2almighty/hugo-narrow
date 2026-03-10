@@ -1,15 +1,3 @@
-.mobile-menu.dropdown-menu {
-  max-width: calc(100vw - 2rem);
-  min-width: 20rem;
-}
-
-@media (max-width: 480px) {
-  .mobile-menu.dropdown-menu {
-    min-width: 18rem;
-    max-width: calc(100vw - 1rem);
-  }
-}
-
 .dropdown-menu {
   min-width: 10rem;
   max-height: 20rem;
