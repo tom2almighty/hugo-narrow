@@ -99,7 +99,7 @@
 }
 
 /* 标题锚点链接 */
-.prose .heading-anchor {
+.heading-anchor {
   display: inline-flex;
   align-items: center;
   margin-left: 0.375rem;
@@ -111,11 +111,13 @@
 }
 
 .prose :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor,
-.prose .heading-anchor:focus {
+.timeline-heading:hover .heading-anchor,
+.heading-anchor:focus {
   opacity: 1;
 }
 
-.prose .heading-anchor:hover {
+.prose .heading-anchor:hover,
+.timeline-heading .heading-anchor:hover {
   color: var(--color-primary);
 }
 

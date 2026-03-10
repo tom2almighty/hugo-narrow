@@ -48,6 +48,14 @@ main:
     params:
       icon: projects
 
+  - identifier: nav.timeline
+    name: Timeline
+    pageRef: /timeline
+    parent: nav.more
+    weight: 3
+    params:
+      icon: chart
+
 # footer menu
 footer:
   - identifier: nav.projects
@@ -89,4 +97,3 @@ social:
     weight: 40
     params:
       icon: email
-

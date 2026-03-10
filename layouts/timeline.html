@@ -54,6 +54,7 @@
 
             {{/* Extract ID and Title from the h2 tag */}}
             {{ $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h2TagAndTitle }}
+            {{ $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title }}
             {{ $idMatch := findRE `id="([^"]*)"` $h2TagAndTitle }}
             {{ $id := "" }}
             {{ if $idMatch }}
@@ -61,7 +62,7 @@
             {{ end }}
 
 
-            <div class="`mb-12 relative`">
+            <div class="mb-12 relative">
               <!-- 时间点标题 -->
               <div class="relative mb-8 flex items-center">
                 <div
@@ -72,9 +73,18 @@
                 <div class="ml-12">
                   <h2
                     {{ if $id }}id="{{ $id }}"{{ end }}
-                    class="text-foreground m-0 text-2xl font-bold"
+                    class="timeline-heading text-foreground m-0 scroll-m-20 text-2xl font-bold"
                   >
-                    {{ $title | safeHTML }}
+                    <span class="timeline-heading-text">{{ $titleContent | safeHTML }}</span>
+                    {{ if $id }}
+                      <a
+                        href="#{{ $id }}"
+                        class="heading-anchor"
+                        aria-label="{{ i18n "heading.anchor" | default "Link to this section" }}"
+                      >
+                        {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+                      </a>
+                    {{ end }}
                   </h2>
                 </div>
               </div>
