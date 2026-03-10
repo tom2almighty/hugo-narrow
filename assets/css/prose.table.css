@@ -17,9 +17,11 @@
 }
 
 .prose td {
-  @apply border-b px-4 py-3;
+  @apply border-b px-4 py-3 text-left;
   border-bottom-color: var(--tw-prose-td-borders);
   color: var(--tw-prose-body);
+  vertical-align: top;
+  word-break: break-word;
 }
 
 .prose tr:last-child td {
