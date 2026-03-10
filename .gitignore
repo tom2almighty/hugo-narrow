@@ -15,10 +15,6 @@ jsconfig.json
 hugo_stats.json
 go.sum
 yarn.lock
-.prettierrc
-.prettierignore
+
 .agents/
-workflows/
-!.github/workflows/
-!.github/workflows/*.yml
 .worktrees/
