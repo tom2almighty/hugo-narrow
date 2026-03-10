@@ -1,8 +1,0 @@
-{
-  "build": {
-    "env": {
-      "HUGO_VERSION": "0.146.0"
-    }
-  },
-  "buildCommand": "cp -r exampleSite/config . && cp -r exampleSite/content . && find config -name 'hugo.yaml' -exec sed -i '/^theme:/d' {} + && hugo --minify --gc"
-}

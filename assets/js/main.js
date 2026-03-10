@@ -14,40 +14,46 @@ class ToolDropdown {
     const toggleSelector = `.dropdown-toggle[data-dropdown-type="${type}"]`;
     const dropdownSelector = `.dropdown-menu[data-dropdown-type="${type}"]`;
 
-    document.querySelectorAll(toggleSelector).forEach((toggle, index) => {
-      const dropdown = document.querySelectorAll(dropdownSelector)[index]
-        || document.querySelector(dropdownSelector);
+    document.querySelectorAll(toggleSelector).forEach((toggle) => {
+      const wrapper = toggle.closest(".relative") || toggle.parentElement;
+      const dropdown = wrapper?.querySelector(dropdownSelector);
       if (!toggle || !dropdown) return;
 
       toggle.addEventListener("click", (e) => {
         e.stopPropagation();
 
         // 关闭导航面板（互斥）
-        this.ui.navDisclosure.closePanel();
-
-        // 关闭其他工具下拉
-        this.closeAllExcept(type);
+        this.ui.navDisclosure.closePanel({ restoreFocus: false });
 
         // 切换当前下拉
         const isHidden = dropdown.classList.contains("hidden");
-        dropdown.classList.toggle("hidden");
-        toggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        this.closeAll(toggle, dropdown);
+
+        if (isHidden) {
+          dropdown.classList.remove("hidden");
+          toggle.setAttribute("aria-expanded", "true");
+          return;
+        }
+
+        dropdown.classList.add("hidden");
+        toggle.setAttribute("aria-expanded", "false");
       });
     });
   }
 
-  closeAllExcept(exceptType) {
+  closeAll(exceptToggle = null, exceptDropdown = null) {
     this.types.forEach((type) => {
-      if (type === exceptType) return;
       document.querySelectorAll(`.dropdown-menu[data-dropdown-type="${type}"]`)
-        .forEach((d) => d.classList.add("hidden"));
+        .forEach((dropdown) => {
+          if (dropdown === exceptDropdown) return;
+          dropdown.classList.add("hidden");
+        });
       document.querySelectorAll(`.dropdown-toggle[data-dropdown-type="${type}"]`)
-        .forEach((t) => t.setAttribute("aria-expanded", "false"));
+        .forEach((toggle) => {
+          if (toggle === exceptToggle) return;
+          toggle.setAttribute("aria-expanded", "false");
+        });
     });
-  }
-
-  closeAll() {
-    this.closeAllExcept(null);
   }
 }
 
@@ -57,6 +63,8 @@ class NavDisclosure {
     this.ui = uiManager;
     this.panel = document.getElementById("mobile-nav-panel");
     this.toggle = document.getElementById("mobile-nav-toggle");
+    this.lastFocusedElement = null;
+    this.previousBodyOverflow = "";
     this.setup();
   }
 
@@ -65,6 +73,7 @@ class NavDisclosure {
     this.setupAccordions();
     this.setupDesktopSubmenus();
     this.setupPanelLinkClose();
+    this.setupPanelKeyboard();
   }
 
   // 汉堡按钮 → 切换宽面板
@@ -88,18 +97,32 @@ class NavDisclosure {
 
   openPanel() {
     if (!this.panel || !this.toggle) return;
+    this.lastFocusedElement = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
     this.panel.classList.remove("hidden");
+    this.panel.setAttribute("aria-hidden", "false");
     this.toggle.setAttribute("aria-expanded", "true");
+    this.lockScroll();
+    this.focusFirstElement();
   }
 
-  closePanel() {
+  closePanel({ restoreFocus = true } = {}) {
     if (!this.panel) return;
     this.panel.classList.add("hidden");
+    this.panel.setAttribute("aria-hidden", "true");
     if (this.toggle) {
       this.toggle.setAttribute("aria-expanded", "false");
     }
     // 重置所有手风琴子菜单
     this.closeAllAccordions();
+    this.unlockScroll();
+
+    if (restoreFocus && this.lastFocusedElement instanceof HTMLElement) {
+      this.lastFocusedElement.focus();
+    }
+
+    this.lastFocusedElement = null;
   }
 
   // 手风琴子菜单（同一时间只展开一个）
@@ -184,14 +207,99 @@ class NavDisclosure {
     this.panel.addEventListener("click", (e) => {
       const link = e.target.closest("a[href]");
       if (link) {
-        setTimeout(() => this.closePanel(), 100);
+        setTimeout(() => this.closePanel({ restoreFocus: false }), 100);
       }
     });
   }
 
+  setupPanelKeyboard() {
+    document.addEventListener("keydown", (e) => {
+      if (!this.isPanelOpen()) return;
+
+      if (e.key === "Tab") {
+        this.trapFocus(e);
+      }
+    });
+  }
+
+  isPanelOpen() {
+    return Boolean(this.panel) && !this.panel.classList.contains("hidden");
+  }
+
+  getFocusableElements() {
+    if (!this.panel) return [];
+
+    const focusableSelector = [
+      "a[href]",
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
+      "[tabindex]:not([tabindex='-1'])",
+    ].join(", ");
+
+    return [...this.panel.querySelectorAll(focusableSelector)]
+      .filter((element) => {
+        if (!(element instanceof HTMLElement) || element.hasAttribute("hidden")) {
+          return false;
+        }
+
+        return !element.closest('.nav-accordion-panel[aria-hidden="true"]');
+      });
+  }
+
+  focusFirstElement() {
+    const [firstFocusable] = this.getFocusableElements();
+    if (firstFocusable) {
+      firstFocusable.focus();
+      return;
+    }
+
+    this.panel?.focus();
+  }
+
+  trapFocus(event) {
+    const focusableElements = this.getFocusableElements();
+    if (focusableElements.length === 0) {
+      event.preventDefault();
+      this.panel?.focus();
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+    const activeElement = document.activeElement;
+
+    if (!this.panel?.contains(activeElement)) {
+      event.preventDefault();
+      (event.shiftKey ? lastElement : firstElement).focus();
+      return;
+    }
+
+    if (event.shiftKey && activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+      return;
+    }
+
+    if (!event.shiftKey && activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  }
+
+  lockScroll() {
+    this.previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+  }
+
+  unlockScroll() {
+    document.body.style.overflow = this.previousBodyOverflow;
+  }
+
   // 关闭所有导航相关（面板 + 桌面子菜单）
-  closeAll() {
-    this.closePanel();
+  closeAll(options) {
+    this.closePanel(options);
     this.closeAllDesktopSubmenus();
   }
 }
@@ -216,38 +324,32 @@ class UIManager {
   }
 
   // 关闭所有菜单
-  closeAllMenus() {
+  closeAllMenus(options = {}) {
     this.toolDropdown.closeAll();
-    this.navDisclosure.closeAll();
+    this.navDisclosure.closeAll(options);
   }
 
   setupGlobalListeners() {
-    // 主题风格选择事件
-    document.querySelectorAll('.dropdown-menu[data-dropdown-type="color-scheme"]')
-      .forEach((dropdown) => {
-        dropdown.addEventListener("click", (e) => {
-          const button = e.target.closest("[data-color-scheme]");
-          if (button) {
-            this.setColorScheme(button.getAttribute("data-color-scheme"));
-            this.closeAllMenus();
-          }
-        });
-      });
-
-    // 明暗模式选择事件
-    document.querySelectorAll('.dropdown-menu[data-dropdown-type="theme"]')
-      .forEach((dropdown) => {
-        dropdown.addEventListener("click", (e) => {
-          const button = e.target.closest("[data-theme]");
-          if (button) {
-            this.setTheme(button.getAttribute("data-theme"));
-            this.closeAllMenus();
-          }
-        });
-      });
-
-    // 点击外部关闭所有菜单
     document.addEventListener("click", (e) => {
+      const colorSchemeButton = e.target.closest(
+        '.dropdown-menu[data-dropdown-type="color-scheme"] [data-color-scheme]',
+      );
+      if (colorSchemeButton) {
+        this.setColorScheme(colorSchemeButton.getAttribute("data-color-scheme"));
+        this.closeAllMenus();
+        return;
+      }
+
+      const themeButton = e.target.closest(
+        '.dropdown-menu[data-dropdown-type="theme"] [data-theme]',
+      );
+      if (themeButton) {
+        this.setTheme(themeButton.getAttribute("data-theme"));
+        this.closeAllMenus();
+        return;
+      }
+
+      // 点击外部关闭所有菜单
       const isInside = e.target.closest(
         ".dropdown-toggle, .dropdown-menu, " +
         ".nav-submenu-toggle, .nav-submenu, " +
@@ -261,7 +363,7 @@ class UIManager {
     // ESC 关闭
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        this.closeAllMenus();
+        this.closeAllMenus({ restoreFocus: true });
       }
     });
 

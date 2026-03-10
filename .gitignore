@@ -19,4 +19,6 @@ yarn.lock
 .prettierignore
 .agents/
 workflows/
+!.github/workflows/
+!.github/workflows/*.yml
 .worktrees/
