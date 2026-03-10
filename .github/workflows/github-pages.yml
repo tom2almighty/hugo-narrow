@@ -1,34 +1,34 @@
-name: Deploy GitHub Pages
+name: Deploy Demo & Release
 
 on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     env:
       HUGO_VERSION: "0.146.0"
       NODE_VERSION: "22"
-      PAGES_BASE_URL: ${{ format('https://{0}.github.io/{1}/', github.repository_owner, github.event.repository.name) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configure Pages
+        id: pages
         uses: actions/configure-pages@v5
 
       - name: Setup pnpm
@@ -48,20 +48,47 @@ jobs:
           hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
 
-      - name: Install dependencies
+      - name: Install Node.js dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build assets
         run: pnpm run compile
 
       - name: Build site
-        run: hugo --source=exampleSite --themesDir=../.. --minify --destination ./dist --baseURL "$PAGES_BASE_URL"
+        run: |
+          hugo \
+            --source=exampleSite \
+            --themesDir=../.. \
+            --minify \
+            --destination=dist \
+            --baseURL "${{ steps.pages.outputs.base_url }}"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./exampleSite/dist
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  release:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true

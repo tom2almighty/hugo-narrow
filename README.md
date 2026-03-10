@@ -28,7 +28,7 @@ Please visit [Hugo Narrow Docs](https://hugo-narrow-docs.vercel.app/) get full d
 
 ## 🔗 Demo
 
-This demo site is hosted by Vercel, click to visit [Demo](https://hugo-narrow.vercel.app/).
+This demo site is hosted by Vercel, click to visit [Demo](https://github.com/tom2almighty/hugo-narrow).
 
 
 ## 📄 License
@@ -45,7 +45,7 @@ This project is open source under the [MIT License](LICENSE).
 - [Tweakcn](https://tweakcn.com/) - Color Scheme reference.
 - [Hexo Theme icarus](https://github.com/ppoffice/hexo-theme-icarus) - Search functionality reference.
 - [Hugo Theme Stack](https://stack.jimmycai.com/) - Bilibili and Tencent Video shortcodes.
-- [Vercel](https://vercel.com) - Demo Site.
+- [Vercel](https://vercel.com) - Docs.
 - [iconify](https://iconify.design/) - Get icons here, thanks to all open source icon sets.
 - [PhotoSwipe](https://photoswipe.com/) - Lightbox library.
 - [Augment Code](https://www.augmentcode.com/) - Programming assistant.
