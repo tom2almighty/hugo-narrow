@@ -11,13 +11,13 @@
             href="{{ if site.Params.header.logo.link }}
               {{ site.Params.header.logo.link | relLangURL }}
             {{ else }}
-              {{ site.Home.RelPermalink }}
+              {{ site.Home.RelPermalink | relLangURL }}
             {{ end }}"
             class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
             aria-label="{{ site.Title }}"
           >
             <img
-              src="{{ site.Params.header.logo.image }}"
+              src="{{ site.Params.header.logo.image | relURL }}"
               alt="{{ site.Title }}"
               class="h-full w-full object-cover"
             />

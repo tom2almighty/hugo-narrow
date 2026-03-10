@@ -12,7 +12,7 @@
         <div class="shrink-0">
           {{ if $author.avatar }}
             <img
-              src="{{ $author.avatar }}"
+              src="{{ $author.avatar | relURL }}"
               alt="{{ $author.name | default site.Title }}"
               class="border-primary/20 h-24 w-24 rounded-full border-4 object-cover shadow-lg"
             />
