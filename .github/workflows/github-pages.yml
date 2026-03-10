@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: "0.146.0"
-      NODE_VERSION: "22"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,26 +30,11 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
-
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
-
-      - name: Install Node.js dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build assets
-        run: pnpm run compile
 
       - name: Build site
         run: |
@@ -80,6 +64,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: deploy
+    if: github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

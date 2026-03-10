@@ -4,7 +4,6 @@
 
 A Modern Hugo Theme with Multiple Color Schemes - Built on TailwindCSS 4.
 
-
 ## ✨ Features
 
 - Multiple Color Schemes
@@ -28,8 +27,7 @@ Please visit [Hugo Narrow Docs](https://hugo-narrow-docs.vercel.app/) get full d
 
 ## 🔗 Demo
 
-This demo site is hosted by Vercel, click to visit [Demo](https://github.com/tom2almighty/hugo-narrow).
-
+[click to visit Demo](https://tom2almighty.github.io/hugo-narrow).
 
 ## 📄 License
 
@@ -53,4 +51,6 @@ This project is open source under the [MIT License](LICENSE).
 
 ---
 
-⭐ If this theme helps you, please give it a Star!
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/image?repos=tom2almighty/hugo-narrow&type=timeline&legend=top-left)](https://www.star-history.com/?repos=tom2almighty%2Fhugo-narrow&type=timeline&legend=top-left)
