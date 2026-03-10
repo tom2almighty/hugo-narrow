@@ -2,6 +2,7 @@
   处理业务逻辑：灯箱功能、类名、结构等
 */}}
 
+{{- $pageContext := .PageInner | default .Page -}}
 {{- $dest := .Destination | safeURL -}}
 {{- $alt := .Text -}}
 {{- $caption := .Title -}}
@@ -20,7 +21,7 @@
 
 {{/* 使用图片处理器获取数据 */}}
 {{- partial "content/image-processor.html" (dict
-  "context" .Page
+  "context" $pageContext
   "src" $dest
   "alt" $alt
   "caption" $caption
@@ -30,17 +31,15 @@
 -}}
 
 {{/* 获取处理结果 */}}
-{{- $imageUrl := .Page.Scratch.Get "imageUrl" -}}
-{{- $imageResource := .Page.Scratch.Get "imageResource" -}}
-{{- $isExternal := .Page.Scratch.Get "isExternal" -}}
-{{- $canProcess := .Page.Scratch.Get "canProcess" -}}
-{{- $processedImages := .Page.Scratch.Get "processedImages" -}}
+{{- $imageUrl := $pageContext.Scratch.Get "imageUrl" -}}
+{{- $imageResource := $pageContext.Scratch.Get "imageResource" -}}
+{{- $isExternal := $pageContext.Scratch.Get "isExternal" -}}
 
 {{/* 获取图片尺寸 */}}
 {{- $width := 0 -}}
 {{- $height := 0 -}}
 {{- if and $imageResource (not $isExternal) -}}
-  {{- if reflect.IsMap $imageResource -}}
+  {{- if ne $imageResource.MediaType.SubType "svg" -}}
     {{- $width = $imageResource.Width -}}
     {{- $height = $imageResource.Height -}}
   {{- end -}}
@@ -62,7 +61,7 @@
   <div class="image-container">
     {{/* 使用图片处理器生成图片HTML */}}
     {{- partial "content/image-processor.html" (dict
-      "context" .Page
+      "context" $pageContext
       "src" $dest
       "alt" $alt
       "caption" $caption

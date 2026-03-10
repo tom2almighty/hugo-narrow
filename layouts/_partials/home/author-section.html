@@ -1,6 +1,7 @@
 {{/* 作者信息区域 */}}
 {{/* 优先使用页面配置，否则回退站点配置 */}}
 {{ $author := .Params.author | default site.Params.author }}
+{{ $avatarSrc := strings.TrimPrefix "/" ($author.avatar | default "") }}
 
 {{ if $author }}
   <section class="author-section mb-12">
@@ -12,7 +13,7 @@
         <div class="shrink-0">
           {{ if $author.avatar }}
             <img
-              src="{{ $author.avatar | relURL }}"
+              src="{{ $avatarSrc | relURL }}"
               alt="{{ $author.name | default site.Title }}"
               class="border-primary/20 h-24 w-24 rounded-full border-4 object-cover shadow-lg"
             />

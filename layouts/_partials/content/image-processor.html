@@ -12,34 +12,44 @@
 {{- $resourceType := "" -}}
 {{- $isExternal := false -}}
 {{- $finalUrl := "" -}}
+{{- $searchPath := $src -}}
+{{- $isRootRelative := hasPrefix $src "/" -}}
 
 {{/* 检查是否为外部URL */}}
-{{- if or (hasPrefix $src "http://") (hasPrefix $src "https://") -}}
+{{- if or
+  (hasPrefix $src "http://")
+  (hasPrefix $src "https://")
+  (hasPrefix $src "data:")
+  (hasPrefix $src "blob:")
+-}}
   {{- $isExternal = true -}}
   {{- $resourceType = "external" -}}
   {{- $finalUrl = $src -}}
 {{- else -}}
-  {{/* 本地资源处理 */}}
-  {{- $searchPath := $src -}}
+  {{/* 统一路径格式，避免带前导 / 的 relURL 在子路径站点下失效 */}}
   {{- if hasPrefix $src "./" -}}
     {{- $searchPath = strings.TrimPrefix "./" $src -}}
   {{- else if hasPrefix $src "/" -}}
     {{- $searchPath = strings.TrimPrefix "/" $src -}}
   {{- end -}}
 
-  {{/* 优先级查找：页面资源 -> 全局资源 -> 静态文件 */}}
-  {{- with $context.Resources.GetMatch $searchPath -}}
-    {{- $resource = . -}}
-    {{- $resourceType = "page" -}}
-    {{- $finalUrl = .RelPermalink -}}
-  {{- else -}}
+  {{/* 根路径只查全局资源或静态文件；相对路径优先查页面资源 */}}
+  {{- if not $isRootRelative -}}
+    {{- with $context.Resources.GetMatch $searchPath -}}
+      {{- $resource = . -}}
+      {{- $resourceType = "page" -}}
+      {{- $finalUrl = .RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if not $resource -}}
     {{- with resources.Get $searchPath -}}
       {{- $resource = . -}}
       {{- $resourceType = "global" -}}
       {{- $finalUrl = .RelPermalink -}}
     {{- else -}}
       {{- $resourceType = "static" -}}
-      {{- $finalUrl = $src -}}
+      {{- $finalUrl = $searchPath | relURL -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

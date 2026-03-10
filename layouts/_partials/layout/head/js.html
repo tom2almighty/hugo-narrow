@@ -98,13 +98,13 @@
 
 {{/* Gallery JavaScript */}}
 {{ if .Scratch.Get "galleryEnabled" }}
-  <script src="/js/smart-gallery.min.js"></script>
+  <script src="{{ "js/smart-gallery.min.js" | relURL }}"></script>
 {{ end }}
 
 {{ if .Scratch.Get "lightboxEnabled" }}
   <script type="module">
-    import PhotoSwipeLightbox from "/js/photoswipe-lightbox.esm.min.js";
-    import PhotoSwipe from "/js/photoswipe.esm.min.js";
+    import PhotoSwipeLightbox from "{{ "js/photoswipe-lightbox.esm.min.js" | relURL }}";
+    import PhotoSwipe from "{{ "js/photoswipe.esm.min.js" | relURL }}";
     window.PhotoSwipeLightbox = PhotoSwipeLightbox;
     window.PhotoSwipe = PhotoSwipe;
   </script>

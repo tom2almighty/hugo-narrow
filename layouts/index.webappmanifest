@@ -18,7 +18,7 @@
 
 {{- if site.Params.favicon.svg -}}
   {{- $icons := slice (dict
-    "src" site.Params.favicon.svg
+    "src" (strings.TrimPrefix "/" site.Params.favicon.svg | relURL)
     "sizes" "any"
     "type" "image/svg+xml"
   ) -}}

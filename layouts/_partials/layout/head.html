@@ -71,13 +71,13 @@
 <link rel="canonical" href="{{ .Permalink }}" />
 
 {{ with site.Params.favicon.svg }}
-  <link rel="icon" type="image/svg+xml" href="{{ . }}" />
+  <link rel="icon" type="image/svg+xml" href="{{ strings.TrimPrefix "/" . | relURL }}" />
 {{ else }}
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}" />
 {{ end }}
 
 
-<link rel="manifest" href="/site.webmanifest" />
+<link rel="manifest" href="{{ "site.webmanifest" | relURL }}" />
 {{ partial "layout/head/seo.html" . }}
 
 <script>

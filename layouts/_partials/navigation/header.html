@@ -1,3 +1,6 @@
+{{- $logoSrc := strings.TrimPrefix "/" site.Params.header.logo.image -}}
+
+
 <header class="{{- if site.Params.header.sticky -}}sticky top-0 z-50{{ end }} px-4 py-6">
   <div
     class="border-border bg-card/80 flex items-center rounded-xl border px-6 py-4 shadow-sm backdrop-blur-sm"
@@ -17,7 +20,7 @@
             aria-label="{{ site.Title }}"
           >
             <img
-              src="{{ site.Params.header.logo.image | relURL }}"
+              src="{{ $logoSrc | relURL }}"
               alt="{{ site.Title }}"
               class="h-full w-full object-cover"
             />
