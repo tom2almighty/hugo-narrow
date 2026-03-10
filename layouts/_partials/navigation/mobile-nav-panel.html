@@ -60,7 +60,11 @@
                     {{ $isChildActive := eq $currentPage.RelPermalink $childURL }}
                     <a
                       href="{{ $childURL }}"
-                      class="nav-panel-link {{ if $isChildActive }}bg-accent text-accent-foreground{{ else }}text-muted-foreground hover:text-primary hover:bg-primary/10{{ end }} focus:ring-primary/20 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+                      class="nav-panel-link {{ if $isChildActive }}
+                        bg-accent text-accent-foreground
+                      {{ else }}
+                        text-muted-foreground hover:text-primary hover:bg-primary/10
+                      {{ end }} focus:ring-primary/20 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
                       role="menuitem"
                       {{ if $isChildActive }}aria-current="page"{{ end }}
                     >
