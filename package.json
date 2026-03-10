@@ -1,0 +1,32 @@
+{
+  "name": "hugo-narrow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --minify",
+    "compile:watch": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --watch",
+    "hugo:dev": "hugo server --source=exampleSite --themesDir=../.. --buildDrafts --buildFuture --disableFastRender",
+    "dev": "pnpm run compile && pnpm run hugo:dev",
+    "dev:parallel": "concurrently \"pnpm run compile:watch\" \"pnpm run hugo:dev\"",
+    "build": "pnpm run compile && hugo --source=exampleSite --themesDir=../.. --minify",
+    "check": "pnpm run format:check && pnpm run build",
+    "format:check": "prettier --check \"**/*.html\"",
+    "format:write": "prettier --write \"**/*.html\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.22.0",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.1",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "tailwindcss": "^4.1.17"
+  },
+  "dependencies": {
+    "photoswipe": "^5.4.4"
+  }
+}
