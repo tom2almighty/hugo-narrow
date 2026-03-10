@@ -16,6 +16,11 @@
   overflow-y: auto;
 }
 
+/* 导航子菜单 */
+.nav-submenu {
+  min-width: 10rem;
+}
+
 .search-result-selected {
   background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
   color: var(--color-primary) !important;

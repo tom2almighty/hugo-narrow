@@ -91,6 +91,28 @@ class UIManager {
           }
         }
       });
+
+    // 关闭所有导航子菜单
+    document.querySelectorAll(".nav-submenu").forEach(submenu => {
+      submenu.classList.add("hidden");
+      const id = submenu.getAttribute("data-submenu-id");
+      const toggle = document.querySelector(`.nav-submenu-toggle[data-submenu-id="${id}"]`);
+      if (toggle) {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.querySelector(".submenu-chevron")?.classList.remove("rotate-180");
+      }
+    });
+
+    // 关闭所有移动端子菜单
+    document.querySelectorAll(".mobile-submenu").forEach(submenu => {
+      submenu.classList.add("hidden");
+      const id = submenu.getAttribute("data-submenu-id");
+      const toggle = document.querySelector(`.mobile-submenu-toggle[data-submenu-id="${id}"]`);
+      if (toggle) {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.querySelector(".submenu-chevron")?.classList.remove("rotate-180");
+      }
+    });
   }
 
   // 关闭移动端菜单 - 保持向后兼容
@@ -133,12 +155,53 @@ class UIManager {
     // 实际的事件处理由 setupDropdown("mobile-menu") 完成
   }
 
+  // 设置导航子菜单（桌面端下拉，移动端手风琴）
+  setupNavSubmenus() {
+    // 桌面端：点击父项切换下拉子菜单
+    document.querySelectorAll(".nav-submenu-toggle").forEach(toggle => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = toggle.getAttribute("data-submenu-id");
+        const submenu = document.querySelector(`.nav-submenu[data-submenu-id="${id}"]`);
+        if (!submenu) return;
+
+        const isOpen = !submenu.classList.contains("hidden");
+
+        // 关闭所有菜单（包括此子菜单）
+        this.closeAllMenus();
+
+        // 若之前是关闭状态，则打开
+        if (!isOpen) {
+          submenu.classList.remove("hidden");
+          toggle.setAttribute("aria-expanded", "true");
+          toggle.querySelector(".submenu-chevron")?.classList.add("rotate-180");
+        }
+      });
+    });
+
+    // 移动端：点击父项折叠/展开子菜单
+    document.querySelectorAll(".mobile-submenu-toggle").forEach(toggle => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = toggle.getAttribute("data-submenu-id");
+        const submenu = document.querySelector(`.mobile-submenu[data-submenu-id="${id}"]`);
+        if (!submenu) return;
+
+        const isHidden = submenu.classList.contains("hidden");
+        submenu.classList.toggle("hidden");
+        toggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        toggle.querySelector(".submenu-chevron")?.classList.toggle("rotate-180", isHidden);
+      });
+    });
+  }
+
   setupEventListeners() {
     // 设置所有下拉菜单，包括移动端菜单
     this.setupDropdown("mobile-menu");
     this.setupDropdown("color-scheme");
     this.setupDropdown("theme");
     this.setupDropdown("language");
+    this.setupNavSubmenus();
 
     // 主题风格选择事件
     const colorSchemeDropdowns = document.querySelectorAll(
@@ -177,7 +240,7 @@ class UIManager {
     // 点击外部关闭所有菜单 - 统一处理
     document.addEventListener("click", (e) => {
       // 检查是否点击在任何菜单相关元素内
-      const isClickInsideMenu = e.target.closest('.dropdown-toggle, .dropdown-menu');
+      const isClickInsideMenu = e.target.closest('.dropdown-toggle, .dropdown-menu, .nav-submenu-toggle, .nav-submenu');
 
       // 如果点击在外部，关闭所有菜单
       if (!isClickInsideMenu) {
