@@ -118,6 +118,40 @@ const asyncFunction = async () => {
 };
 ```
 
+### Code Tabs
+
+Group related code blocks into a tabbed interface using the `codetabs` and `tab` shortcodes.
+
+{{< codetabs >}}
+{{< tab lang="javascript" label="JavaScript" >}}
+async function fetchUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+  if (!response.ok) throw new Error('User not found');
+  return response.json();
+}
+{{< /tab >}}
+{{< tab lang="python" label="Python" >}}
+import httpx
+
+async def fetch_user(id: int) -> dict:
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"/api/users/{id}")
+        response.raise_for_status()
+        return response.json()
+{{< /tab >}}
+{{< tab lang="go" label="Go" hl_lines="3" >}}
+func FetchUser(id int) (*User, error) {
+	resp, err := http.Get(fmt.Sprintf("/api/users/%d", id))
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	var user User
+	return &user, json.NewDecoder(resp.Body).Decode(&user)
+}
+{{< /tab >}}
+{{< /codetabs >}}
+
 ## Tables
 
 | Left Align | Center Align | Right Align |

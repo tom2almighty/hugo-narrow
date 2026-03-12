@@ -1,0 +1,72 @@
+{{- $lang := .Get "lang" | default (.Get 0) | default "plaintext" -}}
+{{- $label := .Get "label" | default (.Get 1) | default ($lang | upper) -}}
+{{- $tabId := printf "tab-%d" .Ordinal -}}
+{{- $code := .Inner | strings.TrimSpace -}}
+
+{{/* Build highlight options string from supported params */}}
+{{- $opts := slice -}}
+{{- with .Get "hl_lines" -}}{{- $opts = $opts | append (printf "hl_lines=%s" .) -}}{{- end -}}
+{{- with .Get "lineNos" -}}{{- $opts = $opts | append (printf "linenos=%s" .) -}}{{- end -}}
+{{- with .Get "lineNoStart" -}}{{- $opts = $opts | append (printf "linenostart=%s" (string .)) -}}{{- end -}}
+{{- $optsStr := delimit $opts " " -}}
+
+{{- $highlighted := transform.Highlight $code $lang $optsStr -}}
+
+<div class="code-block-container border-border bg-card overflow-hidden" data-tab="{{ $label }}">
+  <div
+    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3"
+  >
+    <div class="flex items-center gap-2">
+      <div class="text-muted-foreground shrink-0">
+        {{ partial "features/icon.html" (dict "name" "code" "size" "sm" "ariaLabel" "") }}
+      </div>
+      <span class="text-muted-foreground text-sm font-medium">{{ $label }}</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+        data-code-id="{{ $tabId }}"
+        title="{{ i18n `code.copy` | default `Copy code` }}"
+        aria-label="{{ i18n `code.copy` | default `Copy code` }}"
+      >
+        <span class="copy-icon">
+          {{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") }}
+        </span>
+        <span class="copy-text hidden sm:inline">{{ i18n "code.copy" | default "Copy" }}</span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block-content" id="{{ $tabId }}">
+    {{ $highlighted }}
+  </div>
+</div>
+
+<script>
+(function() {
+  var codeId = '{{ $tabId }}';
+  var copyBtn = document.querySelector('.copy-code-btn[data-code-id="' + codeId + '"]');
+  var container = document.getElementById(codeId);
+  if (!copyBtn || !container) return;
+
+  var copyIcon = copyBtn.querySelector('.copy-icon');
+  var copyText = copyBtn.querySelector('.copy-text');
+
+  copyBtn.addEventListener('click', async function() {
+    try {
+      var codeEl = container.querySelector('code');
+      var text = (codeEl ? codeEl.textContent : container.textContent).trim();
+      await navigator.clipboard.writeText(text);
+      copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") | safeJS }}`;
+      if (copyText) copyText.textContent = '{{ i18n "code.copied" | default "Copied" }}';
+      copyBtn.classList.add('text-green-600');
+      setTimeout(function() {
+        copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") | safeJS }}`;
+        if (copyText) copyText.textContent = '{{ i18n "code.copy" | default "Copy" }}';
+        copyBtn.classList.remove('text-green-600');
+      }, 2000);
+    } catch(err) {
+      console.error('Copy failed:', err);
+    }
+  });
+})();
+</script>

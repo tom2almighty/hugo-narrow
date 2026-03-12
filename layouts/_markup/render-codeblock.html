@@ -13,6 +13,7 @@
 {{- $filename := .Attributes.filename | default "" -}}
 {{- $displayLang := $filename | default ($lang | upper) -}}
 {{- $codeId := printf "code-%d" .Ordinal -}}
+{{- $tab := .Attributes.tab | default "" -}}
 
 {{/* 折叠功能相关参数 */}}
 {{- $collapsed := .Attributes.collapsed | default false -}}
@@ -28,6 +29,7 @@
 
 <div
   class="code-block-container border-border bg-card my-6 overflow-hidden rounded-xl border shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
+  {{ with $tab }}data-tab="{{ . }}"{{ end }}
 >
   {{/* Code block header */}}
   <div
