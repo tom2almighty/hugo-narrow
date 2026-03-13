@@ -1,0 +1,45 @@
+{{- $tabsId := printf "codetabs-%d" .Ordinal -}}
+<div class="code-tabs-wrapper" id="{{ $tabsId }}">
+  {{- .Inner -}}
+</div>
+<script>
+(function() {
+  var wrapper = document.getElementById('{{ $tabsId }}');
+  if (!wrapper) return;
+
+  var panels = Array.from(wrapper.querySelectorAll('.code-block-container[data-tab]'));
+  if (panels.length < 1) return;
+
+  // Build tab nav
+  var nav = document.createElement('div');
+  nav.className = 'code-tabs-nav';
+  nav.setAttribute('role', 'tablist');
+
+  panels.forEach(function(panel, i) {
+    var label = panel.getAttribute('data-tab');
+    var btn = document.createElement('button');
+    btn.className = 'code-tab-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = label;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.addEventListener('click', function() {
+      panels.forEach(function(p) { p.classList.remove('code-tab-active'); });
+      nav.querySelectorAll('.code-tab-btn').forEach(function(b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      panel.classList.add('code-tab-active');
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+    });
+    nav.appendChild(btn);
+  });
+
+  // Activate first panel
+  panels[0].classList.add('code-tab-active');
+
+  // Insert nav at the top of wrapper
+  wrapper.insertBefore(nav, wrapper.firstChild);
+})();
+</script>
