@@ -525,8 +525,17 @@
     // 更新统计信息 - 从模板元素读取翻译
     const statsTemplate = document.getElementById("search-stats");
     if (statsTemplate) {
-      const template = statsTemplate.dataset.template;
-      searchStats.textContent = template.replace('%d', results.length);
+      const locale = document.documentElement.lang || "en";
+      const pluralRules = new Intl.PluralRules(locale);
+      const category = pluralRules.select(results.length);
+      const categoryKey = `count${category[0].toUpperCase()}${category.slice(1)}`;
+      const template =
+        statsTemplate.dataset[categoryKey] ||
+        statsTemplate.dataset.countOther ||
+        statsTemplate.textContent;
+      if (template) {
+        searchStats.textContent = template.replace("%d", results.length);
+      }
     } else {
       searchStats.textContent = `Found ${results.length} results`;
     }
