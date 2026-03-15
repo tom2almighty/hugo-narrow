@@ -1,24 +1,24 @@
 main:
-  - identifier: nav.posts
+  - identifier: nav_posts
     name: Posts
     pageRef: /posts
     weight: 10
     params:
       icon: posts
 
-  - identifier: nav.categories
+  - identifier: nav_categories
     name: Categories
     pageRef: /categories
     weight: 20
     params:
       icon: categories
-  - identifier: nav.tags
+  - identifier: nav_tags
     name: Tags
     pageRef: /tags
     weight: 30
     params:
       icon: tags
-  - identifier: nav.archives
+  - identifier: nav_archives
     name: Archives
     pageRef: /archives
     weight: 40
@@ -26,29 +26,29 @@ main:
       icon: archive
 
   # Example: parent item with dropdown submenu children
-  - identifier: nav.more
+  - identifier: nav_more
     name: More
     weight: 50
     params:
       icon: layers
 
-  - identifier: nav.more.about
+  - identifier: nav_more_about
     name: About
     pageRef: /about
-    parent: nav.more
+    parent: nav_more
     weight: 1
     params:
       icon: about
 
-  - identifier: nav.more.projects
+  - identifier: nav_more_projects
     name: Projects
     pageRef: /projects
-    parent: nav.more
+    parent: nav_more
     weight: 2
     params:
       icon: projects
 
-  - identifier: nav.timeline
+  - identifier: nav_timeline
     name: Timeline
     pageRef: /timeline
     parent: nav.more
@@ -58,7 +58,7 @@ main:
 
 # footer menu
 footer:
-  - identifier: nav.projects
+  - identifier: nav_projects
     name: Projects
     pageRef: /projects
     weight: 10
