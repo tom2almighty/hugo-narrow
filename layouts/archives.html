@@ -56,8 +56,7 @@
             <div class="ml-12">
               <h2 class="text-foreground text-2xl font-bold">{{ .Key }}</h2>
               <p class="text-muted-foreground text-sm">
-                {{ len .Pages }}
-                {{ i18n "archives_posts_count" | default "篇文章" }}
+                {{ T "archives_posts_count" (dict "count" (len .Pages)) }}
               </p>
             </div>
           </div>
@@ -76,8 +75,7 @@
                     {{ $date | time.Format "January 2006" }}
                   </h3>
                   <p class="text-muted-foreground text-xs">
-                    {{ len .Pages }}
-                    {{ i18n "archives_posts_count" | default "篇文章" }}
+                    {{ T "archives_posts_count" (dict "count" (len .Pages)) }}
                   </p>
                 </div>
               </div>
