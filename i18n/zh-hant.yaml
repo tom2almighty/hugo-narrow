@@ -1,0 +1,124 @@
+# 繁體中文語言文件
+# 導航相關
+nav:
+  menu: "選單"
+  home: "首頁"
+  posts: "文章"
+  projects: "專案"
+  tags: "標籤"
+  categories: "分類"
+  about: "關於"
+  contact: "聯絡"
+  archive: "歸檔"
+  archives: "歸檔"
+  search: "搜尋"
+  breadcrumb: "麵包屑導航"
+  pagination: "分頁導航"
+  prev: "上一頁"
+  next: "下一頁"
+  prev_page: "上一頁"
+  next_page: "下一頁"
+  page_info: "第 {{ .current }} 頁，共 {{ .total }} 頁"
+  total_pages: "共 {{ .count }} 頁"
+  back_home: "返回首頁"
+  post_navigation: "文章導航"
+
+# 主題相關
+theme:
+  toggle: "切換主題風格"
+  light: "亮色"
+  dark: "暗色"
+  system: "跟隨系統"
+  auto: "自動"
+
+# 頁腳相關
+footer:
+  copyright: "版權所有"
+  all_rights_reserved: "保留所有權利"
+  about_us: "關於我們"
+  contact_us: "聯絡方式"
+  privacy_policy: "隱私政策"
+  terms_of_service: "服務條款"
+  rss_feed: "RSS 訂閱"
+
+# 首頁相關
+home:
+  recent_posts: "最近文章"
+  showing_posts: "顯示最新"
+  posts: "篇文章"
+  view_all_posts: "查看所有文章"
+
+# 文章相關
+post:
+  read_more: "閱讀更多"
+  published_on: "發布於"
+  updated_on: "更新於"
+  tags: "標籤"
+  categories: "分類"
+  share: "分享"
+  previous: "上一篇"
+  next: "下一篇"
+  related_posts: "相關文章"
+  reading_time: "閱讀時間"
+  no_posts: "暫無文章"
+  no_posts_desc: "還沒有發布任何文章，請稍後再來查看。"
+  list_desc: "這裡是所有已發布的文章，按時間倒序排列。"
+  total_posts: "共 {{ .count }} 篇文章"
+  author: "作者"
+  words: "字"
+  words_count: "字數"
+  no_previous: "沒有上一篇"
+  no_next: "沒有下一篇"
+  no_previous_desc: "這是最早的文章"
+  no_next_desc: "這是最新的文章"
+  view_more_posts: "查看更多文章"
+  reading_time_unit: "分鐘"
+
+# 分頁相關
+pagination:
+  previous: "上一頁"
+  next: "下一頁"
+  page: "第"
+  of: "頁，共"
+  pages: "頁"
+
+# 搜尋相關
+search:
+  placeholder: "搜尋文章..."
+  clear: "清空"
+  close: "關閉"
+  loading: "搜尋中..."
+  empty_title: "開始搜尋"
+  empty_description: "輸入關鍵詞搜尋文章內容"
+  no_results_title: "未找到結果"
+  no_results_description: "嘗試使用不同的關鍵詞"
+  results_count: "找到 %d 個結果"
+  match_score: "匹配度"
+  hint_navigate: "導航"
+  hint_select: "選擇"
+  hint_close: "關閉"
+  hint_shortcut: "快捷鍵"
+
+# 連結
+links: "連結"
+
+# 專案相關
+project:
+  featured_projects: "特色專案"
+  all_projects: "所有專案"
+  view_all_projects: "查看所有專案"
+  view_project: "查看專案"
+  demo: "線上展示"
+  source: "原始碼"
+  github: "GitHub"
+  website: "網站"
+  tech_stack: "技術棧"
+  status: "狀態"
+  status_completed: "已完成"
+  status_in_progress: "進行中"
+  status_planning: "計劃中"
+  no_projects: "暫無專案"
+  no_projects_desc: "還沒有發布任何專案，請稍後再來查看。"
+  list_desc: "這裡是所有已發布的專案，展示我的作品和實驗。"
+  total_projects: "共 {{ .count }} 個專案"
+  featured: "精選"
