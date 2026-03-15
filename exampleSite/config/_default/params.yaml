@@ -2,7 +2,7 @@
 description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
 keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
 defaultAuthor: "Hugo Narrow"
-language: "en-US"
+language: "en"
 shortName: "Hugo Narrow" # PWA
 images:
   - "/images/og-default.avif"
