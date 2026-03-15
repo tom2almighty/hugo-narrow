@@ -13,7 +13,7 @@
         <div class="text-muted-foreground flex items-center gap-2 text-sm">
           {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
           <time datetime="{{ .Date.Format `2006-01-02` }}">
-            {{ .Date.Format (i18n "time.date_format" | default "2006-01-02") }}
+            {{ .Date | time.Format ":date_medium" }}
           </time>
         </div>
       {{ end }}
@@ -80,7 +80,7 @@
                       <a
                         href="#{{ $id }}"
                         class="heading-anchor"
-                        aria-label="{{ i18n "heading.anchor" | default "Link to this section" }}"
+                        aria-label="{{ i18n "heading_anchor" | default "Link to this section" }}"
                       >
                         {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
                       </a>

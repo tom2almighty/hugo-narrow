@@ -29,7 +29,7 @@
             {{ if .Date }}
               <div class="text-muted-foreground mb-3 text-sm">
                 <time datetime="{{ .Date.Format " 2006-01-02" }}">
-                  {{ .Date.Format (i18n "time.date_format" | default "January 02, 2006") }}
+                  {{ .Date | time.Format ":date_medium" }}
                 </time>
               </div>
             {{ end }}
@@ -54,17 +54,17 @@
           {{ partial "features/icon.html" (dict "name" "folder" "size" "xl" "ariaLabel" "") }}
         </div>
         <h2 class="text-foreground mb-3 text-xl font-medium">
-          {{ i18n "section.no_content" | default "暂无内容" }}
+          {{ i18n "section_no_content" | default "暂无内容" }}
         </h2>
         <p class="text-muted-foreground mb-6">
-          {{ i18n "section.no_content_desc" | default "此分类下还没有任何内容,请稍后再来查看。" }}
+          {{ i18n "section_no_content_desc" | default "此分类下还没有任何内容,请稍后再来查看。" }}
         </p>
         <a
           href="{{ " /" | relLangURL }}"
           class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
         >
           {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-          <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>
+          <span>{{ i18n "nav_back_home" | default "返回首页" }}</span>
         </a>
       </div>
     {{ end }}

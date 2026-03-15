@@ -15,7 +15,7 @@
         <!-- 日期 -->
         {{ with .Params.date }}
           <div class="text-muted-foreground/60 mt-3 text-xs">
-            {{ .Format (i18n "time.date_format" | default "2006年01月02日") }}
+            {{ . | time.Format ":date_long" }}
           </div>
         {{ end }}
       </div>

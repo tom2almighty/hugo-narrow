@@ -30,9 +30,9 @@
       aria-haspopup="true"
     >
       {{- if eq $type "theme" -}}
-        {{ partial "features/icon.html" (dict "name" "sun" "class" "sun-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.light")) }}
-        {{ partial "features/icon.html" (dict "name" "moon" "class" "moon-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.dark")) }}
-        {{ partial "features/icon.html" (dict "name" "monitor" "class" "system-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme.system")) }}
+        {{ partial "features/icon.html" (dict "name" "sun" "class" "sun-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme_light")) }}
+        {{ partial "features/icon.html" (dict "name" "moon" "class" "moon-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme_dark")) }}
+        {{ partial "features/icon.html" (dict "name" "monitor" "class" "system-icon hidden relative z-10" "size" "md" "ariaLabel" (i18n "theme_system")) }}
       {{- else -}}
         {{ partial "features/icon.html" (dict "name" $icon "class" "relative z-10" "size" "md" "ariaLabel" $ariaLabel) }}
       {{- end -}}

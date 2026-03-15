@@ -14,7 +14,7 @@
       </div>
     {{ else }}
       <p class="text-muted-foreground mb-6">
-        {{ i18n "archives.desc" }}
+        {{ i18n "archives_desc" }}
       </p>
     {{ end }}
 
@@ -27,12 +27,12 @@
       <div class="flex items-center gap-1">
         {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
         <span
-          >{{ i18n "archives.total_posts" (dict "count" (len $allPosts)) | default (printf "共 %d 篇文章" (len $allPosts)) }}</span
+          >{{ i18n "archives_total_posts" (dict "count" (len $allPosts)) | default (printf "共 %d 篇文章" (len $allPosts)) }}</span
         >
       </div>
       <div class="flex items-center gap-1">
         {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "archives.timeline" | default "时间轴视图" }}</span>
+        <span>{{ i18n "archives_timeline" | default "时间轴视图" }}</span>
       </div>
     </div>
   </header>
@@ -57,7 +57,7 @@
               <h2 class="text-foreground text-2xl font-bold">{{ .Key }}</h2>
               <p class="text-muted-foreground text-sm">
                 {{ len .Pages }}
-                {{ i18n "archives.posts_count" | default "篇文章" }}
+                {{ i18n "archives_posts_count" | default "篇文章" }}
               </p>
             </div>
           </div>
@@ -73,11 +73,11 @@
                 <div class="ml-12">
                   {{ $date := time (printf "%s-01" .Key) }}
                   <h3 class="text-foreground text-lg font-semibold">
-                    {{ time.Format (i18n "time.month_format" | default "2006年01月") $date }}
+                    {{ $date | time.Format "January 2006" }}
                   </h3>
                   <p class="text-muted-foreground text-xs">
                     {{ len .Pages }}
-                    {{ i18n "archives.posts_count" | default "篇文章" }}
+                    {{ i18n "archives_posts_count" | default "篇文章" }}
                   </p>
                 </div>
               </div>
@@ -103,7 +103,7 @@
                           <div class="flex items-center gap-1">
                             {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
                             <time datetime="{{ .Date.Format "2006-01-02" }}">
-                              {{ dateFormat (i18n "time.date_format_short" | default "01-02") .Date }}
+                              {{ .Date | time.Format ":date_short" }}
                             </time>
                           </div>
 
@@ -119,7 +119,7 @@
                               {{ partial "features/icon.html" (dict "name" "clock" "size" "xs" "ariaLabel" "") }}
                               <span
                                 >{{ .ReadingTime }}
-                                {{ i18n "post.reading_time_unit" | default "分钟" }}</span
+                                {{ i18n "post_reading_time_unit" | default "分钟" }}</span
                               >
                             </div>
                           {{ end }}
@@ -141,17 +141,17 @@
         {{ partial "features/icon.html" (dict "name" "archive" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
-        {{ i18n "archives.no_posts" | default "暂无文章" }}
+        {{ i18n "archives_no_posts" | default "暂无文章" }}
       </h2>
       <p class="text-muted-foreground mb-6">
-        {{ i18n "archives.no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
+        {{ i18n "archives_no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
       </p>
       <a
         href="{{ "/" | relLangURL }}"
         class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
       >
         {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "nav.back_home" | default "返回首页" }}</span>
+        <span>{{ i18n "nav_back_home" | default "返回首页" }}</span>
       </a>
     </div>
   {{ end }}

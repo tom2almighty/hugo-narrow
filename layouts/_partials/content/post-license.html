@@ -39,14 +39,14 @@
       <!-- 许可证信息 -->
       <div class="min-w-0 flex-1">
         <h3 class="text-foreground mb-2 text-lg font-semibold">
-          {{ i18n "license.title" | default "版权声明" }}
+          {{ i18n "license_title" | default "版权声明" }}
         </h3>
 
         <div class="text-muted-foreground space-y-2 text-sm">
           <!-- 作者信息 -->
           {{ with $license.author }}
             <p>
-              <strong>{{ i18n "license.author" | default "作者" }}:</strong>
+              <strong>{{ i18n "license_author" | default "作者" }}:</strong>
               {{ . }}
             </p>
           {{ end }}
@@ -54,7 +54,7 @@
 
           <!-- 文章链接 -->
           <p>
-            <strong>{{ i18n "license.link" | default "链接" }}:</strong>
+            <strong>{{ i18n "license_link" | default "链接" }}:</strong>
             <a
               href="{{ .Permalink }}"
               class="text-primary hover:text-primary/80 break-all hyphens-auto transition-colors duration-200"
@@ -65,7 +65,7 @@
 
           <!-- 许可证类型 -->
           <p>
-            <strong>{{ i18n "license.type" | default "许可证" }}:</strong>
+            <strong>{{ i18n "license_type" | default "许可证" }}:</strong>
             {{ with $license.url }}
               <a
                 href="{{ . }}"

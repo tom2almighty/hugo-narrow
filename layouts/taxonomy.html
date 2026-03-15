@@ -3,9 +3,9 @@
   <header class="mb-8">
     <h1 class="text-foreground mb-4 text-3xl font-bold">
       {{ if eq .Data.Singular "tag" }}
-        {{ i18n "nav.tags" | default "标签" }}
+        {{ i18n "nav_tags" | default "标签" }}
       {{ else if eq .Data.Singular "category" }}
-        {{ i18n "nav.categories" | default "分类" }}
+        {{ i18n "nav_categories" | default "分类" }}
       {{ else }}
         {{ .Title }}
       {{ end }}
@@ -18,11 +18,11 @@
     {{ else }}
       <p class="text-muted-foreground mb-6">
         {{ if eq .Data.Singular "tag" }}
-          {{ i18n "taxonomy.tags_desc" | default "浏览所有标签，发现感兴趣的内容。" }}
+          {{ i18n "taxonomy_tags_desc" | default "浏览所有标签，发现感兴趣的内容。" }}
         {{ else if eq .Data.Singular "category" }}
-          {{ i18n "taxonomy.categories_desc" | default "浏览所有分类，发现感兴趣的内容。" }}
+          {{ i18n "taxonomy_categories_desc" | default "浏览所有分类，发现感兴趣的内容。" }}
         {{ else }}
-          {{ i18n "taxonomy.desc" | default "浏览所有分类，发现感兴趣的内容。" }}
+          {{ i18n "taxonomy_desc" | default "浏览所有分类，发现感兴趣的内容。" }}
         {{ end }}
       </p>
     {{ end }}
@@ -34,11 +34,11 @@
         {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
         <span>
           {{ if eq .Data.Singular "tag" }}
-            {{ i18n "taxonomy.total_tags" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个标签" (len .Data.Terms)) }}
+            {{ i18n "taxonomy_total_tags" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个标签" (len .Data.Terms)) }}
           {{ else if eq .Data.Singular "category" }}
-            {{ i18n "taxonomy.total_categories" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个分类" (len .Data.Terms)) }}
+            {{ i18n "taxonomy_total_categories" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个分类" (len .Data.Terms)) }}
           {{ else }}
-            {{ i18n "taxonomy.total_terms" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个%s" (len .Data.Terms) .Data.Singular) }}
+            {{ i18n "taxonomy_total_terms" (dict "count" (len .Data.Terms)) | default (printf "共 %d 个%s" (len .Data.Terms) .Data.Singular) }}
           {{ end }}
         </span>
       </div>
@@ -100,10 +100,10 @@
         {{ partial "features/icon.html" (dict "name" "tag" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
-        {{ i18n "taxonomy.no_terms" | default "暂无分类" }}
+        {{ i18n "taxonomy_no_terms" | default "暂无分类" }}
       </h2>
       <p class="text-muted-foreground mb-6">
-        {{ i18n "taxonomy.no_terms_desc" | default "还没有创建任何分类，请稍后再来查看。" }}
+        {{ i18n "taxonomy_no_terms_desc" | default "还没有创建任何分类，请稍后再来查看。" }}
       </p>
     </div>
   {{ end }}

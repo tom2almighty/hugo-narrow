@@ -41,20 +41,19 @@
           <div class="text-muted-foreground flex flex-wrap items-center gap-3 text-sm mb-4">
             <!-- 发布时间 -->
             <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n
-              "post.published_on")) }}
+              {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post_published_on")) }}
               <time datetime="{{ .Date.Format `2006-01-02` }}">
-                {{ dateFormat (i18n "time.date_format" | default "2006年01月02日") .Date }}
+                {{ .Date | time.Format ":date_long" }}
               </time>
             </div>
 
             <!-- 更新时间 -->
             {{ if ne .Date .Lastmod }}
             <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "edit" "size" "sm" "ariaLabel" (i18n "post.updated_on")) }}
+              {{ partial "features/icon.html" (dict "name" "edit" "size" "sm" "ariaLabel" (i18n "post_updated_on")) }}
               <span>
-                {{ i18n "post.updated_on" | default "更新于" }}
-                {{ dateFormat (i18n "time.date_format" | default "2006年01月02日") .Lastmod }}
+                {{ i18n "post_updated_on" | default "更新于" }}
+                {{ .Lastmod | time.Format ":date_long" }}
               </span>
             </div>
             {{ end }}
@@ -62,17 +61,17 @@
             <!-- 阅读时间 -->
             {{ if .ReadingTime }}
             <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post.reading_time"))
+              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post_reading_time"))
               }}
-              <span>{{ .ReadingTime }} {{ i18n "time.minute" | default "分钟" }}</span>
+              <span>{{ .ReadingTime }} {{ i18n "time_minute" | default "分钟" }}</span>
             </div>
             {{ end }}
 
             <!-- 字数统计 -->
             {{ if .WordCount }}
             <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post.words_count")) }}
-              <span>{{ .WordCount }} {{ i18n "post.words" | default "字" }}</span>
+              {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post_words_count")) }}
+              <span>{{ .WordCount }} {{ i18n "post_words" | default "字" }}</span>
             </div>
             {{ end }}
           </div>
@@ -110,9 +109,9 @@
           <!-- 作者信息 -->
           {{ if .Params.author }}
           <div class="flex items-center gap-2 pt-4 border-t border-border mt-4">
-            {{ partial "features/icon.html" (dict "name" "user" "size" "sm" "ariaLabel" (i18n "post.author")) }}
+            {{ partial "features/icon.html" (dict "name" "user" "size" "sm" "ariaLabel" (i18n "post_author")) }}
             <span class="text-muted-foreground text-sm">
-              {{ i18n "post.author" | default "作者" }}:
+              {{ i18n "post_author" | default "作者" }}:
             </span>
             <span class="text-foreground text-sm font-medium">
               {{ .Params.author }}
@@ -153,7 +152,7 @@
               <!-- 跳转到分类页的按钮 (仅针对当前激活的 Series，通过 JS 更新 href) -->
               <a href="#" id="series-link-btn"
                 class="ml-auto flex-shrink-0 p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
-                title="{{ i18n `post.view_series_archive` | default `查看系列归档` }}">
+                title="{{ i18n `post_view_series_archive` | default `查看系列归档` }}">
                 {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm") }}
               </a>
             </div>

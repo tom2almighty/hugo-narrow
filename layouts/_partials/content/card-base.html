@@ -70,18 +70,18 @@
         <div class="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
           <!-- 时间信息行 -->
           <div class="flex items-center gap-1.5">
-            {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post.published_on")) }}
+            {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" (i18n "post_published_on")) }}
             <time datetime="{{ $page.Date.Format "2006-01-02" }}" class="font-medium">
-              {{ dateFormat (i18n "time.date_format" | default "2006年01月02日") $page.Date }}
+              {{ $page.Date | time.Format ":date_medium" }}
             </time>
           </div>
 
           <!-- 预计阅读时间 -->
           {{ if $page.ReadingTime }}
             <div class="flex items-center gap-1.5">
-              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post.reading_time")) }}
+              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post_reading_time")) }}
               <span class="truncate font-medium"
-                >{{ $page.ReadingTime }} {{ i18n "time.minute" | default "min" }}</span
+                >{{ $page.ReadingTime }} {{ i18n "time_minute" | default "min" }}</span
               >
             </div>
           {{ end }}

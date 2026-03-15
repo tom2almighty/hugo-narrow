@@ -36,7 +36,7 @@
     <div class="bg-card">
       <h2 class="text-foreground mb-6 flex items-center gap-3 text-2xl font-bold">
         {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
-        {{ i18n "comments.title" | default "评论" }}
+        {{ i18n "comments_title" | default "评论" }}
       </h2>
 
       <div class="comments-container">
@@ -61,10 +61,10 @@
               {{ partial "features/icon.html" (dict "name" "alert-circle" "size" "lg" "ariaLabel" "") }}
             </div>
             <h3 class="text-foreground mb-2 text-lg font-medium">
-              {{ i18n "comments.unsupported_system" | default "不支持的评论系统" }}
+              {{ i18n "comments_unsupported_system" | default "不支持的评论系统" }}
             </h3>
             <p class="text-muted-foreground text-sm">
-              {{ i18n "comments.unsupported_system_desc" | default "请检查配置中的评论系统类型" }}
+              {{ i18n "comments_unsupported_system_desc" | default "请检查配置中的评论系统类型" }}
             </p>
             <p class="text-muted-foreground mt-2 text-xs">
               当前配置:

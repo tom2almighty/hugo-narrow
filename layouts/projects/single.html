@@ -58,11 +58,11 @@
               class="text-muted-foreground flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase"
             >
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
-              {{ i18n "post.published_on" | default "Published" }}
+              {{ i18n "post_published_on" | default "Published" }}
             </span>
             <div class="text-foreground text-base font-semibold">
               <time datetime="{{ .Date.Format "2006-01-02" }}">
-                {{ dateFormat (i18n "time.date_format" | default "Jan 02, 2006") .Date }}
+                {{ .Date | time.Format ":date_medium" }}
               </time>
             </div>
           </div>
@@ -74,7 +74,7 @@
                 class="text-muted-foreground flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase"
               >
                 {{ partial "features/icon.html" (dict "name" "status" "size" "xs" "ariaLabel" "") }}
-                {{ i18n "project.status" | default "Status" }}
+                {{ i18n "project_status" | default "Status" }}
               </span>
               <div class="text-foreground flex items-center text-base font-semibold">
                 <!-- 状态指示圆点 -->
@@ -100,11 +100,11 @@
                 </span>
                 <span>
                   {{ if eq .Params.status "completed" }}
-                    {{ i18n "project.status_completed" | default "Completed" }}
+                    {{ i18n "project_status_completed" | default "Completed" }}
                   {{ else if eq .Params.status "in_progress" }}
-                    {{ i18n "project.status_in_progress" | default "In Progress" }}
+                    {{ i18n "project_status_in_progress" | default "In Progress" }}
                   {{ else if eq .Params.status "planning" }}
-                    {{ i18n "project.status_planning" | default "Planning" }}
+                    {{ i18n "project_status_planning" | default "Planning" }}
                   {{ else }}
                     {{ .Params.status }}
                   {{ end }}
@@ -121,7 +121,7 @@
                 class="text-muted-foreground flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase"
               >
                 {{ partial "features/icon.html" (dict "name" "tag" "size" "xs" "ariaLabel" "") }}
-                {{ i18n "project.tags" | default "Tags" }}
+                {{ i18n "project_tags" | default "Tags" }}
               </span>
               <div class="flex flex-wrap gap-2.5">
                 {{ range .Params.tags }}
@@ -148,7 +148,7 @@
               class="group bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground focus:ring-primary/20 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all focus:ring-2 focus:outline-none"
             >
               <span class="tracking-wide"
-                >{{ i18n "project.visit_project" | default "Visit" }}</span
+                >{{ i18n "project_visit_project" | default "Visit" }}</span
               >
               {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "ariaLabel" "") }}
             </a>

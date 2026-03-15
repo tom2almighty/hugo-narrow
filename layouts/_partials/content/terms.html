@@ -15,9 +15,9 @@
   <div>
     <div>
       {{ if eq $taxonomy "tags" }}
-        {{ i18n "post.tags" }}
+        {{ i18n "post_tags" }}
       {{ else if eq $taxonomy "categories" }}
-        {{ i18n "post.categories" }}
+        {{ i18n "post_categories" }}
       {{ else }}
         {{ $label }}
       {{ end }}:

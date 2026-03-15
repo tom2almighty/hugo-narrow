@@ -11,7 +11,7 @@
 {{ if or $prev $next }}
   <nav
     class="post-navigation mb-12"
-    aria-label="{{ i18n "nav.post_navigation" | default "文章导航" }}"
+    aria-label="{{ i18n "nav_post_navigation" | default "文章导航" }}"
   >
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <!-- 上一篇文章 -->
@@ -25,7 +25,7 @@
               <div class="mb-3 flex items-center gap-3">
                 {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
                 <span class="text-muted-foreground text-sm font-medium">
-                  {{ i18n "post.previous" | default "上一篇" }}
+                  {{ i18n "post_previous" | default "上一篇" }}
                 </span>
               </div>
 
@@ -39,7 +39,7 @@
             <div class="text-muted-foreground mt-auto flex items-center gap-2 text-xs">
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
               <time datetime="{{ $prev.Date.Format "2006-01-02" }}">
-                {{ dateFormat (i18n "time.date_format_short" | default "01月02日") $prev.Date }}
+                {{ $prev.Date | time.Format ":date_short" }}
               </time>
             </div>
           </a>
@@ -50,11 +50,11 @@
             <div class="mb-3 flex items-center gap-3">
               {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
               <span class="text-muted-foreground/50 text-sm font-medium">
-                {{ i18n "post.no_previous" | default "没有上一篇" }}
+                {{ i18n "post_no_previous" | default "没有上一篇" }}
               </span>
             </div>
             <p class="text-muted-foreground/50 text-sm">
-              {{ i18n "post.no_previous_desc" | default "这是最早的文章" }}
+              {{ i18n "post_no_previous_desc" | default "这是最早的文章" }}
             </p>
           </div>
         {{ end }}
@@ -70,7 +70,7 @@
             <div>
               <div class="mb-3 flex items-center justify-end gap-3">
                 <span class="text-muted-foreground text-sm font-medium">
-                  {{ i18n "post.next" | default "下一篇" }}
+                  {{ i18n "post_next" | default "下一篇" }}
                 </span>
                 {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
               </div>
@@ -84,7 +84,7 @@
 
             <div class="text-muted-foreground mt-auto flex items-center justify-end gap-2 text-xs">
               <time datetime="{{ $next.Date.Format "2006-01-02" }}">
-                {{ dateFormat (i18n "time.date_format_short" | default "01月02日") $next.Date }}
+                {{ $next.Date | time.Format ":date_short" }}
               </time>
               {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
             </div>
@@ -95,12 +95,12 @@
           >
             <div class="mb-3 flex items-center justify-end gap-3">
               <span class="text-muted-foreground/50 text-sm font-medium">
-                {{ i18n "post.no_next" | default "没有下一篇" }}
+                {{ i18n "post_no_next" | default "没有下一篇" }}
               </span>
               {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
             </div>
             <p class="text-muted-foreground/50 text-right text-sm">
-              {{ i18n "post.no_next_desc" | default "这是最新的文章" }}
+              {{ i18n "post_no_next_desc" | default "这是最新的文章" }}
             </p>
           </div>
         {{ end }}
