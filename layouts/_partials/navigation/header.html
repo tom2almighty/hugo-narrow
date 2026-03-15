@@ -11,7 +11,7 @@
       <div class="flex items-center">
         {{ if ne site.Params.header.logo.image "" }}
           <a
-            href="{{ if site.Params.header.logo.link }}
+            href="{{ if and site.Params.header.logo.link (ne site.Params.header.logo.link `/`) }}
               {{ site.Params.header.logo.link | relLangURL }}
             {{ else }}
               {{ site.Home.RelPermalink | relLangURL }}
