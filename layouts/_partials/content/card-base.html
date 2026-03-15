@@ -79,9 +79,9 @@
           <!-- 预计阅读时间 -->
           {{ if $page.ReadingTime }}
             <div class="flex items-center gap-1.5">
-              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post_reading_time")) }}
+              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post_reading_time_label")) }}
               <span class="truncate font-medium"
-                >{{ $page.ReadingTime }} {{ i18n "time_minute" | default "min" }}</span
+                >{{ T "time_minutes" (dict "count" $page.ReadingTime) }}</span
               >
             </div>
           {{ end }}

@@ -61,17 +61,17 @@
             <!-- 阅读时间 -->
             {{ if .ReadingTime }}
             <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post_reading_time"))
+              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" (i18n "post_reading_time_label"))
               }}
-              <span>{{ .ReadingTime }} {{ i18n "time_minute" | default "分钟" }}</span>
+              <span>{{ T "time_minutes" (dict "count" .ReadingTime) }}</span>
             </div>
             {{ end }}
 
             <!-- 字数统计 -->
             {{ if .WordCount }}
             <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post_words_count")) }}
-              <span>{{ .WordCount }} {{ i18n "post_words" | default "字" }}</span>
+              {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" (i18n "post_word_count_label")) }}
+              <span>{{ T "post_word_count" (dict "count" .WordCount) }}</span>
             </div>
             {{ end }}
           </div>
