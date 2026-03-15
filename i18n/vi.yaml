@@ -166,4 +166,6 @@ time_minutes:
   one: "{{ .count }} phút"
   other: "{{ .count }} phút"
 search_results_count_one: "Tìm thấy %d kết quả"
+search_results_count_few: "Tìm thấy %d kết quả"
+search_results_count_many: "Tìm thấy %d kết quả"
 search_results_count_other: "Tìm thấy %d kết quả"

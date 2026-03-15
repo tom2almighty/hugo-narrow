@@ -166,4 +166,6 @@ time_minutes:
   one: "{{ .count }} 分钟"
   other: "{{ .count }} 分钟"
 search_results_count_one: "找到 %d 个结果"
+search_results_count_few: "找到 %d 个结果"
+search_results_count_many: "找到 %d 个结果"
 search_results_count_other: "找到 %d 个结果"

@@ -166,4 +166,6 @@ time_minutes:
   one: "{{ .count }} 分"
   other: "{{ .count }} 分"
 search_results_count_one: "%d 件の結果が見つかりました"
+search_results_count_few: "%d 件の結果が見つかりました"
+search_results_count_many: "%d 件の結果が見つかりました"
 search_results_count_other: "%d 件の結果が見つかりました"

@@ -166,4 +166,6 @@ time_minutes:
   one: "{{ .count }} 분"
   other: "{{ .count }} 분"
 search_results_count_one: "%d개의 결과 찾음"
+search_results_count_few: "%d개의 결과 찾음"
+search_results_count_many: "%d개의 결과 찾음"
 search_results_count_other: "%d개의 결과 찾음"

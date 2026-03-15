@@ -166,4 +166,6 @@ time_minutes:
   one: "{{ .count }} minuti"
   other: "{{ .count }} minuti"
 search_results_count_one: "Trovati %d risultati"
+search_results_count_few: "Trovati %d risultati"
+search_results_count_many: "Trovati %d risultati"
 search_results_count_other: "Trovati %d risultati"

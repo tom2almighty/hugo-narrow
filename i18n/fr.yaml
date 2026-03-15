@@ -166,4 +166,6 @@ time_minutes:
   one: "{{ .count }} minutes"
   other: "{{ .count }} minutes"
 search_results_count_one: "%d résultats trouvés"
+search_results_count_few: "%d résultats trouvés"
+search_results_count_many: "%d résultats trouvés"
 search_results_count_other: "%d résultats trouvés"
