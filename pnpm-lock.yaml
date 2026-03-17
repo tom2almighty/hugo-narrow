@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      photoswipe:
-        specifier: ^5.4.4
-        version: 5.4.4
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.1.17
@@ -390,10 +386,6 @@ packages:
 
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
-
-  photoswipe@5.4.4:
-    resolution: {integrity: sha512-WNFHoKrkZNnvFFhbHL93WDkW3ifwVOXSW3w1UuZZelSmgXpIGiZSNlZJq37rR8YejqME2rHs9EhH9ZvlvFH2NA==}
-    engines: {node: '>= 0.12.0'}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -821,8 +813,6 @@ snapshots:
   mri@1.2.0: {}
 
   node-addon-api@7.1.1: {}
-
-  photoswipe@5.4.4: {}
 
   picocolors@1.1.1: {}
 

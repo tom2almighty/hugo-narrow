@@ -1,39 +1,39 @@
 main:
   - identifier: posts
-    name: Posts
+    name: 文章
     pageRef: /posts
     weight: 10
     params:
       icon: posts
 
   - identifier: categories
-    name: Categories
+    name: 分类
     pageRef: /categories
     weight: 20
     params:
       icon: categories
   - identifier: tags
-    name: Tags
+    name: 标签
     pageRef: /tags
     weight: 30
     params:
       icon: tags
   - identifier: archives
-    name: Archives
+    name: 归档
     pageRef: /archives
     weight: 40
     params:
       icon: archive
 
-  # Example: parent item with dropdown submenu children
+  # 父菜单项及子菜单
   - identifier: more
-    name: More
+    name: 更多
     weight: 50
     params:
       icon: layers
 
   - identifier: about
-    name: About
+    name: 关于
     pageRef: /about
     parent: more
     weight: 1
@@ -41,7 +41,7 @@ main:
       icon: about
 
   - identifier: projects
-    name: Projects
+    name: 项目
     pageRef: /projects
     parent: more
     weight: 2
@@ -49,33 +49,33 @@ main:
       icon: projects
 
   - identifier: timeline
-    name: Timeline
+    name: 时间线
     pageRef: /timeline
     parent: more
     weight: 3
     params:
       icon: chart
 
-# footer menu
+# 页脚菜单
 footer:
   - identifier: projects
-    name: Projects
+    name: 项目
     pageRef: /projects
     weight: 10
     params:
       icon: projects
-  - name: About
+  - name: 关于
     pageRef: /about
     weight: 20
     params:
       icon: about
-  - name: RSS Feed
+  - name: RSS 订阅
     url: /index.xml
     weight: 30
     params:
       icon: rss
 
-# footer social link
+# 页脚社交链接
 social:
   - name: GitHub
     url: https://github.com/username
@@ -92,7 +92,7 @@ social:
     weight: 30
     params:
       icon: linkedin
-  - name: Email
+  - name: 邮箱
     url: mailto:your.email@example.com
     weight: 40
     params:

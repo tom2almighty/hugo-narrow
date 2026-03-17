@@ -1,0 +1,94 @@
+[list]
+    [list.pages]
+        one = "{{ .count }} pagina"
+        other = "{{ .count }} pagine"
+
+    [list.taxonomy_terms]
+        one = "{{ .name }}: {{ .count }}"
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        one = "{{ .count }} pagina"
+        other = "{{ .count }} pagine"
+
+[article]
+    empty          = "Nessun contenuto"
+    relatedContent = "Contenuti correlati"
+    prev           = "Precedente"
+    next           = "Successivo"
+    noPrev         = "Nessun precedente"
+    noNext         = "Nessun successivo"
+
+    [article.alert]
+        note      = "Nota"
+        tip       = "Suggerimento"
+        important = "Importante"
+        caution   = "Attenzione"
+        warning   = "Avviso"
+
+    [article.readingTime]
+        one = "{{ .count }} min"
+        other = "{{ .count }} min"
+
+    [article.wordCount]
+        one = "{{ .count }} parola"
+        other = "{{ .count }} parole"
+
+[code]
+  copy            = "Copia"
+  copied          = "Copiato"
+  expend          = "Espandi"
+  collapse        = "Comprimi"
+  click_to_expand = "Clicca per espandere"
+
+[nav]
+    anchor        = "Link a questa sezione"
+    backHome      = "Torna alla home"
+    breadcrumb    = "Percorso"
+    menu          = "Menu"
+    prev          = "Precedente"
+    next          = "Successivo"
+    pageInfo      = "Pagina {{ .current }} di {{ .total }}"
+
+[ui]
+    dockAriaLabel = "Barra azioni rapide"
+    dockBack      = "Indietro"
+    dockSearch    = "Cerca"
+    dockComments  = "Commenti"
+    dockBackToTop = "Torna su"
+    dockTop       = "In alto"
+    toc           = "Indice"
+
+    searchClear        = "Cancella"
+    searchPlaceholder  = "Cerca articoli..."
+    searchClose        = "Chiudi"
+    searchEmpty        = "Inizia a cercare"
+    searchLoading      = "Ricerca..."
+    searchNoResults    = "Nessun risultato"
+    searchResultsCount = "%d risultati"
+    searchHints        = "Naviga|Seleziona|Chiudi|Scorciatoia"
+
+    themeDark    = "Scuro"
+    themeLight   = "Chiaro"
+    themeSystem  = "Sistema"
+    themeToggle  = "Cambia tema"
+
+    languageToggle = "Cambia lingua"
+
+[license]
+    title  = "Licenza"
+    author = "Autore"
+    link   = "Link"
+    type   = "Licenza"
+
+
+[comments]
+    title          = "Commenti"
+    notConfigured  = "Sistema di commenti non configurato"
+
+
+[home]
+    featuredProjects = "Progetti in evidenza"
+    viewAll          = "Vedi tutto"
+    recentPosts      = "Articoli recenti"
+

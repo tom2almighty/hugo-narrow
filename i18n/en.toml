@@ -1,0 +1,94 @@
+[list]
+    [list.pages]
+        one = "{{ .count }} page"
+        other = "{{ .count }} pages"
+
+    [list.taxonomy_terms]
+        one = "{{ .name }}: {{ .count }}"
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        one = "{{ .count }} page"
+        other = "{{ .count }} pages"
+
+[article]
+    empty          = "No content"
+    relatedContent = "Related content"
+    prev           = "Previous"
+    next           = "Next"
+    noPrev         = "No previous"
+    noNext         = "No next"
+
+    [article.alert]
+        note      = "Note"
+        tip       = "Tip"
+        important = "Important"
+        caution   = "Caution"
+        warning   = "Warning"
+
+    [article.readingTime]
+        one = "{{ .count }} min"
+        other = "{{ .count }} min"
+
+    [article.wordCount]
+        one = "{{ .count }} word"
+        other = "{{ .count }} words"
+
+[code]
+  copy            = "Copy"
+  copied          = "Copied"
+  expend          = "Expand"
+  collapse        = "Collapse"
+  click_to_expand = "Click to expand"
+
+[nav]
+    anchor        = "Link to this section"
+    backHome      = "Back to home"
+    breadcrumb    = "Breadcrumb"
+    menu          = "Menu"
+    prev          = "Previous"
+    next          = "Next"
+    pageInfo      = "Page {{ .current }} of {{ .total }}"
+
+[ui]
+    dockAriaLabel = "Quick actions toolbar"
+    dockBack      = "Back"
+    dockSearch    = "Search"
+    dockComments  = "Comments"
+    dockBackToTop = "Back to top"
+    dockTop       = "Top"
+    toc           = "Table of contents"
+
+    searchClear        = "Clear"
+    searchPlaceholder  = "Search posts..."
+    searchClose        = "Close"
+    searchEmpty        = "Start searching"
+    searchLoading      = "Searching..."
+    searchNoResults    = "No results"
+    searchResultsCount = "Found %d results"
+    searchHints        = "Navigate|Select|Close|Shortcut"
+
+    themeDark    = "Dark"
+    themeLight   = "Light"
+    themeSystem  = "System"
+    themeToggle  = "Toggle theme"
+
+    languageToggle = "Switch language"
+
+[license]
+    title  = "License"
+    author = "Author"
+    link   = "Link"
+    type   = "License"
+
+
+[comments]
+    title          = "Comments"
+    notConfigured  = "Comment system not configured"
+
+
+[home]
+    featuredProjects = "Featured Projects"
+    viewAll          = "View all"
+    recentPosts      = "Recent Posts"
+

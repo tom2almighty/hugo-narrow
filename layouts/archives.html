@@ -8,16 +8,12 @@
       </h1>
     </div>
 
-    {{ if .Content }}
-      <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">
-        {{ .Content }}
-      </div>
-    {{ else }}
-      <p class="text-muted-foreground mb-6">
-        {{ i18n "archives_desc" }}
-      </p>
-    {{ end }}
-
+    <p class="text-muted-foreground mb-6">
+      {{ .Description }}
+    </p>
+    <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">
+      {{ .Content }}
+    </div>
 
     <!-- 统计信息 -->
     {{/* 使用 MainSections 获取主要内容区域 */}}
@@ -27,12 +23,8 @@
       <div class="flex items-center gap-1">
         {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
         <span
-          >{{ i18n "archives_total_posts" (dict "count" (len $allPosts)) | default (printf "共 %d 篇文章" (len $allPosts)) }}</span
+          >{{ T "list.pages" (dict "count" (len $allPosts)) }}</span
         >
-      </div>
-      <div class="flex items-center gap-1">
-        {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "archives_timeline" | default "时间轴视图" }}</span>
       </div>
     </div>
   </header>
@@ -56,7 +48,7 @@
             <div class="ml-12">
               <h2 class="text-foreground text-2xl font-bold">{{ .Key }}</h2>
               <p class="text-muted-foreground text-sm">
-                {{ T "archives_posts_count" (dict "count" (len .Pages)) }}
+                {{ T "list.pages" (dict "count" (len .Pages)) }}
               </p>
             </div>
           </div>
@@ -75,7 +67,7 @@
                     {{ $date | time.Format "January 2006" }}
                   </h3>
                   <p class="text-muted-foreground text-xs">
-                    {{ T "archives_posts_count" (dict "count" (len .Pages)) }}
+                    {{ T "list.pages" (dict "count" (len .Pages)) }}
                   </p>
                 </div>
               </div>
@@ -100,7 +92,7 @@
                         <div class="text-muted-foreground flex items-center gap-4 text-xs">
                           <div class="flex items-center gap-1">
                             {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
-                            <time datetime="{{ .Date.Format "2006-01-02" }}">
+                            <time datetime="{{ .Date.Format `2006-01-02` }}">
                               {{ .Date | time.Format ":date_short" }}
                             </time>
                           </div>
@@ -115,7 +107,7 @@
                           {{ if .ReadingTime }}
                             <div class="flex items-center gap-1">
                               {{ partial "features/icon.html" (dict "name" "clock" "size" "xs" "ariaLabel" "") }}
-                              <span>{{ T "time_minutes" (dict "count" .ReadingTime) }}</span>
+                              <span>{{ T "article.readingTime" (dict "count" .ReadingTime) }}</span>
                             </div>
                           {{ end }}
                         </div>
@@ -136,17 +128,14 @@
         {{ partial "features/icon.html" (dict "name" "archive" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
-        {{ i18n "archives_no_posts" | default "暂无文章" }}
+        {{ T "article.empty" }}
       </h2>
-      <p class="text-muted-foreground mb-6">
-        {{ i18n "archives_no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
-      </p>
       <a
-        href="{{ "/" | relLangURL }}"
+        href="{{ `/` | relLangURL }}"
         class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
       >
         {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "nav_back_home" | default "返回首页" }}</span>
+        <span>{{ T "nav.backHome" }}</span>
       </a>
     </div>
   {{ end }}

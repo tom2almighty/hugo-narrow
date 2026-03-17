@@ -64,7 +64,7 @@
                   {{ if .Params.icon }}
                     {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
                   {{ end }}
-                  <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                  <span>{{ .Name }}</span>
                   {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "class" "submenu-chevron transition-transform duration-200") }}
                 </button>
                 <div
@@ -95,7 +95,7 @@
                       {{ if .Params.icon }}
                         {{ partial "features/icon.html" (dict "name" .Params.icon "size" "sm" "ariaLabel" .Name) }}
                       {{ end }}
-                      <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                      <span>{{ .Name }}</span>
                     </a>
                   {{ end }}
                 </div>
@@ -113,7 +113,7 @@
                 {{ if .Params.icon }}
                   {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
                 {{ end }}
-                <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                <span>{{ .Name }}</span>
               </a>
             {{ end }}
           {{ end }}

@@ -18,7 +18,7 @@
           >
             {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
             <span id="toc-center-title" class="max-w-[200px] truncate"
-              >{{ i18n "dock_toc" | default "目录" }}</span
+              >{{ T "ui.toc" }}</span
             >
             {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "xs" "ariaLabel" "") }}
           </button>
@@ -52,7 +52,7 @@
           class="bg-card border-border scrollbar-hide pointer-events-none absolute top-0 right-0 max-h-[80vh] w-64 translate-x-8 overflow-y-auto rounded-l-xl border-y border-l p-4 opacity-0 shadow-xl transition-all duration-300 md:w-80 [&.is-open]:pointer-events-auto [&.is-open]:translate-x-0 [&.is-open]:opacity-100"
         >
           <div class="text-foreground mb-3 flex items-center justify-between text-sm font-bold">
-            <span>{{ i18n "dock_toc" | default "目录" }}</span>
+            <span>{{ T "ui.toc" }}</span>
             <button
               id="toc-side-close"
               class="text-muted-foreground hover:text-foreground hidden rounded p-1 [&.is-touch]:block"

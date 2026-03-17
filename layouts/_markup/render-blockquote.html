@@ -12,23 +12,23 @@
   {{- $alertConfig := dict
     "note" (dict
     "colorVar" "note"
-    "defaultTitle" (i18n "alert_note" | default "Note")
+    "defaultTitle" (T "article.alert.note")
     )
     "tip" (dict
     "colorVar" "tip"
-    "defaultTitle" (i18n "alert_tip" | default "Tip")
+    "defaultTitle" (T "article.alert.tip")
     )
     "important" (dict
     "colorVar" "important"
-    "defaultTitle" (i18n "alert_important" | default "Important")
+    "defaultTitle" (T "article.alert.important")
     )
     "warning" (dict
     "colorVar" "warning"
-    "defaultTitle" (i18n "alert_warning" | default "Warning")
+    "defaultTitle" (T "article.alert.warning")
     )
     "caution" (dict
     "colorVar" "caution"
-    "defaultTitle" (i18n "alert_caution" | default "Caution")
+    "defaultTitle" (T "article.alert.caution")
     )
     -}}
 
@@ -69,7 +69,7 @@
 
       {{/* Collapse indicator */}}
       {{ if $isCollapsible }}
-        <div class="flex-shrink-0 transition-transform duration-200" id="{{ $alertId }}-chevron">
+        <div class="shrink-0 transition-transform duration-200" id="{{ $alertId }}-chevron">
           {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
         </div>
       {{ end }}

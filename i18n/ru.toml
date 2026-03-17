@@ -1,0 +1,104 @@
+[list]
+    [list.pages]
+        one = "{{ .count }} страница"
+        few = "{{ .count }} страницы"
+        many = "{{ .count }} страниц"
+        other = "{{ .count }} страниц"
+
+    [list.taxonomy_terms]
+        one = "{{ .name }}: {{ .count }}"
+        few = "{{ .name }}: {{ .count }}"
+        many = "{{ .name }}: {{ .count }}"
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        one = "{{ .count }} страница"
+        few = "{{ .count }} страницы"
+        many = "{{ .count }} страниц"
+        other = "{{ .count }} страниц"
+
+[article]
+    empty          = "Нет содержимого"
+    relatedContent = "Похожие материалы"
+    prev           = "Предыдущая"
+    next           = "Следующая"
+    noPrev         = "Нет предыдущей"
+    noNext         = "Нет следующей"
+
+    [article.alert]
+        note      = "Примечание"
+        tip       = "Совет"
+        important = "Важно"
+        caution   = "Осторожно"
+        warning   = "Предупреждение"
+
+    [article.readingTime]
+        one = "{{ .count }} мин"
+        few = "{{ .count }} мин"
+        many = "{{ .count }} мин"
+        other = "{{ .count }} мин"
+
+    [article.wordCount]
+        one = "{{ .count }} слово"
+        few = "{{ .count }} слова"
+        many = "{{ .count }} слов"
+        other = "{{ .count }} слов"
+
+[code]
+  copy            = "Копировать"
+  copied          = "Скопировано"
+  expend          = "Развернуть"
+  collapse        = "Свернуть"
+  click_to_expand = "Нажмите, чтобы развернуть"
+
+[nav]
+    anchor        = "Ссылка на этот раздел"
+    backHome      = "На главную"
+    breadcrumb    = "Хлебные крошки"
+    menu          = "Меню"
+    prev          = "Предыдущая"
+    next          = "Следующая"
+    pageInfo      = "Страница {{ .current }} из {{ .total }}"
+
+[ui]
+    dockAriaLabel = "Панель быстрых действий"
+    dockBack      = "Назад"
+    dockSearch    = "Поиск"
+    dockComments  = "Комментарии"
+    dockBackToTop = "Наверх"
+    dockTop       = "Вверх"
+    toc           = "Оглавление"
+
+    searchClear        = "Очистить"
+    searchPlaceholder  = "Поиск по статьям..."
+    searchClose        = "Закрыть"
+    searchEmpty        = "Начните поиск"
+    searchLoading      = "Поиск..."
+    searchNoResults    = "Ничего не найдено"
+    searchResultsCount = "Найдено %d"
+    searchHints        = "Навигация|Выбор|Закрыть|Сочетание"
+
+    themeDark    = "Темная"
+    themeLight   = "Светлая"
+    themeSystem  = "Системная"
+    themeToggle  = "Переключить тему"
+
+    languageToggle = "Сменить язык"
+
+[license]
+    title  = "Лицензия"
+    author = "Автор"
+    link   = "Ссылка"
+    type   = "Лицензия"
+
+
+[comments]
+    title          = "Комментарии"
+    notConfigured  = "Система комментариев не настроена"
+
+
+[home]
+    featuredProjects = "Избранные проекты"
+    viewAll          = "Показать все"
+    recentPosts      = "Последние статьи"
+

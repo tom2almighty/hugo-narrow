@@ -1,0 +1,94 @@
+[list]
+    [list.pages]
+        one = "{{ .count }} Seite"
+        other = "{{ .count }} Seiten"
+
+    [list.taxonomy_terms]
+        one = "{{ .name }}: {{ .count }}"
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        one = "{{ .count }} Seite"
+        other = "{{ .count }} Seiten"
+
+[article]
+    empty          = "Kein Inhalt"
+    relatedContent = "Ähnliche Inhalte"
+    prev           = "Zurück"
+    next           = "Weiter"
+    noPrev         = "Kein vorheriger"
+    noNext         = "Kein nächster"
+
+    [article.alert]
+        note      = "Hinweis"
+        tip       = "Tipp"
+        important = "Wichtig"
+        caution   = "Vorsicht"
+        warning   = "Warnung"
+
+    [article.readingTime]
+        one = "{{ .count }} Min."
+        other = "{{ .count }} Min."
+
+    [article.wordCount]
+        one = "{{ .count }} Wort"
+        other = "{{ .count }} Wörter"
+
+[code]
+  copy            = "Kopieren"
+  copied          = "Kopiert"
+  expend          = "Erweitern"
+  collapse        = "Einklappen"
+  click_to_expand = "Zum Erweitern klicken"
+
+[nav]
+    anchor        = "Link zu diesem Abschnitt"
+    backHome      = "Zur Startseite"
+    breadcrumb    = "Brotkrumen"
+    menu          = "Menü"
+    prev          = "Zurück"
+    next          = "Weiter"
+    pageInfo      = "Seite {{ .current }} von {{ .total }}"
+
+[ui]
+    dockAriaLabel = "Schnellzugriffsleiste"
+    dockBack      = "Zurück"
+    dockSearch    = "Suche"
+    dockComments  = "Kommentare"
+    dockBackToTop = "Nach oben"
+    dockTop       = "Oben"
+    toc           = "Inhaltsverzeichnis"
+
+    searchClear        = "Löschen"
+    searchPlaceholder  = "Beiträge durchsuchen..."
+    searchClose        = "Schließen"
+    searchEmpty        = "Suche starten"
+    searchLoading      = "Suche..."
+    searchNoResults    = "Keine Ergebnisse"
+    searchResultsCount = "%d Ergebnisse"
+    searchHints        = "Navigieren|Auswählen|Schließen|Kürzel"
+
+    themeDark    = "Dunkel"
+    themeLight   = "Hell"
+    themeSystem  = "System"
+    themeToggle  = "Theme wechseln"
+
+    languageToggle = "Sprache wechseln"
+
+[license]
+    title  = "Lizenz"
+    author = "Autor"
+    link   = "Link"
+    type   = "Lizenz"
+
+
+[comments]
+    title          = "Kommentare"
+    notConfigured  = "Kommentarsystem nicht konfiguriert"
+
+
+[home]
+    featuredProjects = "Ausgewählte Projekte"
+    viewAll          = "Alle anzeigen"
+    recentPosts      = "Neueste Beiträge"
+

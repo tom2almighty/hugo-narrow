@@ -1,0 +1,94 @@
+[list]
+    [list.pages]
+        one = "{{ .count }} página"
+        other = "{{ .count }} páginas"
+
+    [list.taxonomy_terms]
+        one = "{{ .name }}: {{ .count }}"
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        one = "{{ .count }} página"
+        other = "{{ .count }} páginas"
+
+[article]
+    empty          = "Sin contenido"
+    relatedContent = "Contenido relacionado"
+    prev           = "Anterior"
+    next           = "Siguiente"
+    noPrev         = "Sin anterior"
+    noNext         = "Sin siguiente"
+
+    [article.alert]
+        note      = "Nota"
+        tip       = "Consejo"
+        important = "Importante"
+        caution   = "Precaución"
+        warning   = "Advertencia"
+
+    [article.readingTime]
+        one = "{{ .count }} min"
+        other = "{{ .count }} min"
+
+    [article.wordCount]
+        one = "{{ .count }} palabra"
+        other = "{{ .count }} palabras"
+
+[code]
+  copy            = "Copiar"
+  copied          = "Copiado"
+  expend          = "Expandir"
+  collapse        = "Contraer"
+  click_to_expand = "Haz clic para expandir"
+
+[nav]
+    anchor        = "Enlace a esta sección"
+    backHome      = "Volver al inicio"
+    breadcrumb    = "Migas de pan"
+    menu          = "Menú"
+    prev          = "Anterior"
+    next          = "Siguiente"
+    pageInfo      = "Página {{ .current }} de {{ .total }}"
+
+[ui]
+    dockAriaLabel = "Barra de acciones rápidas"
+    dockBack      = "Volver"
+    dockSearch    = "Buscar"
+    dockComments  = "Comentarios"
+    dockBackToTop = "Volver arriba"
+    dockTop       = "Arriba"
+    toc           = "Tabla de contenidos"
+
+    searchClear        = "Borrar"
+    searchPlaceholder  = "Buscar artículos..."
+    searchClose        = "Cerrar"
+    searchEmpty        = "Empieza a buscar"
+    searchLoading      = "Buscando..."
+    searchNoResults    = "Sin resultados"
+    searchResultsCount = "%d resultados"
+    searchHints        = "Navegar|Seleccionar|Cerrar|Atajo"
+
+    themeDark    = "Oscuro"
+    themeLight   = "Claro"
+    themeSystem  = "Sistema"
+    themeToggle  = "Cambiar tema"
+
+    languageToggle = "Cambiar idioma"
+
+[license]
+    title  = "Licencia"
+    author = "Autor"
+    link   = "Enlace"
+    type   = "Licencia"
+
+
+[comments]
+    title          = "Comentarios"
+    notConfigured  = "Sistema de comentarios no configurado"
+
+
+[home]
+    featuredProjects = "Proyectos destacados"
+    viewAll          = "Ver todo"
+    recentPosts      = "Artículos recientes"
+

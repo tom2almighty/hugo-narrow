@@ -9,18 +9,17 @@
         </h1>
       </div>
 
-      {{ if .Date }}
+      {{ with .Date }}
         <div class="text-muted-foreground flex items-center gap-2 text-sm">
           {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-          <time datetime="{{ .Date.Format `2006-01-02` }}">
-            {{ .Date | time.Format ":date_medium" }}
+          <time datetime="{{ .Format `2006-01-02` }}">
+            {{ . | time.Format ":date_medium" }}
           </time>
         </div>
       {{ end }}
-      {{ if .Params.description }}
-        <p class="text-muted-foreground mt-4">
-          {{ .Params.description }}
-        </p>
+
+      {{ with .Description }}
+        <p>{{ . }}</p>
       {{ end }}
     </header>
 
@@ -80,7 +79,7 @@
                       <a
                         href="#{{ $id }}"
                         class="heading-anchor"
-                        aria-label="{{ i18n "heading_anchor" | default "Link to this section" }}"
+                        aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
                       >
                         {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
                       </a>

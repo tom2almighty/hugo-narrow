@@ -1,0 +1,114 @@
+[list]
+    [list.pages]
+        zero = "{{ .count }} صفحة"
+        one = "{{ .count }} صفحة"
+        two = "{{ .count }} صفحتان"
+        few = "{{ .count }} صفحات"
+        many = "{{ .count }} صفحة"
+        other = "{{ .count }} صفحة"
+
+    [list.taxonomy_terms]
+        zero = "{{ .name }}: {{ .count }}"
+        one = "{{ .name }}: {{ .count }}"
+        two = "{{ .name }}: {{ .count }}"
+        few = "{{ .name }}: {{ .count }}"
+        many = "{{ .name }}: {{ .count }}"
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        zero = "{{ .count }} صفحة"
+        one = "{{ .count }} صفحة"
+        two = "{{ .count }} صفحتان"
+        few = "{{ .count }} صفحات"
+        many = "{{ .count }} صفحة"
+        other = "{{ .count }} صفحة"
+
+[article]
+    empty          = "لا يوجد محتوى"
+    relatedContent = "محتوى ذو صلة"
+    prev           = "السابق"
+    next           = "التالي"
+    noPrev         = "لا يوجد سابق"
+    noNext         = "لا يوجد تالٍ"
+
+    [article.alert]
+        note      = "ملاحظة"
+        tip       = "نصيحة"
+        important = "مهم"
+        caution   = "تنبيه"
+        warning   = "تحذير"
+
+    [article.readingTime]
+        zero = "{{ .count }} دقيقة"
+        one = "{{ .count }} دقيقة"
+        two = "{{ .count }} دقيقتان"
+        few = "{{ .count }} دقائق"
+        many = "{{ .count }} دقيقة"
+        other = "{{ .count }} دقيقة"
+
+    [article.wordCount]
+        zero = "{{ .count }} كلمة"
+        one = "{{ .count }} كلمة"
+        two = "{{ .count }} كلمتان"
+        few = "{{ .count }} كلمات"
+        many = "{{ .count }} كلمة"
+        other = "{{ .count }} كلمة"
+
+[code]
+  copy            = "نسخ"
+  copied          = "تم النسخ"
+  expend          = "توسيع"
+  collapse        = "طي"
+  click_to_expand = "انقر للتوسيع"
+
+[nav]
+    anchor        = "رابط إلى هذا القسم"
+    backHome      = "العودة إلى الرئيسية"
+    breadcrumb    = "مسار التنقل"
+    menu          = "القائمة"
+    prev          = "السابق"
+    next          = "التالي"
+    pageInfo      = "الصفحة {{ .current }} من {{ .total }}"
+
+[ui]
+    dockAriaLabel = "شريط الإجراءات السريعة"
+    dockBack      = "رجوع"
+    dockSearch    = "بحث"
+    dockComments  = "التعليقات"
+    dockBackToTop = "العودة للأعلى"
+    dockTop       = "أعلى"
+    toc           = "جدول المحتويات"
+
+    searchClear        = "مسح"
+    searchPlaceholder  = "ابحث في المقالات..."
+    searchClose        = "إغلاق"
+    searchEmpty        = "ابدأ البحث"
+    searchLoading      = "جارٍ البحث..."
+    searchNoResults    = "لا توجد نتائج"
+    searchResultsCount = "تم العثور على %d"
+    searchHints        = "تنقل|اختيار|إغلاق|اختصار"
+
+    themeDark    = "داكن"
+    themeLight   = "فاتح"
+    themeSystem  = "النظام"
+    themeToggle  = "تبديل السمة"
+
+    languageToggle = "تغيير اللغة"
+
+[license]
+    title  = "الترخيص"
+    author = "المؤلف"
+    link   = "الرابط"
+    type   = "الترخيص"
+
+
+[comments]
+    title          = "التعليقات"
+    notConfigured  = "نظام التعليقات غير مهيأ"
+
+
+[home]
+    featuredProjects = "مشاريع مميزة"
+    viewAll          = "عرض الكل"
+    recentPosts      = "أحدث المقالات"
+

@@ -49,20 +49,8 @@
           {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
         </div>
         <h3 class="text-foreground mb-2 text-lg font-medium">
-          {{ i18n "comments_javascript_required" | default "需要启用 JavaScript" }}
+          {{ T "comments.notConfigured" }}
         </h3>
-        <p class="text-muted-foreground text-sm">
-          {{ i18n "comments_disqus_noscript" | default "请启用 JavaScript 以查看评论" }}
-        </p>
-        <a
-          href="https://disqus.com/?ref_noscript"
-          class="text-primary hover:text-primary/80 mt-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors"
-          target="_blank"
-          rel="noopener"
-        >
-          {{ i18n "comments_powered_by_disqus" | default "由 Disqus 提供支持" }}
-          {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "ariaLabel" "") }}
-        </a>
       </div>
     </noscript>
   </div>
@@ -72,10 +60,7 @@
       {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
     </div>
     <h3 class="text-foreground mb-2 text-lg font-medium">
-      {{ i18n "comments_disqus_not_configured" | default "Disqus 未配置" }}
+      {{ T "comments.notConfigured" }}
     </h3>
-    <p class="text-muted-foreground text-sm">
-      {{ i18n "comments_disqus_config_desc" | default "请在站点配置中设置 Disqus shortname" }}
-    </p>
   </div>
 {{ end }}

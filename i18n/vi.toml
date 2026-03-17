@@ -1,0 +1,89 @@
+[list]
+    [list.pages]
+        other = "{{ .count }} trang"
+
+    [list.taxonomy_terms]
+        other = "{{ .name }}: {{ .count }}"
+
+    [list.paginations]
+        other = "{{ .count }} trang"
+
+[article]
+    empty          = "Không có nội dung"
+    relatedContent = "Nội dung liên quan"
+    prev           = "Trước"
+    next           = "Sau"
+    noPrev         = "Không có trước"
+    noNext         = "Không có sau"
+
+    [article.alert]
+        note      = "Lưu ý"
+        tip       = "Mẹo"
+        important = "Quan trọng"
+        caution   = "Cẩn trọng"
+        warning   = "Cảnh báo"
+
+    [article.readingTime]
+        other = "{{ .count }} phút"
+
+    [article.wordCount]
+        other = "{{ .count }} từ"
+
+[code]
+  copy            = "Sao chép"
+  copied          = "Đã sao chép"
+  expend          = "Mở rộng"
+  collapse        = "Thu gọn"
+  click_to_expand = "Nhấp để mở rộng"
+
+[nav]
+    anchor        = "Liên kết đến phần này"
+    backHome      = "Về trang chủ"
+    breadcrumb    = "Đường dẫn"
+    menu          = "Menu"
+    prev          = "Trước"
+    next          = "Sau"
+    pageInfo      = "Trang {{ .current }} / {{ .total }}"
+
+[ui]
+    dockAriaLabel = "Thanh thao tác nhanh"
+    dockBack      = "Quay lại"
+    dockSearch    = "Tìm kiếm"
+    dockComments  = "Bình luận"
+    dockBackToTop = "Lên đầu trang"
+    dockTop       = "Đầu trang"
+    toc           = "Mục lục"
+
+    searchClear        = "Xóa"
+    searchPlaceholder  = "Tìm bài viết..."
+    searchClose        = "Đóng"
+    searchEmpty        = "Bắt đầu tìm kiếm"
+    searchLoading      = "Đang tìm..."
+    searchNoResults    = "Không có kết quả"
+    searchResultsCount = "Tìm thấy %d"
+    searchHints        = "Điều hướng|Chọn|Đóng|Phím tắt"
+
+    themeDark    = "Tối"
+    themeLight   = "Sáng"
+    themeSystem  = "Hệ thống"
+    themeToggle  = "Chuyển giao diện"
+
+    languageToggle = "Đổi ngôn ngữ"
+
+[license]
+    title  = "Giấy phép"
+    author = "Tác giả"
+    link   = "Liên kết"
+    type   = "Giấy phép"
+
+
+[comments]
+    title          = "Bình luận"
+    notConfigured  = "Hệ thống bình luận chưa được cấu hình"
+
+
+[home]
+    featuredProjects = "Dự án nổi bật"
+    viewAll          = "Xem tất cả"
+    recentPosts      = "Bài viết mới"
+

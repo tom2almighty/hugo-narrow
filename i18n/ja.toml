@@ -1,0 +1,89 @@
+[list]
+    [list.pages]
+        other = "{{ .count }} ページ"
+
+    [list.taxonomy_terms]
+        other = "{{ .name }}：{{ .count }}"
+
+    [list.paginations]
+        other = "{{ .count }} ページ"
+
+[article]
+    empty          = "コンテンツはありません"
+    relatedContent = "関連記事"
+    prev           = "前へ"
+    next           = "次へ"
+    noPrev         = "前はありません"
+    noNext         = "次はありません"
+
+    [article.alert]
+        note      = "注意"
+        tip       = "ヒント"
+        important = "重要"
+        caution   = "注意"
+        warning   = "警告"
+
+    [article.readingTime]
+        other = "{{ .count }}分"
+
+    [article.wordCount]
+        other = "{{ .count }} 字"
+
+[code]
+  copy            = "コピー"
+  copied          = "コピーしました"
+  expend          = "展開"
+  collapse        = "折りたたむ"
+  click_to_expand = "クリックして展開"
+
+[nav]
+    anchor        = "このセクションへのリンク"
+    backHome      = "ホームへ戻る"
+    breadcrumb    = "パンくず"
+    menu          = "メニュー"
+    prev          = "前へ"
+    next          = "次へ"
+    pageInfo      = "全{{ .total }}ページ中{{ .current }}ページ"
+
+[ui]
+    dockAriaLabel = "クイックアクションバー"
+    dockBack      = "戻る"
+    dockSearch    = "検索"
+    dockComments  = "コメント"
+    dockBackToTop = "トップへ戻る"
+    dockTop       = "トップ"
+    toc           = "目次"
+
+    searchClear        = "クリア"
+    searchPlaceholder  = "記事を検索..."
+    searchClose        = "閉じる"
+    searchEmpty        = "検索を開始"
+    searchLoading      = "検索中..."
+    searchNoResults    = "結果が見つかりません"
+    searchResultsCount = "%d 件の結果"
+    searchHints        = "移動|選択|閉じる|ショートカット"
+
+    themeDark    = "ダーク"
+    themeLight   = "ライト"
+    themeSystem  = "システム"
+    themeToggle  = "テーマ切替"
+
+    languageToggle = "言語を切替"
+
+[license]
+    title  = "ライセンス"
+    author = "著者"
+    link   = "リンク"
+    type   = "ライセンス"
+
+
+[comments]
+    title          = "コメント"
+    notConfigured  = "コメントシステムが未設定"
+
+
+[home]
+    featuredProjects = "注目のプロジェクト"
+    viewAll          = "すべて表示"
+    recentPosts      = "最近の記事"
+

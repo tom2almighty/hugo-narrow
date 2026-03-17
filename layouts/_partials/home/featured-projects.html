@@ -7,7 +7,7 @@
     <!-- 标题 -->
     <div class="mb-6">
       <h2 class="text-foreground text-2xl font-bold">
-        {{ i18n "project_featured_projects" | default "Featured Projects" }}
+        {{ T "home.featuredProjects" }}
       </h2>
     </div>
 
@@ -23,11 +23,11 @@
     {{ if gt $projectsCount (len $featuredProjects) }}
       <div class="mt-8 mb-6 text-center">
         <a
-          href="{{ "/projects/" | relLangURL }}"
+          href="{{ `/projects/` | relLangURL }}"
           class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95"
         >
-          {{ partial "features/icon.html" (dict "name" "projects" "size" "md" "ariaLabel" (i18n "nav_projects")) }}
-          <span>{{ i18n "project_view_all_projects" | default "View All Projects" }}</span>
+          {{ partial "features/icon.html" (dict "name" "projects" "size" "md" "ariaLabel" "") }}
+          <span>{{ T "home.viewAll" }}</span>
           {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
         </a>
       </div>

@@ -38,10 +38,10 @@
       <a
         href="{{ $targetURL }}"
         class="language-cycle-btn border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
-        aria-label="{{ i18n "language_toggle" }}"
+        aria-label="{{ T "ui.languageToggle" }}"
         data-language-mode="cycle"
       >
-        {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" (i18n "language_toggle")) }}
+        {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" (T "ui.languageToggle")) }}
       </a>
     </div>
   {{- else -}}
@@ -74,7 +74,7 @@
     {{- partial "ui/dropdown-button.html" (dict
       "type" "language"
       "icon" "language"
-      "ariaLabel" (i18n "language_toggle")
+      "ariaLabel" (T "ui.languageToggle")
       "buttonId" "language-toggle"
       "dropdownId" "language-dropdown"
       "menuWidth" "w-40"

@@ -1,0 +1,91 @@
+[list]
+    [list.pages]
+        other = "{{ .count }} 个页面"
+
+    [list.taxonomy_terms]
+        other = "共 {{ .count }} 个 {{ .name }}"
+
+    [list.paginations]
+        other = "共 {{ .count }} 页"
+
+[article]
+    empty          = "暂无内容"
+    relatedContent = "相关内容"
+    prev           = "上一篇"
+    next           = "下一篇"
+    noPrev         = "没有上一篇"
+    noNext         = "没有下一篇"
+
+    [article.alert]
+        note      = "注意"
+        tip       = "提示"
+        important = "重要"
+        caution   = "小心"
+        warning   = "警告"
+
+    [article.readingTime]
+        other = "{{ .count }} 分钟"
+
+    [article.wordCount]
+        other = "{{ .count }} 字"
+
+[code]
+  copy            = "复制"
+  copied          = "已复制"
+  expend          = "展开"
+  collapse        = "折叠"
+  click_to_expand = "点击展开查看更多"
+
+[nav]
+    anchor        = "链接到此部分"
+    backHome      = "返回首页"
+    breadcrumb    = "面包屑导航"
+    menu          = "菜单"
+    prev          = "上一页"
+    next          = "下一页"
+    pageInfo      = "第 {{ .current }} 页，共 {{ .total }} 页"
+
+[ui]
+    dockAriaLabel = "快捷操作工具栏"
+    dockBack      = "返回"
+    dockSearch    = "搜索"
+    dockComments  = "评论"
+    dockBackToTop = "返回顶部"
+    dockTop       = "顶部"
+    toc           = "目录"
+
+    searchClear        = "清空"
+    searchPlaceholder  = "搜索文章..."
+    searchClose        = "关闭"
+    searchEmpty        = "开始搜索"
+    searchLoading      = "搜索中..."
+    searchNoResults    = "未找到结果"
+    searchResultsCount = "找到 %d 个结果"
+    searchHints        = "导航|选择|关闭|快捷键"
+
+    themeDark    = "暗色"
+    themeLight   = "亮色"
+    themeSystem  = "跟随系统"
+    themeToggle  = "切换主题风格"
+
+    languageToggle = "切换语言"
+
+[license]
+    title  = "版权声明"
+    author = "作者"
+    link   = "链接"
+    type   = "许可证"
+
+
+[comments]
+    title          = "评论"
+    notConfigured  = "评论系统未配置"
+
+
+[home]
+    featuredProjects = "特色项目"
+    viewAll          = "查看全部"
+    recentPosts      = "最近文章"
+
+
+ 

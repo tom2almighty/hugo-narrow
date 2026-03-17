@@ -15,13 +15,9 @@
         <div class="prose prose-neutral dark:prose-invert max-w-none">
           {{ .Content }}
         </div>
-      {{ else }}
+      {{ else if .Description }}
         <p class="text-muted-foreground">
-          {{ if $isMainSection }}
-            {{ i18n "post_list_desc" | default "这里是所有已发布的文章，按时间倒序排列。" }}
-          {{ else }}
-            {{ i18n "section_list_desc" | default "浏览此分类下的所有内容。" }}
-          {{ end }}
+          {{ .Description }}
         </p>
       {{ end }}
 
@@ -32,9 +28,7 @@
           {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
           <span>
             {{ if $isMainSection }}
-              {{ i18n "post_total_posts" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 篇文章" .Paginator.TotalNumberOfElements) }}
-            {{ else }}
-              {{ i18n "section_total_items" (dict "count" .Paginator.TotalNumberOfElements) | default (printf "共 %d 项内容" .Paginator.TotalNumberOfElements) }}
+              {{ T "list.pages" (dict "count" .Paginator.TotalNumberOfElements) }}
             {{ end }}
           </span>
         </div>
@@ -42,7 +36,7 @@
           <div class="flex items-center gap-1">
             {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
             <span>
-              {{ i18n "nav_total_pages" (dict "count" .Paginator.TotalPages) | default (printf "共 %d 页" .Paginator.TotalPages) }}
+              {{ T "list.paginations" (dict "count" .Paginator.TotalPages) }}
             </span>
           </div>
         {{ end }}
@@ -69,24 +63,15 @@
         </div>
         <h2 class="text-foreground mb-3 text-xl font-medium">
           {{ if $isMainSection }}
-            {{ i18n "post_no_posts" | default "暂无文章" }}
-          {{ else }}
-            {{ i18n "section_no_content" | default "暂无内容" }}
+            {{ T "article.empty" }}
           {{ end }}
         </h2>
-        <p class="text-muted-foreground mb-6">
-          {{ if $isMainSection }}
-            {{ i18n "post_no_posts_desc" | default "还没有发布任何文章，请稍后再来查看。" }}
-          {{ else }}
-            {{ i18n "section_no_content_desc" | default "此分类下还没有任何内容，请稍后再来查看。" }}
-          {{ end }}
-        </p>
         <a
-          href="{{ "/" | relLangURL }}"
+          href="{{ `/` | relLangURL }}"
           class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
         >
           {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-          <span>{{ i18n "nav_back_home" | default "返回首页" }}</span>
+          <span>{{ T "nav.backHome" }}</span>
         </a>
       </div>
     {{ end }}

@@ -3,7 +3,7 @@
   id="mobile-nav-panel"
   class="mt-2 hidden md:hidden"
   role="navigation"
-  aria-label="{{ i18n "nav_menu" }}"
+  aria-label="{{ T `nav.menu` }}"
   aria-hidden="true"
   tabindex="-1"
 >
@@ -36,7 +36,7 @@
               {{ if .Params.icon }}
                 {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
               {{ end }}
-              <span class="flex-1 text-left">{{ or (T .Identifier) .Name | safeHTML }}</span>
+              <span class="flex-1 text-left">{{ .Name }}</span>
               {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "class" "accordion-chevron transition-transform duration-300") }}
             </button>
             <!-- 子菜单：grid-rows 过渡实现平滑展开 -->
@@ -71,7 +71,7 @@
                       {{ if .Params.icon }}
                         {{ partial "features/icon.html" (dict "name" .Params.icon "size" "sm" "ariaLabel" .Name) }}
                       {{ end }}
-                      <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                      <span>{{ .Name }}</span>
                     </a>
                   {{ end }}
                 </div>
@@ -93,7 +93,7 @@
             {{ if .Params.icon }}
               {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
             {{ end }}
-            <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+            <span>{{ .Name }}</span>
           </a>
         {{ end }}
       {{ end }}

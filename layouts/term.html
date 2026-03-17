@@ -14,20 +14,10 @@
       </h1>
     </div>
 
-    {{ if .Content }}
+    {{ with .Content }}
       <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">
-        {{ .Content }}
+        {{ . }}
       </div>
-    {{ else }}
-      <p class="text-muted-foreground mb-6">
-        {{ if eq .Data.Singular "tag" }}
-          {{ i18n "term_tag_desc" (dict "tag" .Title) | default (printf "标签 \"%s\" 下的所有文章" .Title) }}
-        {{ else if eq .Data.Singular "category" }}
-          {{ i18n "term_category_desc" (dict "category" .Title) | default (printf "分类 \"%s\" 下的所有文章" .Title) }}
-        {{ else }}
-          {{ i18n "term_desc" (dict "term" .Title) | default (printf "\"%s\" 下的所有文章" .Title) }}
-        {{ end }}
-      </p>
     {{ end }}
 
 
@@ -36,12 +26,8 @@
       <div class="flex items-center gap-1">
         {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
         <span
-          >{{ i18n "term_total_posts" (dict "count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span
+          >{{ T "list.pages" (dict "count" (len .Pages)) }}</span
         >
-      </div>
-      <div class="flex items-center gap-1">
-        {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "term_date_range" | default "按时间排序" }}</span>
       </div>
     </div>
   </header>
@@ -57,23 +43,14 @@
         {{ partial "features/icon.html" (dict "name" "file-text" "size" "xl" "ariaLabel" "") }}
       </div>
       <h2 class="text-foreground mb-3 text-xl font-medium">
-        {{ i18n "term_no_posts" | default "暂无文章" }}
+        {{ T "article.empty" }}
       </h2>
-      <p class="text-muted-foreground mb-6">
-        {{ if eq .Data.Singular "tag" }}
-          {{ i18n "term_no_posts_tag" | default "该标签下还没有文章。" }}
-        {{ else if eq .Data.Singular "category" }}
-          {{ i18n "term_no_posts_category" | default "该分类下还没有文章。" }}
-        {{ else }}
-          {{ i18n "term_no_posts_desc" | default "该分类下还没有文章。" }}
-        {{ end }}
-      </p>
       <a
-        href="{{ "/" | relURL }}"
+        href="{{ `/` | relURL }}"
         class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
       >
         {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-        <span>{{ i18n "nav_back_home" | default "返回首页" }}</span>
+        <span>{{ T "nav.backHome" }}</span>
       </a>
     </div>
   {{ end }}

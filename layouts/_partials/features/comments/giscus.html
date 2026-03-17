@@ -158,10 +158,7 @@
       {{ partial "features/icon.html" (dict "name" "github" "size" "lg" "ariaLabel" "") }}
     </div>
     <h3 class="text-foreground mb-2 text-lg font-medium">
-      {{ i18n "comments_giscus_not_configured" | default "Giscus 未配置" }}
+      {{ T "comments.notConfigured" }}
     </h3>
-    <p class="text-muted-foreground text-sm">
-      {{ i18n "comments_giscus_config_desc" | default "请在站点配置中设置 GitHub 仓库信息" }}
-    </p>
   </div>
 {{ end }}

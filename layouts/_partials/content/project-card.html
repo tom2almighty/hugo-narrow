@@ -69,9 +69,9 @@
         {{ if $page.Params.featured }}
           <div class="mb-4">
             <span
-              class="bg-primary text-primary-foreground inline-block rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm"
+              class="bg-primary/10 text-primary inline-flex h-7 w-7 items-center justify-center rounded-full shadow-sm"
             >
-              {{ i18n "project_featured" | default "Featured" }}
+              {{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") }}
             </span>
           </div>
         {{ end }}

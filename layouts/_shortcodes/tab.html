@@ -26,13 +26,13 @@
       <button
         class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
         data-code-id="{{ $tabId }}"
-        title="{{ i18n `code_copy` | default `Copy code` }}"
-        aria-label="{{ i18n `code_copy` | default `Copy code` }}"
+        title="{{ T `code.copy` }}"
+        aria-label="{{ T `code.copy` }}"
       >
         <span class="copy-icon">
           {{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") }}
         </span>
-        <span class="copy-text hidden sm:inline">{{ i18n "code_copy" | default "Copy" }}</span>
+        <span class="copy-text hidden sm:inline">{{ T "code.copy" }}</span>
       </button>
     </div>
   </div>
@@ -57,11 +57,11 @@
       var text = (codeEl ? codeEl.textContent : container.textContent).trim();
       await navigator.clipboard.writeText(text);
       copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") | safeJS }}`;
-      if (copyText) copyText.textContent = '{{ i18n "code_copied" | default "Copied" }}';
+      if (copyText) copyText.textContent = '{{ T "code.copied" }}';
       copyBtn.classList.add('text-green-600');
       setTimeout(function() {
         copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") | safeJS }}`;
-        if (copyText) copyText.textContent = '{{ i18n "code_copy" | default "Copy" }}';
+        if (copyText) copyText.textContent = '{{ T "code.copy" }}';
         copyBtn.classList.remove('text-green-600');
       }, 2000);
     } catch(err) {

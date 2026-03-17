@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --minify",
     "compile:watch": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --watch",
-    "hugo:dev": "hugo server --source=exampleSite --themesDir=../.. --buildDrafts --buildFuture --disableFastRender",
+    "hugo:dev": "hugo server --source=exampleSite --themesDir=../.. --buildDrafts --buildFuture --disableFastRender --printI18nWarnings",
     "dev": "pnpm run compile && pnpm run hugo:dev",
     "dev:parallel": "concurrently \"pnpm run compile:watch\" \"pnpm run hugo:dev\"",
     "build": "pnpm run compile && hugo --source=exampleSite --themesDir=../.. --minify",
@@ -25,8 +25,5 @@
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.17"
-  },
-  "dependencies": {
-    "photoswipe": "^5.4.4"
   }
 }

@@ -1,0 +1,89 @@
+[list]
+    [list.pages]
+        other = "{{ .count }} 個頁面"
+
+    [list.taxonomy_terms]
+        other = "{{ .name }}：{{ .count }}"
+
+    [list.paginations]
+        other = "共 {{ .count }} 頁"
+
+[article]
+    empty          = "暫無內容"
+    relatedContent = "相關內容"
+    prev           = "上一篇"
+    next           = "下一篇"
+    noPrev         = "沒有上一篇"
+    noNext         = "沒有下一篇"
+
+    [article.alert]
+        note      = "注意"
+        tip       = "提示"
+        important = "重要"
+        caution   = "小心"
+        warning   = "警告"
+
+    [article.readingTime]
+        other = "{{ .count }} 分鐘"
+
+    [article.wordCount]
+        other = "{{ .count }} 字"
+
+[code]
+  copy            = "複製"
+  copied          = "已複製"
+  expend          = "展開"
+  collapse        = "摺疊"
+  click_to_expand = "點擊展開查看更多"
+
+[nav]
+    anchor        = "連結到此部分"
+    backHome      = "返回首頁"
+    breadcrumb    = "麵包屑導航"
+    menu          = "選單"
+    prev          = "上一頁"
+    next          = "下一頁"
+    pageInfo      = "第 {{ .current }} 頁，共 {{ .total }} 頁"
+
+[ui]
+    dockAriaLabel = "快捷操作工具列"
+    dockBack      = "返回"
+    dockSearch    = "搜尋"
+    dockComments  = "留言"
+    dockBackToTop = "返回頂部"
+    dockTop       = "頂部"
+    toc           = "目錄"
+
+    searchClear        = "清空"
+    searchPlaceholder  = "搜尋文章..."
+    searchClose        = "關閉"
+    searchEmpty        = "開始搜尋"
+    searchLoading      = "搜尋中..."
+    searchNoResults    = "未找到結果"
+    searchResultsCount = "找到 %d"
+    searchHints        = "導航|選擇|關閉|快捷鍵"
+
+    themeDark    = "暗色"
+    themeLight   = "亮色"
+    themeSystem  = "跟隨系統"
+    themeToggle  = "切換主題風格"
+
+    languageToggle = "切換語言"
+
+[license]
+    title  = "版權聲明"
+    author = "作者"
+    link   = "連結"
+    type   = "許可證"
+
+
+[comments]
+    title          = "留言"
+    notConfigured  = "留言系統未設定"
+
+
+[home]
+    featuredProjects = "特色專案"
+    viewAll          = "查看全部"
+    recentPosts      = "最近文章"
+
