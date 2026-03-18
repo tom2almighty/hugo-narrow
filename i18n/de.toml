@@ -31,7 +31,6 @@
   copied          = "Kopiert"
   expand          = "Erweitern"
   collapse        = "Einklappen"
-  click_to_expand = "Zum Erweitern klicken"
 
 [nav]
     anchor        = "Link zu diesem Abschnitt"

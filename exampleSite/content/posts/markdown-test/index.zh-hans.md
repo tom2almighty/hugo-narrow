@@ -118,6 +118,34 @@ const asyncFunction = async () => {
 };
 ```
 
+## 标签页
+
+使用 `tabs` 和 `tab` 短代码来切换任意 Markdown 内容。
+
+{{< tabs >}}
+{{< tab label="概览" >}}
+这个面板里可以放普通段落、`npm run dev` 这类行内代码，以及强调文本。
+
+- 公共说明
+- 初始化清单
+- 任意 Markdown 块
+{{< /tab >}}
+{{< tab label="代码" >}}
+```javascript {filename=fetch-user.js}
+async function fetchUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+  if (!response.ok) throw new Error("User not found");
+  return response.json();
+}
+```
+{{< /tab >}}
+{{< tab label="结果" >}}
+> `tabs` 短代码本身不绑定代码块。
+>
+> 每个面板都可以混合段落、代码块、列表、引用或图片。
+{{< /tab >}}
+{{< /tabs >}}
+
 ## 表格
 
 | 左对齐 | 居中对齐 | 右对齐 |
@@ -232,4 +260,3 @@ sequenceDiagram
 - `代码`
 
 </details>
-

@@ -1,72 +1,25 @@
-{{- $lang := .Get "lang" | default (.Get 0) | default "plaintext" -}}
-{{- $label := .Get "label" | default (.Get 1) | default ($lang | upper) -}}
-{{- $tabId := printf "tab-%d" .Ordinal -}}
-{{- $code := .Inner | strings.TrimSpace -}}
+{{- if not .Parent -}}
+  {{- errorf "The %q shortcode must be nested inside tabs. See %s" .Name .Position -}}
+{{- end -}}
 
-{{/* Build highlight options string from supported params */}}
-{{- $opts := slice -}}
-{{- with .Get "hl_lines" -}}{{- $opts = $opts | append (printf "hl_lines=%s" .) -}}{{- end -}}
-{{- with .Get "lineNos" -}}{{- $opts = $opts | append (printf "linenos=%s" .) -}}{{- end -}}
-{{- with .Get "lineNoStart" -}}{{- $opts = $opts | append (printf "linenostart=%s" (string .)) -}}{{- end -}}
-{{- $optsStr := delimit $opts " " -}}
+{{- $lang := .Get "lang" | default (.Get 0) | default "" -}}
+{{- $fallbackLabel := cond (ne $lang "") ($lang | upper) (printf "Tab %d" (add .Ordinal 1)) -}}
+{{- $label := .Get "label" | default (.Get 1) | default $fallbackLabel -}}
+{{- $tabsBaseId := printf "tabs-%d" .Parent.Ordinal -}}
+{{- $panelId := printf "%s-panel-%d" $tabsBaseId .Ordinal -}}
+{{- $content := (.Inner | strings.TrimSpace) | markdownify -}}
 
-{{- $highlighted := transform.Highlight $code $lang $optsStr -}}
-
-<div class="code-block-container border-border bg-card overflow-hidden" data-tab="{{ $label }}">
+<section
+  id="{{ $panelId }}"
+  class="tabs-panel outline-none"
+  role="tabpanel"
+  data-tabs-panel
+  data-tab-label="{{ $label }}"
+  {{ if ne .Ordinal 0 }}hidden{{ end }}
+>
   <div
-    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3"
+    class="tabs-panel-content pt-4 px-4 *:first:mt-0 *:last:mb-0 [&_.code-block-container:first-child]:mt-0 [&_.code-block-container:last-child]:mb-0"
   >
-    <div class="flex items-center gap-2">
-      <div class="text-muted-foreground shrink-0">
-        {{ partial "features/icon.html" (dict "name" "code" "size" "sm" "ariaLabel" "") }}
-      </div>
-      <span class="text-muted-foreground text-sm font-medium">{{ $label }}</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <button
-        class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
-        data-code-id="{{ $tabId }}"
-        title="{{ T `code.copy` }}"
-        aria-label="{{ T `code.copy` }}"
-      >
-        <span class="copy-icon">
-          {{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") }}
-        </span>
-        <span class="copy-text hidden sm:inline">{{ T "code.copy" }}</span>
-      </button>
-    </div>
+    {{ $content | safeHTML }}
   </div>
-  <div class="code-block-content" id="{{ $tabId }}">
-    {{ $highlighted }}
-  </div>
-</div>
-
-<script>
-(function() {
-  var codeId = '{{ $tabId }}';
-  var copyBtn = document.querySelector('.copy-code-btn[data-code-id="' + codeId + '"]');
-  var container = document.getElementById(codeId);
-  if (!copyBtn || !container) return;
-
-  var copyIcon = copyBtn.querySelector('.copy-icon');
-  var copyText = copyBtn.querySelector('.copy-text');
-
-  copyBtn.addEventListener('click', async function() {
-    try {
-      var codeEl = container.querySelector('code');
-      var text = (codeEl ? codeEl.textContent : container.textContent).trim();
-      await navigator.clipboard.writeText(text);
-      copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "check" "size" "xs" "ariaLabel" "") | safeJS }}`;
-      if (copyText) copyText.textContent = '{{ T "code.copied" }}';
-      copyBtn.classList.add('text-green-600');
-      setTimeout(function() {
-        copyIcon.innerHTML = `{{ partial "features/icon.html" (dict "name" "copy" "size" "xs" "ariaLabel" "") | safeJS }}`;
-        if (copyText) copyText.textContent = '{{ T "code.copy" }}';
-        copyBtn.classList.remove('text-green-600');
-      }, 2000);
-    } catch(err) {
-      console.error('Copy failed:', err);
-    }
-  });
-})();
-</script>
+</section>

@@ -28,7 +28,6 @@
   copied          = "コピーしました"
   expand          = "展開"
   collapse        = "折りたたむ"
-  click_to_expand = "クリックして展開"
 
 [nav]
     anchor        = "このセクションへのリンク"

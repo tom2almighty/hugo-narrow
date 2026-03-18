@@ -28,7 +28,6 @@
   copied          = "已複製"
   expand          = "展開"
   collapse        = "摺疊"
-  click_to_expand = "點擊展開查看更多"
 
 [nav]
     anchor        = "連結到此部分"

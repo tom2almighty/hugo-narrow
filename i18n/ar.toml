@@ -43,7 +43,6 @@
   copied          = "تم النسخ"
   expand          = "توسيع"
   collapse        = "طي"
-  click_to_expand = "انقر للتوسيع"
 
 [nav]
     anchor        = "رابط إلى هذا القسم"

@@ -28,7 +28,6 @@
   copied          = "Đã sao chép"
   expand          = "Mở rộng"
   collapse        = "Thu gọn"
-  click_to_expand = "Nhấp để mở rộng"
 
 [nav]
     anchor        = "Liên kết đến phần này"

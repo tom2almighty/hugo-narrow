@@ -1,0 +1,11 @@
+{{- $tabsId := printf "tabs-%d" .Ordinal -}}
+
+<div
+  class="tabs-wrapper border-border bg-card text-foreground my-6 rounded-xl border shadow-sm"
+  id="{{ $tabsId }}"
+  data-tabs
+>
+  <div class="tabs-panels px-3 pb-3 sm:px-4 sm:pb-4">
+    {{- .Inner -}}
+  </div>
+</div>

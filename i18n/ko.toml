@@ -28,7 +28,6 @@
   copied          = "복사됨"
   expand          = "확장"
   collapse        = "접기"
-  click_to_expand = "클릭하여 확장"
 
 [nav]
     anchor        = "이 섹션에 대한 링크"
