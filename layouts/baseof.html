@@ -9,6 +9,7 @@
   {{- $contentWidth := .Site.Params.contentWidth | default `56rem` -}}
   {{- $mainStyleAttr := printf `style="max-width: %s"` $contentWidth -}}
 
+
   <body class="bg-background text-foreground min-h-screen antialiased">
     <main class="mx-auto w-full" {{ $mainStyleAttr | safeHTMLAttr }}>
       {{ partial "ui/reading-progress.html" . }}

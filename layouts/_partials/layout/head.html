@@ -83,6 +83,7 @@
 {{- .Scratch.Set "galleryConfig" $galleryConfig.galleryOptions -}}
 {{- .Scratch.Set "lightboxConfig" $galleryConfig.lightboxOptions -}}
 
+
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />
 {{ partial "layout/head/seo.html" . }}
 
