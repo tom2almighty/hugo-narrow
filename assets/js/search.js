@@ -29,6 +29,18 @@
   let selectedIndex = -1;
   let searchTimeout = null;
 
+  function readJSONConfig(id) {
+    const configElement = document.getElementById(id);
+    if (!configElement?.textContent) return null;
+
+    try {
+      const parsed = JSON.parse(configElement.textContent);
+      return typeof parsed === "string" ? JSON.parse(parsed) : parsed;
+    } catch (_) {
+      return null;
+    }
+  }
+
   // 初始化
   function init() {
     // 获取 DOM 元素
@@ -353,7 +365,8 @@
 
     try {
       
-      let indexURL = window.HUGO_SEARCH_CONFIG?.searchIndexURL || "/index.json";
+      const searchConfig = readJSONConfig("search-config");
+      let indexURL = searchConfig?.searchIndexURL || "/index.json";
       indexURL = indexURL.replace(/['"]/g, '').replace(/%22/g, '');
 
       const response = await fetch(indexURL);

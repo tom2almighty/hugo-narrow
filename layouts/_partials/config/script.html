@@ -1,0 +1,3 @@
+{{- $id := .id -}}
+{{- $value := .value -}}
+<script id="{{ $id }}" type="application/json">{{ $value | jsonify | safeHTML }}</script>

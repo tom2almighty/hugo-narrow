@@ -6,11 +6,11 @@
     <script>{{ $themeInit.Content | safeJS }}</script>
   </head>
 
+  {{- $contentWidth := .Site.Params.contentWidth | default `56rem` -}}
+  {{- $mainStyleAttr := printf `style="max-width: %s"` $contentWidth -}}
+
   <body class="bg-background text-foreground min-h-screen antialiased">
-    <main
-      class="mx-auto w-full"
-      style="max-width: {{ .Site.Params.contentWidth | default `56rem` }}"
-    >
+    <main class="mx-auto w-full" {{ $mainStyleAttr | safeHTMLAttr }}>
       {{ partial "ui/reading-progress.html" . }}
 
       {{ partial "navigation/header.html" . }}

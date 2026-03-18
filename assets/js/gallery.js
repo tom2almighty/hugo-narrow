@@ -3,6 +3,18 @@
  * 使用 SmartGallery + PhotoSwipe 5
  */
 
+function readJSONConfig(id) {
+  const configElement = document.getElementById(id);
+  if (!configElement?.textContent) return null;
+
+  try {
+    const parsed = JSON.parse(configElement.textContent);
+    return typeof parsed === 'string' ? JSON.parse(parsed) : parsed;
+  } catch (_) {
+    return null;
+  }
+}
+
 // PhotoSwipe 灯箱管理器
 class PhotoSwipeLightboxManager {
   constructor(config = {}) {
@@ -122,29 +134,9 @@ class SmartGalleryLayoutManager {
 // 主画廊控制器
 class ImageGallery {
   constructor() {
-    const rawConfig = window.HUGO_GALLERY_CONFIG || {};
-
-    // 解析 JSON 字符串配置
-    let galleryOptions = rawConfig.galleryOptions || {};
-    let lightboxOptions = rawConfig.lightboxOptions || {};
-
-    if (typeof galleryOptions === 'string') {
-      try {
-        galleryOptions = JSON.parse(galleryOptions);
-      } catch (e) {
-        console.error('Failed to parse galleryOptions:', e);
-        galleryOptions = {};
-      }
-    }
-
-    if (typeof lightboxOptions === 'string') {
-      try {
-        lightboxOptions = JSON.parse(lightboxOptions);
-      } catch (e) {
-        console.error('Failed to parse lightboxOptions:', e);
-        lightboxOptions = {};
-      }
-    }
+    const rawConfig = readJSONConfig("gallery-config") || {};
+    const galleryOptions = rawConfig.galleryOptions || {};
+    const lightboxOptions = rawConfig.lightboxOptions || {};
 
     this.config = {
       gallery: rawConfig.gallery,

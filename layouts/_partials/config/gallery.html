@@ -35,18 +35,9 @@
   {{ end }}
 {{ end }}
 
-{{/* 设置页面级变量 */}}
-{{ .Scratch.Set "galleryEnabled" $galleryEnabled }}
-{{ .Scratch.Set "lightboxEnabled" $lightboxEnabled }}
-{{ .Scratch.Set "galleryConfig" $cleanGalleryConfig }}
-{{ .Scratch.Set "lightboxConfig" $cleanLightboxConfig }}
-
-{{/* 生成 JavaScript 配置 */}}
-<script>
-  window.HUGO_GALLERY_CONFIG = {
-    gallery: {{ $galleryEnabled }},
-    lightbox: {{ $lightboxEnabled }},
-    galleryOptions: {{ $cleanGalleryConfig | jsonify }},
-    lightboxOptions: {{ $cleanLightboxConfig | jsonify }}
-  };
-</script>
+{{- return dict
+  "gallery" $galleryEnabled
+  "lightbox" $lightboxEnabled
+  "galleryOptions" $cleanGalleryConfig
+  "lightboxOptions" $cleanLightboxConfig
+-}}
