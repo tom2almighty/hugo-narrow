@@ -12,7 +12,7 @@
   <!-- 搜索头部 -->
   <div class="border-border flex items-center gap-3 border-b p-4">
     <!-- 搜索图标 -->
-    <div class="text-muted-foreground h-5 w-5 flex-shrink-0">
+    <div class="text-muted-foreground h-5 w-5 shrink-0">
       {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
     </div>
 
@@ -22,8 +22,8 @@
       <button
         id="search-clear"
         class="text-muted-foreground hover:text-foreground hover:bg-muted/50 pointer-events-none absolute top-1/2 left-0 z-10 h-5 w-5 -translate-y-1/2 rounded opacity-0 transition-all duration-200"
-        title="{{ T "ui.searchClear" }}"
-        aria-label="{{ T "ui.searchClear" }}"
+        title="{{ T `ui.searchClear` }}"
+        aria-label="{{ T `ui.searchClear` }}"
       >
         {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
       </button>
@@ -32,7 +32,7 @@
       <input
         id="search-input"
         type="text"
-        placeholder="{{ T "ui.searchPlaceholder" }}"
+        placeholder="{{ T `ui.searchPlaceholder` }}"
         class="text-foreground placeholder:text-muted-foreground w-full border-none bg-transparent pl-8 text-lg outline-none"
         autocomplete="off"
         spellcheck="false"
@@ -43,8 +43,8 @@
     <button
       id="search-close"
       class="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex h-6 w-6 items-center justify-center rounded-md p-0.5 transition-all duration-200"
-      title="{{ T "ui.searchClose" }}"
-      aria-label="{{ T "ui.searchClose" }}"
+      title="{{ T `ui.searchClose` }}"
+      aria-label="{{ T `ui.searchClose` }}"
     >
       {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
     </button>
@@ -63,7 +63,7 @@
     </div>
 
     <!-- 加载状态 -->
-    <div id="search-loading" class="flex hidden items-center justify-center py-8">
+    <div id="search-loading" class="flex items-center justify-center py-8" hidden>
       <div
         class="mr-3 h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent"
       ></div>
@@ -73,7 +73,8 @@
     <!-- 无结果状态 -->
     <div
       id="search-no-results"
-      class="flex hidden flex-col items-center justify-center py-12 text-center"
+      class="flex flex-col items-center justify-center py-12 text-center"
+      hidden
     >
       <div class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
         {{ partial "features/icon.html" (dict "name" "text" "size" "lg" "ariaLabel" "") }}
@@ -84,12 +85,12 @@
     </div>
 
     <!-- 搜索结果列表 -->
-    <div id="search-results-list" class="hidden">
+    <div id="search-results-list" hidden>
       <!-- 结果统计 -->
       <div
         id="search-stats"
         class="text-muted-foreground border-border border-b px-4 py-3 text-sm"
-        data-count-other="{{ T "ui.searchResultsCount" }}"
+        data-count-other="{{ T `ui.searchResultsCount` }}"
       ></div>
 
       <!-- 结果项容器 -->

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --minify",
-    "compile:watch": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --watch",
+    "compile:watch": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --watch --minify",
     "hugo:dev": "hugo server --source=exampleSite --themesDir=../.. --buildDrafts --buildFuture --disableFastRender --printI18nWarnings",
     "dev": "pnpm run compile && pnpm run hugo:dev",
     "dev:parallel": "concurrently \"pnpm run compile:watch\" \"pnpm run hugo:dev\"",

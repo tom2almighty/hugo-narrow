@@ -62,7 +62,7 @@
 
             {{ if .Params.status }}
               <span class="text-muted-foreground/60">•</span>
-              <div class="flex items-center gap-2 text-foreground">
+              <div class="text-foreground flex items-center gap-2">
                 <span class="relative flex h-2.5 w-2.5">
                   <span
                     class="{{ if eq .Params.status `completed` }}
@@ -90,15 +90,15 @@
             {{ if .Params.tags }}
               <span class="text-muted-foreground/60">•</span>
               <div class="flex flex-wrap items-center gap-2">
-                  {{ range .Params.tags }}
-                    <a
-                      href="{{ `/tags/` | relLangURL }}{{ . | urlize }}/"
-                      class="bg-muted/40 text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary inline-flex rounded-lg border px-3 py-1.5 text-xs font-medium shadow-sm transition-all md:text-sm"
-                    >
-                      {{ . }}
-                    </a>
-                  {{ end }}
-                </div>
+                {{ range .Params.tags }}
+                  <a
+                    href="{{ `/tags/` | relLangURL }}{{ . | urlize }}/"
+                    class="bg-muted/40 text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary inline-flex rounded-lg border px-3 py-1.5 text-xs font-medium shadow-sm transition-all md:text-sm"
+                  >
+                    {{ . }}
+                  </a>
+                {{ end }}
+              </div>
             {{ end }}
 
             {{ if .Params.link }}

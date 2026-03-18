@@ -9,6 +9,7 @@
 {{- $panelId := printf "%s-panel-%d" $tabsBaseId .Ordinal -}}
 {{- $content := (.Inner | strings.TrimSpace) | markdownify -}}
 
+
 <section
   id="{{ $panelId }}"
   class="tabs-panel outline-none"
@@ -18,7 +19,7 @@
   {{ if ne .Ordinal 0 }}hidden{{ end }}
 >
   <div
-    class="tabs-panel-content pt-4 px-4 *:first:mt-0 *:last:mb-0 [&_.code-block-container:first-child]:mt-0 [&_.code-block-container:last-child]:mb-0"
+    class="tabs-panel-content px-4 pt-4 *:first:mt-0 *:last:mb-0 [&_.code-block-container:first-child]:mt-0 [&_.code-block-container:last-child]:mb-0"
   >
     {{ $content | safeHTML }}
   </div>

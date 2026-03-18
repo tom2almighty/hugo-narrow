@@ -76,6 +76,10 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
 {{- $allClasses := printf "%s %s %s" $baseClasses $variantClasses $sizeClasses -}}
 
 {{- $textColor := "white" -}}
+{{- $styleAttr := "" -}}
+{{- if $isCustomColor -}}
+  {{- $styleAttr = printf `style="background-color: %s; color: %s;"` $customColor $textColor -}}
+{{- end -}}
 
 
 <span class="my-2 mr-2 inline-block">
@@ -84,9 +88,7 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
       <a
         href="{{ $url }}"
         class="{{ $allClasses }}"
-        {{- if $isCustomColor }}
-          style="background-color: {{ $customColor }}; color: {{ $textColor }};"
-        {{ end }}
+        {{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
         target="_blank"
         {{- with $rel }}rel="{{ . }}"{{ end }}
       >
@@ -99,9 +101,7 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
       <a
         href="{{ $url }}"
         class="{{ $allClasses }}"
-        {{- if $isCustomColor }}
-          style="background-color: {{ $customColor }}; color: {{ $textColor }};"
-        {{ end }}
+        {{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
       >
         {{- if $icon -}}
           {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
@@ -112,9 +112,7 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
   {{- else -}}
     <button
       class="{{ $allClasses }}"
-      {{- if $isCustomColor }}
-        style="background-color: {{ $customColor }}; color: {{ $textColor }};"
-      {{ end }}
+      {{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
       type="button"
     >
       {{- if $icon -}}

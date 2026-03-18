@@ -302,7 +302,7 @@
     hideAllStates();
     resetNavigation();
     if (searchEmpty) {
-      searchEmpty.classList.remove("hidden");
+      searchEmpty.hidden = false;
     }
   }
 
@@ -311,7 +311,7 @@
     hideAllStates();
     resetNavigation();
     if (searchLoading) {
-      searchLoading.classList.remove("hidden");
+      searchLoading.hidden = false;
     }
   }
 
@@ -320,7 +320,7 @@
     hideAllStates();
     resetNavigation();
     if (searchNoResults) {
-      searchNoResults.classList.remove("hidden");
+      searchNoResults.hidden = false;
     }
   }
 
@@ -328,7 +328,7 @@
   function showResultsList() {
     hideAllStates();
     if (searchResultsList) {
-      searchResultsList.classList.remove("hidden");
+      searchResultsList.hidden = false;
     }
   }
 
@@ -342,7 +342,7 @@
     ];
     states.forEach((state) => {
       if (state) {
-        state.classList.add("hidden");
+        state.hidden = true;
       }
     });
   }
