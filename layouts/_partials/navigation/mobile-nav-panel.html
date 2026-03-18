@@ -25,13 +25,13 @@
         {{ end }}
         {{ if .HasChildren }}
           {{/* 有子菜单的父项：手风琴折叠 */}}
-          {{ $identifier := .Identifier }}
+          {{ $menuKey := .Name | anchorize }}
           <div class="nav-accordion-group">
             <button
               class="nav-accordion-toggle text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
-              data-accordion-id="{{ $identifier }}"
+              data-accordion-id="{{ $menuKey }}"
               aria-expanded="false"
-              aria-controls="accordion-{{ $identifier }}"
+              aria-controls="accordion-{{ $menuKey }}"
             >
               {{ if .Params.icon }}
                 {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
@@ -41,9 +41,9 @@
             </button>
             <!-- 子菜单：grid-rows 过渡实现平滑展开 -->
             <div
-              id="accordion-{{ $identifier }}"
+              id="accordion-{{ $menuKey }}"
               class="nav-accordion-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out"
-              data-accordion-id="{{ $identifier }}"
+              data-accordion-id="{{ $menuKey }}"
               aria-hidden="true"
             >
               <div class="overflow-hidden">

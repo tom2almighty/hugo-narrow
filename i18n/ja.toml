@@ -2,12 +2,6 @@
     [list.pages]
         other = "{{ .count }} ページ"
 
-    [list.taxonomy_terms]
-        other = "{{ .name }}：{{ .count }}"
-
-    [list.paginations]
-        other = "{{ .count }} ページ"
-
 [article]
     empty          = "コンテンツはありません"
     relatedContent = "関連記事"
@@ -32,7 +26,7 @@
 [code]
   copy            = "コピー"
   copied          = "コピーしました"
-  expend          = "展開"
+  expand          = "展開"
   collapse        = "折りたたむ"
   click_to_expand = "クリックして展開"
 
@@ -82,8 +76,8 @@
     notConfigured  = "コメントシステムが未設定"
 
 
+
 [home]
     featuredProjects = "注目のプロジェクト"
     viewAll          = "すべて表示"
     recentPosts      = "最近の記事"
-

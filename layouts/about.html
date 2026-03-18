@@ -21,8 +21,7 @@
   <!-- Links section -->
   {{ $links := .Params.links }}
   {{ if $links }}
-    <div class="mt-12">
-      <h2 class="text-foreground mb-6 text-2xl font-bold">{{ T "links" }}</h2>
+    <div class="mt-6">
       <div class="link-card-group">
         {{ range $links }}
           {{ partial "content/link.html" (dict

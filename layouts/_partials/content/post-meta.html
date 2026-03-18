@@ -77,9 +77,13 @@
                 {{ partial "features/icon.html" (dict "name" $taxonomyName "size" "sm" "ariaLabel" "") }}
               </div>
               <div class="flex-1 min-w-0">
+                {{- $taxonomyLabel := $taxonomyName | humanize }}
+                {{- with $.Site.GetPage (printf "/%s" $taxonomyName) }}
+                  {{- $taxonomyLabel = .LinkTitle | default .Title }}
+                {{- end }}
                 <div class="flex flex-wrap items-center gap-1.5">
                   <span class="text-muted-foreground text-sm font-medium">
-                    {{ i18n $taxonomyName | default ($taxonomyName | humanize) }}:
+                    {{ $taxonomyLabel }}:
                   </span>
                   {{- range $terms }}
                   <a href="{{ .RelPermalink }}"

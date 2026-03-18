@@ -2,12 +2,6 @@
     [list.pages]
         other = "{{ .count }} 个页面"
 
-    [list.taxonomy_terms]
-        other = "共 {{ .count }} 个 {{ .name }}"
-
-    [list.paginations]
-        other = "共 {{ .count }} 页"
-
 [article]
     empty          = "暂无内容"
     relatedContent = "相关内容"
@@ -32,7 +26,7 @@
 [code]
   copy            = "复制"
   copied          = "已复制"
-  expend          = "展开"
+  expand          = "展开"
   collapse        = "折叠"
   click_to_expand = "点击展开查看更多"
 
@@ -80,6 +74,7 @@
 [comments]
     title          = "评论"
     notConfigured  = "评论系统未配置"
+
 
 
 [home]

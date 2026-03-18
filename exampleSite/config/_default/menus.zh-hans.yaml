@@ -1,74 +1,66 @@
 main:
-  - identifier: posts
-    name: 文章
+  - name: 文章
     pageRef: /posts
     weight: 10
     params:
       icon: posts
 
-  - identifier: categories
-    name: 分类
-    pageRef: /categories
-    weight: 20
-    params:
-      icon: categories
-  - identifier: tags
-    name: 标签
-    pageRef: /tags
-    weight: 30
-    params:
-      icon: tags
-  - identifier: archives
-    name: 归档
+  - name: 归档
     pageRef: /archives
-    weight: 40
+    weight: 20
     params:
       icon: archive
 
-  # 父菜单项及子菜单
-  - identifier: more
-    name: 更多
-    weight: 50
+  # Example: parent item with dropdown submenu children
+  - name: 更多
+    weight: 30
     params:
       icon: layers
 
-  - identifier: about
-    name: 关于
-    pageRef: /about
-    parent: more
+  - name: 标签
     weight: 1
+    pageRef: /tags
+    parent: 更多
     params:
-      icon: about
+      icon: tags
 
-  - identifier: projects
-    name: 项目
-    pageRef: /projects
-    parent: more
+  - name: 分类
     weight: 2
+    pageRef: /categories
+    parent: 更多
+    params:
+      icon: categories
+
+  - name: 系列
+    weight: 3
+    pageRef: /series
+    parent: 更多
+    params:
+      icon: bookmark
+
+  - name: 项目
+    weight: 4
+    pageRef: /projects
+    parent: 更多
     params:
       icon: projects
 
-  - identifier: timeline
-    name: 时间线
+
+
+# footer menu
+footer:
+  - name: 时间线
     pageRef: /timeline
-    parent: more
-    weight: 3
+    weight: 10
     params:
       icon: chart
 
-# 页脚菜单
-footer:
-  - identifier: projects
-    name: 项目
-    pageRef: /projects
-    weight: 10
-    params:
-      icon: projects
   - name: 关于
     pageRef: /about
     weight: 20
     params:
       icon: about
+
   - name: RSS 订阅
     url: /index.xml
     weight: 30

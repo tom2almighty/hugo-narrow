@@ -2,12 +2,6 @@
     [list.pages]
         other = "{{ .count }}페이지"
 
-    [list.taxonomy_terms]
-        other = "{{ .name }} {{ .count }}개"
-
-    [list.paginations]
-        other = "{{ .count }}페이지"
-
 [article]
     empty          = "콘텐츠 없음"
     relatedContent = "관련 콘텐츠"
@@ -32,7 +26,7 @@
 [code]
   copy            = "복사"
   copied          = "복사됨"
-  expend          = "확장"
+  expand          = "확장"
   collapse        = "접기"
   click_to_expand = "클릭하여 확장"
 
@@ -80,6 +74,7 @@
 [comments]
     title          = "댓글"
     notConfigured  = "댓글 시스템이 설정되지 않았습니다"
+
 
 
 [home]

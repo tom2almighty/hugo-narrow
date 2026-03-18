@@ -7,22 +7,6 @@
         many = "{{ .count }} صفحة"
         other = "{{ .count }} صفحة"
 
-    [list.taxonomy_terms]
-        zero = "{{ .name }}: {{ .count }}"
-        one = "{{ .name }}: {{ .count }}"
-        two = "{{ .name }}: {{ .count }}"
-        few = "{{ .name }}: {{ .count }}"
-        many = "{{ .name }}: {{ .count }}"
-        other = "{{ .name }}: {{ .count }}"
-
-    [list.paginations]
-        zero = "{{ .count }} صفحة"
-        one = "{{ .count }} صفحة"
-        two = "{{ .count }} صفحتان"
-        few = "{{ .count }} صفحات"
-        many = "{{ .count }} صفحة"
-        other = "{{ .count }} صفحة"
-
 [article]
     empty          = "لا يوجد محتوى"
     relatedContent = "محتوى ذو صلة"
@@ -57,7 +41,7 @@
 [code]
   copy            = "نسخ"
   copied          = "تم النسخ"
-  expend          = "توسيع"
+  expand          = "توسيع"
   collapse        = "طي"
   click_to_expand = "انقر للتوسيع"
 
@@ -107,8 +91,8 @@
     notConfigured  = "نظام التعليقات غير مهيأ"
 
 
+
 [home]
     featuredProjects = "مشاريع مميزة"
     viewAll          = "عرض الكل"
     recentPosts      = "أحدث المقالات"
-

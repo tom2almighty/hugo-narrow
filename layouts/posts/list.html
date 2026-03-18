@@ -36,7 +36,7 @@
           <div class="flex items-center gap-1">
             {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
             <span>
-              {{ T "list.paginations" (dict "count" .Paginator.TotalPages) }}
+              {{ .Paginator.PageNumber }} / {{ .Paginator.TotalPages }}
             </span>
           </div>
         {{ end }}

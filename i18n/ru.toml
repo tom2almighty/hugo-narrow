@@ -5,18 +5,6 @@
         many = "{{ .count }} страниц"
         other = "{{ .count }} страниц"
 
-    [list.taxonomy_terms]
-        one = "{{ .name }}: {{ .count }}"
-        few = "{{ .name }}: {{ .count }}"
-        many = "{{ .name }}: {{ .count }}"
-        other = "{{ .name }}: {{ .count }}"
-
-    [list.paginations]
-        one = "{{ .count }} страница"
-        few = "{{ .count }} страницы"
-        many = "{{ .count }} страниц"
-        other = "{{ .count }} страниц"
-
 [article]
     empty          = "Нет содержимого"
     relatedContent = "Похожие материалы"
@@ -33,10 +21,10 @@
         warning   = "Предупреждение"
 
     [article.readingTime]
-        one = "{{ .count }} мин"
-        few = "{{ .count }} мин"
-        many = "{{ .count }} мин"
-        other = "{{ .count }} мин"
+        one = "{{ .count }} минута"
+        few = "{{ .count }} минуты"
+        many = "{{ .count }} минут"
+        other = "{{ .count }} минут"
 
     [article.wordCount]
         one = "{{ .count }} слово"
@@ -47,7 +35,7 @@
 [code]
   copy            = "Копировать"
   copied          = "Скопировано"
-  expend          = "Развернуть"
+  expand          = "Развернуть"
   collapse        = "Свернуть"
   click_to_expand = "Нажмите, чтобы развернуть"
 
@@ -97,8 +85,8 @@
     notConfigured  = "Система комментариев не настроена"
 
 
+
 [home]
     featuredProjects = "Избранные проекты"
     viewAll          = "Показать все"
     recentPosts      = "Последние статьи"
-

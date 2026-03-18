@@ -2,12 +2,6 @@
     [list.pages]
         other = "{{ .count }} trang"
 
-    [list.taxonomy_terms]
-        other = "{{ .name }}: {{ .count }}"
-
-    [list.paginations]
-        other = "{{ .count }} trang"
-
 [article]
     empty          = "Không có nội dung"
     relatedContent = "Nội dung liên quan"
@@ -32,7 +26,7 @@
 [code]
   copy            = "Sao chép"
   copied          = "Đã sao chép"
-  expend          = "Mở rộng"
+  expand          = "Mở rộng"
   collapse        = "Thu gọn"
   click_to_expand = "Nhấp để mở rộng"
 
@@ -82,8 +76,8 @@
     notConfigured  = "Hệ thống bình luận chưa được cấu hình"
 
 
+
 [home]
     featuredProjects = "Dự án nổi bật"
     viewAll          = "Xem tất cả"
     recentPosts      = "Bài viết mới"
-

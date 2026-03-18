@@ -10,7 +10,7 @@
 {{ if gt $paginator.TotalPages 1 }}
   <nav
     class="pagination mt-12"
-    aria-label="{{ T "nav.pageInfo" (dict "current" $paginator.PageNumber "total" $paginator.TotalPages) }}"
+    aria-label="{{ T `nav.pageInfo` (dict `current` $paginator.PageNumber `total` $paginator.TotalPages) }}"
   >
     <div class="flex items-center justify-center gap-2">
       <!-- 上一页 -->
@@ -18,7 +18,7 @@
         <a
           href="{{ $paginator.Prev.URL | relLangURL }}"
           class="bg-card border-border hover:bg-accent/50 hover:border-primary/20 inline-flex items-center gap-2 rounded-lg border px-4 py-2 font-medium transition-all duration-300"
-          aria-label="{{ T "nav.prev" }}"
+          aria-label="{{ T `nav.prev` }}"
         >
           {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
           <span class="hidden sm:inline">{{ T "nav.prev" }}</span>
@@ -97,7 +97,7 @@
         <a
           href="{{ $paginator.Next.URL | relLangURL }}"
           class="bg-card border-border hover:bg-accent/50 hover:border-primary/20 inline-flex items-center gap-2 rounded-lg border px-4 py-2 font-medium transition-all duration-300"
-          aria-label="{{ T "nav.next" }}"
+          aria-label="{{ T `nav.next` }}"
         >
           <span class="hidden sm:inline">{{ T "nav.next" }}</span>
           {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
@@ -111,11 +111,6 @@
         </span>
       {{ end }}
 
-    </div>
-
-    <!-- 分页信息 -->
-    <div class="text-muted-foreground mt-4 text-center text-sm">
-      {{ T "nav.pageInfo" (dict "current" $currentPage "total" $totalPages) }}
     </div>
   </nav>
 {{ end }}

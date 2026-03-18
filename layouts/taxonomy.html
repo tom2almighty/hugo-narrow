@@ -21,8 +21,7 @@
       <div class="flex items-center gap-1">
         {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "ariaLabel" "") }}
         <span>
-          {{ $name := T (printf "taxonomy.%s" .Data.Singular) | default .Data.Singular }}
-          {{ T "list.taxonomy_terms" (dict "count" (len .Data.Terms) "name" $name) }}
+          {{ T "list.pages" (dict "count" (len .Data.Terms)) }}
         </span>
       </div>
     </div>

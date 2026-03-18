@@ -53,11 +53,11 @@
             {{ end }}
             {{ if .HasChildren }}
               {{/* 有子菜单的父项：渲染为下拉菜单 */}}
-              {{ $identifier := .Identifier }}
+              {{ $menuKey := .Name | anchorize }}
               <div class="relative">
                 <button
                   class="nav-link nav-submenu-toggle text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 relative flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
-                  data-submenu-id="{{ $identifier }}"
+                  data-submenu-id="{{ $menuKey }}"
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
@@ -69,7 +69,7 @@
                 </button>
                 <div
                   class="nav-submenu border-border bg-popover/95 absolute top-full left-0 z-50 mt-2 hidden min-w-44 space-y-1.5 rounded-xl border p-1.5 shadow-lg backdrop-blur-sm"
-                  data-submenu-id="{{ $identifier }}"
+                  data-submenu-id="{{ $menuKey }}"
                   role="menu"
                 >
                   {{ range .Children }}

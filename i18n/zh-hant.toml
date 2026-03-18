@@ -2,12 +2,6 @@
     [list.pages]
         other = "{{ .count }} 個頁面"
 
-    [list.taxonomy_terms]
-        other = "{{ .name }}：{{ .count }}"
-
-    [list.paginations]
-        other = "共 {{ .count }} 頁"
-
 [article]
     empty          = "暫無內容"
     relatedContent = "相關內容"
@@ -32,7 +26,7 @@
 [code]
   copy            = "複製"
   copied          = "已複製"
-  expend          = "展開"
+  expand          = "展開"
   collapse        = "摺疊"
   click_to_expand = "點擊展開查看更多"
 
@@ -82,8 +76,8 @@
     notConfigured  = "留言系統未設定"
 
 
+
 [home]
     featuredProjects = "特色專案"
     viewAll          = "查看全部"
     recentPosts      = "最近文章"
-

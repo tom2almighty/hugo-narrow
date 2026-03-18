@@ -3,14 +3,6 @@
         one = "{{ .count }} página"
         other = "{{ .count }} páginas"
 
-    [list.taxonomy_terms]
-        one = "{{ .name }}: {{ .count }}"
-        other = "{{ .name }}: {{ .count }}"
-
-    [list.paginations]
-        one = "{{ .count }} página"
-        other = "{{ .count }} páginas"
-
 [article]
     empty          = "Sin contenido"
     relatedContent = "Contenido relacionado"
@@ -37,7 +29,7 @@
 [code]
   copy            = "Copiar"
   copied          = "Copiado"
-  expend          = "Expandir"
+  expand          = "Expandir"
   collapse        = "Contraer"
   click_to_expand = "Haz clic para expandir"
 
@@ -87,8 +79,8 @@
     notConfigured  = "Sistema de comentarios no configurado"
 
 
+
 [home]
     featuredProjects = "Proyectos destacados"
     viewAll          = "Ver todo"
     recentPosts      = "Artículos recientes"
-
