@@ -111,14 +111,3 @@ Hugo 提供了一些[内置短代码](https://gohugo.io/shortcodes/)，这些内
 {{</* tencent 视频ID */>}}
 ```
 
-### Masonry 图库
-
-创建瀑布流式图片画廊：
-
-```markdown
-{{</* masonry */>}}
-![图片 1](/images/1.jpg)
-![图片 2](/images/2.jpg)
-![图片 3](/images/3.jpg)
-{{</* /masonry */>}}
-```

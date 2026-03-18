@@ -118,7 +118,7 @@ const asyncFunction = async () => {
 };
 ```
 
-### Tabs
+## Tabs
 
 Use the `tabs` and `tab` shortcodes to switch between arbitrary Markdown content.
 

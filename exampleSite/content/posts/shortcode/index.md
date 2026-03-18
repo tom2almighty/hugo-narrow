@@ -104,15 +104,3 @@ Embed Bilibili videos:
 ```markdown
 {{</* tencent 视频ID */>}}
 ```
-
-### Masonry Gallery
-
-Create a waterfall-style image gallery:
-
-```markdown
-{{</* masonry */>}}
-![Image 1](/images/1.jpg)
-![Image 2](/images/2.jpg)
-![Image 3](/images/3.jpg)
-{{</* /masonry */>}}
-```
