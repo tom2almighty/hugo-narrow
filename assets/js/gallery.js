@@ -1,11 +1,8 @@
-/**
- * 模块化图片画廊系统 - 重构版
- * 使用 SmartGallery + PhotoSwipe 5
- */
+import GalleryLightbox from './gallery-lightbox.js';
 
 function readJSONConfig(id) {
   const configElement = document.getElementById(id);
-  if (!configElement?.textContent) return null;
+  if (!configElement || !configElement.textContent) return null;
 
   try {
     const parsed = JSON.parse(configElement.textContent);
@@ -15,60 +12,13 @@ function readJSONConfig(id) {
   }
 }
 
-// PhotoSwipe 灯箱管理器
-class PhotoSwipeLightboxManager {
-  constructor(config = {}) {
-    this.config = config;
-    this.lightboxInstances = new Map();
-  }
-
-  async initialize(galleryId, items) {
-    if (typeof PhotoSwipeLightbox === 'undefined') {
-      console.error('PhotoSwipe Lightbox is not available');
-      return null;
-    }
-
-    const options = {
-      gallerySelector: `#${galleryId}`,
-      dataSource: items,
-      pswpModule: () => {
-        return new Promise((resolve) => {
-          if (window.PhotoSwipe) {
-            resolve(window.PhotoSwipe);
-          } else {
-            console.error('PhotoSwipe core module not loaded');
-            resolve(null);
-          }
-        });
-      },
-      ...this.config
-    };
-
-    const lightbox = new PhotoSwipeLightbox(options);
-    lightbox.init();
-
-    this.lightboxInstances.set(galleryId, lightbox);
-    return lightbox;
-  }
-
-  destroy() {
-    this.lightboxInstances.forEach(lightbox => {
-      if (lightbox && lightbox.destroy) {
-        lightbox.destroy();
-      }
-    });
-    this.lightboxInstances.clear();
-  }
-}
-
-// SmartGallery 布局管理器
 class SmartGalleryLayoutManager {
   constructor(config = {}) {
     this.config = config;
     this.instances = new Map();
   }
 
-  initialize(container, items, layout) {
+  initialize(container, items, layout, onItemClick) {
     if (typeof SmartGallery === 'undefined') {
       console.error('SmartGallery is not available');
       return null;
@@ -76,18 +26,24 @@ class SmartGalleryLayoutManager {
 
     const options = {
       layout: layout || this.config.defaultLayout || this.config.defaultlayout || 'justified',
-      gap: this.config.gap !== undefined ? parseInt(this.config.gap) : 10,
-      targetRowHeight: this.config.targetRowHeight !== undefined ? parseInt(this.config.targetRowHeight) : (this.config.targetrowheight !== undefined ? parseInt(this.config.targetrowheight) : 300),
+      gap: this.config.gap !== undefined ? parseInt(this.config.gap, 10) : 10,
+      targetRowHeight: this.config.targetRowHeight !== undefined
+        ? parseInt(this.config.targetRowHeight, 10)
+        : (this.config.targetrowheight !== undefined ? parseInt(this.config.targetrowheight, 10) : 300),
       lastRowBehavior: this.config.lastRowBehavior || this.config.lastrowbehavior || 'left',
-      columnWidth: this.config.columnWidth !== undefined ? parseInt(this.config.columnWidth) : (this.config.columnwidth !== undefined ? parseInt(this.config.columnwidth) : 300),
+      columnWidth: this.config.columnWidth !== undefined
+        ? parseInt(this.config.columnWidth, 10)
+        : (this.config.columnwidth !== undefined ? parseInt(this.config.columnwidth, 10) : 300),
       columns: this.config.columns !== undefined ? this.config.columns : 'auto',
-     placeholderColor: 'transparent',
-      onItemClick: ({ index, event }) => {
-        if (event && event.target.closest('.layout-btn')) {
+      placeholderColor: 'transparent',
+      onItemClick: ({ index, originalEvent }) => {
+        if (originalEvent && originalEvent.target && originalEvent.target.closest('.layout-btn')) {
           return;
         }
-        const galleryId = container.id.replace('gallery-inner-', 'gallery-');
-        this.triggerLightbox(galleryId, index);
+
+        if (typeof onItemClick === 'function') {
+          onItemClick(index);
+        }
       }
     };
 
@@ -99,25 +55,21 @@ class SmartGalleryLayoutManager {
       gallery,
       container,
       items,
-      currentLayout: options.layout
+      onItemClick
     });
 
     return gallery;
   }
 
-  switchLayout(galleryId, newLayout) {
-    const instance = this.instances.get(galleryId);
-    if (!instance) return;
+  switchLayout(containerId, newLayout) {
+    const instance = this.instances.get(containerId);
+    if (!instance) {
+      return;
+    }
 
     instance.gallery.destroy();
-    this.initialize(instance.container, instance.items, newLayout);
-  }
-
-  triggerLightbox(galleryId, index) {
-    const event = new CustomEvent('gallery:openLightbox', {
-      detail: { galleryId, index }
-    });
-    window.dispatchEvent(event);
+    this.instances.delete(containerId);
+    this.initialize(instance.container, instance.items, newLayout, instance.onItemClick);
   }
 
   destroy() {
@@ -126,15 +78,14 @@ class SmartGalleryLayoutManager {
         gallery.destroy();
       }
     });
+
     this.instances.clear();
   }
 }
 
-
-// 主画廊控制器
 class ImageGallery {
   constructor() {
-    const rawConfig = readJSONConfig("gallery-config") || {};
+    const rawConfig = readJSONConfig('gallery-config') || {};
     const galleryOptions = rawConfig.galleryOptions || {};
     const lightboxOptions = rawConfig.lightboxOptions || {};
 
@@ -145,15 +96,15 @@ class ImageGallery {
       lightboxOptions
     };
 
-    this.layoutManager = new SmartGalleryLayoutManager(this.config.galleryOptions || {});
-    this.lightboxManager = new PhotoSwipeLightboxManager(this.config.lightboxOptions || {});
-    this.galleries = [];
+    this.layoutManager = new SmartGalleryLayoutManager(galleryOptions);
+    this.lightbox = this.config.lightbox ? new GalleryLightbox(lightboxOptions) : null;
+    this.singleImageCount = 0;
     this.init();
   }
 
   init() {
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.setup());
+      document.addEventListener('DOMContentLoaded', () => this.setup(), { once: true });
     } else {
       this.setup();
     }
@@ -161,29 +112,19 @@ class ImageGallery {
 
   setup() {
     this.processImages();
-    this.setupEventListeners();
-  }
-
-  setupEventListeners() {
-    window.addEventListener('gallery:openLightbox', (e) => {
-      const { galleryId, index } = e.detail;
-      const gallery = this.galleries.find(g => g.id === galleryId);
-      if (gallery && gallery.lightbox) {
-        gallery.lightbox.loadAndOpen(index);
-      }
-    });
   }
 
   processImages() {
     const imageFigures = document.querySelectorAll('.image-figure[data-gallery-type="auto"]');
-    if (imageFigures.length === 0) return;
+    if (imageFigures.length === 0) {
+      return;
+    }
 
     const groups = this.detectImageGroups(imageFigures);
 
-    // 使用 async/await 处理异步初始化
-    groups.forEach(async (group, index) => {
+    groups.forEach((group, index) => {
       if (group.length > 1 && this.config.gallery) {
-        await this.createGalleryGroup(group, index);
+        this.createGalleryGroup(group, index);
       } else {
         this.processIndividualImages(group);
       }
@@ -194,7 +135,7 @@ class ImageGallery {
     const groups = [];
     let currentGroup = [];
 
-    for (let i = 0; i < figures.length; i++) {
+    for (let i = 0; i < figures.length; i += 1) {
       const figure = figures[i];
       const nextFigure = figures[i + 1];
 
@@ -202,16 +143,10 @@ class ImageGallery {
 
       if (nextFigure && this.areConsecutiveByEmptyLine(figure, nextFigure)) {
         continue;
-      } else {
-        if (currentGroup.length > 0) {
-          groups.push([...currentGroup]);
-          currentGroup = [];
-        }
       }
-    }
 
-    if (currentGroup.length > 0) {
       groups.push([...currentGroup]);
+      currentGroup = [];
     }
 
     return groups;
@@ -221,17 +156,8 @@ class ImageGallery {
     let current = figure1.nextElementSibling;
 
     while (current && current !== figure2) {
-      if (current.nodeType === Node.TEXT_NODE) {
-        const text = current.textContent.trim();
-        if (text === '') {
-          current = current.nextElementSibling;
-          continue;
-        }
-        return false;
-      }
-
       if (current.nodeType === Node.ELEMENT_NODE) {
-        if (current.matches('.image-figure')) {
+        if (current.matches('.image-figure, .gallery-layout-switcher, .smart-gallery-container')) {
           current = current.nextElementSibling;
           continue;
         }
@@ -239,191 +165,188 @@ class ImageGallery {
         const tagName = current.tagName.toLowerCase();
         const text = current.textContent.trim();
 
-        if (tagName === 'p' && text === '') {
-          return false;
-        } else if (tagName === 'br') {
+        if (tagName === 'br') {
           current = current.nextElementSibling;
           continue;
-        } else if (text !== '') {
+        }
+
+        if (tagName === 'p' && text === '') {
           return false;
         }
-        current = current.nextElementSibling;
+
+        if (text !== '') {
+          return false;
+        }
       }
+
+      current = current.nextElementSibling;
     }
 
     return current === figure2;
   }
 
-  async createGalleryGroup(figures, groupIndex) {
+  createGalleryGroup(figures, groupIndex) {
     const galleryContainer = document.createElement('div');
     galleryContainer.className = 'smart-gallery-container';
-    galleryContainer.id = `gallery-${groupIndex}`;
+    galleryContainer.id = 'gallery-' + String(groupIndex);
 
-   // 创建布局切换器
-   const switcher = this.createLayoutSwitcher(galleryContainer.id);
-   galleryContainer.appendChild(switcher);
-
-    // 创建图库容器
     const galleryInner = document.createElement('div');
     galleryInner.className = 'smart-gallery';
-    galleryInner.id = `gallery-inner-${groupIndex}`;
-    galleryContainer.appendChild(galleryInner);
+    galleryInner.id = 'gallery-inner-' + String(groupIndex);
+    galleryInner.dataset.lightboxEnabled = this.lightbox ? 'true' : 'false';
 
-    // 提取图片数据
-    const items = [];
+    const layoutItems = [];
     const lightboxItems = [];
 
-    figures.forEach(figure => {
+    figures.forEach((figure) => {
       const img = figure.querySelector('img');
       const caption = figure.querySelector('.image-caption');
 
-      if (img) {
-        const src = figure.getAttribute('data-image-src') || img.src;
-        const width = parseInt(figure.getAttribute('data-image-width')) || img.naturalWidth || 800;
-        const height = parseInt(figure.getAttribute('data-image-height')) || img.naturalHeight || 600;
-
-        items.push({
-          src: img.src,
-          width,
-          height,
-          aspectRatio: width / height
-        });
-
-        lightboxItems.push({
-          src: src,
-          width,
-          height,
-          alt: img.alt || '',
-          caption: caption ? caption.textContent.trim() : ''
-        });
+      if (!img) {
+        return;
       }
-    });
 
-    // 替换原始图片
-    const firstFigure = figures[0];
-    firstFigure.parentNode.insertBefore(galleryContainer, firstFigure);
-    figures.forEach(figure => figure.remove());
+      const fullSizeSrc = figure.getAttribute('data-image-src') || img.currentSrc || img.src;
+      const previewSrc = img.currentSrc || img.src;
+      const width = parseInt(figure.getAttribute('data-image-width'), 10) || img.naturalWidth || 800;
+      const height = parseInt(figure.getAttribute('data-image-height'), 10) || img.naturalHeight || 600;
 
-    // 初始化 SmartGallery
-    const defaultLayout = this.config.galleryOptions?.defaultLayout || this.config.galleryOptions?.defaultlayout || 'justified';
-    this.layoutManager.initialize(galleryInner, items, defaultLayout);
+      layoutItems.push({
+        src: previewSrc,
+        width,
+        height,
+        aspectRatio: width / height
+      });
 
-    // 初始化 PhotoSwipe
-    let lightbox = null;
-    if (this.config.lightbox) {
-      lightbox = await this.lightboxManager.initialize(galleryContainer.id, lightboxItems);
-    }
-
-    this.galleries.push({
-      container: galleryContainer,
-      id: galleryContainer.id,
-      index: groupIndex,
-      lightbox
-    });
-  }
-
-  createLayoutSwitcher(galleryId) {
-    const switcher = document.createElement('div');
-    switcher.className = 'gallery-layout-switcher';
-    switcher.innerHTML = `
-      <button class="layout-btn" data-layout="justified" title="Justified Layout">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7"/>
-          <rect x="14" y="3" width="7" height="7"/>
-          <rect x="3" y="14" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/>
-        </svg>
-      </button>
-      <button class="layout-btn" data-layout="masonry" title="Masonry Layout">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="5"/>
-          <rect x="3" y="12" width="7" height="9"/>
-          <rect x="14" y="3" width="7" height="9"/>
-          <rect x="14" y="16" width="7" height="5"/>
-        </svg>
-      </button>
-      <button class="layout-btn" data-layout="grid" title="Grid Layout">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7"/>
-          <rect x="14" y="3" width="7" height="7"/>
-          <rect x="3" y="14" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/>
-        </svg>
-      </button>
-    `;
-
-    switcher.querySelectorAll('.layout-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const layout = btn.getAttribute('data-layout');
-        const innerGalleryId = galleryId.replace('gallery-', 'gallery-inner-');
-        this.layoutManager.switchLayout(innerGalleryId, layout);
-
-        switcher.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      lightboxItems.push({
+        src: fullSizeSrc,
+        width,
+        height,
+        alt: img.alt || '',
+        captionHTML: caption ? caption.innerHTML.trim() : ''
       });
     });
 
-    // 设置默认激活状态
-    const defaultLayout = this.config.galleryOptions?.defaultLayout || 'justified';
-    const defaultBtn = switcher.querySelector(`[data-layout="${defaultLayout}"]`);
-    if (defaultBtn) defaultBtn.classList.add('active');
+    if (layoutItems.length === 0) {
+      return;
+    }
+
+    const defaultLayout = this.config.galleryOptions.defaultLayout || this.config.galleryOptions.defaultlayout || 'justified';
+    const switcher = this.createLayoutSwitcher(defaultLayout, (newLayout) => {
+      this.layoutManager.switchLayout(galleryInner.id, newLayout);
+    });
+
+    galleryContainer.appendChild(switcher);
+    galleryContainer.appendChild(galleryInner);
+
+    const firstFigure = figures[0];
+    firstFigure.parentNode.insertBefore(galleryContainer, firstFigure);
+    figures.forEach((figure) => figure.remove());
+
+    if (this.lightbox) {
+      this.lightbox.registerGallery(galleryContainer.id, lightboxItems);
+    }
+
+    this.layoutManager.initialize(galleryInner, layoutItems, defaultLayout, (index) => {
+      if (this.lightbox) {
+        this.lightbox.open(galleryContainer.id, index);
+      }
+    });
+  }
+
+  createLayoutSwitcher(defaultLayout, onSwitch) {
+    const switcher = document.createElement('div');
+    switcher.className = 'gallery-layout-switcher';
+    switcher.innerHTML = [
+      '<button class="layout-btn" data-layout="justified" title="Justified Layout" aria-label="Switch to justified gallery layout">',
+      '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">',
+      '    <rect x="3" y="4" width="18" height="5" rx="1"/>',
+      '    <rect x="3" y="11" width="8" height="9" rx="1"/>',
+      '    <rect x="13" y="11" width="8" height="9" rx="1"/>',
+      '  </svg>',
+      '</button>',
+      '<button class="layout-btn" data-layout="masonry" title="Masonry Layout" aria-label="Switch to masonry gallery layout">',
+      '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">',
+      '    <rect x="3" y="3" width="7" height="7" rx="1"/>',
+      '    <rect x="3" y="12" width="7" height="9" rx="1"/>',
+      '    <rect x="14" y="3" width="7" height="11" rx="1"/>',
+      '    <rect x="14" y="16" width="7" height="5" rx="1"/>',
+      '  </svg>',
+      '</button>',
+      '<button class="layout-btn" data-layout="grid" title="Grid Layout" aria-label="Switch to grid gallery layout">',
+      '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">',
+      '    <rect x="3" y="3" width="7" height="7" rx="1"/>',
+      '    <rect x="14" y="3" width="7" height="7" rx="1"/>',
+      '    <rect x="3" y="14" width="7" height="7" rx="1"/>',
+      '    <rect x="14" y="14" width="7" height="7" rx="1"/>',
+      '  </svg>',
+      '</button>'
+    ].join('');
+
+    switcher.querySelectorAll('.layout-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const layout = button.getAttribute('data-layout');
+        onSwitch(layout);
+
+        switcher.querySelectorAll('.layout-btn').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+
+    const activeButton = switcher.querySelector('[data-layout="' + defaultLayout + '"]');
+    if (activeButton) {
+      activeButton.classList.add('active');
+    }
 
     return switcher;
   }
 
   processIndividualImages(figures) {
-    if (!this.config.lightbox) return;
+    if (!this.lightbox) {
+      return;
+    }
 
     figures.forEach((figure) => {
-      figure.classList.add('single-image');
-
       const img = figure.querySelector('img');
       const caption = figure.querySelector('.image-caption');
+      if (!img) {
+        return;
+      }
 
-      if (!img) return;
+      const galleryId = 'single-image-' + String(this.singleImageCount);
+      this.singleImageCount += 1;
 
-      const src = figure.getAttribute('data-image-src') || img.src;
-      const width = parseInt(figure.getAttribute('data-image-width')) || img.naturalWidth || 800;
-      const height = parseInt(figure.getAttribute('data-image-height')) || img.naturalHeight || 600;
+      const src = figure.getAttribute('data-image-src') || img.currentSrc || img.src;
+      const width = parseInt(figure.getAttribute('data-image-width'), 10) || img.naturalWidth || 800;
+      const height = parseInt(figure.getAttribute('data-image-height'), 10) || img.naturalHeight || 600;
 
-      img.style.cursor = 'pointer';
-      img.addEventListener('click', () => {
-        const lightbox = new PhotoSwipeLightbox({
-          dataSource: [{
-            src: src,
-            width,
-            height,
-            alt: img.alt || '',
-            caption: caption ? caption.textContent.trim() : ''
-          }],
-          pswpModule: () => {
-            return new Promise((resolve) => {
-              if (window.PhotoSwipe) {
-                resolve(window.PhotoSwipe);
-              } else {
-                console.error('PhotoSwipe core module not loaded');
-                resolve(null);
-              }
-            });
-          },
-          ...this.config.lightboxOptions
-        });
-        lightbox.init();
-        lightbox.loadAndOpen(0);
+      this.lightbox.registerGallery(galleryId, [{
+        src,
+        width,
+        height,
+        alt: img.alt || '',
+        captionHTML: caption ? caption.innerHTML.trim() : ''
+      }]);
+
+      figure.classList.add('single-image');
+      const trigger = figure.querySelector('.image-container') || img;
+      trigger.classList.add('lightbox-trigger');
+      trigger.addEventListener('click', () => {
+        this.lightbox.open(galleryId, 0);
       });
     });
   }
 
   destroy() {
     this.layoutManager.destroy();
-    this.lightboxManager.destroy();
-    this.galleries = [];
+    if (this.lightbox) {
+      this.lightbox.destroy();
+    }
   }
 }
 
-// 初始化画廊功能
 const imageGallery = new ImageGallery();
 
-// 导出到全局作用域
 window.ImageGallery = ImageGallery;
+window.imageGallery = imageGallery;

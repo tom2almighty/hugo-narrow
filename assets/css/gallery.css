@@ -2,54 +2,148 @@
 .gallery-layout-switcher {
   @apply mb-4 flex justify-end gap-2;
 }
-
 .gallery-layout-switcher .layout-btn {
-  @apply bg-surface border-border flex cursor-pointer items-center justify-center rounded-md border p-2 transition-all duration-200;
+  @apply bg-card border-border text-muted-foreground flex cursor-pointer items-center justify-center rounded-md border p-2 transition-all duration-200;
 }
-
 .gallery-layout-switcher .layout-btn:hover {
-  @apply bg-surface-hover border-primary;
+  @apply bg-accent border-primary text-primary;
 }
-
 .gallery-layout-switcher .layout-btn.active {
-  @apply bg-primary border-primary text-white;
+  @apply bg-primary border-primary text-primary-foreground;
 }
-
 .gallery-layout-switcher .layout-btn svg {
   @apply block;
 }
-
 /* Smart Gallery Container */
 .smart-gallery-container {
   @apply my-8;
 }
-
 .smart-gallery {
   @apply w-full;
 }
-
 /* SmartGallery Item Styles */
 .sg-item {
-  @apply cursor-pointer overflow-hidden rounded-lg transition-transform duration-200;
+  @apply overflow-hidden rounded-lg transition-transform duration-200;
 }
-
-.sg-item:hover {
+.smart-gallery[data-lightbox-enabled='true'] .sg-item {
+  @apply cursor-pointer;
+}
+.smart-gallery[data-lightbox-enabled='true'] .sg-item:hover {
   @apply scale-[1.02];
 }
-
 .sg-item img {
   @apply block h-full w-full object-cover;
 }
-
 /* Single Image Styles */
-.single-image .image-container {
+.single-image .image-container,
+.lightbox-trigger {
   @apply overflow-hidden rounded-lg;
 }
-
-.single-image img {
+.single-image img,
+.lightbox-trigger img {
   @apply rounded-lg transition-transform duration-300 ease-in-out;
 }
-
-.single-image img:hover {
+.single-image img:hover,
+.lightbox-trigger img:hover {
   @apply scale-105;
 }
+.single-image .lightbox-trigger {
+  @apply cursor-pointer;
+}
+/* Lightbox */
+html.gallery-lightbox-open,
+body.gallery-lightbox-open {
+  overflow: hidden;
+}
+.gallery-lightbox[hidden] {
+  display: none;
+}
+.gallery-lightbox {
+  @apply fixed inset-0 z-[100] flex items-center justify-center bg-background/92 p-4 opacity-0 backdrop-blur-sm transition-opacity duration-200;
+}
+.gallery-lightbox.is-open {
+  @apply opacity-100;
+}
+.gallery-lightbox__dialog {
+  @apply relative flex w-full max-w-6xl flex-col items-center gap-4;
+}
+.gallery-lightbox__frame {
+  @apply bg-card/95 border-border relative flex w-full items-center justify-center rounded-2xl border p-4 shadow-2xl;
+  min-height: min(32rem, calc(100vh - 10rem));
+}
+.gallery-lightbox__stage {
+  @apply flex w-full items-center justify-center;
+}
+.gallery-lightbox__image {
+  @apply block h-auto max-w-full rounded-xl object-contain;
+  max-height: calc(100vh - 12rem);
+}
+.gallery-lightbox__close,
+.gallery-lightbox__nav {
+  @apply bg-popover/95 text-foreground border-border inline-flex items-center justify-center rounded-full border shadow-lg transition-all duration-200;
+}
+.gallery-lightbox__close:hover,
+.gallery-lightbox__nav:hover:not(:disabled) {
+  @apply bg-accent text-accent-foreground border-primary;
+}
+.gallery-lightbox__close {
+  @apply absolute top-3 right-3 z-10 h-11 w-11 text-3xl leading-none;
+}
+.gallery-lightbox__nav {
+  @apply absolute top-1/2 z-10 h-12 w-12 -translate-y-1/2 text-4xl leading-none;
+}
+.gallery-lightbox__nav--prev {
+  @apply left-3;
+}
+.gallery-lightbox__nav--next {
+  @apply right-3;
+}
+.gallery-lightbox__nav:disabled {
+  @apply pointer-events-none opacity-40;
+}
+.gallery-lightbox__meta {
+  @apply bg-card/95 border-border text-foreground flex w-full max-w-4xl items-start gap-4 rounded-2xl border px-4 py-3 shadow-lg;
+}
+.gallery-lightbox__meta[data-has-caption='false'] {
+  @apply justify-center;
+}
+.gallery-lightbox__counter {
+  @apply text-muted-foreground shrink-0 text-sm font-medium;
+}
+.gallery-lightbox__caption {
+  @apply text-foreground min-w-0 flex-1 text-sm leading-relaxed;
+}
+.gallery-lightbox__meta[data-has-caption='false'] .gallery-lightbox__caption {
+  display: none;
+}
+.gallery-lightbox__caption > :first-child {
+  margin-top: 0;
+}
+.gallery-lightbox__caption > :last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 640px) {
+  .gallery-lightbox {
+    @apply p-3;
+  }
+  .gallery-lightbox__frame {
+    @apply rounded-xl p-3;
+    min-height: min(22rem, calc(100vh - 8rem));
+  }
+  .gallery-lightbox__close {
+    @apply top-2 right-2 h-10 w-10 text-2xl;
+  }
+  .gallery-lightbox__nav {
+    @apply h-10 w-10 text-3xl;
+  }
+  .gallery-lightbox__nav--prev {
+    @apply left-2;
+  }
+  .gallery-lightbox__nav--next {
+    @apply right-2;
+  }
+  .gallery-lightbox__meta {
+    @apply flex-col items-center text-center;
+  }
+}
+
