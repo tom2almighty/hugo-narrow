@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.22.0",
+  "packageManager": "pnpm@10.33.0",
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
     "concurrently": "^9.2.1",
