@@ -2,35 +2,27 @@
   {{- $currentLang := .Language.Lang -}}
   {{- $currentPage := . -}}
   {{- $languageSwitchMode := site.Params.header.languageSwitchMode | default "dropdown" -}}
+  {{- $sites := hugo.Sites -}}
+  {{- $translationURLs := dict -}}
+  {{- with $currentPage.AllTranslations -}}
+    {{- range . -}}
+      {{- $translationURLs = merge $translationURLs (dict .Language.Lang .RelPermalink) -}}
+    {{- end -}}
+  {{- end -}}
   {{/* 点击切换模式 */}}
   {{- if eq $languageSwitchMode "cycle" -}}
-    {{- $languages := slice -}}
-    {{- range site.Languages -}}
-      {{- $languages = $languages | append . -}}
-    {{- end -}}
-
     {{- $currentIndex := 0 -}}
-    {{- range $index, $lang := $languages -}}
-      {{- if eq $lang.Lang $currentLang -}}
+    {{- range $index, $site := $sites -}}
+      {{- if eq $site.Language.Lang $currentLang -}}
         {{- $currentIndex = $index -}}
       {{- end -}}
     {{- end -}}
 
-    {{- $nextIndex := mod (add $currentIndex 1) (len $languages) -}}
-    {{- $nextLang := index $languages $nextIndex -}}
-
-    {{- $targetURL := "/" -}}
-    {{- if $currentPage.IsTranslated -}}
-      {{- range $currentPage.Translations -}}
-        {{- if eq .Language.Lang $nextLang.Lang -}}
-          {{- $targetURL = .RelPermalink -}}
-        {{- end -}}
-      {{- end -}}
-      {{- if eq $targetURL "/" -}}
-        {{- $targetURL = printf "/%s/" $nextLang.Lang -}}
-      {{- end -}}
-    {{- else -}}
-      {{- $targetURL = printf "/%s/" $nextLang.Lang -}}
+    {{- $nextIndex := mod (add $currentIndex 1) (len $sites) -}}
+    {{- $nextSite := index $sites $nextIndex -}}
+    {{- $targetURL := $nextSite.Home.RelPermalink -}}
+    {{- with index $translationURLs $nextSite.Language.Lang -}}
+      {{- $targetURL = . -}}
     {{- end -}}
 
 
@@ -47,24 +39,15 @@
   {{- else -}}
     {{- /* 下拉菜单模式 */ -}}
     {{- $languageMenuContent := "" -}}
-    {{- range site.Languages -}}
-      {{- $lang := .Lang -}}
-      {{- $langName := .LanguageName -}}
+    {{- range $site := $sites -}}
+      {{- $lang := $site.Language.Lang -}}
+      {{- $langName := $site.Language.LanguageName | default $lang -}}
       {{- $isCurrent := eq $lang $currentLang -}}
 
       {{- /* 获取当前页面在目标语言下的URL */ -}}
-      {{- $targetURL := "/" -}}
-      {{- if $currentPage.IsTranslated -}}
-        {{- range $currentPage.Translations -}}
-          {{- if eq .Language.Lang $lang -}}
-            {{- $targetURL = .RelPermalink -}}
-          {{- end -}}
-        {{- end -}}
-        {{- if eq $targetURL "/" -}}
-          {{- $targetURL = printf "/%s/" $lang -}}
-        {{- end -}}
-      {{- else -}}
-        {{- $targetURL = printf "/%s/" $lang -}}
+      {{- $targetURL := $site.Home.RelPermalink -}}
+      {{- with index $translationURLs $lang -}}
+        {{- $targetURL = . -}}
       {{- end -}}
 
       {{- $languageMenuContent = printf "%s<a href=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\" role=\"menuitem\"%s><span class=\"font-medium\">%s</span></a>" $languageMenuContent $targetURL (cond $isCurrent " aria-current=\"true\"" "") $langName -}}
