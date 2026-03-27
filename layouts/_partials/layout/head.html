@@ -85,14 +85,15 @@
 {{- .Scratch.Set "galleryEnabled" $galleryConfig.gallery -}}
 {{- .Scratch.Set "lightboxEnabled" $galleryConfig.lightbox -}}
 {{- .Scratch.Set "galleryConfig" $galleryConfig.galleryOptions -}}
-{{- .Scratch.Set "lightboxConfig" $galleryConfig.lightboxOptions -}}
 
 
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />
 {{ partial "layout/head/seo.html" . }}
 
 {{ partial "config/script.html" (dict "id" "search-config" "value" $searchConfig) }}
-{{ partial "config/script.html" (dict "id" "gallery-config" "value" $galleryConfig) }}
+{{ if or ($galleryConfig.gallery) ($galleryConfig.lightbox) }}
+  {{ partial "config/script.html" (dict "id" "gallery-config" "value" $galleryConfig) }}
+{{ end }}
 {{ partial "layout/head/css.html" . }}
 {{ partial "layout/head/js.html" . }}
 

@@ -208,13 +208,9 @@ gallery:
   columnWidth: 200
   columns: 4 # auto 或具体数字
 
-# PhotoSwipe 灯箱
+# Lightbox
 lightbox:
   enabled: true
-  bgOpacity: 0.8
-  showHideAnimationType: zoom
-  showAnimationDuration: 333
-  hideAnimationDuration: 333
 
 # Code block
 codeblock:

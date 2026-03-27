@@ -42,7 +42,7 @@ class SmartGalleryLayoutManager {
         }
 
         if (typeof onItemClick === 'function') {
-          onItemClick(index);
+          onItemClick(index, originalEvent);
         }
       }
     };
@@ -87,17 +87,15 @@ class ImageGallery {
   constructor() {
     const rawConfig = readJSONConfig('gallery-config') || {};
     const galleryOptions = rawConfig.galleryOptions || {};
-    const lightboxOptions = rawConfig.lightboxOptions || {};
 
     this.config = {
       gallery: rawConfig.gallery,
       lightbox: rawConfig.lightbox,
-      galleryOptions,
-      lightboxOptions
+      galleryOptions
     };
 
     this.layoutManager = new SmartGalleryLayoutManager(galleryOptions);
-    this.lightbox = this.config.lightbox ? new GalleryLightbox(lightboxOptions) : null;
+    this.lightbox = this.config.lightbox ? new GalleryLightbox() : null;
     this.singleImageCount = 0;
     this.init();
   }
@@ -247,9 +245,12 @@ class ImageGallery {
       this.lightbox.registerGallery(galleryContainer.id, lightboxItems);
     }
 
-    this.layoutManager.initialize(galleryInner, layoutItems, defaultLayout, (index) => {
+    this.layoutManager.initialize(galleryInner, layoutItems, defaultLayout, (index, originalEvent) => {
       if (this.lightbox) {
-        this.lightbox.open(galleryContainer.id, index);
+        const triggerElement = originalEvent && originalEvent.target
+          ? originalEvent.target.closest('.sg-item')
+          : null;
+        this.lightbox.open(galleryContainer.id, index, { triggerElement });
       }
     });
   }
@@ -333,7 +334,7 @@ class ImageGallery {
       const trigger = figure.querySelector('.image-container') || img;
       trigger.classList.add('lightbox-trigger');
       trigger.addEventListener('click', () => {
-        this.lightbox.open(galleryId, 0);
+        this.lightbox.open(galleryId, 0, { triggerElement: trigger });
       });
     });
   }

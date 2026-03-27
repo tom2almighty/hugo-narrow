@@ -17,11 +17,6 @@
   {{ $galleryConfig = merge $galleryConfig $pageGallery }}
 {{ end }}
 
-{{ $lightboxConfig := $globalLightbox }}
-{{ if $pageLightbox }}
-  {{ $lightboxConfig = merge $lightboxConfig $pageLightbox }}
-{{ end }}
-
 {{/* 处理配置值 - 规范化键名为 camelCase */}}
 {{ $cleanGalleryConfig := dict }}
 {{ range $key, $value := $galleryConfig }}
@@ -30,16 +25,8 @@
   {{ end }}
 {{ end }}
 
-{{ $cleanLightboxConfig := dict }}
-{{ range $key, $value := $lightboxConfig }}
-  {{ if ne $key "enabled" }}
-    {{ $cleanLightboxConfig = merge $cleanLightboxConfig (dict $key $value) }}
-  {{ end }}
-{{ end }}
-
 {{- return dict
   "gallery" (and $galleryEnabled $pageHasImageFigure)
   "lightbox" (and $lightboxEnabled (or $pageHasImageFigure $pageHasLightboxFigure))
   "galleryOptions" $cleanGalleryConfig
-  "lightboxOptions" $cleanLightboxConfig
 -}}
