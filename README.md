@@ -27,7 +27,7 @@ Please visit [Hugo Narrow Docs](https://hugo-narrow-docs.vercel.app/) get full d
 
 ## 🔗 Demo
 
-[click to visit Demo](https://tom2almighty.github.io/hugo-narrow).
+[Demo](https://tom2almighty.github.io/hugo-narrow).
 
 ## 📄 License
 
@@ -45,7 +45,6 @@ This project is open source under the [MIT License](LICENSE).
 - [Hugo Theme Stack](https://stack.jimmycai.com/) - Bilibili and Tencent Video shortcodes.
 - [Vercel](https://vercel.com) - Docs.
 - [iconify](https://iconify.design/) - Get icons here, thanks to all open source icon sets.
-- [PhotoSwipe](https://photoswipe.com/) - Lightbox library.
 - [Augment Code](https://www.augmentcode.com/) - Programming assistant.
 - [Awesome-Merge-Picture](https://github.com/XiCheng148/Awesome-Merge-Picture) - Screen Making.
 
