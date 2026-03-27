@@ -6,13 +6,14 @@
   }}
   {{- with . | js.Build $opts }}
     {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}"></script>
+      <script src="{{ .RelPermalink }}" defer></script>
     {{- else }}
       {{- with . | fingerprint }}
         <script
           src="{{ .RelPermalink }}"
           integrity="{{ .Data.Integrity }}"
           crossorigin="anonymous"
+          defer
         ></script>
       {{- end }}
     {{- end }}
@@ -98,7 +99,7 @@
 
 {{/* Gallery JavaScript */}}
 {{ if .Scratch.Get "galleryEnabled" }}
-  <script src="{{ `js/smart-gallery.min.js` | relURL }}"></script>
+  <script src="{{ `js/smart-gallery.min.js` | relURL }}" defer></script>
 {{ end }}
 
 {{ if .Scratch.Get "lightboxEnabled" }}

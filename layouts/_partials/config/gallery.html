@@ -8,6 +8,8 @@
 {{/* 计算最终配置 */}}
 {{ $galleryEnabled := cond (isset $pageGallery "enabled") $pageGallery.enabled ($globalGallery.enabled | default false) }}
 {{ $lightboxEnabled := cond (isset $pageLightbox "enabled") $pageLightbox.enabled ($globalLightbox.enabled | default false) }}
+{{ $pageHasImageFigure := .Store.Get "hasImageFigure" | default false }}
+{{ $pageHasLightboxFigure := .Store.Get "hasLightboxFigure" | default false }}
 
 {{/* 合并配置对象 */}}
 {{ $galleryConfig := $globalGallery }}
@@ -36,8 +38,8 @@
 {{ end }}
 
 {{- return dict
-  "gallery" $galleryEnabled
-  "lightbox" $lightboxEnabled
+  "gallery" (and $galleryEnabled $pageHasImageFigure)
+  "lightbox" (and $lightboxEnabled (or $pageHasImageFigure $pageHasLightboxFigure))
   "galleryOptions" $cleanGalleryConfig
   "lightboxOptions" $cleanLightboxConfig
 -}}

@@ -65,7 +65,6 @@ class NavDisclosure {
     this.panel = document.getElementById("mobile-nav-panel");
     this.toggle = document.getElementById("mobile-nav-toggle");
     this.lastFocusedElement = null;
-    this.previousBodyOverflow = "";
     this.setup();
   }
 
@@ -101,7 +100,7 @@ class NavDisclosure {
     this.panel.classList.remove("hidden");
     this.panel.setAttribute("aria-hidden", "false");
     this.toggle.setAttribute("aria-expanded", "true");
-    this.lockScroll();
+    this.ui.lockScroll("mobile-nav");
     this.focusFirstElement();
   }
 
@@ -116,7 +115,7 @@ class NavDisclosure {
     }
 
     this.closeAllAccordions();
-    this.unlockScroll();
+    this.ui.unlockScroll("mobile-nav");
 
     if (restoreFocus && this.lastFocusedElement instanceof HTMLElement) {
       this.lastFocusedElement.focus();
@@ -278,15 +277,6 @@ class NavDisclosure {
     }
   }
 
-  lockScroll() {
-    this.previousBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-  }
-
-  unlockScroll() {
-    document.body.style.overflow = this.previousBodyOverflow;
-  }
-
   closeAll(options) {
     this.closePanel(options);
     this.closeAllDesktopSubmenus();
@@ -300,12 +290,15 @@ class UIManager {
       localStorage.getItem("colorScheme") ||
       document.documentElement.getAttribute("data-theme") ||
       "default";
+    this.scrollLocks = new Set();
+    this.previousBodyOverflow = "";
     this.init();
   }
 
   init() {
     this.navDisclosure = new NavDisclosure(this);
     this.toolDropdown = new ToolDropdown(this);
+    this.exposeAPI();
     this.setupGlobalListeners();
     this.updateUI();
   }
@@ -313,6 +306,14 @@ class UIManager {
   closeAllMenus(options = {}) {
     this.toolDropdown.closeAll();
     this.navDisclosure.closeAll(options);
+  }
+
+  exposeAPI() {
+    window.HugoNarrowUI = {
+      closeAllMenus: (options = {}) => this.closeAllMenus(options),
+      lockScroll: (key) => this.lockScroll(key),
+      unlockScroll: (key) => this.unlockScroll(key),
+    };
   }
 
   setupGlobalListeners() {
@@ -326,7 +327,9 @@ class UIManager {
         return;
       }
 
-      const themeButton = event.target.closest('.dropdown-menu[data-dropdown-type="theme"] [data-theme]');
+      const themeButton = event.target.closest(
+        '.dropdown-menu[data-dropdown-type="theme"] [data-theme]'
+      );
       if (themeButton) {
         this.setTheme(themeButton.getAttribute("data-theme"));
         this.closeAllMenus();
@@ -382,6 +385,27 @@ class UIManager {
       (this.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
     document.documentElement.classList.toggle("dark", isDark);
+  }
+
+  lockScroll(key = "default") {
+    if (this.scrollLocks.has(key)) return;
+
+    if (this.scrollLocks.size === 0) {
+      this.previousBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+    }
+
+    this.scrollLocks.add(key);
+  }
+
+  unlockScroll(key = "default") {
+    if (!this.scrollLocks.has(key)) return;
+
+    this.scrollLocks.delete(key);
+
+    if (this.scrollLocks.size === 0) {
+      document.body.style.overflow = this.previousBodyOverflow;
+    }
   }
 
   updateUI() {
@@ -443,9 +467,11 @@ class UIManager {
 }
 
 let initialized = false;
+let uiManager = null;
 
 export function initUI() {
-  if (initialized) return;
+  if (initialized) return uiManager;
   initialized = true;
-  new UIManager();
+  uiManager = new UIManager();
+  return uiManager;
 }

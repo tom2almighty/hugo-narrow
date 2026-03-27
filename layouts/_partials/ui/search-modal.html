@@ -8,6 +8,11 @@
 <div
   id="search-modal"
   class="bg-card border-border pointer-events-none fixed top-1/2 left-1/2 z-50 max-h-[80vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 scale-95 transform overflow-hidden rounded-xl border opacity-0 shadow-xl transition-all duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  aria-labelledby="search-title"
+  tabindex="-1"
 >
   <!-- 搜索头部 -->
   <div class="border-border flex items-center gap-3 border-b p-4">
@@ -15,6 +20,7 @@
     <div class="text-muted-foreground h-5 w-5 shrink-0">
       {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
     </div>
+    <h2 id="search-title" class="sr-only">{{ T `ui.dockSearch` }}</h2>
 
     <!-- 输入框容器 -->
     <div class="relative flex-1">
@@ -94,7 +100,7 @@
       ></div>
 
       <!-- 结果项容器 -->
-      <div id="search-items" class="divide-border divide-y">
+      <div id="search-items" class="divide-border divide-y" role="list">
         <!-- 动态生成搜索结果 -->
       </div>
     </div>

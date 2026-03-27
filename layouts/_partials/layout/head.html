@@ -76,6 +76,10 @@
   <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}" />
 {{ end }}
 
+{{- if or .IsPage .IsHome .IsSection .IsNode -}}
+  {{- $_ := .Content -}}
+{{- end -}}
+
 {{- $searchConfig := partial "config/search.html" . -}}
 {{- $galleryConfig := partial "config/gallery.html" . -}}
 {{- .Scratch.Set "galleryEnabled" $galleryConfig.gallery -}}

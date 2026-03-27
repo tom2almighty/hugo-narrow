@@ -11,12 +11,19 @@
 {{- $globalLightbox := site.Params.lightbox | default dict -}}
 {{- $pageLightbox := .Page.Params.lightbox | default dict -}}
 {{- $lightboxEnabled := false -}}
+{{- $pageContext.Store.Set "hasImageFigure" true -}}
+{{- .Page.Store.Set "hasImageFigure" true -}}
 
 {{/* 优先使用页面级配置，然后是全局配置 */}}
 {{- if isset $pageLightbox "enabled" -}}
   {{- $lightboxEnabled = $pageLightbox.enabled -}}
 {{- else if isset $globalLightbox "enabled" -}}
   {{- $lightboxEnabled = $globalLightbox.enabled -}}
+{{- end -}}
+
+{{- if $lightboxEnabled -}}
+  {{- $pageContext.Store.Set "hasLightboxFigure" true -}}
+  {{- .Page.Store.Set "hasLightboxFigure" true -}}
 {{- end -}}
 
 {{/* 使用图片处理器获取数据 */}}

@@ -31,12 +31,13 @@
 {{- end -}}
 
 {{/* 检查是否需要加载 KaTeX */}}
-{{- $shouldLoad := false -}}
-{{- if $globalEnabled -}}
-  {{- $shouldLoad = true -}}
-{{- else if $pageEnabled -}}
-  {{- $shouldLoad = true -}}
-{{- end -}}
+{{- $featureEnabled := or $globalEnabled $pageEnabled -}}
+{{- $contentToScan := .Content -}}
+{{- $hasBlockMath := gt (len (findRE `\$\$` $contentToScan)) 0 -}}
+{{- $hasParenMath := gt (len (findRE `\\\(` $contentToScan)) 0 -}}
+{{- $hasBracketMath := gt (len (findRE `\\\[` $contentToScan)) 0 -}}
+{{- $hasInlineMath := gt (len (findRE `(^|[^$])\$[^$\n]+\$` $contentToScan)) 0 -}}
+{{- $shouldLoad := and $featureEnabled (or $hasBlockMath $hasParenMath $hasBracketMath $hasInlineMath) -}}
 
 {{- if $shouldLoad -}}
   <!-- KaTeX 数学公式支持 -->
@@ -59,53 +60,43 @@
     crossorigin="anonymous"
   ></script>
 
-<script>
-    // 等待 KaTeX 脚本完全加载
+  <script>
     function initKaTeX() {
-        if (typeof renderMathInElement === 'undefined') {
-            setTimeout(initKaTeX, 100);
-            return;
-        }
+      if (typeof renderMathInElement === "undefined") {
+        setTimeout(initKaTeX, 100);
+        return;
+      }
 
-        {{/* 构建 delimiters 配置 */}}
-        {{- $delimiters := slice -}}
+      {{- $delimiters := slice -}}
+      {{- $activeDelimiters := $pageDelimiters | default $globalDelimiters -}}
 
-        {{/* 优先使用页面级配置，否则使用全局配置 */}}
-        {{- $activeDelimiters := $pageDelimiters | default $globalDelimiters -}}
-
-        {{- if $activeDelimiters -}}
-            {{/* 使用自定义 delimiters */}}
-            {{- range $activeDelimiters -}}
-                {{- $delimiters = $delimiters | append . -}}
-            {{- end -}}
-        {{- else -}}
-            {{/* 使用默认 delimiters */}}
-            {{- $defaultDelimiters := slice
-                (dict "left" "$$" "right" "$$" "display" true)
-                (dict "left" "$" "right" "$" "display" false)
-                (dict "left" "\\(" "right" "\\)" "display" false)
-                (dict "left" "\\[" "right" "\\]" "display" true)
-            -}}
-            {{- $delimiters = $defaultDelimiters -}}
+      {{- if $activeDelimiters -}}
+        {{- range $activeDelimiters -}}
+          {{- $delimiters = $delimiters | append . -}}
         {{- end -}}
+      {{- else -}}
+        {{- $delimiters = slice
+          (dict "left" "$$" "right" "$$" "display" true)
+          (dict "left" "$" "right" "$" "display" false)
+          (dict "left" "\\(" "right" "\\)" "display" false)
+          (dict "left" "\\[" "right" "\\]" "display" true)
+        -}}
+      {{- end -}}
 
-        var delimiters = {{ $delimiters | jsonify | safeJS }};
-
-        renderMathInElement(document.body, {
-            delimiters: delimiters,
-            throwOnError: false,
-            errorColor: '#cc0000',
-            fleqn: false,
-            leqno: false,
-            trust: false
-        });
+      renderMathInElement(document.body, {
+        delimiters: {{ $delimiters | jsonify | safeJS }},
+        throwOnError: false,
+        errorColor: "#cc0000",
+        fleqn: false,
+        leqno: false,
+        trust: false,
+      });
     }
 
-    // DOM 加载完成后初始化
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initKaTeX);
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initKaTeX, { once: true });
     } else {
-        initKaTeX();
+      initKaTeX();
     }
-</script>
+  </script>
 {{- end -}}
