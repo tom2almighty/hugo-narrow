@@ -1,0 +1,113 @@
+{{ define "main" }}
+  <!-- 页面标题和描述 -->
+  <header class="mb-8">
+    <h1 class="text-foreground mb-4 text-3xl font-bold">{{ .Title }}</h1>
+
+    {{ if .Content }}
+      <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">{{ .Content }}</div>
+    {{ else if .Description }}
+      <p class="text-muted-foreground mb-6">{{ .Description }}</p>
+    {{ end }}
+
+    <!-- 统计信息 -->
+    <div class="text-muted-foreground flex items-center gap-4 text-sm">
+      <div class="flex items-center gap-1">
+        {{ partial "features/icon.html" (dict "name" "series" "size" "sm" "ariaLabel" "") }}
+        <span>{{ T "list.pages" (dict "count" (len .Data.Terms)) }}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 系列卡片列表 -->
+  {{ $terms := .Data.Terms.ByCount }}
+  {{ if $terms }}
+    <div class="space-y-4">
+      {{ range $terms }}
+        {{ $termPage := .Page }}
+        {{ $count := .Count }}
+
+        {{/* 封面图：优先用系列 _index.md 的 cover，否则取第一篇有封面的文章 */}}
+        {{- $coverImage := "" -}}
+        {{- if $termPage.Params.cover -}}
+          {{- partial "content/image-processor.html" (dict
+            "context" $termPage
+            "src" $termPage.Params.cover
+            "enablePlaceholder" false
+            "outputType" "data"
+          ) -}}
+          {{- $coverImage = $termPage.Scratch.Get "imageUrl" -}}
+        {{- else -}}
+          {{- range $termPage.Pages -}}
+            {{- if and (not $coverImage) .Params.cover -}}
+              {{- partial "content/image-processor.html" (dict
+                "context" .
+                "src" .Params.cover
+                "enablePlaceholder" false
+                "outputType" "data"
+              ) -}}
+              {{- $coverImage = .Scratch.Get "imageUrl" -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{/* 描述：优先 _index.md description，否则 summary */}}
+        {{- $description := "" -}}
+        {{- if $termPage.Description -}}
+          {{- $description = $termPage.Description -}}
+        {{- else if $termPage.Summary -}}
+          {{- $description = $termPage.Summary | plainify | truncate 140 -}}
+        {{- end -}}
+
+        <article class="group">
+          <a href="{{ $termPage.RelPermalink }}" class="block">
+            <div
+              class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none md:flex-row"
+            >
+              {{- if $coverImage -}}
+                <div class="p-3 pb-0 md:order-last md:w-64 md:shrink-0 md:p-3 md:pl-0">
+                  <div class="relative aspect-video h-full w-full overflow-hidden rounded-lg">
+                    <img
+                      src="{{ $coverImage }}"
+                      alt="{{ $termPage.Title }}"
+                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              {{- end -}}
+
+              <div class="flex flex-1 flex-col justify-center gap-4 p-6">
+                <h3
+                  class="text-foreground group-hover:text-primary text-xl leading-tight font-bold transition-colors duration-200"
+                >
+                  {{ $termPage.LinkTitle }}
+                </h3>
+
+                {{ if $description }}
+                  <p class="text-muted-foreground line-clamp-3 text-sm leading-relaxed md:line-clamp-2">
+                    {{ $description }}
+                  </p>
+                {{ end }}
+
+                <div class="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+                  <div class="flex items-center gap-1.5">
+                    {{ partial "features/icon.html" (dict "name" "file-text" "size" "sm" "ariaLabel" "") }}
+                    <span class="font-medium">{{ T "list.pages" (dict "count" $count) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </article>
+      {{ end }}
+    </div>
+  {{ else }}
+    <!-- 空状态 -->
+    <div class="py-16 text-center">
+      <div class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+        {{ partial "features/icon.html" (dict "name" "series" "size" "xl" "ariaLabel" "") }}
+      </div>
+      <h2 class="text-foreground mb-3 text-xl font-medium">{{ T "article.empty" }}</h2>
+    </div>
+  {{ end }}
+{{ end }}
