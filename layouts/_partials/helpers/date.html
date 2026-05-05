@@ -1,23 +1,42 @@
 {{- /*
-  日期格式化辅助 partial。
+  日期 / 时间格式化辅助 partial。
 
-  根据 site.Params.dateFormat 渲染日期，可被 languages.<lang>.params.dateFormat 覆盖。
-  支持两种格式：
-    - Hugo 本地化 token：":date_full" / ":date_long" / ":date_medium" / ":date_short"
-      （依据当前语言的 locale 自动本地化输出）
-    - Go 时间布局串：例如 "2006-01-02"、"January 2, 2006"、"2006年1月2日"
-      （按字面输出，不本地化）
+  根据 site.Params.dateFormat（kind=date）或 site.Params.timeFormat（kind=time）渲染输入值，
+  可被 languages.<lang>.params.dateFormat / .timeFormat 覆盖。
+
+  支持两种格式串：
+    - Hugo 本地化 token（依据当前语言的 locale 自动本地化）：
+        日期：":date_full" / ":date_long" / ":date_medium" / ":date_short"
+        时间：":time_full" / ":time_long" / ":time_medium" / ":time_short"
+    - Go 时间布局串（按字面输出，不本地化）：
+        例如 "2006-01-02"、"January 2, 2006"、"15:04"、"3:04 PM"
 
   入参 (dict)：
     date    : time.Time，必填
-    variant : "long" | "medium" | "short"，可选，默认 "medium"
+    variant : "full" | "long" | "medium" | "short"，可选，默认 "long"
+    kind    : "date" | "time"，可选，默认 "date"
 
   使用示例：
     {{ partial "helpers/date.html" (dict "date" .Date "variant" "long") }}
+    {{ partial "helpers/date.html" (dict "date" .Date "variant" "short" "kind" "time") }}
 */ -}}
 {{- $date := .date -}}
-{{- $variant := .variant | default "medium" -}}
-{{- $defaults := dict "long" ":date_long" "medium" ":date_medium" "short" ":date_short" -}}
-{{- $configured := site.Params.dateFormat | default dict -}}
-{{- $format := (index $configured $variant) | default (index $defaults $variant) -}}
+{{- $variant := .variant | default "long" -}}
+{{- $kind := .kind | default "date" -}}
+{{- $defaults := dict
+  "date" (dict
+    "full" ":date_full"
+    "long" ":date_long"
+    "medium" ":date_medium"
+    "short" ":date_short")
+  "time" (dict
+    "full" ":time_full"
+    "long" ":time_long"
+    "medium" ":time_medium"
+    "short" ":time_short")
+-}}
+{{- $configKey := cond (eq $kind "time") "timeFormat" "dateFormat" -}}
+{{- $configured := (index site.Params $configKey) | default dict -}}
+{{- $kindDefaults := index $defaults $kind -}}
+{{- $format := (index $configured $variant) | default (index $kindDefaults $variant) -}}
 {{- $date | time.Format $format -}}

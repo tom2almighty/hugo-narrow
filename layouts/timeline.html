@@ -13,7 +13,7 @@
         <div class="text-muted-foreground flex items-center gap-2 text-sm">
           {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
           <time datetime="{{ .Format `2006-01-02` }}">
-            {{ partial "helpers/date.html" (dict "date" . "variant" "medium") }}
+            {{ partial "helpers/date.html" (dict "date" . "variant" "long") }}
           </time>
         </div>
       {{ end }}

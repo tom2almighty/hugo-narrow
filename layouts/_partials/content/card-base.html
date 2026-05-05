@@ -72,7 +72,7 @@
           <div class="flex items-center gap-1.5">
             {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
             <time datetime="{{ $page.Date.Format `2006-01-02` }}" class="font-medium">
-              {{ partial "helpers/date.html" (dict "date" $page.Date "variant" "medium") }}
+              {{ partial "helpers/date.html" (dict "date" $page.Date "variant" "long") }}
             </time>
           </div>
 
