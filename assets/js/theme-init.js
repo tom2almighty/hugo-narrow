@@ -3,9 +3,27 @@
 // 因此只能读取站点级参数，不能读取页面 front matter。
 (function () {
 const root = document.documentElement;
-const theme = localStorage.getItem('theme') || 'system';
-const colorScheme = localStorage.getItem('colorScheme') || '{{ site.Params.colorScheme | default "shadcn" }}';
-const contentWidth = Number.parseInt(localStorage.getItem('contentWidth'), 10);
+
+function readStorage(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch (_) {
+        return null;
+    }
+}
+
+function currentTheme() {
+    const stored = readStorage('theme');
+    return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+}
+
+const colorSchemes = {{ site.Params.themes | default dict | jsonify | safeJS }};
+const configuredScheme = '{{ site.Params.colorScheme | default "default" }}';
+const storedScheme = readStorage('colorScheme');
+const colorScheme = Object.prototype.hasOwnProperty.call(colorSchemes || {}, storedScheme)
+    ? storedScheme
+    : configuredScheme;
+const contentWidth = Number.parseInt(readStorage('contentWidth'), 10);
 const hasStoredWidth = Number.isInteger(contentWidth) && contentWidth >= 40 && contentWidth <= 90;
 
 // 尽早恢复用户设置的页面宽度，避免首屏布局闪动
@@ -17,7 +35,7 @@ if (hasStoredWidth) {
 root.setAttribute('data-theme', colorScheme);
 
 // 侧边目录：常显偏好覆盖模板渲染出的默认值
-const storedPin = localStorage.getItem('tocPinned');
+const storedPin = readStorage('tocPinned');
 if (storedPin === 'true' || storedPin === 'false') {
     root.setAttribute('data-toc-pinned', storedPin);
 }
@@ -47,17 +65,16 @@ root.style.setProperty('--toc-gutter', `${Math.round(gutter)}px`);
 
 // 设置明暗模式
 function applyTheme() {
-    if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    root.classList.add('dark');
-    } else {
-    root.classList.remove('dark');
-    }
+    const theme = currentTheme();
+    const isDark =
+        theme === 'dark' ||
+        (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    root.classList.toggle('dark', isDark);
 }
 
 applyTheme();
 
-// 监听系统主题变化
-if (theme === 'system') {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
-}
+// 监听系统主题变化；applyTheme 每次读取当前偏好，用户切走后不会误触发
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
 })();
