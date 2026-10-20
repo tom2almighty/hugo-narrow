@@ -73,6 +73,11 @@
     contentWidthReset  = "Ripristina predefinita"
     contentWidthToggle = "Regola larghezza pagina"
 
+    appearanceToggle = "Impostazioni aspetto"
+    colorScheme      = "Schema colori"
+    themeMode        = "Modalità aspetto"
+    closeMenu        = "Chiudi menu"
+
 [license]
     title  = "Licenza"
     author = "Autore"

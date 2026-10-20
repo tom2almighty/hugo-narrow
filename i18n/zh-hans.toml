@@ -70,6 +70,11 @@
     contentWidthReset  = "恢复默认"
     contentWidthToggle = "调整页面宽度"
 
+    appearanceToggle = "外观设置"
+    colorScheme      = "配色方案"
+    themeMode        = "明暗模式"
+    closeMenu        = "关闭菜单"
+
 [license]
     title  = "版权声明"
     author = "作者"

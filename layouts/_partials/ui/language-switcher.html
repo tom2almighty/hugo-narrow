@@ -9,7 +9,7 @@
       {{- $translationURLs = merge $translationURLs (dict .Language.Lang .RelPermalink) -}}
     {{- end -}}
   {{- end -}}
-  {{/* 点击切换模式 */}}
+
   {{- if eq $languageSwitchMode "cycle" -}}
     {{- $currentIndex := 0 -}}
     {{- range $index, $site := $sites -}}
@@ -26,43 +26,52 @@
     {{- end -}}
 
 
-    <div class="relative">
-      <a
-        href="{{ $targetURL }}"
-        class="language-cycle-btn border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
-        aria-label="{{ T "ui.languageToggle" }}"
-        data-language-mode="cycle"
-      >
-        {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
-      </a>
-    </div>
+    <a
+      href="{{ $targetURL }}"
+      class="language-cycle-btn border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+      aria-label="{{ T `ui.languageToggle` }}"
+      data-language-mode="cycle"
+    >
+      {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
+    </a>
   {{- else -}}
-    {{- /* 下拉菜单模式 */ -}}
-    {{- $languageMenuContent := "" -}}
-    {{- range $site := $sites -}}
-      {{- $lang := $site.Language.Lang -}}
-      {{- $langName := $site.Language.Label | default $lang -}}
-      {{- $isCurrent := eq $lang $currentLang -}}
+    <button
+      id="language-toggle"
+      type="button"
+      popovertarget="language-panel"
+      aria-controls="language-panel"
+      aria-expanded="false"
+      aria-label="{{ T `ui.languageToggle` }}"
+      class="border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+    >
+      {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
+    </button>
 
-      {{- /* 获取当前页面在目标语言下的URL */ -}}
-      {{- $targetURL := $site.Home.RelPermalink -}}
-      {{- with index $translationURLs $lang -}}
-        {{- $targetURL = . -}}
+    <div
+      id="language-panel"
+      popover
+      class="header-popover bg-popover text-popover-foreground border-border w-44 rounded-lg border p-1 shadow-lg"
+    >
+      {{- range $site := $sites -}}
+        {{- $lang := $site.Language.Lang -}}
+        {{- $langName := $site.Language.Label | default $lang -}}
+        {{- $isCurrent := eq $lang $currentLang -}}
+        {{- $targetURL := $site.Home.RelPermalink -}}
+        {{- with index $translationURLs $lang -}}
+          {{- $targetURL = . -}}
+        {{- end -}}
+        <a
+          href="{{ $targetURL }}"
+          class="{{ if $isCurrent }}
+            bg-accent text-accent-foreground
+          {{ else }}
+            text-muted-foreground hover:bg-accent hover:text-accent-foreground
+          {{ end }} focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-colors duration-200 focus:outline-none"
+          {{ if $isCurrent }}aria-current="page"{{ end }}
+        >
+          <span class="font-medium">{{ $langName }}</span>
+        </a>
       {{- end -}}
-
-      {{- $languageMenuContent = printf "%s<a href=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\"%s><span class=\"font-medium\">%s</span></a>" $languageMenuContent $targetURL (cond $isCurrent " aria-current=\"page\"" "") $langName -}}
-    {{- end -}}
-
-    {{- /* 使用统一的下拉菜单组件 */ -}}
-    {{- partial "ui/dropdown-button.html" (dict
-      "type" "language"
-      "icon" "language"
-      "ariaLabel" (T "ui.languageToggle")
-      "menuWidth" "w-40"
-      "showCondition" true
-      "content" (safeHTML $languageMenuContent)
-      )
-    -}}
+    </div>
   {{- end -}}
-
 {{- end -}}

@@ -1,3 +1,11 @@
+html {
+  scrollbar-gutter: stable;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;

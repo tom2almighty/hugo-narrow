@@ -73,6 +73,11 @@
     contentWidthReset  = "Restore default"
     contentWidthToggle = "Adjust page width"
 
+    appearanceToggle = "Appearance settings"
+    colorScheme      = "Color scheme"
+    themeMode        = "Theme mode"
+    closeMenu        = "Close menu"
+
 [license]
     title  = "License"
     author = "Author"

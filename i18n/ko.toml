@@ -70,6 +70,11 @@
     contentWidthReset  = "기본값 복원"
     contentWidthToggle = "페이지 너비 조절"
 
+    appearanceToggle = "모양 설정"
+    colorScheme      = "색상 구성표"
+    themeMode        = "표시 모드"
+    closeMenu        = "메뉴 닫기"
+
 [license]
     title  = "라이선스"
     author = "작성자"

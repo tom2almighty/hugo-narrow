@@ -73,6 +73,11 @@
     contentWidthReset  = "Rétablir par défaut"
     contentWidthToggle = "Ajuster la largeur de page"
 
+    appearanceToggle = "Paramètres d'apparence"
+    colorScheme      = "Palette de couleurs"
+    themeMode        = "Mode d'affichage"
+    closeMenu        = "Fermer le menu"
+
 [license]
     title  = "Licence"
     author = "Auteur"

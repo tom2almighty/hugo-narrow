@@ -70,6 +70,11 @@
     contentWidthReset  = "Khôi phục mặc định"
     contentWidthToggle = "Điều chỉnh chiều rộng trang"
 
+    appearanceToggle = "Cài đặt giao diện"
+    colorScheme      = "Bảng màu"
+    themeMode        = "Chế độ hiển thị"
+    closeMenu        = "Đóng menu"
+
 [license]
     title  = "Giấy phép"
     author = "Tác giả"

@@ -79,6 +79,11 @@
     contentWidthReset  = "Восстановить по умолчанию"
     contentWidthToggle = "Настроить ширину страницы"
 
+    appearanceToggle = "Настройки оформления"
+    colorScheme      = "Цветовая схема"
+    themeMode        = "Режим оформления"
+    closeMenu        = "Закрыть меню"
+
 [license]
     title  = "Лицензия"
     author = "Автор"

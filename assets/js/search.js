@@ -18,7 +18,6 @@
   let totalResults = 0;
   let selectedIndex = -1;
   let searchTimeout = null;
-  let lastFocusedElement = null;
 
   const RESULT_LIMIT = 30;
 
@@ -32,30 +31,6 @@
     } catch (_) {
       return null;
     }
-  }
-
-  function getUIBridge() {
-    return window.HugoNarrowUI || null;
-  }
-
-  function lockScroll() {
-    const ui = getUIBridge();
-    if (ui?.lockScroll) {
-      ui.lockScroll("search");
-      return;
-    }
-
-    document.body.style.overflow = "hidden";
-  }
-
-  function unlockScroll() {
-    const ui = getUIBridge();
-    if (ui?.unlockScroll) {
-      ui.unlockScroll("search");
-      return;
-    }
-
-    document.body.style.overflow = "";
   }
 
   function init() {
@@ -100,10 +75,7 @@
   }
 
   function handleDialogClose() {
-    unlockScroll();
     clearSearchContent();
-    lastFocusedElement?.focus();
-    lastFocusedElement = null;
 
     document.dispatchEvent(
       new CustomEvent("search:close", {
@@ -163,18 +135,23 @@
   function showSearch() {
     if (!searchModal || searchModal.open) return;
 
-    lastFocusedElement =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.querySelectorAll("[popover]:popover-open").forEach((popover) => {
+      try {
+        popover.hidePopover();
+      } catch (_) {
+        // Ignore browsers without a usable popover API.
+      }
+    });
 
-    getUIBridge()?.closeAllMenus?.({ restoreFocus: false });
+    document.querySelectorAll("dialog[open]").forEach((dialog) => {
+      if (dialog !== searchModal) dialog.close();
+    });
 
     if (typeof searchModal.showModal === "function") {
       searchModal.showModal();
     } else {
       searchModal.setAttribute("open", "");
     }
-
-    lockScroll();
 
     window.setTimeout(() => {
       searchInput?.focus();

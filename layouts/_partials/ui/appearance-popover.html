@@ -1,0 +1,112 @@
+{{- $header := site.Params.header | default dict -}}
+{{- $showScheme := true -}}
+{{- $showMode := true -}}
+{{- $showWidth := true -}}
+{{- if isset $header "showThemeSwitch" -}}{{- $showScheme = $header.showThemeSwitch -}}{{- end -}}
+{{- if isset $header "showDarkModeSwitch" -}}
+  {{- $showMode = $header.showDarkModeSwitch -}}
+{{- end -}}
+{{- if isset $header "showContentWidthSwitch" -}}
+  {{- $showWidth = $header.showContentWidthSwitch -}}
+{{- end -}}
+
+{{- if or $showScheme $showMode $showWidth -}}
+  <button
+    id="appearance-toggle"
+    type="button"
+    popovertarget="appearance-panel"
+    aria-controls="appearance-panel"
+    aria-expanded="false"
+    aria-label="{{ T `ui.appearanceToggle` }}"
+    class="border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+  >
+    {{ partial "features/icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
+  </button>
+
+  <div
+    id="appearance-panel"
+    popover
+    class="header-popover bg-popover text-popover-foreground border-border w-80 space-y-3 rounded-lg border p-3 shadow-lg"
+  >
+    {{- if $showScheme -}}
+      {{- $themes := site.Params.themes | default dict -}}
+      {{- $sortedThemes := slice -}}
+      {{- range $key, $theme := $themes -}}
+        {{- $sortedThemes = $sortedThemes | append (dict "key" $key "name" ($theme.name | default $key) "order" ($theme.order | default 999)) -}}
+      {{- end -}}
+      {{- $sortedThemes = sort $sortedThemes "order" -}}
+      <fieldset>
+        <legend class="text-foreground mb-2 text-sm font-semibold">
+          {{ T "ui.colorScheme" }}
+        </legend>
+        <div class="grid grid-cols-2 gap-1">
+          {{- range $sortedThemes -}}
+            <label class="block min-w-0">
+              <input type="radio" name="color-scheme" value="{{ .key }}" class="peer sr-only" />
+              <span
+                class="text-muted-foreground hover:bg-accent hover:text-accent-foreground peer-checked:bg-accent peer-checked:text-accent-foreground peer-focus-visible:ring-primary/20 flex w-full cursor-pointer items-center truncate rounded-md px-2.5 py-2 text-sm transition-colors duration-200 peer-focus-visible:ring-2 peer-focus-visible:outline-none"
+              >
+                {{ .name }}
+              </span>
+            </label>
+          {{- end -}}
+        </div>
+      </fieldset>
+    {{- end -}}
+
+    {{- if $showMode -}}
+      <fieldset class="border-border border-t pt-3">
+        <legend class="text-foreground mb-2 text-sm font-semibold">
+          {{ T "ui.themeMode" }}
+        </legend>
+        <div class="grid grid-cols-3 gap-1">
+          {{- range slice
+            (dict "value" "light" "label" (T "ui.themeLight"))
+            (dict "value" "dark" "label" (T "ui.themeDark"))
+            (dict "value" "system" "label" (T "ui.themeSystem"))
+          -}}
+            <label class="block">
+              <input type="radio" name="theme-mode" value="{{ .value }}" class="peer sr-only" />
+              <span
+                class="text-muted-foreground hover:bg-accent hover:text-accent-foreground peer-checked:bg-accent peer-checked:text-accent-foreground peer-focus-visible:ring-primary/20 flex w-full cursor-pointer items-center justify-center rounded-md px-2 py-2 text-sm transition-colors duration-200 peer-focus-visible:ring-2 peer-focus-visible:outline-none"
+              >
+                {{ .label }}
+              </span>
+            </label>
+          {{- end -}}
+        </div>
+      </fieldset>
+    {{- end -}}
+
+    {{- if $showWidth -}}
+      <fieldset class="border-border space-y-2 border-t pt-3">
+        <legend class="text-foreground mb-2 text-sm font-semibold">
+          {{ T "ui.contentWidth" }}
+        </legend>
+        <div class="flex items-center justify-between gap-4">
+          <output
+            id="content-width-value"
+            for="content-width-range"
+            class="text-muted-foreground min-w-12 text-sm tabular-nums"
+          ></output>
+        </div>
+        <input
+          id="content-width-range"
+          class="accent-primary w-full cursor-pointer"
+          type="range"
+          min="40"
+          max="90"
+          step="1"
+          aria-label="{{ T `ui.contentWidth` }}"
+        />
+        <button
+          id="content-width-reset"
+          type="button"
+          class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:ring-primary/20 w-full rounded-md border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
+        >
+          {{ T "ui.contentWidthReset" }}
+        </button>
+      </fieldset>
+    {{- end -}}
+  </div>
+{{- end -}}

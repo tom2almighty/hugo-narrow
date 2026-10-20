@@ -1,10 +1,11 @@
-<!-- 移动端菜单按钮（仅按钮，面板由 mobile-nav-panel.html 提供） -->
+<!-- 移动端菜单按钮，打开原生 modal dialog -->
 <button
-  id="mobile-nav-toggle"
-  class="nav-panel-toggle border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground flex h-10 w-10 items-center justify-center rounded-lg border transition-colors duration-200"
+  id="mobile-nav-open"
+  type="button"
+  class="border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-colors duration-200 focus:ring-2 focus:outline-none md:hidden"
   aria-label="{{ T `nav.menu` }}"
-  aria-expanded="false"
-  aria-controls="mobile-nav-panel"
+  aria-haspopup="dialog"
+  aria-controls="mobile-nav"
 >
   {{ partial "features/icon.html" (dict "name" "menu" "size" "md" "ariaLabel" "") }}
 </button>

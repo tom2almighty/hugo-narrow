@@ -1,0 +1,96 @@
+{{/* 共享主菜单项。
+
+  参数：
+  - page: 当前页面
+  - variant: desktop | mobile
+
+  桌面端使用绝对定位子菜单，移动端使用内联折叠；两者都基于原生 details。
+*/}}
+{{- $page := .page -}}
+{{- $variant := .variant | default "desktop" -}}
+{{- $isDesktop := eq $variant "desktop" -}}
+
+{{- $linkBase := "nav-link relative flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
+{{- $childBase := "nav-link flex items-center gap-2 rounded-lg px-2 py-2 text-sm leading-snug transition-colors duration-200 focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
+{{- $submenuClass := "nav-submenu border-border bg-popover/95 absolute top-full left-0 z-50 mt-2 min-w-44 space-y-1.5 rounded-xl border p-1.5 shadow-lg backdrop-blur-sm" -}}
+{{- if not $isDesktop -}}
+  {{- $linkBase = "nav-panel-link flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
+  {{- $childBase = "nav-panel-link flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
+  {{- $submenuClass = "ml-4 mt-1 space-y-1 border-l-2 border-primary/20 py-1 pl-3" -}}
+{{- end -}}
+{{- $inactive := "text-muted-foreground hover:text-primary hover:bg-primary/10" -}}
+{{- $active := "bg-accent text-accent-foreground" -}}
+
+{{- range site.Menus.main -}}
+  {{- $menuURL := .URL -}}
+  {{- if .PageRef -}}
+    {{- with site.GetPage .PageRef -}}
+      {{- $menuURL = .RelPermalink -}}
+    {{- else -}}
+      {{- $menuURL = .URL | relLangURL -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if .HasChildren -}}
+    <details
+      class="nav-details {{ if $isDesktop }}
+        relative
+      {{ else }}
+        w-full
+      {{ end }}"
+      name="{{ $variant }}-menu"
+    >
+      <summary class="{{ $linkBase }} {{ $inactive }} nav-details-summary cursor-pointer list-none">
+        {{- with .Params.icon -}}
+          {{ partial "features/icon.html" (dict "name" . "size" "md" "ariaLabel" "") }}
+        {{- end -}}
+        <span class="flex-1 text-left">{{ .Name }}</span>
+        {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "class" "nav-chevron transition-transform duration-200" "ariaLabel" "") }}
+      </summary>
+
+      <div class="{{ $submenuClass }}">
+        {{- range .Children -}}
+          {{- $childURL := .URL -}}
+          {{- if .PageRef -}}
+            {{- with site.GetPage .PageRef -}}
+              {{- $childURL = .RelPermalink -}}
+            {{- else -}}
+              {{- $childURL = .URL | relLangURL -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $isActive := eq $page.RelPermalink $childURL -}}
+          <a
+            href="{{ $childURL }}"
+            class="{{ $childBase }} {{ if $isActive }}
+              {{ $active }}
+            {{ else }}
+              {{ $inactive }}
+            {{ end }}"
+            {{ if $isActive }}aria-current="page"{{ end }}
+          >
+            {{- with .Params.icon -}}
+              {{ partial "features/icon.html" (dict "name" . "size" "sm" "ariaLabel" "") }}
+            {{- end -}}
+            <span>{{ .Name }}</span>
+          </a>
+        {{- end -}}
+      </div>
+    </details>
+  {{- else -}}
+    {{- $isActive := eq $page.RelPermalink $menuURL -}}
+    <a
+      href="{{ $menuURL }}"
+      class="{{ $linkBase }} {{ if $isActive }}
+        {{ $active }} nav-active-indicator
+      {{ else }}
+        {{ $inactive }}
+      {{ end }}"
+      {{ if $isActive }}aria-current="page"{{ end }}
+    >
+      {{- with .Params.icon -}}
+        {{ partial "features/icon.html" (dict "name" . "size" "md" "ariaLabel" "") }}
+      {{- end -}}
+      <span>{{ .Name }}</span>
+    </a>
+  {{- end -}}
+{{- end -}}

@@ -70,6 +70,11 @@
     contentWidthReset  = "既定値に戻す"
     contentWidthToggle = "ページ幅を調整"
 
+    appearanceToggle = "外観設定"
+    colorScheme      = "カラースキーム"
+    themeMode        = "表示モード"
+    closeMenu        = "メニューを閉じる"
+
 [license]
     title  = "ライセンス"
     author = "著者"

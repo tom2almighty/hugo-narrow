@@ -73,6 +73,11 @@
     contentWidthReset  = "Standard wiederherstellen"
     contentWidthToggle = "Seitenbreite anpassen"
 
+    appearanceToggle = "Darstellungseinstellungen"
+    colorScheme      = "Farbschema"
+    themeMode        = "Erscheinungsmodus"
+    closeMenu        = "Menü schließen"
+
 [license]
     title  = "Lizenz"
     author = "Autor"

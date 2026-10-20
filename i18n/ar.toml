@@ -85,6 +85,11 @@
     contentWidthReset  = "استعادة الافتراضي"
     contentWidthToggle = "ضبط عرض الصفحة"
 
+    appearanceToggle = "إعدادات المظهر"
+    colorScheme      = "نظام الألوان"
+    themeMode        = "وضع العرض"
+    closeMenu        = "إغلاق القائمة"
+
 [license]
     title  = "الترخيص"
     author = "المؤلف"

@@ -70,6 +70,11 @@
     contentWidthReset  = "恢復預設"
     contentWidthToggle = "調整頁面寬度"
 
+    appearanceToggle = "外觀設置"
+    colorScheme      = "配色方案"
+    themeMode        = "明暗模式"
+    closeMenu        = "關閉選單"
+
 [license]
     title  = "版權聲明"
     author = "作者"
