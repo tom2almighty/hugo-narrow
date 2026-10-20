@@ -10,7 +10,7 @@
   {{- $records = $records | append (dict
     "title" .Title
     "summary" $summary
-    "content" .Plain
+    "content" (.Plain | truncate 2000)
     "permalink" .RelPermalink
     "section" .Section
     "date" (partial "helpers/date.html" (dict "date" .Date "variant" "long"))

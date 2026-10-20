@@ -2,7 +2,6 @@
   "use strict";
 
   let searchModal = null;
-  let searchOverlay = null;
   let searchInput = null;
   let searchClear = null;
   let searchClose = null;
@@ -13,13 +12,15 @@
   let searchStats = null;
   let searchItems = null;
 
-  let isModalVisible = false;
   let searchData = null;
   let searchDataPromise = null;
   let currentResults = [];
+  let totalResults = 0;
   let selectedIndex = -1;
   let searchTimeout = null;
   let lastFocusedElement = null;
+
+  const RESULT_LIMIT = 30;
 
   function readJSONConfig(id) {
     const configElement = document.getElementById(id);
@@ -59,7 +60,6 @@
 
   function init() {
     searchModal = document.getElementById("search-modal");
-    searchOverlay = document.getElementById("search-overlay");
     searchInput = document.getElementById("search-input");
     searchClear = document.getElementById("search-clear");
     searchClose = document.getElementById("search-close");
@@ -78,17 +78,38 @@
   function bindEvents() {
     searchClose?.addEventListener("click", hideSearch);
     searchClear?.addEventListener("click", clearSearch);
-    searchOverlay?.addEventListener("click", hideSearch);
 
     if (searchInput) {
       searchInput.addEventListener("input", handleInput);
       searchInput.addEventListener("keydown", handleInputKeydown);
     }
 
+    searchModal.addEventListener("click", handleBackdropClick);
+    searchModal.addEventListener("close", handleDialogClose);
+
     document.addEventListener("keydown", handleGlobalKeydown);
     document.addEventListener("search:open", handleSearchOpenEvent);
     document.addEventListener("search:close", handleSearchCloseEvent);
     document.addEventListener("search:toggle", handleSearchToggleEvent);
+  }
+
+  function handleBackdropClick(event) {
+    if (event.target === searchModal) {
+      hideSearch();
+    }
+  }
+
+  function handleDialogClose() {
+    unlockScroll();
+    clearSearchContent();
+    lastFocusedElement?.focus();
+    lastFocusedElement = null;
+
+    document.dispatchEvent(
+      new CustomEvent("search:close", {
+        detail: { origin: "search-module" },
+      })
+    );
   }
 
   function handleSearchOpenEvent(event) {
@@ -113,24 +134,11 @@
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
       event.preventDefault();
       showSearch();
-      return;
-    }
-
-    if (!isModalVisible) return;
-
-    if (event.key === "Escape") {
-      event.preventDefault();
-      hideSearch();
-      return;
-    }
-
-    if (event.key === "Tab") {
-      trapFocus(event);
     }
   }
 
   function handleInputKeydown(event) {
-    if (!isModalVisible) return;
+    if (!searchModal?.open) return;
 
     switch (event.key) {
       case "ArrowDown":
@@ -152,58 +160,19 @@
     }
   }
 
-  function getFocusableElements() {
-    if (!searchModal) return [];
-
-    const selector = [
-      "button:not([disabled])",
-      "a[href]",
-      "input:not([disabled])",
-      "[tabindex]:not([tabindex='-1'])",
-    ].join(", ");
-
-    return [...searchModal.querySelectorAll(selector)].filter((element) => {
-      if (!(element instanceof HTMLElement)) return false;
-      if (element.hasAttribute("hidden")) return false;
-      return !element.classList.contains("pointer-events-none");
-    });
-  }
-
-  function trapFocus(event) {
-    const focusableElements = getFocusableElements();
-    if (focusableElements.length === 0) return;
-
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-    const activeElement = document.activeElement;
-
-    if (event.shiftKey && activeElement === firstElement) {
-      event.preventDefault();
-      lastElement.focus();
-      return;
-    }
-
-    if (!event.shiftKey && activeElement === lastElement) {
-      event.preventDefault();
-      firstElement.focus();
-    }
-  }
-
   function showSearch() {
-    if (!searchModal || isModalVisible) return;
+    if (!searchModal || searchModal.open) return;
 
-    isModalVisible = true;
     lastFocusedElement =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     getUIBridge()?.closeAllMenus?.({ restoreFocus: false });
 
-    searchOverlay?.classList.remove("opacity-0", "pointer-events-none");
-    searchOverlay?.classList.add("opacity-100");
-
-    searchModal.classList.remove("opacity-0", "scale-95", "pointer-events-none");
-    searchModal.classList.add("opacity-100", "scale-100");
-    searchModal.setAttribute("aria-hidden", "false");
+    if (typeof searchModal.showModal === "function") {
+      searchModal.showModal();
+    } else {
+      searchModal.setAttribute("open", "");
+    }
 
     lockScroll();
 
@@ -221,31 +190,13 @@
   }
 
   function hideSearch() {
-    if (!searchModal || !isModalVisible) return;
+    if (!searchModal || !searchModal.open) return;
 
-    isModalVisible = false;
-
-    searchOverlay?.classList.add("opacity-0", "pointer-events-none");
-    searchOverlay?.classList.remove("opacity-100");
-
-    searchModal.classList.add("opacity-0", "scale-95", "pointer-events-none");
-    searchModal.classList.remove("opacity-100", "scale-100");
-    searchModal.setAttribute("aria-hidden", "true");
-
-    unlockScroll();
-    clearSearchContent();
-    lastFocusedElement?.focus();
-    lastFocusedElement = null;
-
-    document.dispatchEvent(
-      new CustomEvent("search:close", {
-        detail: { origin: "search-module" },
-      })
-    );
+    searchModal.close();
   }
 
   function toggleSearch() {
-    if (isModalVisible) {
+    if (searchModal?.open) {
       hideSearch();
     } else {
       showSearch();
@@ -274,6 +225,7 @@
     }
 
     currentResults = [];
+    totalResults = 0;
     resetNavigation();
     toggleClearButton(false);
     showEmptyState();
@@ -296,6 +248,13 @@
     syncSelectedResult();
   }
 
+  function setComboboxExpanded(expanded) {
+    searchInput?.setAttribute("aria-expanded", expanded ? "true" : "false");
+    if (!expanded) {
+      searchInput?.removeAttribute("aria-activedescendant");
+    }
+  }
+
   function showEmptyState() {
     hideAllStates();
     searchEmpty && (searchEmpty.hidden = false);
@@ -313,10 +272,12 @@
 
   function showResultsList() {
     hideAllStates();
+    setComboboxExpanded(true);
     searchResultsList && (searchResultsList.hidden = false);
   }
 
   function hideAllStates() {
+    setComboboxExpanded(false);
     [searchEmpty, searchLoading, searchNoResults, searchResultsList].forEach((element) => {
       if (element) element.hidden = true;
     });
@@ -338,7 +299,14 @@
         return response.json();
       })
       .then((data) => {
-        searchData = Array.isArray(data) ? data : [];
+        searchData = (Array.isArray(data) ? data : []).map((record) => ({
+          ...record,
+          _title: normalizeText(record.title),
+          _summary: normalizeText(record.summary),
+          _content: normalizeText(record.content).slice(0, 4000),
+          _tags: normalizeText(record.tags),
+          _categories: normalizeText(record.categories),
+        }));
         return searchData;
       })
       .catch((error) => {
@@ -379,7 +347,7 @@
       const data = await ensureSearchData();
       currentResults = searchRecords(data, query);
 
-      if (currentResults.length === 0) {
+      if (totalResults === 0) {
         showNoResultsState();
         return;
       }
@@ -409,11 +377,11 @@
   }
 
   function scoreRecord(record, keywords) {
-    const title = normalizeText(record.title);
-    const summary = normalizeText(record.summary);
-    const content = normalizeText(record.content);
-    const tags = normalizeText(record.tags);
-    const categories = normalizeText(record.categories);
+    const title = record._title || "";
+    const summary = record._summary || "";
+    const content = record._content || "";
+    const tags = record._tags || "";
+    const categories = record._categories || "";
 
     let score = 0;
 
@@ -455,21 +423,25 @@
 
   function searchRecords(records, query) {
     const keywords = parseKeywords(query);
+    totalResults = 0;
     if (keywords.length === 0) return [];
 
-    return records
+    const matches = records
       .map((record) => {
         const score = scoreRecord(record, keywords);
-        return { ...record, keywords, score };
+        return score >= 0 ? { ...record, keywords, score } : null;
       })
-      .filter((record) => record.score >= 0)
+      .filter(Boolean)
       .sort((left, right) => right.score - left.score);
+
+    totalResults = matches.length;
+    return matches.slice(0, RESULT_LIMIT);
   }
 
   function renderResults(results, query) {
     if (!searchItems || !searchStats) return;
 
-    updateSearchStats(results.length);
+    updateSearchStats(totalResults);
     searchItems.replaceChildren();
 
     const fragment = document.createDocumentFragment();
@@ -489,12 +461,16 @@
   }
 
   function createResultElement(result, query, index) {
+    const item = document.createElement("li");
+    item.id = `search-option-${index}`;
+    item.setAttribute("role", "option");
+    item.setAttribute("aria-selected", "false");
+
     const link = document.createElement("a");
     link.href = result.permalink;
     link.dataset.index = String(index);
     link.className =
       "search-result-item block rounded-lg p-4 transition-colors duration-200 hover:bg-primary/10";
-    link.setAttribute("role", "listitem");
 
     const container = document.createElement("div");
     container.className = "flex flex-col gap-2";
@@ -532,19 +508,25 @@
     }
 
     link.appendChild(container);
-    return link;
+    item.appendChild(link);
+    return item;
   }
 
   function createExcerptFragment(text, keywords, maxLength) {
     if (!text) return document.createTextNode("");
 
-    const ranges = findHighlightRanges(text, keywords);
-    if (ranges.length === 0) {
-      return document.createTextNode(text.slice(0, maxLength));
+    const lowerText = text.toLowerCase();
+    let firstMatch = -1;
+
+    for (const keyword of keywords) {
+      const index = lowerText.indexOf(keyword);
+      if (index !== -1 && (firstMatch === -1 || index < firstMatch)) {
+        firstMatch = index;
+      }
     }
 
-    const start = Math.max(0, ranges[0][0] - 30);
-    const end = Math.min(text.length, Math.max(ranges[0][1] + 80, start + maxLength));
+    const start = Math.max(0, firstMatch === -1 ? 0 : firstMatch - 30);
+    const end = Math.min(text.length, start + maxLength);
     const excerpt = text.slice(start, end);
     const fragment = createHighlightedFragment(excerpt, keywords);
 
@@ -641,7 +623,10 @@
     syncSelectedResult();
 
     const selectedElement = searchItems.querySelector(`[data-index="${selectedIndex}"]`);
-    selectedElement?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth";
+    selectedElement?.scrollIntoView({ block: "nearest", behavior });
   }
 
   function syncSelectedResult() {
@@ -649,10 +634,20 @@
 
     searchItems.querySelectorAll(".search-result-item").forEach((element, index) => {
       const isSelected = index === selectedIndex;
+      const item = element.parentElement;
+
       element.classList.toggle("bg-primary/10", isSelected);
       element.classList.toggle("text-primary", isSelected);
-      element.setAttribute("aria-selected", isSelected ? "true" : "false");
+      item?.setAttribute("aria-selected", isSelected ? "true" : "false");
     });
+
+    const activeItem =
+      selectedIndex >= 0 ? document.getElementById(`search-option-${selectedIndex}`) : null;
+    if (activeItem) {
+      searchInput?.setAttribute("aria-activedescendant", activeItem.id);
+    } else {
+      searchInput?.removeAttribute("aria-activedescendant");
+    }
   }
 
   function selectResult() {
@@ -666,7 +661,7 @@
     show: showSearch,
     hide: hideSearch,
     toggle: toggleSearch,
-    isVisible: () => isModalVisible,
+    isVisible: () => Boolean(searchModal?.open),
   };
 
   if (document.readyState === "loading") {
