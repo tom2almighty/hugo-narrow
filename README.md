@@ -25,7 +25,7 @@ A Modern Hugo Theme with Multiple Color Schemes - Built on TailwindCSS 4.
 
 ## 📄 License
 
-This project is open source under the [GPL-3.0](LICENSE).
+This project is open source under the [AGPL-3.0](LICENSE).
 
 ## 🙏 Acknowledgments
 
