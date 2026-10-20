@@ -1,17 +1,10 @@
 <!-- 移动端锚定式宽导航面板 -->
-<div
-  id="mobile-nav-panel"
-  class="mt-2 hidden md:hidden"
-  role="navigation"
-  aria-label="{{ T `nav.menu` }}"
-  aria-hidden="true"
-  tabindex="-1"
->
+<div id="mobile-nav-panel" class="mt-2 hidden md:hidden" aria-hidden="true" tabindex="-1">
   <div
     class="border-border bg-popover/95 overflow-hidden rounded-xl border shadow-lg backdrop-blur-sm"
   >
     <!-- grid 容器用于平滑高度过渡 -->
-    <nav class="flex flex-col p-2">
+    <nav class="flex flex-col p-2" aria-label="{{ T `nav.menu` }}">
       {{ $currentPage := . }}
       {{ range site.Menus.main }}
         {{/* 生成语言感知的URL */}}
@@ -34,7 +27,7 @@
               aria-controls="accordion-{{ $menuKey }}"
             >
               {{ if .Params.icon }}
-                {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+                {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" "") }}
               {{ end }}
               <span class="flex-1 text-left">{{ .Name }}</span>
               {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "class" "accordion-chevron transition-transform duration-300") }}
@@ -65,11 +58,10 @@
                       {{ else }}
                         text-muted-foreground hover:text-primary hover:bg-primary/10
                       {{ end }} focus:ring-primary/20 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
-                      role="menuitem"
                       {{ if $isChildActive }}aria-current="page"{{ end }}
                     >
                       {{ if .Params.icon }}
-                        {{ partial "features/icon.html" (dict "name" .Params.icon "size" "sm" "ariaLabel" .Name) }}
+                        {{ partial "features/icon.html" (dict "name" .Params.icon "size" "sm" "ariaLabel" "") }}
                       {{ end }}
                       <span>{{ .Name }}</span>
                     </a>
@@ -87,11 +79,10 @@
             {{ else }}
               text-muted-foreground hover:text-primary hover:bg-primary/10
             {{ end }} focus:ring-primary/20 flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
-            role="menuitem"
             {{ if $isActive }}aria-current="page"{{ end }}
           >
             {{ if .Params.icon }}
-              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" "") }}
             {{ end }}
             <span>{{ .Name }}</span>
           </a>

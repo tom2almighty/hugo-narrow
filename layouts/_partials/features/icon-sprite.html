@@ -1,0 +1,13 @@
+{{/* 生成站点级 SVG sprite，避免每个图标都内联重复的 path。 */}}
+{{- $symbols := slice -}}
+{{- range resources.Match "icons/*.svg" -}}
+  {{- $name := path.Base .Name | strings.TrimSuffix ".svg" -}}
+  {{- $content := .Content -}}
+  {{- $content = replaceRE `\s+width="[^"]*"` "" $content -}}
+  {{- $content = replaceRE `\s+height="[^"]*"` "" $content -}}
+  {{- $content = replaceRE `(?s)<svg(\s[^>]*)?>` (printf `<symbol id="icon-%s"$1>` $name) $content 1 -}}
+  {{- $content = replaceRE `</svg>` "</symbol>" $content -}}
+  {{- $symbols = $symbols | append $content -}}
+{{- end -}}
+{{- $sprite := printf `<svg xmlns="http://www.w3.org/2000/svg">%s</svg>` (delimit $symbols "") -}}
+{{- return (resources.FromString "icons/sprite.svg" $sprite | fingerprint) -}}

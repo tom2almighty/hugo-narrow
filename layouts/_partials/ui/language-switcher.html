@@ -33,7 +33,7 @@
         aria-label="{{ T "ui.languageToggle" }}"
         data-language-mode="cycle"
       >
-        {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" (T "ui.languageToggle")) }}
+        {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
       </a>
     </div>
   {{- else -}}
@@ -50,7 +50,7 @@
         {{- $targetURL = . -}}
       {{- end -}}
 
-      {{- $languageMenuContent = printf "%s<a href=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\" role=\"menuitem\"%s><span class=\"font-medium\">%s</span></a>" $languageMenuContent $targetURL (cond $isCurrent " aria-current=\"true\"" "") $langName -}}
+      {{- $languageMenuContent = printf "%s<a href=\"%s\" class=\"text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-all duration-200 ease-out focus:outline-none\"%s><span class=\"font-medium\">%s</span></a>" $languageMenuContent $targetURL (cond $isCurrent " aria-current=\"page\"" "") $langName -}}
     {{- end -}}
 
     {{- /* 使用统一的下拉菜单组件 */ -}}
@@ -58,8 +58,6 @@
       "type" "language"
       "icon" "language"
       "ariaLabel" (T "ui.languageToggle")
-      "buttonId" "language-toggle"
-      "dropdownId" "language-dropdown"
       "menuWidth" "w-40"
       "showCondition" true
       "content" (safeHTML $languageMenuContent)

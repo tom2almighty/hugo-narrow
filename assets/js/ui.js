@@ -1,3 +1,27 @@
+function readStorage(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (_) {
+    return null;
+  }
+}
+
+function writeStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (_) {
+    // localStorage may be unavailable in private browsing modes.
+  }
+}
+
+function removeStorage(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch (_) {
+    // localStorage may be unavailable in private browsing modes.
+  }
+}
+
 // ToolDropdown: theme/language/color-scheme menus.
 class ToolDropdown {
   constructor(uiManager) {
@@ -317,9 +341,9 @@ class NavDisclosure {
 
 class UIManager {
   constructor() {
-    this.theme = localStorage.getItem("theme") || "system";
+    this.theme = readStorage("theme") || "system";
     this.colorScheme =
-      localStorage.getItem("colorScheme") ||
+      readStorage("colorScheme") ||
       document.documentElement.getAttribute("data-theme") ||
       "default";
     this.scrollLocks = new Set();
@@ -402,7 +426,7 @@ class UIManager {
     const min = Number(range.min);
     const max = Number(range.max);
     const clamp = (value) => Math.min(max, Math.max(min, Math.round(value)));
-    const storedWidth = Number.parseInt(localStorage.getItem("contentWidth"), 10);
+    const storedWidth = Number.parseInt(readStorage("contentWidth"), 10);
     const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
     const defaultWidth = Number.parseFloat(getComputedStyle(container).maxWidth) / rootFontSize;
     const hasStoredWidth =
@@ -429,7 +453,7 @@ class UIManager {
 
       updateFrame = requestAnimationFrame(() => {
         document.documentElement.style.setProperty("--content-width", `${pendingWidth}rem`);
-        localStorage.setItem("contentWidth", String(pendingWidth));
+        writeStorage("contentWidth", String(pendingWidth));
         updateFrame = null;
       });
     });
@@ -439,7 +463,7 @@ class UIManager {
         cancelAnimationFrame(updateFrame);
         updateFrame = null;
       }
-      localStorage.removeItem("contentWidth");
+      removeStorage("contentWidth");
       document.documentElement.style.removeProperty("--content-width");
       const configuredWidth = Number.parseFloat(getComputedStyle(container).maxWidth) / rootFontSize;
       updateControl(configuredWidth);
@@ -448,13 +472,12 @@ class UIManager {
 
   emitThemeChanged() {
     const detail = { colorScheme: this.colorScheme, theme: this.theme };
-    window.dispatchEvent(new CustomEvent("theme:changed", { detail }));
     window.dispatchEvent(new CustomEvent("themeChanged", { detail }));
   }
 
   setColorScheme(colorScheme) {
     this.colorScheme = colorScheme;
-    localStorage.setItem("colorScheme", colorScheme);
+    writeStorage("colorScheme", colorScheme);
     document.documentElement.setAttribute("data-theme", colorScheme);
     this.updateUI();
     this.emitThemeChanged();
@@ -462,7 +485,7 @@ class UIManager {
 
   setTheme(theme) {
     this.theme = theme;
-    localStorage.setItem("theme", theme);
+    writeStorage("theme", theme);
     this.applyTheme();
     this.updateUI();
     this.emitThemeChanged();
@@ -536,7 +559,7 @@ class UIManager {
 
     const currentLang = document.documentElement.lang || "en";
     document
-      .querySelectorAll('.dropdown-menu[data-dropdown-type="language"] a[role="menuitem"]')
+      .querySelectorAll('.dropdown-menu[data-dropdown-type="language"] a[href]')
       .forEach((link) => {
         const href = link.getAttribute("href");
         const isSelected = this.isCurrentLanguageLink(href, currentLang);
