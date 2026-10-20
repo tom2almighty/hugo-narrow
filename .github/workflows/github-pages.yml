@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: ${{ vars.HUGO_VERSION }}
+  HUGO_VERSION: ${{ vars.HUGO_VERSION || '0.165.0' }}
 
 jobs:
   build:

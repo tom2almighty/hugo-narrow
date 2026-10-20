@@ -5,7 +5,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 ## What this repo is
 
 This is **Hugo Narrow**, a Hugo *theme* (not a site), built on Tailwind CSS 4 and Hugo
-Extended ≥ 0.158.0. There is no site at the repo root — the theme is developed and previewed
+Extended ≥ 0.165.0. There is no site at the repo root — the theme is developed and previewed
 against `exampleSite/`, which mounts the theme from its parent via `--themesDir=../..`. All
 theme code lives in `layouts/`, `assets/`, `i18n/`, `data/`, and `archetypes/`.
 
@@ -25,7 +25,7 @@ pnpm run format:write     # prettier --write on all *.html
 ```
 
 There is **no test suite**. CI (`.github/workflows/github-pages.yml`) builds `exampleSite` with
-Hugo 0.158.0 and deploys to GitHub Pages on push to `main`; tags `v*` cut a release.
+Hugo 0.165.0 and deploys to GitHub Pages on push to `main`; tags `v*` cut a release.
 
 ## Critical: the CSS is compiled outside Hugo and committed
 
@@ -71,6 +71,8 @@ Goldmark output is customized via render hooks: `render-image.html` (wraps image
 with lightbox/gallery data attributes), `render-codeblock.html` + `render-codeblock-mermaid.html`,
 `render-heading.html`, `render-link.html`, `render-blockquote.html` (GitHub-style alerts —
 note/tip/important/warning/caution, whose colors are the `--color-note` etc. vars).
+Syntax-highlighting CSS is generated at build time by Hugo's `css.ChromaStyles` from
+`params.codeblock.style` / `params.codeblock.darkStyle`; there is no checked-in Chroma stylesheet.
 
 ### Gallery / lightbox: render-time detection → conditional JS
 

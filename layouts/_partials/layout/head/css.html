@@ -14,19 +14,35 @@
   {{ end }}
 {{ end }}
 
-{{/* chroma styles */}}
-{{ with resources.Get "css/chroma.css" }}
-  {{ if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" />
-  {{ else }}
-    {{ with . | minify | fingerprint }}
-      <link
-        rel="stylesheet"
-        href="{{ .RelPermalink }}"
-        integrity="{{ .Data.Integrity }}"
-        crossorigin="anonymous"
-      />
-    {{ end }}
+{{/* Chroma styles：由官方 css.ChromaStyles 生成，统一跟随 light/dark */}}
+{{- $codeblock := site.Params.codeblock | default dict -}}
+{{- $lightStyle := $codeblock.style | default "github" -}}
+{{- $darkStyle := $codeblock.darkStyle | default "github-dark" -}}
+{{- $chromaLight := css.ChromaStyles (dict
+  "mode" "light"
+  "style" $lightStyle
+  "targetPath" "css/chroma-light.css"
+  )
+-}}
+{{- $chromaDark := css.ChromaStyles (dict
+  "mode" "dark"
+  "style" $darkStyle
+  "modeSelector" true
+  "classDark" "dark"
+  "targetPath" "css/chroma-dark.css"
+  )
+-}}
+{{- $chroma := resources.Concat "css/chroma.css" (slice $chromaLight $chromaDark) -}}
+{{ if hugo.IsDevelopment }}
+  <link rel="stylesheet" href="{{ $chroma.RelPermalink }}" />
+{{ else }}
+  {{ with $chroma | minify | fingerprint }}
+    <link
+      rel="stylesheet"
+      href="{{ .RelPermalink }}"
+      integrity="{{ .Data.Integrity }}"
+      crossorigin="anonymous"
+    />
   {{ end }}
 {{ end }}
 

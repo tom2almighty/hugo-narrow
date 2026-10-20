@@ -35,9 +35,11 @@ header:
     image: "/images/logo.svg" # Logo path relative to static folder, leave empty to use site title first letter
     link: "/" # Click to home page
   # UI Components Control (header controls)
-  showThemeSwitch: true # Set to false to hide theme style switcher (palette icon)
-  showDarkModeSwitch: true # Set to false to hide dark mode switcher (sun/moon icon)
-  showContentWidthSwitch: true # Set to false to hide the desktop content width switcher
+  # These flags control sections inside the appearance popover.
+  # If all three are false, the appearance button is hidden.
+  showThemeSwitch: true # Show the color scheme section
+  showDarkModeSwitch: true # Show the light/dark/system section
+  showContentWidthSwitch: true # Show the page width section
   showLanguageSwitch: true # Set to false to hide language switcher
   languageSwitchMode: "dropdown" # Language switch mode: "dropdown" (show panel) or "cycle" (direct cycle)
 
@@ -227,6 +229,8 @@ lightbox:
 
 # Code block
 codeblock:
+  style: catppuccin-latte # Chroma light style
+  darkStyle: catppuccin-mocha # Chroma dark style
   collapse:
     enabled: true
     defaultState: expanded # expanded, collapsed

@@ -35,18 +35,6 @@
   background: transparent;
 }
 
-/* 内联行号样式 */
-.code-block-content .chroma .ln {
-  user-select: none;
-  margin-right: 0.4em;
-  padding: 0 0.4em 0 0.4em;
-  color: var(--chroma-ln, #7f7f7f);
-}
-
-.code-block-content .chroma .line {
-  display: flex;
-}
-
 .code-block-content .chroma .cl {
   flex: 1;
 }
