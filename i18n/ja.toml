@@ -94,3 +94,10 @@
   skills         = "スキル"
   certifications = "資格・認定"
   languages      = "言語"
+
+[notFound]
+  title       = "ページが見つかりません"
+  message     = "お探しのページは存在しないか、削除されています。"
+
+[footer]
+  poweredBy = "提供:"

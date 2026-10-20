@@ -21,7 +21,7 @@
             class="nav-link hover:text-primary hover:bg-primary/10 text-muted-foreground flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105"
           >
             {{ if .Params.icon }}
-              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" .Name) }}
+              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" "") }}
             {{ end }}
             <span>{{ .Name }}</span>
           </a>
@@ -47,7 +47,7 @@
         {{ site.Title }}
       </p>
       <p class="flex flex-wrap items-center justify-center gap-1 md:justify-start">
-        <span>Powered by</span>
+        <span>{{ T "footer.poweredBy" }}</span>
         <a
           href="https://gohugo.io/"
           target="_blank"
@@ -82,7 +82,7 @@
             aria-label="{{ .Name }}"
           >
             {{ if .Params.icon }}
-              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "lg" "ariaLabel" .Name) }}
+              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "lg" "ariaLabel" "") }}
             {{ end }}
           </a>
         {{ end }}

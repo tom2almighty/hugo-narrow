@@ -97,3 +97,10 @@
   skills         = "Compétences"
   certifications = "Certifications"
   languages      = "Langues"
+
+[notFound]
+  title       = "Page introuvable"
+  message     = "Désolé, la page que vous recherchez n'existe pas ou a été supprimée."
+
+[footer]
+  poweredBy = "Propulsé par"

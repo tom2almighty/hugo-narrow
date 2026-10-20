@@ -94,3 +94,10 @@
   skills         = "Kỹ năng"
   certifications = "Chứng chỉ"
   languages      = "Ngôn ngữ"
+
+[notFound]
+  title       = "Không tìm thấy trang"
+  message     = "Xin lỗi, trang bạn tìm không tồn tại hoặc đã bị xóa."
+
+[footer]
+  poweredBy = "Được cung cấp bởi"

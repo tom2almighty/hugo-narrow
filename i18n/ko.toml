@@ -94,3 +94,10 @@
   skills         = "기술"
   certifications = "자격증"
   languages      = "언어"
+
+[notFound]
+  title       = "페이지를 찾을 수 없습니다"
+  message     = "죄송합니다. 찾으시는 페이지가 존재하지 않거나 삭제되었습니다."
+
+[footer]
+  poweredBy = "제공:"

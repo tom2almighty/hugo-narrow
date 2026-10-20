@@ -109,3 +109,10 @@
   skills         = "المهارات"
   certifications = "الشهادات"
   languages      = "اللغات"
+
+[notFound]
+  title       = "الصفحة غير موجودة"
+  message     = "عذرًا، الصفحة التي تبحث عنها غير موجودة أو تمت إزالتها."
+
+[footer]
+  poweredBy = "مدعوم بواسطة"

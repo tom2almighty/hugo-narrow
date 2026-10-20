@@ -97,3 +97,10 @@
   skills         = "Habilidades"
   certifications = "Certificações"
   languages      = "Idiomas"
+
+[notFound]
+  title       = "Página não encontrada"
+  message     = "Desculpe, a página que você procura não existe ou foi removida."
+
+[footer]
+  poweredBy = "Desenvolvido com"
