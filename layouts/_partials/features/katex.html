@@ -61,8 +61,13 @@
   ></script>
 
   <script>
+    var katexAttempts = 0;
     function initKaTeX() {
       if (typeof renderMathInElement === "undefined") {
+        if (++katexAttempts > 50) {
+          console.error("KaTeX failed to load after 5 seconds");
+          return;
+        }
         setTimeout(initKaTeX, 100);
         return;
       }

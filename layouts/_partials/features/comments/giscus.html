@@ -35,26 +35,24 @@
     (function() {
       'use strict';
 
-      // 获取当前主题的函数
+      // 获取当前主题的函数；giscus 只接受 light/dark
       function getCurrentTheme() {
-        // 检查 localStorage 中的主题设置
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
+        let savedTheme = null;
+        try {
+          savedTheme = localStorage.getItem('theme');
+        } catch (_) {
+          savedTheme = null;
+        }
+
+        if (savedTheme === 'light' || savedTheme === 'dark') {
           return savedTheme;
         }
 
-        // 检查系统主题偏好
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
+        if (savedTheme === 'system') {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
 
-        // 检查 HTML 元素的 class
-        if (document.documentElement.classList.contains('dark')) {
-          return 'dark';
-        }
-
-        // 默认返回 light
-        return 'light';
+        return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
       }
 
       // 更新 giscus 主题的函数
