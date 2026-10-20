@@ -32,26 +32,14 @@
   "src" $dest
   "alt" $alt
   "caption" $caption
-  "enablePlaceholder" false
   "outputType" "data"
   )
 -}}
 
 {{/* 获取处理结果 */}}
-{{- $imageUrl := $pageContext.Scratch.Get "imageUrl" -}}
-{{- $imageResource := $pageContext.Scratch.Get "imageResource" -}}
-{{- $isExternal := $pageContext.Scratch.Get "isExternal" -}}
-
-{{/* 获取图片尺寸 */}}
-{{- $width := 0 -}}
-{{- $height := 0 -}}
-{{- if and $imageResource (not $isExternal) -}}
-  {{- $mediaType := $imageResource.MediaType.SubType -}}
-  {{- if in (slice "jpeg" "jpg" "png" "gif" "webp") $mediaType -}}
-    {{- $width = $imageResource.Width -}}
-    {{- $height = $imageResource.Height -}}
-  {{- end -}}
-{{- end -}}
+{{- $imageUrl := $pageContext.Store.Get "imageUrl" -}}
+{{- $width := $pageContext.Store.Get "imageWidth" | default 0 -}}
+{{- $height := $pageContext.Store.Get "imageHeight" | default 0 -}}
 
 {{/* 生成 figure 元素 */}}
 <figure
@@ -73,7 +61,7 @@
       "src" $dest
       "alt" $alt
       "caption" $caption
-      "enablePlaceholder" false
+      "sizes" "(min-width: 768px) 720px, 100vw"
       "outputType" "img"
       )
     -}}

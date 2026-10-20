@@ -6,15 +6,20 @@
 
 {{/* 使用通用图片处理器仅生成真实设置的cover图的URL */}}
 {{- $coverImage := "" -}}
+{{- $coverSrcset := "" -}}
+{{- $coverWidth := 0 -}}
+{{- $coverHeight := 0 -}}
 {{- if $page.Params.cover -}}
   {{- partial "content/image-processor.html" (dict
     "context" $page
     "src" $page.Params.cover
-    "enablePlaceholder" false
     "outputType" "data"
     )
   -}}
-  {{- $coverImage = $page.Scratch.Get "imageUrl" -}}
+  {{- $coverImage = $page.Store.Get "imageUrl" -}}
+  {{- $coverSrcset = $page.Store.Get "imageSrcset" -}}
+  {{- $coverWidth = $page.Store.Get "imageWidth" | default 0 -}}
+  {{- $coverHeight = $page.Store.Get "imageHeight" | default 0 -}}
 {{- end -}}
 
 {{- $summaryContent := "" -}}
@@ -40,9 +45,15 @@
           >
             <img
               src="{{ $coverImage }}"
+              {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
+              sizes="(min-width: 768px) 256px, 100vw"
               alt="{{ $page.Title }}"
+              {{ if gt $coverWidth 0 }}
+                width="{{ $coverWidth }}" height="{{ $coverHeight }}"
+              {{ end }}
               class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </div>

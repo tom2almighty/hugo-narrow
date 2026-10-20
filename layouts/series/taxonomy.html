@@ -29,26 +29,33 @@
 
         {{/* 封面图：优先用系列 _index.md 的 cover，否则取第一篇有封面的文章 */}}
         {{- $coverImage := "" -}}
+        {{- $coverSrcset := "" -}}
+        {{- $coverWidth := 0 -}}
+        {{- $coverHeight := 0 -}}
         {{- if $termPage.Params.cover -}}
           {{- partial "content/image-processor.html" (dict
             "context" $termPage
             "src" $termPage.Params.cover
-            "enablePlaceholder" false
             "outputType" "data"
             )
           -}}
-          {{- $coverImage = $termPage.Scratch.Get "imageUrl" -}}
+          {{- $coverImage = $termPage.Store.Get "imageUrl" -}}
+          {{- $coverSrcset = $termPage.Store.Get "imageSrcset" -}}
+          {{- $coverWidth = $termPage.Store.Get "imageWidth" | default 0 -}}
+          {{- $coverHeight = $termPage.Store.Get "imageHeight" | default 0 -}}
         {{- else -}}
           {{- range $termPage.Pages -}}
             {{- if and (not $coverImage) .Params.cover -}}
               {{- partial "content/image-processor.html" (dict
                 "context" .
                 "src" .Params.cover
-                "enablePlaceholder" false
                 "outputType" "data"
                 )
               -}}
-              {{- $coverImage = .Scratch.Get "imageUrl" -}}
+              {{- $coverImage = .Store.Get "imageUrl" -}}
+              {{- $coverSrcset = .Store.Get "imageSrcset" -}}
+              {{- $coverWidth = .Store.Get "imageWidth" | default 0 -}}
+              {{- $coverHeight = .Store.Get "imageHeight" | default 0 -}}
             {{- end -}}
           {{- end -}}
         {{- end -}}
@@ -72,9 +79,15 @@
                   <div class="relative aspect-video h-full w-full overflow-hidden rounded-lg">
                     <img
                       src="{{ $coverImage }}"
+                      {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
+                      sizes="(min-width: 768px) 256px, 100vw"
                       alt="{{ $termPage.Title }}"
+                      {{ if gt $coverWidth 0 }}
+                        width="{{ $coverWidth }}" height="{{ $coverHeight }}"
+                      {{ end }}
                       class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>

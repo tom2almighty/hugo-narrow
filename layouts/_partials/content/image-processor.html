@@ -1,11 +1,26 @@
-{{/* 图片处理器 */}}
+{{/* 图片处理器
+
+  统一处理页面资源、全局资源和外部图片，并按需生成响应式 srcset。
+
+  参数：
+  - context: 当前页面上下文
+  - src: 图片路径
+  - alt: 替代文本
+  - caption: 图片说明
+  - outputType: data | img | both
+  - sizes: img 的 sizes 属性
+  - loading: img 的 loading 属性，默认 lazy
+  - fetchpriority: img 的 fetchpriority 属性
+*/}}
 
 {{- $context := .context -}}
 {{- $src := .src | string -}}
 {{- $alt := .alt | default "" -}}
 {{- $caption := .caption | default "" -}}
-{{- $enablePlaceholder := .enablePlaceholder | default true -}}
 {{- $outputType := .outputType | default "both" -}}
+{{- $sizes := .sizes | default "" -}}
+{{- $loading := .loading | default "lazy" -}}
+{{- $fetchpriority := .fetchpriority | default "" -}}
 
 {{/* 初始化核心变量 */}}
 {{- $resource := false -}}
@@ -14,6 +29,9 @@
 {{- $finalUrl := "" -}}
 {{- $searchPath := $src -}}
 {{- $isRootRelative := hasPrefix $src "/" -}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+{{- $srcset := "" -}}
 
 {{/* 检查是否为外部URL */}}
 {{- if or
@@ -54,12 +72,38 @@
   {{- end -}}
 {{- end -}}
 
+{{/* 读取尺寸，并为静态资源可处理的格式生成 srcset */}}
+{{- if and $resource (not $isExternal) -}}
+  {{- $mediaType := $resource.MediaType.SubType -}}
+  {{- if in (slice "jpeg" "jpg" "png" "gif" "webp" "avif") $mediaType -}}
+    {{- $width = $resource.Width -}}
+    {{- $height = $resource.Height -}}
+  {{- end -}}
+
+  {{- if and (gt $width 0) (in (slice "jpeg" "jpg" "png" "webp" "avif") $mediaType) -}}
+    {{- $parts := slice -}}
+    {{- range (slice 480 768 1024 1440) -}}
+      {{- if lt . $width -}}
+        {{- $resized := $resource.Resize (printf "%dx" .) -}}
+        {{- $parts = $parts | append (printf "%s %dw" $resized.RelPermalink .) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if gt (len $parts) 0 -}}
+      {{- $parts = $parts | append (printf "%s %dw" $finalUrl $width) -}}
+      {{- $srcset = delimit $parts ", " -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{/* 设置核心数据到上下文 */}}
 {{- if or (eq $outputType "data") (eq $outputType "both") -}}
-  {{- $context.Scratch.Set "imageResource" $resource -}}
-  {{- $context.Scratch.Set "imageUrl" $finalUrl -}}
-  {{- $context.Scratch.Set "imageType" $resourceType -}}
-  {{- $context.Scratch.Set "isExternal" $isExternal -}}
+  {{- $context.Store.Set "imageResource" $resource -}}
+  {{- $context.Store.Set "imageUrl" $finalUrl -}}
+  {{- $context.Store.Set "imageSrcset" $srcset -}}
+  {{- $context.Store.Set "imageWidth" $width -}}
+  {{- $context.Store.Set "imageHeight" $height -}}
+  {{- $context.Store.Set "imageType" $resourceType -}}
+  {{- $context.Store.Set "isExternal" $isExternal -}}
 {{- end -}}
 
 {{/* 生成图片HTML */}}
@@ -67,17 +111,13 @@
   <img
     src="{{ $finalUrl }}"
     alt="{{ $alt }}"
+    {{ with $srcset }}srcset="{{ . }}"{{ end }}
+    {{ with $sizes }}sizes="{{ . }}"{{ end }}
     {{ with $caption }}title="{{ . }}"{{ end }}
-    {{ if and $resource (not $isExternal) }}
-      {{ $mediaType := $resource.MediaType.SubType }}
-      {{ if in (slice "jpeg" "jpg" "png" "gif" "webp" "svg") $mediaType }}
-        {{ if ne $mediaType "svg" }}
-          width="{{ $resource.Width }}" height="{{ $resource.Height }}"
-        {{ end }}
-      {{ end }}
-    {{ end }}
-    loading="lazy"
+    {{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
+    loading="{{ $loading }}"
     decoding="async"
+    {{ with $fetchpriority }}fetchpriority="{{ . }}"{{ end }}
     data-gallery-src="{{ $finalUrl }}"
     data-gallery-alt="{{ $alt }}"
     data-gallery-title="{{ $caption }}"

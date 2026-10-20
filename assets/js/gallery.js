@@ -1,5 +1,28 @@
 import GalleryLightbox from './gallery-lightbox.js';
 
+function getPreviewSource(img) {
+  const srcset = img.getAttribute('srcset');
+  if (!srcset) {
+    return img.currentSrc || img.src;
+  }
+
+  const candidates = srcset
+    .split(',')
+    .map((part) => {
+      const [url, descriptor = ''] = part.trim().split(/\s+/);
+      return { url, width: Number.parseInt(descriptor, 10) || 0 };
+    })
+    .filter((candidate) => candidate.url);
+
+  if (candidates.length === 0) {
+    return img.currentSrc || img.src;
+  }
+
+  candidates.sort((left, right) => left.width - right.width);
+  const preferred = candidates.find((candidate) => candidate.width >= 480);
+  return (preferred || candidates[candidates.length - 1]).url;
+}
+
 function readJSONConfig(id) {
   const configElement = document.getElementById(id);
   if (!configElement || !configElement.textContent) return null;
@@ -202,7 +225,7 @@ class ImageGallery {
       }
 
       const fullSizeSrc = figure.getAttribute('data-image-src') || img.currentSrc || img.src;
-      const previewSrc = img.currentSrc || img.src;
+      const previewSrc = getPreviewSource(img);
       const width = parseInt(figure.getAttribute('data-image-width'), 10) || img.naturalWidth || 800;
       const height = parseInt(figure.getAttribute('data-image-height'), 10) || img.naturalHeight || 600;
 
