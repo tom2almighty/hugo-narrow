@@ -68,10 +68,10 @@
               </button>
             </div>
 
-            <!-- 目录面板：卡片外观只在覆盖正文的形态下出现，见 assets/css/toc.css -->
-            <div id="toc-panel" class="scrollbar-hide overflow-y-auto">
+            <!-- 目录面板：头部固定，只有目录列表滚动 -->
+            <div id="toc-panel" class="flex flex-col overflow-hidden">
               <div
-                class="text-foreground mb-3 flex items-center justify-between gap-2 text-sm font-bold"
+                class="text-foreground mb-3 flex shrink-0 items-center justify-between gap-2 text-sm font-bold"
               >
                 <span class="truncate">{{ T "ui.toc" }}</span>
                 <div class="flex shrink-0 items-center gap-1">
@@ -103,7 +103,7 @@
               </div>
               <div
                 id="toc-side-content"
-                class="[&_a]:text-muted-foreground [&_a:hover]:bg-primary/10 [&_a:hover]:text-primary [&_a.active]:bg-primary/10 [&_a.active]:text-primary text-sm [&_a]:block [&_a]:rounded-md [&_a]:px-2 [&_a]:py-1 [&_a]:wrap-break-word [&_a]:whitespace-normal [&_a]:transition-colors [&_a.active]:font-medium [&_li]:my-1.5 [&_nav>ul]:pl-0 [&_ul]:list-none [&_ul]:pl-4"
+                class="scrollbar-hide [&_a]:text-muted-foreground [&_a:hover]:bg-primary/10 [&_a:hover]:text-primary [&_a.active]:bg-primary/10 [&_a.active]:text-primary relative min-h-0 flex-1 overflow-y-auto text-sm [&_a]:block [&_a]:rounded-md [&_a]:px-2 [&_a]:py-1 [&_a]:wrap-break-word [&_a]:whitespace-normal [&_a]:transition-colors [&_a.active]:font-medium [&_li]:my-1.5 [&_nav>ul]:pl-0 [&_ul]:list-none [&_ul]:pl-4"
               >
                 {{ .TableOfContents }}
               </div>

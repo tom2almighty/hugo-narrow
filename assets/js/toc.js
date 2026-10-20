@@ -67,6 +67,7 @@ class TOCManager {
       side: document.getElementById("toc-side"),
       rail: document.getElementById("toc-rail"),
       panel: document.getElementById("toc-panel"),
+      panelScroll: document.getElementById("toc-side-content"),
       pinBtn: document.getElementById("toc-pin"),
       closeBtn: document.getElementById("toc-close"),
       sideToggle: document.getElementById("toc-trigger"),
@@ -188,7 +189,7 @@ class TOCManager {
 
   // 两者行高不同，按滚动进度比例映射；写入时上锁，避免互相触发形成回环
   setupScrollSync() {
-    if (!this.rail || !this.panel) return;
+    if (!this.rail || !this.panelScroll) return;
     let syncing = false;
 
     const sync = (from, to) => {
@@ -204,22 +205,27 @@ class TOCManager {
       });
     };
 
-    this.panel.addEventListener("scroll", () => sync(this.panel, this.rail), { passive: true });
-    this.rail.addEventListener("scroll", () => sync(this.rail, this.panel), { passive: true });
+    this.panelScroll.addEventListener("scroll", () => sync(this.panelScroll, this.rail), {
+      passive: true,
+    });
+    this.rail.addEventListener("scroll", () => sync(this.rail, this.panelScroll), {
+      passive: true,
+    });
   }
 
   // 展开时把当前标题带进可视区域，否则长目录每次都从头开始
   revealActive() {
-    if (!this.panel || !this.activeParam) return;
+    if (!this.panelScroll || !this.activeParam) return;
     const entry = this.entries.find(({ id }) => id === this.activeParam);
     if (!entry) return;
 
     const link = entry.link;
-    const max = this.panel.scrollHeight - this.panel.clientHeight;
+    const max = this.panelScroll.scrollHeight - this.panelScroll.clientHeight;
     if (max <= 0) return;
 
-    const centered = link.offsetTop + link.offsetHeight / 2 - this.panel.clientHeight / 2;
-    this.panel.scrollTop = Math.min(Math.max(centered, 0), max);
+    const centered =
+      link.offsetTop + link.offsetHeight / 2 - this.panelScroll.clientHeight / 2;
+    this.panelScroll.scrollTop = Math.min(Math.max(centered, 0), max);
   }
 
   /* ---------------- Side 模式：可用留白探测 ---------------- */
