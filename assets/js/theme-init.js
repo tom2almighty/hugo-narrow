@@ -40,29 +40,6 @@ if (storedPin === 'true' || storedPin === 'false') {
     root.setAttribute('data-toc-pinned', storedPin);
 }
 
-// 侧边目录：首屏前算出页面容器两侧的留白，决定竖条与面板的形态，避免闪动
-// 阈值与 assets/js/toc.js 保持一致（单位 rem）
-const rootFontSize = Number.parseFloat(getComputedStyle(root).fontSize) || 16;
-const defaultWidth = '{{ site.Params.contentWidth | default "56rem" }}';
-const defaultWidthValue = Number.parseFloat(defaultWidth);
-let pageWidth = 56 * rootFontSize;
-if (Number.isFinite(defaultWidthValue)) {
-    pageWidth = /r?em\s*$/.test(defaultWidth) ? defaultWidthValue * rootFontSize : defaultWidthValue;
-}
-if (hasStoredWidth) {
-    pageWidth = contentWidth * rootFontSize;
-}
-
-const viewport = root.clientWidth;
-const gutter = Math.max(0, (viewport - Math.min(pageWidth, viewport)) / 2);
-let tocSpace = 'narrow';
-if (viewport >= 64 * rootFontSize) {
-    if (gutter >= 13 * rootFontSize) tocSpace = 'wide';
-    else if (gutter >= 2 * rootFontSize) tocSpace = 'tight';
-}
-root.setAttribute('data-toc-space', tocSpace);
-root.style.setProperty('--toc-gutter', `${Math.round(gutter)}px`);
-
 // 设置明暗模式
 function applyTheme() {
     const theme = currentTheme();

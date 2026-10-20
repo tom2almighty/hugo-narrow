@@ -35,7 +35,7 @@
 <article class="group h-full">
   <a href="{{ $page.RelPermalink }}" class="block h-full">
     <div
-      class="border-border focus:ring-primary/20 bg-card relative flex h-full min-h-64 flex-col overflow-hidden rounded-xl border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none"
+      class="border-border focus:ring-primary/20 bg-card rounded-card hover:shadow-raised relative flex h-full min-h-64 flex-col overflow-hidden border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] focus:ring-2 focus:outline-none"
     >
       <!-- 背景图片及遮罩 -->
       {{- if $coverImage -}}
@@ -51,7 +51,7 @@
         />
         <!-- 黑色渐变遮罩以保证文字可读性 -->
         <div
-          class="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-black/30 transition-opacity duration-300 group-hover:opacity-100"
+          class="from-media-scrim/90 via-media-scrim/60 to-media-scrim/30 absolute inset-0 bg-linear-to-t transition-opacity duration-300 group-hover:opacity-100"
         ></div>
       {{- else -}}
         <!-- 无背景图片时的 Hover 光效 (可选) -->
@@ -66,9 +66,9 @@
       {{- $mutedColorClass := "text-muted-foreground" -}}
       {{- $tagBgClass := "bg-muted/50 text-foreground border-muted/30" -}}
       {{- if $coverImage -}}
-        {{- $textColorClass = "text-white" -}}
-        {{- $mutedColorClass = "text-white/80" -}}
-        {{- $tagBgClass = "bg-white/20 text-white border-white/10 backdrop-blur-sm" -}}
+        {{- $textColorClass = "text-on-media" -}}
+        {{- $mutedColorClass = "text-on-media/80" -}}
+        {{- $tagBgClass = "bg-on-media/20 text-on-media border-on-media/10 backdrop-blur-sm" -}}
       {{- end -}}
 
 
@@ -78,7 +78,7 @@
         {{ if $page.Params.featured }}
           <div class="mb-4">
             <span
-              class="bg-primary/10 text-primary inline-flex h-7 w-7 items-center justify-center rounded-full shadow-sm"
+              class="bg-primary/10 text-primary shadow-surface inline-flex h-7 w-7 items-center justify-center rounded-full"
             >
               {{ partial "features/icon.html" (dict "name" "star" "size" "sm" "ariaLabel" "") }}
             </span>
@@ -94,7 +94,7 @@
           <!-- 项目标题 - 强制单行截断 -->
           <h3
             class="{{ $textColorClass }} group-hover:text-primary {{ if $coverImage }}
-              group-hover:text-white
+              group-hover:text-on-media
             {{ end }} mb-2 truncate text-xl leading-tight font-bold transition-colors duration-200"
           >
             {{ $page.Title }}
@@ -103,7 +103,7 @@
           <!-- 项目摘要 - 最多两行截断 -->
           {{ if $summaryContent }}
             <p
-              class="{{ $mutedColorClass }} mb-4 line-clamp-2 text-sm leading-relaxed drop-shadow-sm"
+              class="{{ $mutedColorClass }} drop-shadow-surface mb-4 line-clamp-2 text-sm leading-relaxed"
             >
               {{ $summaryContent }}
             </p>

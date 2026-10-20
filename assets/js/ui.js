@@ -180,52 +180,13 @@ function initPopoverState() {
   });
 }
 
-function initNavDetails() {
-  const details = [...document.querySelectorAll("details.nav-details")];
-  if (details.length === 0) return;
-
-  details.forEach((item) => {
-    item.addEventListener("toggle", () => {
-      if (!item.open) return;
-
-      const group = item.getAttribute("name");
-      if (!group) return;
-
-      details.forEach((other) => {
-        if (other !== item && other.open && other.getAttribute("name") === group) {
-          other.open = false;
-        }
-      });
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    details.forEach((item) => {
-      if (item.open && !item.contains(event.target)) {
-        item.open = false;
-      }
-    });
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || document.querySelector("dialog[open]")) return;
-
-    const open = details.find((item) => item.open);
-    if (!open) return;
-
-    event.preventDefault();
-    open.open = false;
-    open.querySelector("summary")?.focus();
-  });
-}
-
-function initMobileNav() {
-  const dialog = document.getElementById("mobile-nav");
-  const open = document.getElementById("mobile-nav-open");
-  const close = document.getElementById("mobile-nav-close");
-  const main = dialog?.querySelector("[data-mobile-main]");
-  const panels = [...(dialog?.querySelectorAll("[data-mobile-panel]") || [])];
-  const triggers = [...(dialog?.querySelectorAll("[data-mobile-target]") || [])];
+function initNavDialog() {
+  const dialog = document.getElementById("nav-dialog");
+  const open = document.getElementById("dock-menu");
+  const close = document.getElementById("nav-dialog-close");
+  const main = dialog?.querySelector("[data-nav-main]");
+  const panels = [...(dialog?.querySelectorAll("[data-nav-panel]") || [])];
+  const triggers = [...(dialog?.querySelectorAll("[data-nav-target]") || [])];
   if (!dialog || !open || !main) return;
 
   let currentPanel = null;
@@ -241,13 +202,11 @@ function initMobileNav() {
     });
     currentPanel = null;
 
-    if (restoreFocus && lastTrigger) {
-      lastTrigger.focus();
-    }
+    if (restoreFocus && lastTrigger) lastTrigger.focus();
   };
 
   const showPanel = (key, trigger) => {
-    const panel = panels.find((item) => item.dataset.mobilePanel === key);
+    const panel = panels.find((item) => item.dataset.navPanel === key);
     if (!panel) return;
 
     main.hidden = true;
@@ -260,13 +219,14 @@ function initMobileNav() {
     currentPanel = panel;
     lastTrigger = trigger;
 
-    dialog.querySelector("[data-mobile-menu]")?.scrollTo({ top: 0 });
-    panel.querySelector("[data-mobile-back]")?.focus();
+    dialog.querySelector("[data-nav-menu]")?.scrollTo({ top: 0 });
+    panel.querySelector("[data-nav-back]")?.focus();
   };
 
   open.addEventListener("click", () => {
     if (dialog.open) return;
     showMain();
+    open.setAttribute("aria-expanded", "true");
     dialog.showModal();
   });
 
@@ -278,25 +238,22 @@ function initMobileNav() {
       return;
     }
 
-    const target = event.target.closest("[data-mobile-target]");
+    const target = event.target.closest("[data-nav-target]");
     if (target) {
-      showPanel(target.dataset.mobileTarget, target);
+      showPanel(target.dataset.navTarget, target);
       return;
     }
 
-    if (event.target.closest("[data-mobile-back]")) {
+    if (event.target.closest("[data-nav-back]")) {
       showMain({ restoreFocus: true });
       return;
     }
 
-    if (event.target.closest("a[href]")) {
-      dialog.close();
-    }
+    if (event.target.closest("a[href]")) dialog.close();
   });
 
   dialog.addEventListener("cancel", (event) => {
     if (!currentPanel) return;
-
     event.preventDefault();
     showMain({ restoreFocus: true });
   });
@@ -304,11 +261,71 @@ function initMobileNav() {
   dialog.addEventListener("close", () => {
     showMain();
     lastTrigger = null;
+    open.setAttribute("aria-expanded", "false");
   });
 
-  window.matchMedia("(min-width: 768px)").addEventListener("change", (event) => {
-    if (event.matches && dialog.open) dialog.close();
+  const sideQuery = window.matchMedia(
+    "(min-aspect-ratio: 4/3) and (min-width: 48rem), (horizontal-viewport-segments: 2)"
+  );
+  sideQuery.addEventListener("change", () => {
+    if (dialog.open) dialog.close();
   });
+}
+
+function initDeviceLayout() {
+  const root = document.documentElement;
+  const sideQuery = window.matchMedia(
+    "(min-aspect-ratio: 4/3) and (min-width: 48rem), (horizontal-viewport-segments: 2)"
+  );
+  const verticalQuery = window.matchMedia("(vertical-viewport-segments: 2)");
+
+  const syncPlacement = () => {
+    root.dataset.dockPlacement = verticalQuery.matches
+      ? "bottom"
+      : sideQuery.matches
+        ? "side"
+        : "bottom";
+  };
+
+  syncPlacement();
+  sideQuery.addEventListener("change", syncPlacement);
+  verticalQuery.addEventListener("change", syncPlacement);
+
+  const posture = navigator.devicePosture;
+  if (posture) {
+    const syncPosture = () => {
+      root.dataset.devicePosture = posture.type;
+    };
+    syncPosture();
+    posture.addEventListener("change", syncPosture);
+  }
+
+  const syncSegments = () => {
+    const segments = window.viewport?.segments;
+    if (!segments?.length || segments.length === 1) {
+      root.removeAttribute("data-viewport-segments");
+      root.style.removeProperty("--fold-content-width");
+      root.style.removeProperty("--fold-margin-start");
+      return;
+    }
+
+    root.dataset.viewportSegments = String(segments.length);
+    const first = segments[0];
+    const last = segments[segments.length - 1];
+    root.style.setProperty("--viewport-segment-right", `${last.right}px`);
+    root.style.setProperty("--viewport-segment-left", `${first.left}px`);
+
+    if (segments.length > 1) {
+      root.style.setProperty("--fold-content-width", `${Math.max(0, first.width - 16)}px`);
+      root.style.setProperty("--fold-margin-start", "0");
+    } else {
+      root.style.removeProperty("--fold-content-width");
+      root.style.removeProperty("--fold-margin-start");
+    }
+  };
+
+  syncSegments();
+  window.addEventListener("resize", syncSegments, { passive: true });
 }
 
 let initialized = false;
@@ -320,6 +337,6 @@ export function initUI() {
   initAppearance();
   initContentWidth();
   initPopoverState();
-  initNavDetails();
-  initMobileNav();
+  initNavDialog();
+  initDeviceLayout();
 }

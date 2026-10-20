@@ -8,7 +8,7 @@
 /* 代码块样式 - 与 render hook 和 Chroma 配合 */
 .code-block-container {
   margin: 1.5rem 0;
-  background: var(--color-card);
+  background: var(--card);
 }
 
 /* Chroma 生成的代码块样式 */
@@ -60,7 +60,7 @@
 /* 折叠状态下的代码块内容 */
 .code-block-content {
   transition: max-height 0.3s ease-out;
-  background: color-mix(in srgb, var(--color-muted) 30%, transparent);
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
 }
 
 /* 内联代码样式保持不变 */
@@ -86,5 +86,5 @@
 
 /* 暗色模式下的代码块背景 */
 .dark .code-block-content {
-  background: color-mix(in srgb, var(--color-muted) 50%, transparent);
+  background: color-mix(in srgb, var(--muted) 50%, transparent);
 }

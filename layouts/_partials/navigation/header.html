@@ -1,57 +1,42 @@
 {{- $logoSrc := strings.TrimPrefix "/" site.Params.header.logo.image -}}
 
 
-<header class="{{- if site.Params.header.sticky -}}sticky top-0 z-50{{ end }} px-4 py-6">
+<header class="{{- if site.Params.header.sticky -}}sticky top-0 z-40{{ end }} px-4 py-6">
   <div
-    class="border-border bg-card/80 flex items-center gap-4 rounded-xl border px-4 py-4 shadow-sm backdrop-blur-sm md:px-6"
+    class="border-border bg-card/80 shadow-surface rounded-card flex items-center gap-3 border px-4 py-4 backdrop-blur-sm md:px-6"
   >
-    <!-- 站点 Logo -->
-    <div class="flex shrink-0 items-center">
-      {{ if ne site.Params.header.logo.image "" }}
-        <a
-          href="{{ if and site.Params.header.logo.link (ne site.Params.header.logo.link `/`) }}
-            {{ site.Params.header.logo.link | relLangURL }}
-          {{ else }}
-            {{ site.Home.RelPermalink | relLangURL }}
-          {{ end }}"
-          class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
-          aria-label="{{ site.Title }}"
-        >
-          <img
-            src="{{ $logoSrc | relURL }}"
-            alt="{{ site.Title }}"
-            class="h-full w-full object-cover"
-          />
-        </a>
-      {{ else }}
-        <!-- 默认 Logo：使用站点标题首字母 -->
-        <a
-          href="{{ site.Home.RelPermalink }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
-          aria-label="{{ site.Title }}"
-        >
-          {{ substr site.Title 0 1 | upper }}
-        </a>
-      {{ end }}
-    </div>
+    {{ if ne site.Params.header.logo.image "" }}
+      <a
+        href="{{ if and site.Params.header.logo.link (ne site.Params.header.logo.link `/`) }}
+          {{ site.Params.header.logo.link | relLangURL }}
+        {{ else }}
+          {{ site.Home.RelPermalink | relLangURL }}
+        {{ end }}"
+        class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full transition-transform duration-200 hover:scale-105"
+        aria-label="{{ site.Title }}"
+      >
+        <img
+          src="{{ $logoSrc | relURL }}"
+          alt="{{ site.Title }}"
+          class="h-full w-full object-cover"
+        />
+      </a>
+    {{ else }}
+      <a
+        href="{{ site.Home.RelPermalink }}"
+        class="bg-primary text-primary-foreground flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-transform duration-200 hover:scale-105"
+        aria-label="{{ site.Title }}"
+      >
+        {{ substr site.Title 0 1 | upper }}
+      </a>
+    {{ end }}
 
-    <!-- 桌面端导航 -->
-    <nav
-      class="hidden min-w-0 flex-1 items-center justify-center md:flex"
-      aria-label="{{ T `nav.menu` }}"
+
+    <a
+      href="{{ site.Home.RelPermalink }}"
+      class="text-foreground hover:text-primary min-w-0 truncate text-lg font-bold transition-colors"
     >
-      <div class="flex flex-wrap items-center justify-center gap-1">
-        {{ partial "navigation/menu-items.html" (dict "page" . "variant" "desktop") }}
-      </div>
-    </nav>
-
-    <!-- 控制区域：移动端菜单、语言、外观 -->
-    <div class="ml-auto flex shrink-0 items-center gap-2">
-      {{ partial "navigation/mobile-menu-toggle.html" . }}
-      {{ partial "ui/language-switcher.html" . }}
-      {{ partial "ui/appearance-popover.html" . }}
-    </div>
+      {{ site.Title }}
+    </a>
   </div>
-
-  {{ partial "navigation/mobile-nav-dialog.html" . }}
 </header>

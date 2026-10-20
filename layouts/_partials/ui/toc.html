@@ -1,116 +1,44 @@
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- if and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
   <aside
-    id="toc-container"
-    class="toc-{{ $tocConfig.position }}"
-    data-position="{{ $tocConfig.position }}"
+    id="toc-panel"
+    class="toc-panel"
+    data-open="false"
+    aria-label="{{ T `ui.toc` }}"
+    aria-hidden="true"
   >
-    {{- if eq $tocConfig.position "center" -}}
-      <!-- Center 模式 TOC -->
-      <div
-        id="toc-center"
-        class="pointer-events-none fixed top-28 right-0 left-0 z-40 mx-auto w-full max-w-4xl px-4 transition-all duration-300"
-      >
-        <div class="pointer-events-auto relative mx-auto w-fit">
-          <button
-            id="toc-center-toggle"
-            class="bg-card/80 border-border text-muted-foreground hover:text-primary hover:bg-primary/10 ring-offset-background focus-visible:ring-ring flex cursor-pointer items-center gap-2 rounded-full border px-4 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-          >
-            {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
-            <span id="toc-center-title" class="max-w-[200px] truncate">{{ T "ui.toc" }}</span>
-            {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "xs" "ariaLabel" "") }}
-          </button>
-
-          <!-- Dropdown 内容 -->
-          <div
-            id="toc-center-dropdown"
-            class="bg-card border-border scrollbar-hide absolute top-full left-1/2 mt-2 hidden max-h-[60vh] w-[280px] origin-top -translate-x-1/2 scale-95 overflow-y-auto rounded-xl border p-4 opacity-0 shadow-lg transition-all"
-          >
-            <div
-              id="toc-center-content"
-              class="[&_a]:text-muted-foreground [&_a:hover]:bg-primary/10 [&_a:hover]:text-primary [&_a.active]:bg-primary/10 [&_a.active]:text-primary text-sm [&_a]:block [&_a]:truncate [&_a]:rounded-md [&_a]:px-2 [&_a]:py-1 [&_a]:transition-colors [&_a.active]:font-medium [&_li]:my-1.5 [&_nav>ul]:pl-0 [&_ul]:list-none [&_ul]:pl-4"
-            >
-              {{ .TableOfContents }}
-            </div>
-          </div>
-        </div>
+    <div class="toc-panel-header">
+      <h2 class="text-foreground truncate text-sm font-bold">{{ T "ui.toc" }}</h2>
+      <div class="flex shrink-0 items-center gap-1">
+        <button
+          id="toc-pin"
+          class="dock-item"
+          aria-pressed="{{ cond $tocConfig.pinned `true` `false` }}"
+          aria-label="{{ T `ui.tocPin` }}"
+          title="{{ T `ui.tocPin` }}"
+          data-label-pin="{{ T `ui.tocPin` }}"
+          data-label-unpin="{{ T `ui.tocUnpin` }}"
+        >
+          <span id="toc-pin-on">
+            {{ partial "features/icon.html" (dict "name" "pin" "size" "sm" "ariaLabel" "") }}
+          </span>
+          <span id="toc-pin-off">
+            {{ partial "features/icon.html" (dict "name" "pin-off" "size" "sm" "ariaLabel" "") }}
+          </span>
+        </button>
+        <button
+          id="toc-close"
+          class="dock-item"
+          aria-label="{{ T `ui.tocClose` }}"
+          title="{{ T `ui.tocClose` }}"
+        >
+          {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
+        </button>
       </div>
-    {{- else if eq $tocConfig.position "side" -}}
-      {{/* Side 模式 TOC：#toc-anchor 与 #page-container 同宽同居中，
-        目录因此紧贴页面容器外侧，并自动跟随 --content-width 变化。
-        具体几何与形态切换见 assets/css/toc.css。
-      */}}
-      <div id="toc-layer">
-        <div id="toc-anchor">
-          <div id="toc-side">
-            <!-- 分段竖条：每个标题一段，段高随标题层级递减 -->
-            <div
-              id="toc-rail"
-              class="scrollbar-hide"
-              role="button"
-              tabindex="0"
-              aria-controls="toc-panel"
-              aria-expanded="false"
-              aria-label="{{ T "ui.toc" }}"
-            ></div>
+    </div>
 
-            <!-- 窄屏触发胶囊：显示当前标题 -->
-            <div id="toc-trigger-wrap">
-              <button
-                id="toc-trigger"
-                class="bg-card/80 border-border text-muted-foreground hover:text-primary hover:bg-primary/10 ring-offset-background focus-visible:ring-ring flex cursor-pointer items-center gap-2 rounded-full border px-4 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                aria-controls="toc-panel"
-                aria-expanded="false"
-              >
-                {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
-                <span id="toc-trigger-title" class="max-w-[200px] truncate">{{ T "ui.toc" }}</span>
-                {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "xs" "ariaLabel" "") }}
-              </button>
-            </div>
-
-            <!-- 目录面板：头部固定，只有目录列表滚动 -->
-            <div id="toc-panel" class="flex flex-col overflow-hidden">
-              <div
-                class="text-foreground mb-3 flex shrink-0 items-center justify-between gap-2 text-sm font-bold"
-              >
-                <span class="truncate">{{ T "ui.toc" }}</span>
-                <div class="flex shrink-0 items-center gap-1">
-                  <button
-                    id="toc-pin"
-                    class="text-muted-foreground hover:text-primary hover:bg-primary/10 focus-visible:ring-ring cursor-pointer items-center rounded p-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-                    aria-pressed="{{ cond $tocConfig.pinned `true` `false` }}"
-                    aria-label="{{ T "ui.tocPin" }}"
-                    title="{{ T "ui.tocPin" }}"
-                    data-label-pin="{{ T "ui.tocPin" }}"
-                    data-label-unpin="{{ T "ui.tocUnpin" }}"
-                  >
-                    <span id="toc-pin-on">
-                      {{ partial "features/icon.html" (dict "name" "pin" "size" "xs" "ariaLabel" "") }}
-                    </span>
-                    <span id="toc-pin-off">
-                      {{ partial "features/icon.html" (dict "name" "pin-off" "size" "xs" "ariaLabel" "") }}
-                    </span>
-                  </button>
-                  <button
-                    id="toc-close"
-                    class="text-muted-foreground hover:text-foreground focus-visible:ring-ring cursor-pointer items-center rounded p-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-                    aria-label="{{ T "ui.tocClose" }}"
-                    title="{{ T "ui.tocClose" }}"
-                  >
-                    {{ partial "features/icon.html" (dict "name" "close" "size" "xs" "ariaLabel" "") }}
-                  </button>
-                </div>
-              </div>
-              <div
-                id="toc-side-content"
-                class="scrollbar-hide [&_a]:text-muted-foreground [&_a:hover]:bg-primary/10 [&_a:hover]:text-primary [&_a.active]:bg-primary/10 [&_a.active]:text-primary relative min-h-0 flex-1 overflow-y-auto text-sm [&_a]:block [&_a]:rounded-md [&_a]:px-2 [&_a]:py-1 [&_a]:wrap-break-word [&_a]:whitespace-normal [&_a]:transition-colors [&_a.active]:font-medium [&_li]:my-1.5 [&_nav>ul]:pl-0 [&_ul]:list-none [&_ul]:pl-4"
-              >
-                {{ .TableOfContents }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {{- end -}}
+    <div id="toc-content" class="toc-panel-content scrollbar-hide">
+      {{ .TableOfContents }}
+    </div>
   </aside>
 {{- end -}}

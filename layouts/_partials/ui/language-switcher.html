@@ -28,7 +28,7 @@
 
     <a
       href="{{ $targetURL }}"
-      class="language-cycle-btn border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+      class="dock-item language-cycle-btn"
       aria-label="{{ T `ui.languageToggle` }}"
       data-language-mode="cycle"
     >
@@ -42,7 +42,7 @@
       aria-controls="language-panel"
       aria-expanded="false"
       aria-label="{{ T `ui.languageToggle` }}"
-      class="border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+      class="dock-item"
     >
       {{ partial "features/icon.html" (dict "name" "language" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
     </button>
@@ -50,7 +50,7 @@
     <div
       id="language-panel"
       popover
-      class="header-popover bg-popover text-popover-foreground border-border w-44 rounded-lg border p-1 shadow-lg"
+      class="dock-popover bg-popover text-popover-foreground border-border rounded-panel shadow-popover w-44 border p-1"
     >
       {{- range $site := $sites -}}
         {{- $lang := $site.Language.Lang -}}
@@ -66,7 +66,7 @@
             bg-accent text-accent-foreground
           {{ else }}
             text-muted-foreground hover:bg-accent hover:text-accent-foreground
-          {{ end }} focus:bg-accent focus:text-accent-foreground flex w-full items-center rounded-md px-4 py-2 text-sm transition-colors duration-200 focus:outline-none"
+          {{ end }} focus:bg-accent focus:text-accent-foreground rounded-control flex w-full items-center px-4 py-2 text-sm transition-colors duration-200 focus:outline-none"
           {{ if $isCurrent }}aria-current="page"{{ end }}
         >
           <span class="font-medium">{{ $langName }}</span>

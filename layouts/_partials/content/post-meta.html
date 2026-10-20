@@ -27,7 +27,7 @@
   {{ end }}
 
   <!-- 元信息区域 -->
-  <div class="bg-card border-border rounded-xl border">
+  <div class="bg-card border-border rounded-card border">
 
     {{/* 如果有 Series，使用 flex 左右分栏布局 */}}
     {{- if $currentSeries }}
@@ -123,7 +123,7 @@
               {{- end }}
 
               <button onclick="switchSeries({{ $dataIndex }})"
-                class="series-tab-btn group flex items-center gap-2 px-3 py-2 rounded-lg transition-all border border-transparent {{ if eq $dataIndex 0 }}bg-accent text-foreground border-border shadow-sm{{ else }}hover:bg-accent/50 text-muted-foreground{{ end }}"
+                class="series-tab-btn group flex items-center gap-2 px-3 py-2 rounded-control transition-all border border-transparent {{ if eq $dataIndex 0 }}bg-accent text-foreground border-border shadow-surface{{ else }}hover:bg-accent/50 text-muted-foreground{{ end }}"
                 data-index="{{ $dataIndex }}">
                 <span class="text-sm font-semibold whitespace-nowrap max-w-[120px] truncate">
                   {{ $seriesPage.LinkTitle }}
@@ -136,7 +136,7 @@
 
               <!-- 跳转到分类页的按钮 (仅针对当前激活的 Series，通过 JS 更新 href) -->
               <a href="#" id="series-link-btn"
-                class="ml-auto shrink-0 p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                class="ml-auto shrink-0 p-2 rounded-control text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                 >
                 {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm") }}
               </a>
@@ -156,7 +156,7 @@
                 {{- $isCurrent := eq $page.RelPermalink $.RelPermalink }}
                 <li>
                   <a href="{{ $page.RelPermalink }}"
-                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all group {{ if $isCurrent }}bg-primary/15 text-primary font-medium shadow-sm{{ else }}text-muted-foreground hover:text-foreground hover:bg-muted/50{{ end }}"
+                    class="flex items-center gap-2.5 px-3 py-2 rounded-control text-sm transition-all group {{ if $isCurrent }}bg-primary/15 text-primary font-medium shadow-surface{{ else }}text-muted-foreground hover:text-foreground hover:bg-muted/50{{ end }}"
                     {{ if $isCurrent }}aria-current="page" {{ end }}>
                     <span
                       class="font-mono text-xs shrink-0 {{ if $isCurrent }}text-primary{{ else }}opacity-50 group-hover:opacity-100{{ end }} transition-opacity">
@@ -184,10 +184,10 @@
               document.querySelectorAll('.series-tab-btn').forEach(btn => {
                 const isTarget = parseInt(btn.dataset.index) === index;
                 if (isTarget) {
-                  btn.classList.add('bg-accent', 'text-foreground', 'border-border', 'shadow-sm');
+                  btn.classList.add('bg-accent', 'text-foreground', 'border-border', 'shadow-surface');
                   btn.classList.remove('hover:bg-accent/50', 'text-muted-foreground');
                 } else {
-                  btn.classList.remove('bg-accent', 'text-foreground', 'border-border', 'shadow-sm');
+                  btn.classList.remove('bg-accent', 'text-foreground', 'border-border', 'shadow-surface');
                   btn.classList.add('hover:bg-accent/50', 'text-muted-foreground');
                 }
               });

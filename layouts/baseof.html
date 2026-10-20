@@ -13,7 +13,7 @@
   </head>
 
   {{- $contentWidth := .Site.Params.contentWidth | default `56rem` -}}
-  {{- $mainStyleAttr := printf `style="--content-width-base: %s; max-width: var(--content-width, var(--content-width-base))"` $contentWidth -}}
+  {{- $mainStyleAttr := printf `style="--content-width-base: %s; max-width: min(var(--content-width, var(--content-width-base)), var(--fold-content-width, 100vw)); margin-inline: var(--fold-margin-start, auto) auto"` $contentWidth -}}
 
 
   <body class="bg-background text-foreground min-h-screen antialiased">
@@ -25,6 +25,7 @@
       {{ partial "ui/reading-progress.html" . }}
 
       {{ partial "navigation/header.html" . }}
+      {{ partial "navigation/nav-dialog.html" . }}
 
 
       <div class="px-4 py-6">

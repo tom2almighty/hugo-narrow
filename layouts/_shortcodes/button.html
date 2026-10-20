@@ -47,19 +47,19 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
   {{- $customColor = $variant -}}
 {{- end -}}
 
-{{- $baseClasses := "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none cursor-pointer" -}}
+{{- $baseClasses := "inline-flex items-center justify-center gap-2 rounded-control font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none cursor-pointer" -}}
 
 {{- $variantClasses := "" -}}
 {{- if $isCustomColor -}}
-  {{- $variantClasses = "shadow-sm hover:shadow-md" -}}
+  {{- $variantClasses = "shadow-surface hover:shadow-raised" -}}
 {{- else if eq $variant "primary" -}}
-  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-sm hover:shadow-md" -}}
+  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-surface hover:shadow-raised" -}}
 {{- else if eq $variant "secondary" -}}
-  {{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-secondary/20 shadow-sm hover:shadow-md" -}}
+  {{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-secondary/20 shadow-surface hover:shadow-raised" -}}
 {{- else if eq $variant "outline" -}}
   {{- $variantClasses = "border-2 border-border bg-transparent text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary focus:ring-primary/20" -}}
 {{- else -}}
-  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-sm hover:shadow-md" -}}
+  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-surface hover:shadow-raised" -}}
 {{- end -}}
 
 {{- $sizeClasses := "" -}}

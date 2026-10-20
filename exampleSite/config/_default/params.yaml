@@ -43,10 +43,6 @@ header:
   showLanguageSwitch: true # Set to false to hide language switcher
   languageSwitchMode: "dropdown" # Language switch mode: "dropdown" (show panel) or "cycle" (direct cycle)
 
-# Dock display mode
-# Options: "scroll" (show on scroll up), "always" (always visible), "float" (floating button)
-dock: "scroll"
-
 # Content width
 # The ,max content width is set to "56rem" by default, which is a good balance between readability and aesthetics.
 # You can change it to "56rem" to make the content wider, or "48rem" to make it narrower.
@@ -55,8 +51,7 @@ contentWidth: "56rem"
 # TOC (Table of Contents)
 toc:
   enabled: true # Enable or disable TOC globally
-  position: "side" # Options: center | side
-  pinned: false # Side mode only: keep the TOC panel always visible when there is enough space
+  pinned: false # Keep the TOC panel open on wide screens
 
 # Default color scheme
 colorScheme: "default"

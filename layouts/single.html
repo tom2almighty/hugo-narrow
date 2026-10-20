@@ -15,7 +15,7 @@
     {{- $coverHeight := .Store.Get "imageHeight" | default 0 -}}
 
     {{- if $coverImage -}}
-      <div class="mb-8 overflow-hidden rounded-2xl">
+      <div class="rounded-panel mb-8 overflow-hidden">
         <img
           src="{{ $coverImage }}"
           {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}

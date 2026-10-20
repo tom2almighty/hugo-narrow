@@ -1,7 +1,7 @@
 <!-- 搜索模态框：原生 dialog 提供焦点陷阱、Esc 关闭和背景 inert -->
 <dialog
   id="search-modal"
-  class="bg-card text-foreground border-border m-auto max-h-[80vh] w-11/12 max-w-2xl overflow-hidden rounded-xl border p-0 shadow-xl"
+  class="bg-card text-foreground border-border rounded-card shadow-popover m-auto max-h-[80vh] w-11/12 max-w-2xl overflow-hidden border p-0"
   aria-labelledby="search-title"
   tabindex="-1"
 >
@@ -47,7 +47,7 @@
     <!-- 关闭按钮 -->
     <button
       id="search-close"
-      class="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex h-6 w-6 items-center justify-center rounded-md p-0.5 transition-all duration-200"
+      class="text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-control flex h-6 w-6 items-center justify-center p-0.5 transition-all duration-200"
       title="{{ T `ui.searchClose` }}"
       aria-label="{{ T `ui.searchClose` }}"
     >

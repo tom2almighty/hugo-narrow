@@ -74,7 +74,7 @@
               <div class="ml-12 space-y-3">
                 {{ range .Pages }}
                   <article
-                    class="group bg-card border-border hover:bg-accent/50 rounded-lg border p-4 transition-all duration-300"
+                    class="group bg-card border-border hover:bg-accent/50 rounded-control border p-4 transition-all duration-300"
                   >
                     <div class="flex items-center justify-between gap-4">
                       <div class="min-w-0 flex-1">
@@ -132,7 +132,7 @@
       </h2>
       <a
         href="{{ `/` | relLangURL }}"
-        class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
+        class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-card inline-flex items-center gap-2 px-6 py-3 font-medium transition-colors duration-300"
       >
         {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
         <span>{{ T "nav.backHome" }}</span>

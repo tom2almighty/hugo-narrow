@@ -41,20 +41,20 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: var(--primary);
 }
 
 /* 二级：空心圆 */
 .prose ul ul > li::before {
   background: transparent;
-  border: 2px solid var(--color-primary);
+  border: 2px solid var(--primary);
 }
 
 /* 三级：实心方块 */
 .prose ul ul ul > li::before {
   width: 4px;
   height: 4px;
-  background: var(--color-primary);
+  background: var(--primary);
   border: none;
   border-radius: 0;
   top: 0.75em;
@@ -74,7 +74,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-primary);
+  background: var(--primary);
   color: white;
   font-size: 0.75rem;
   font-weight: bold;
@@ -87,7 +87,7 @@
   height: 1.1rem;
   top: 0.45em;
   font-size: 0.7rem;
-  background: color-mix(in srgb, var(--color-primary) 70%, white);
+  background: color-mix(in srgb, var(--primary) 70%, white);
 }
 
 /* 三级 */
@@ -96,7 +96,7 @@
   height: 1rem;
   top: 0.5em;
   font-size: 0.65rem;
-  background: color-mix(in srgb, var(--color-primary) 50%, white);
+  background: color-mix(in srgb, var(--primary) 50%, white);
 }
 
 /* ========== 嵌套缩进（统一收窄） ========== */
@@ -128,15 +128,15 @@
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--border);
   border-radius: 0.25rem;
-  background: var(--color-background);
+  background: var(--background);
   transition: all 0.2s ease;
 }
 
 .prose ul > li > input[type="checkbox"]:checked {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
 .prose ul > li > input[type="checkbox"]:checked::after {
@@ -151,8 +151,8 @@
 }
 
 .prose ul > li > input[type="checkbox"]:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 /* ========== 定义列表 ========== */
@@ -177,12 +177,12 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: var(--primary);
 }
 
 .prose dd {
   margin: 0 0 0.5rem 1.5rem;
   padding-left: 0.75rem;
   color: var(--tw-prose-body);
-  border-left: 2px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--border) 50%, transparent);
 }

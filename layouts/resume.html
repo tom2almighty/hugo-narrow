@@ -16,7 +16,7 @@
       {{ $preContent := index $parts 0 }}
       {{ if ne (trim $preContent " \n\r\t") "" }}
         <div class="mb-10">
-          <div class="bg-primary/5 border-border rounded-lg border p-6 sm:p-8">
+          <div class="bg-primary/5 border-border rounded-control border p-6 sm:p-8">
             <div class="prose prose-neutral dark:prose-invert max-w-none">
               {{ $preContent | safeHTML }}
             </div>
@@ -74,7 +74,7 @@
                 {{ $preH3 := index $h3Parts 0 }}
                 {{ if ne (trim $preH3 " \n\r\t") "" }}
                   <div
-                    class="resume-entry bg-card border-border mb-4 rounded-lg border p-6 shadow-sm"
+                    class="resume-entry bg-card border-border rounded-control shadow-surface mb-4 border p-6"
                   >
                     <div class="prose prose-neutral dark:prose-invert max-w-none">
                       {{ $preH3 | safeHTML }}
@@ -103,7 +103,7 @@
 
 
                       <div
-                        class="resume-entry bg-card border-border rounded-lg border p-6 shadow-sm"
+                        class="resume-entry bg-card border-border rounded-control shadow-surface border p-6"
                       >
                         <h3
                           {{ if $h3id }}id="{{ $h3id }}"{{ end }}
@@ -131,7 +131,9 @@
                 </div>
               {{ else }}
                 <!-- 无 H3：整段分区正文作为一张卡片（适合 Skills 等） -->
-                <div class="resume-entry bg-card border-border rounded-lg border p-6 shadow-sm">
+                <div
+                  class="resume-entry bg-card border-border rounded-control shadow-surface border p-6"
+                >
                   <div class="prose prose-neutral dark:prose-invert max-w-none">
                     {{ $body | safeHTML }}
                   </div>

@@ -1,30 +1,39 @@
 /* Imported via @layer components in assets/main.css */
-/* 导航子菜单 */
-.nav-submenu {
-  min-width: 10rem;
+/* 全局 Dock 与目录/导航面板 */
+:root {
+  --dock-size: 3rem;
+  --dock-edge: 0.75rem;
+  --dock-clearance: calc(var(--dock-size) + env(safe-area-inset-bottom) + 1.5rem);
 }
 
-.nav-details > summary {
-  list-style: none;
+body {
+  padding-bottom: var(--dock-clearance);
 }
 
-.nav-details > summary::-webkit-details-marker {
-  display: none;
+#dock {
+  position: fixed;
+  z-index: 50;
+  bottom: calc(env(safe-area-inset-bottom) + var(--dock-edge));
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.nav-details[open] > summary .nav-chevron {
-  transform: rotate(180deg);
+.dock-item {
+  @apply text-muted-foreground hover:text-primary hover:bg-primary/10 focus-visible:ring-primary/40 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none;
 }
 
-/* header 原生 popover 面板 */
-.header-popover {
+.dock-divider {
+  width: 1px;
+  height: 1.5rem;
+}
+
+/* Dock popover：底部 dock 向上展开，侧边 rail 向左展开。 */
+.dock-popover {
   position: fixed;
   inset: auto;
-  top: 5.5rem;
-  right: 1rem;
   margin: 0;
   max-width: calc(100vw - 2rem);
-  max-height: min(80vh, 36rem);
+  max-height: min(80dvh, 36rem);
   overflow-y: auto;
 }
 
@@ -36,24 +45,102 @@
   anchor-name: --language-anchor;
 }
 
-@supports (anchor-name: --appearance-anchor) {
+#appearance-panel,
+#language-panel {
+  left: 50%;
+  right: auto;
+  top: auto;
+  bottom: calc(env(safe-area-inset-bottom) + var(--dock-size) + var(--dock-edge) * 2);
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+/* 宽短屏 / 横向折叠：右侧竖向 rail。 */
+@media (min-aspect-ratio: 4/3) and (min-width: 48rem), (horizontal-viewport-segments: 2) {
+  body {
+    padding-bottom: 0;
+    padding-inline-end: calc(var(--dock-size) + var(--dock-edge) * 2);
+  }
+
+  #dock {
+    top: 50%;
+    right: calc(env(safe-area-inset-right) + var(--dock-edge));
+    bottom: auto;
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  .dock-shell {
+    flex-direction: column;
+  }
+
+  .dock-divider {
+    width: 1.5rem;
+    height: 1px;
+  }
+
   #appearance-panel {
     position-anchor: --appearance-anchor;
-    top: anchor(bottom);
-    right: anchor(right);
-    margin-top: 0.5rem;
   }
 
   #language-panel {
     position-anchor: --language-anchor;
-    top: anchor(bottom);
-    right: anchor(right);
-    margin-top: 0.5rem;
+  }
+
+  #appearance-panel,
+  #language-panel {
+    left: auto;
+    right: anchor(left);
+    bottom: auto;
+    top: 50%;
+    margin: 0 0.5rem 0 0;
+    transform: translateY(-50%);
   }
 }
 
-/* 原生移动端导航 sheet */
-.mobile-nav-dialog {
+@media (horizontal-viewport-segments: 2) {
+  #dock {
+    right: calc(100vw - env(viewport-segment-right 1 0) + var(--dock-edge));
+  }
+}
+
+/* 竖向折叠：保持底部胶囊。 */
+@media (vertical-viewport-segments: 2) {
+  body {
+    padding-bottom: var(--dock-clearance);
+    padding-inline-end: 0;
+  }
+
+  #dock {
+    top: auto;
+    right: auto;
+    bottom: calc(env(safe-area-inset-bottom) + var(--dock-edge));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dock-shell {
+    flex-direction: row;
+  }
+
+  .dock-divider {
+    width: 1px;
+    height: 1.5rem;
+  }
+
+  #appearance-panel,
+  #language-panel {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom) + var(--dock-size) + var(--dock-edge) * 2);
+    margin: 0;
+    transform: translateX(-50%);
+  }
+}
+
+/* 导航 dialog：窄屏底部 sheet，侧边 dock 时右侧 sheet。 */
+.nav-dialog {
   inset: auto 0 0;
   width: 100vw;
   max-width: 100vw;
@@ -64,20 +151,20 @@
   background: transparent;
 }
 
-.mobile-nav-dialog::backdrop {
+.nav-dialog::backdrop {
   background-color: rgb(0 0 0 / 0.5);
 }
 
-.mobile-nav-dialog > div {
-  border: 1px solid var(--color-border);
-  border-radius: 1rem 1rem 0 0;
+.nav-dialog > div {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
 }
 
-.mobile-nav-dialog[open] {
-  animation: mobile-nav-in 180ms ease-out;
+.nav-dialog[open] {
+  animation: nav-dialog-in 180ms ease-out;
 }
 
-@keyframes mobile-nav-in {
+@keyframes nav-dialog-in {
   from {
     opacity: 0;
     transform: translateY(16px);
@@ -85,6 +172,34 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (min-aspect-ratio: 4/3) and (min-width: 48rem), (horizontal-viewport-segments: 2) {
+  .nav-dialog {
+    inset: 0 0 0 auto;
+    right: calc(100% - 100vw);
+    width: 20rem;
+    max-width: 20rem;
+    height: 100dvh;
+    max-height: none;
+  }
+
+  .nav-dialog > div {
+    height: 100%;
+    border-right: 0;
+    border-radius: var(--radius-panel) 0 0 var(--radius-panel);
+  }
+
+  @keyframes nav-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }
 
@@ -132,47 +247,8 @@
   }
 
   #search-modal[open],
-  .mobile-nav-dialog[open] {
+  .nav-dialog[open] {
     animation: none;
-  }
-}
-
-@media (max-width: 480px) {
-  #dock span {
-    display: none;
-  }
-}
-
-/* 悬浮模式下的 Dock 样式 */
-#dock[data-dock-mode="float"] {
-  transition: all 0.2s ease-out;
-}
-
-/* 当dock显示时，调整阴影遮罩 */
-#dock[data-dock-mode="float"].translate-y-0 ~ #dock-float-trigger .bg-gradient-to-t {
-  height: 12px;
-}
-
-/* 当dock显示时，图标旋转 */
-#dock[data-dock-mode="float"].translate-y-0 ~ #dock-float-trigger #dock-float-icon {
-  transform: rotate(180deg);
-  transition: transform 0.2s ease-out;
-}
-
-/* 响应式优化 */
-@media (max-width: 640px) {
-  #dock[data-dock-mode="float"] {
-    left: 1rem;
-    right: 1rem;
-    transform: translateX(0) translateY(24px);
-  }
-
-  #dock[data-dock-mode="float"].translate-y-0 {
-    transform: translateX(0) translateY(0);
-  }
-
-  #dock[data-dock-mode="float"].translate-y-24 {
-    transform: translateX(0) translateY(24px);
   }
 }
 

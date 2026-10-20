@@ -2,11 +2,11 @@
 {{- $page := . -}}
 {{- $inactive := "text-muted-foreground hover:text-primary hover:bg-primary/10" -}}
 {{- $active := "bg-accent text-accent-foreground" -}}
-{{- $topClass := "nav-panel-link flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
-{{- $childClass := "nav-panel-link flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
+{{- $topClass := "nav-panel-link flex w-full items-center gap-3 rounded-control px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
+{{- $childClass := "nav-panel-link flex items-center gap-3 rounded-control px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
 
 
-<div data-mobile-main>
+<div data-nav-main>
   <nav class="flex flex-col gap-1 p-2" aria-label="{{ T `nav.menu` }}">
     {{- range site.Menus.main -}}
       {{- $menuURL := .URL -}}
@@ -23,9 +23,9 @@
         <button
           type="button"
           class="{{ $topClass }} {{ $inactive }}"
-          data-mobile-target="{{ $menuKey }}"
+          data-nav-target="{{ $menuKey }}"
           aria-expanded="false"
-          aria-controls="mobile-panel-{{ $menuKey }}"
+          aria-controls="nav-panel-{{ $menuKey }}"
         >
           {{- with .Params.icon -}}
             {{ partial "features/icon.html" (dict "name" . "size" "md" "ariaLabel" "") }}
@@ -57,12 +57,12 @@
 {{- range site.Menus.main -}}
   {{- if .HasChildren -}}
     {{- $menuKey := .Name | anchorize -}}
-    <div id="mobile-panel-{{ $menuKey }}" data-mobile-panel="{{ $menuKey }}" hidden>
+    <div id="nav-panel-{{ $menuKey }}" data-nav-panel="{{ $menuKey }}" hidden>
       <div class="border-border flex items-center gap-2 border-b px-3 py-3">
         <button
           type="button"
-          data-mobile-back
-          class="text-muted-foreground hover:text-foreground hover:bg-accent focus:ring-primary/20 flex h-9 w-9 items-center justify-center rounded-lg transition-colors focus:ring-2 focus:outline-none"
+          data-nav-back
+          class="text-muted-foreground hover:text-foreground hover:bg-accent focus:ring-primary/20 rounded-control flex h-9 w-9 items-center justify-center transition-colors focus:ring-2 focus:outline-none"
           aria-label="{{ T `ui.dockBack` }}"
         >
           {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "md" "ariaLabel" "") }}

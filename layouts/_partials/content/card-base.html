@@ -35,13 +35,13 @@
 <article class="group">
   <a href="{{ $page.RelPermalink }}" class="block">
     <div
-      class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 relative flex flex-col overflow-hidden rounded-xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:outline-none md:flex-row"
+      class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 rounded-card hover:shadow-raised relative flex flex-col overflow-hidden border transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] focus:ring-2 focus:outline-none md:flex-row"
     >
       <!-- 封面图片 -->
       {{- if $coverImage -}}
         <div class="p-3 pb-0 md:order-last md:w-64 md:shrink-0 md:p-3 md:pl-0">
           <div
-            class="relative aspect-video h-full w-full overflow-hidden rounded-lg md:aspect-video"
+            class="rounded-control relative aspect-video h-full w-full overflow-hidden md:aspect-video"
           >
             <img
               src="{{ $coverImage }}"
@@ -106,7 +106,7 @@
             <div class="ml-auto flex flex-wrap items-center gap-1.5 md:ml-0">
               {{ range $tag := $page.Params.tags }}
                 <span
-                  class="bg-muted/50 border-muted/30 flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs"
+                  class="bg-muted/50 border-muted/30 rounded-control flex items-center gap-1 border px-2 py-0.5 text-xs"
                 >
                   <span class="font-medium">{{ $tag }}</span>
                 </span>

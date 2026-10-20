@@ -17,7 +17,7 @@
       {{- $coverHeight := .Store.Get "imageHeight" | default 0 -}}
 
       {{- if $coverImage -}}
-        <div class="border-border mb-8 overflow-hidden rounded-2xl border shadow-sm">
+        <div class="border-border rounded-panel shadow-surface mb-8 overflow-hidden border">
           <img
             src="{{ $coverImage }}"
             {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
@@ -52,7 +52,7 @@
     <div class="flex flex-wrap items-center gap-2.5 text-sm font-medium">
       {{ if not .Date.IsZero }}
         <span
-          class="bg-muted/45 text-foreground border-border inline-flex h-10 items-center gap-2 rounded-lg border px-3.5 shadow-sm"
+          class="bg-muted/45 text-foreground border-border rounded-control shadow-surface inline-flex h-10 items-center gap-2 border px-3.5"
         >
           {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "class" "text-primary shrink-0" "hidden" true) }}
           <time datetime="{{ .Date.Format `2006-01-02` }}">
@@ -63,7 +63,7 @@
 
       {{ if .Params.status }}
         <span
-          class="bg-muted/45 text-foreground border-border inline-flex h-10 items-center gap-2 rounded-lg border px-3.5 shadow-sm"
+          class="bg-muted/45 text-foreground border-border rounded-control shadow-surface inline-flex h-10 items-center gap-2 border px-3.5"
         >
           {{ partial "features/icon.html" (dict "name" "status" "size" "sm" "class" "text-primary shrink-0" "hidden" true) }}
           <span class="relative flex h-2.5 w-2.5 shrink-0">
@@ -94,7 +94,7 @@
         {{ range .Params.tags }}
           <a
             href="{{ `/tags/` | relLangURL }}{{ . | urlize }}/"
-            class="bg-background text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary focus:ring-primary/20 inline-flex h-10 items-center gap-2 rounded-lg border px-3.5 shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:outline-none"
+            class="bg-background text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary focus:ring-primary/20 rounded-control shadow-surface inline-flex h-10 items-center gap-2 border px-3.5 transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:outline-none"
           >
             {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "class" "shrink-0" "hidden" true) }}
             <span>{{ . }}</span>
@@ -107,7 +107,7 @@
           href="{{ .Params.link }}"
           target="_blank"
           rel="noopener noreferrer"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex h-10 items-center gap-2 rounded-lg px-3.5 shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:outline-none"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 rounded-control shadow-surface inline-flex h-10 items-center gap-2 px-3.5 transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:outline-none"
           aria-label="{{ .Title }}"
         >
           {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "class" "shrink-0" "hidden" true) }}
@@ -118,7 +118,7 @@
   </div>
 
   <!-- 正文区域 (垂直布局最底部) -->
-  <div class="bg-card border-border rounded-xl border p-6 shadow-sm md:p-8 md:px-10">
+  <div class="bg-card border-border rounded-card shadow-surface border p-6 md:p-8 md:px-10">
     <article class="prose prose-neutral dark:prose-invert max-w-none">
       {{ .Content }}
     </article>
