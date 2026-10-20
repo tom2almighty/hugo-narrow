@@ -76,15 +76,13 @@
   <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}" />
 {{ end }}
 
-{{- if or .IsPage .IsHome .IsSection .IsNode -}}
-  {{- $_ := .Content -}}
-{{- end -}}
+{{- $_ := .Content -}}
 
 {{- $searchConfig := partial "config/search.html" . -}}
 {{- $galleryConfig := partial "config/gallery.html" . -}}
-{{- .Scratch.Set "galleryEnabled" $galleryConfig.gallery -}}
-{{- .Scratch.Set "lightboxEnabled" $galleryConfig.lightbox -}}
-{{- .Scratch.Set "galleryConfig" $galleryConfig.galleryOptions -}}
+{{- .Store.Set "galleryEnabled" $galleryConfig.gallery -}}
+{{- .Store.Set "lightboxEnabled" $galleryConfig.lightbox -}}
+{{- .Store.Set "galleryConfig" $galleryConfig.galleryOptions -}}
 
 
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />

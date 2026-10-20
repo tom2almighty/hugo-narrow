@@ -1,159 +1,39 @@
-{{- with resources.Get "js/main.js" }}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/main.js"
-  }}
-  {{- with . | js.Build $opts }}
-    {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}" defer></script>
-    {{- else }}
-      {{- with . | fingerprint }}
-        <script
-          src="{{ .RelPermalink }}"
-          integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"
-          defer
-        ></script>
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* 主脚本 */}}
+{{ partial "layout/script.html" (dict "path" "js/main.js") }}
 
+{{/* 目录功能脚本 - 只在文章页面 TOC 启用时加载，需要在 dock.js 之前加载 */}}
+{{- if .IsPage -}}
+  {{- $tocConfig := partial "config/toc.html" . -}}
+  {{- if $tocConfig.enabled -}}
+    {{ partial "layout/script.html" (dict "path" "js/toc.js") }}
+  {{- end -}}
+{{- end -}}
 
-<!-- 目录功能脚本 - 只在文章页面 TOC 启用时加载，需要在 dock.js 之前加载 -->
-{{- if .IsPage }}
-  {{- $tocConfig := partial "config/toc.html" . }}
-  {{- if $tocConfig.enabled }}
-    {{- with resources.Get "js/toc.js" }}
-      {{- $opts := dict
-        "minify" (not hugo.IsDevelopment)
-        "sourceMap" (cond hugo.IsDevelopment "external" "")
-        "targetPath" "js/toc.js"
-      }}
-      {{- with . | js.Build $opts }}
-        {{- if hugo.IsDevelopment }}
-          <script src="{{ .RelPermalink }}" defer></script>
-        {{- else }}
-          {{- with . | fingerprint }}
-            <script
-              src="{{ .RelPermalink }}"
-              integrity="{{ .Data.Integrity }}"
-              crossorigin="anonymous"
-              defer
-            ></script>
-          {{- end }}
-        {{- end }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* 搜索功能脚本 */}}
+{{ partial "layout/script.html" (dict "path" "js/search.js") }}
 
-
-<!-- 搜索功能脚本 -->
-{{- with resources.Get "js/search.js" }}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/search.js"
-  }}
-  {{- with . | js.Build $opts }}
-    {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}" defer></script>
-    {{- else }}
-      {{- with . | fingerprint }}
-        <script
-          src="{{ .RelPermalink }}"
-          integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"
-          defer
-        ></script>
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-
-<!-- Dock 控制脚本 -->
-{{- with resources.Get "js/dock.js" }}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/dock.js"
-  }}
-  {{- with . | js.Build $opts }}
-    {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}" defer></script>
-    {{- else }}
-      {{- with . | fingerprint }}
-        <script
-          src="{{ .RelPermalink }}"
-          integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"
-          defer
-        ></script>
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Dock 控制脚本 */}}
+{{ partial "layout/script.html" (dict "path" "js/dock.js") }}
 
 {{/* Gallery JavaScript */}}
-{{ if .Scratch.Get "galleryEnabled" }}
+{{ if .Store.Get "galleryEnabled" }}
   <script
     src="https://cdn.jsdelivr.net/npm/smart-gallery@latest/dist/smart-gallery.umd.js"
     defer
   ></script>
 {{ end }}
 
-{{ if or (.Scratch.Get "galleryEnabled") (.Scratch.Get "lightboxEnabled") }}
-  {{- with resources.Get "js/gallery.js" }}
-    {{- $opts := dict
-      "minify" (not hugo.IsDevelopment)
-      "sourceMap" (cond hugo.IsDevelopment "external" "")
-      "targetPath" "js/gallery.js"
-    }}
-    {{- with . | js.Build $opts }}
-      {{- if hugo.IsDevelopment }}
-        <script src="{{ .RelPermalink }}" defer></script>
-      {{- else }}
-        {{- with . | fingerprint }}
-          <script
-            src="{{ .RelPermalink }}"
-            integrity="{{ .Data.Integrity }}"
-            crossorigin="anonymous"
-            defer
-          ></script>
-        {{- end }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
+{{ if or (.Store.Get "galleryEnabled") (.Store.Get "lightboxEnabled") }}
+  {{ partial "layout/script.html" (dict "path" "js/gallery.js") }}
 {{ end }}
 
-
-<!-- 自定义 JS 文件 -->
-{{- $customJsFiles := resources.Match "js/custom/*.js" }}
-{{- range $customJsFiles }}
-  {{- $fileName := .Name }}
-  {{- $targetPath := printf "js/custom/%s" $fileName }}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" $targetPath
+{{/* 自定义 JS 文件 */}}
+{{- range resources.Match "js/custom/*.js" }}
+  {{ partial "layout/script.html" (dict
+    "resource" .
+    "targetPath" (printf "js/custom/%s" .Name)
+    )
   }}
-  {{- with . | js.Build $opts }}
-    {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}" defer></script>
-    {{- else }}
-      {{- with . | fingerprint }}
-        <script
-          src="{{ .RelPermalink }}"
-          integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"
-          defer
-        ></script>
-      {{- end }}
-    {{- end }}
-  {{- end }}
 {{- end }}
 
 {{ if .Site.Params.analytics.enabled -}}
