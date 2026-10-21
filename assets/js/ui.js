@@ -1,3 +1,5 @@
+import { SIDE_DOCK_QUERY } from "./layout.js";
+
 function readStorage(key) {
   try {
     return localStorage.getItem(key);
@@ -299,9 +301,7 @@ function initNavPopover() {
     if (event.target.closest("a[href]")) popover.hidePopover();
   });
 
-  const placementQuery = window.matchMedia(
-    "(min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2)"
-  );
+  const placementQuery = window.matchMedia(SIDE_DOCK_QUERY);
 
   placementQuery.addEventListener("change", () => {
     if (popover.matches(":popover-open")) popover.hidePopover();

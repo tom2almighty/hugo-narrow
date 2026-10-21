@@ -35,6 +35,9 @@ Hugo 0.165.0 and deploys to GitHub Pages on push to `main`; tags `v*` cut a rele
   (`@import "tailwindcss"` + `@import`s of the partial CSS files) → `compiled.css`. Hugo only
   fingerprints/minifies the already-built `compiled.css` (see `_partials/layout/head/css.html`).
 - **JS is bundled by Hugo** via `js.Build` (esbuild) at render time — no separate JS build step.
+  `assets/js/main.js` is the always-on entry (UI, dock, search, announcement, tabs, code blocks).
+  `toc.js` and `gallery.js` remain conditional. Shared layout breakpoints live in
+  `assets/js/layout.js`; keep the matching CSS media queries in sync.
 
 Consequence: **if you add or change Tailwind utility classes in any `layouts/**/*.html`, you must
 recompile** (`pnpm run compile`, or just use `pnpm run dev:parallel` which watches). Running plain
@@ -66,9 +69,9 @@ utilities come from the single `--radius` scale (`rounded-sm/md/lg/xl`); do not 
 announcement, sticky context bar (`navigation/context-bar.html`, non-home pages), `<main>`, and the
 footer. The dock, TOC panel, search dialog and KaTeX/Mermaid assets sit outside that container.
 
-- The context bar is a sticky, translucent breadcrumb strip with slash separators. Series posts
-  add a progress row (dots and lines) with previous/next controls that opens
-  `navigation/series-popover.html`. Series data is resolved once by
+- The context bar is a sticky bordered panel. Breadcrumbs use 14px links, a home icon, and
+  chevron separators; series posts add a second row with progress dots and previous/next controls
+  that opens `navigation/series-popover.html`. Series data is resolved once by
   `content/series-info.html` and reused by the context bar, the post header and post navigation.
 - `ui/dock.html` is the only page/function chrome: Home, Menu, Search, TOC (when present),
   Appearance (color scheme, light/dark, width, language), and a contextual Back-to-top.

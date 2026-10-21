@@ -103,6 +103,7 @@ html[data-toc-pinned="true"] #toc-pin-off {
   display: block;
 }
 
+/* Keep in sync with SIDE_DOCK_QUERY in assets/js/layout.js. */
 @media (min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2) {
   .toc-panel {
     top: 1rem;
@@ -119,6 +120,7 @@ html[data-toc-pinned="true"] #toc-pin-off {
   }
 }
 
+/* Keep in sync with TOC_PIN_QUERY in assets/js/layout.js. */
 @media (min-width: 105rem) and (min-aspect-ratio: 4/3), (horizontal-viewport-segments: 2) and (min-width: 105rem) {
   #toc-pin {
     display: inline-flex;

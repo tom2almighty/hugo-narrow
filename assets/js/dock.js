@@ -2,17 +2,14 @@
  * Global dock behavior: placement semantics, reading progress,
  * back-to-top visibility, search/TOC dispatch, and toolbar keyboard focus.
  */
+import { REDUCED_MOTION_QUERY, SIDE_DOCK_QUERY } from "./layout.js";
 
-(function () {
-  "use strict";
-
+export function initDock() {
   const dock = document.getElementById("dock");
   if (!dock) return;
 
-  const sideQuery = window.matchMedia(
-    "(min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2)"
-  );
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const sideQuery = window.matchMedia(SIDE_DOCK_QUERY);
+  const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
   let collapsed = false;
   let lastScrollY = window.scrollY;
 
@@ -23,7 +20,7 @@
       const popoverOpen =
         document.getElementById("appearance-panel")?.matches(":popover-open") ||
         document.getElementById("nav-menu-popover")?.matches(":popover-open") ||
-        window.TOC?.isOpen?.();
+        document.getElementById("toc-panel")?.dataset.open === "true";
       if (popoverOpen) return;
     }
     collapsed = next;
@@ -89,18 +86,10 @@
   dock.addEventListener("focusin", () => setCollapsed(false));
 
   document.getElementById("dock-search")?.addEventListener("click", () => {
-    if (window.Search?.show) {
-      window.Search.show();
-      return;
-    }
     document.dispatchEvent(new CustomEvent("search:open"));
   });
 
   document.getElementById("dock-toc")?.addEventListener("click", () => {
-    if (window.TOC?.toggle) {
-      window.TOC.toggle();
-      return;
-    }
     document.dispatchEvent(new CustomEvent("toc:toggle"));
   });
 
@@ -140,4 +129,4 @@
       items[target].focus();
     }
   });
-})();
+}

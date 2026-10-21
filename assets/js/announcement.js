@@ -1,6 +1,4 @@
-(() => {
-  "use strict";
-
+export function initAnnouncement() {
   const element = document.getElementById("site-announcement");
   if (!element) return;
 
@@ -25,4 +23,4 @@
     }
     window.setTimeout(() => element.remove(), 180);
   });
-})();
+}

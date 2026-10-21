@@ -1,20 +1,11 @@
 {{/* 主脚本 */}}
 {{ partial "layout/script.html" (dict "path" "js/main.js") }}
 
-{{/* 目录功能脚本 - TOC 启用且当前页面有标题时加载，需要在 dock.js 之前加载 */}}
+{{/* 目录功能脚本 - TOC 启用且当前页面有标题时才加载 */}}
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- if and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
   {{ partial "layout/script.html" (dict "path" "js/toc.js") }}
 {{- end -}}
-
-{{/* 搜索功能脚本 */}}
-{{ partial "layout/script.html" (dict "path" "js/search.js") }}
-
-{{/* 站点公告 */}}
-{{ partial "layout/script.html" (dict "path" "js/announcement.js") }}
-
-{{/* Dock 控制脚本 */}}
-{{ partial "layout/script.html" (dict "path" "js/dock.js") }}
 
 {{/* Gallery JavaScript */}}
 {{ if .Store.Get "galleryEnabled" }}

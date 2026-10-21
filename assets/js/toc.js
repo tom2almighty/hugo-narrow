@@ -1,6 +1,7 @@
 /**
  * 目录功能模块：Dock 驱动的单一目录面板。
  */
+import { SIDE_DOCK_QUERY, TOC_PIN_QUERY } from "./layout.js";
 
 function tocHashOf(link) {
   const raw = link.hash ? link.hash.substring(1) : "";
@@ -107,16 +108,8 @@ class TOCManager {
     return document.documentElement.dataset.tocPinned === "true";
   }
 
-  isSideLayout() {
-    return window.matchMedia(
-      "(min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2)"
-    ).matches;
-  }
-
   isPinAvailable() {
-    return window.matchMedia(
-      "(min-width: 105rem) and (min-aspect-ratio: 4/3), (horizontal-viewport-segments: 2) and (min-width: 105rem)"
-    ).matches;
+    return window.matchMedia(TOC_PIN_QUERY).matches;
   }
 
   applyPin(pinned, persist) {
@@ -202,9 +195,7 @@ class TOCManager {
       this.close();
     });
 
-    const sideQuery = window.matchMedia(
-      "(min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2)"
-    );
+    const sideQuery = window.matchMedia(SIDE_DOCK_QUERY);
 
     sideQuery.addEventListener("change", () => {
       if (!sideQuery.matches || !this.isPinAvailable()) {
@@ -214,9 +205,7 @@ class TOCManager {
       }
     });
 
-    const pinQuery = window.matchMedia(
-      "(min-width: 105rem) and (min-aspect-ratio: 4/3), (horizontal-viewport-segments: 2) and (min-width: 105rem)"
-    );
+    const pinQuery = window.matchMedia(TOC_PIN_QUERY);
     pinQuery.addEventListener("change", () => {
       if (!pinQuery.matches) {
         this.setOpen(false);

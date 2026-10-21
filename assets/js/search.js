@@ -1,6 +1,4 @@
-(function () {
-  "use strict";
-
+export function initSearch() {
   let searchModal = null;
   let searchInput = null;
   let searchClear = null;
@@ -641,9 +639,5 @@
     isVisible: () => Boolean(searchModal?.open),
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
-})();
+  init();
+}
