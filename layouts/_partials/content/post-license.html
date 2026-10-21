@@ -9,9 +9,8 @@
   "show" true
   "author" $defaultAuthor
   "name" "CC BY-NC-SA 4.0"
-  "description" "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。"
+  "description" ""
   "url" "https://creativecommons.org/licenses/by-nc-sa/4.0/"
-  "displayName" "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议"
 -}}
 {{- $license = $defaults -}}
 {{- with .Site.Params.post.license -}}
@@ -40,14 +39,14 @@
           rel="noopener noreferrer"
           class="border-border bg-muted/50 text-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-xs font-medium transition-colors"
         >
-          <span>{{ $license.name | default $license.displayName }}</span>
+          <span>{{ $license.name }}</span>
           {{ partial "features/icon.html" (dict "name" "external-link" "size" "xs" "ariaLabel" "") }}
         </a>
       {{- else -}}
         <span
           class="border-border bg-muted/50 text-foreground rounded-sm border px-2 py-0.5 font-mono text-xs font-medium"
         >
-          {{ $license.name | default $license.displayName }}
+          {{ $license.name }}
         </span>
       {{- end -}}
     </div>

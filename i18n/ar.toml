@@ -7,6 +7,10 @@
         many = "{{ .count }} صفحة"
         other = "{{ .count }} صفحة"
 
+    [list.terms]
+        one = "{{ .count }} عنصر"
+        other = "{{ .count }} عناصر"
+
 [article]
     empty          = "لا يوجد محتوى"
     relatedContent = "محتوى ذو صلة"
@@ -14,6 +18,13 @@
     next           = "التالي"
     noPrev         = "لا يوجد سابق"
     noNext         = "لا يوجد تالٍ"
+
+    [article.alert]
+        note      = "ملاحظة"
+        tip       = "نصيحة"
+        important = "مهم"
+        caution   = "تنبيه"
+        warning   = "تحذير"
 
     [article.readingTime]
         zero = "{{ .count }} دقيقة"

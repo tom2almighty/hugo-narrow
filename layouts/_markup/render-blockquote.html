@@ -1,147 +1,53 @@
-{{/* Blockquote render hook for GitHub-style alerts and regular blockquotes
+{{/* Blockquote render hook for GitHub-style alerts and regular blockquotes.
 
   Supports:
   - GitHub-style alerts: [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION]
-  - Extended syntax with + - for collapsible alerts
+  - Collapsible alerts with + / -
   - Custom titles
-  - Multilingual support
+  - Localized default titles
+
+  Collapsible alerts use native <details>, so no inline script is emitted per block.
 */}}
 
 {{- if eq .Type "alert" -}}
-  {{/* Alert type configuration */}}
-  {{- $alertConfig := dict
-    "note" (dict
-    "icon" "info-circle"
-    "colorVar" "note"
-    "defaultTitle" "Note"
-    )
-    "tip" (dict
-    "icon" "lightbulb"
-    "colorVar" "tip"
-    "defaultTitle" "Tip"
-    )
-    "important" (dict
-    "icon" "exclamation-triangle"
-    "colorVar" "important"
-    "defaultTitle" "Important"
-    )
-    "warning" (dict
-    "icon" "alert-triangle"
-    "colorVar" "warning"
-    "defaultTitle" "Warning"
-    )
-    "caution" (dict
-    "icon" "alert-circle"
-    "colorVar" "caution"
-    "defaultTitle" "Caution"
-    )
-    -}}
-
-  {{- $config := index $alertConfig .AlertType -}}
+  {{- $icons := dict
+    "note" "info-circle"
+    "tip" "lightbulb"
+    "important" "exclamation-triangle"
+    "warning" "alert-triangle"
+    "caution" "alert-circle"
+  -}}
+  {{- $type := .AlertType -}}
+  {{- $icon := index $icons $type -}}
+  {{- $title := .AlertTitle | default (T (printf "article.alert.%s" $type)) -}}
   {{- $isCollapsible := or (eq .AlertSign "+") (eq .AlertSign "-") -}}
   {{- $isExpanded := eq .AlertSign "+" -}}
-  {{- $alertId := printf "alert-%d" .Ordinal -}}
-  {{- $title := .AlertTitle | default $config.defaultTitle -}}
 
-
-  <div
-    class="alert alert-{{ .AlertType }} relative my-6 py-1 pl-4"
-    style="--alert-color: var(--{{ $config.colorVar }});"
-    role="alert"
-    aria-labelledby="{{ $alertId }}-title"
-  >
-    {{/* Capsule indicator bar */}}
-    <span
-      class="pointer-events-none absolute top-0.5 bottom-0.5 left-0 w-1 rounded-sm"
-      style="background-color: var(--alert-color);"
-      aria-hidden="true"
-    ></span>
-    {{/* Alert header */}}
-    <div
-      class="{{ if $isCollapsible }}
-        cursor-pointer select-none
-      {{ end }} flex items-center justify-between gap-3"
-      {{ if $isCollapsible }}
-        onclick="toggleAlert('{{ $alertId }}')" role="button" tabindex="0"
-        aria-expanded="{{ $isExpanded }}" aria-controls="{{ $alertId }}-content"
-        onkeydown="if(event.key==='Enter'||event.code==='Space'){toggleAlert('{{ $alertId }}');event.preventDefault();}"
-      {{ end }}
-    >
-      <div class="flex items-center gap-2" style="color: var(--alert-color);">
-        <span class="shrink-0">
-          {{ partial "features/icon.html" (dict "name" $config.icon "size" "sm" "ariaLabel" "") }}
+  {{- if $isCollapsible -}}
+    <details class="alert alert-{{ $type }}" {{ if $isExpanded }}open{{ end }}>
+      <summary class="alert-header">
+        <span class="alert-icon" aria-hidden="true">
+          {{ partial "features/icon.html" (dict "name" $icon "size" "sm" "ariaLabel" "") }}
         </span>
-        <h4
-          id="{{ $alertId }}-title"
-          class="m-0 text-sm leading-snug font-semibold"
-          style="color: var(--alert-color);"
-        >
-          {{ $title }}
-        </h4>
-      </div>
-
-      {{/* Collapse indicator */}}
-      {{ if $isCollapsible }}
-        <div
-          class="shrink-0 transition-transform duration-200"
-          style="color: var(--alert-color);"
-          id="{{ $alertId }}-chevron"
-        >
+        <span class="alert-title">{{ $title }}</span>
+        <span class="alert-chevron" aria-hidden="true">
           {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
-        </div>
-      {{ end }}
-    </div>
-
-    {{/* Alert content */}}
-    <div
-      id="{{ $alertId }}-content"
-      class="alert-content {{ if and $isCollapsible (not $isExpanded) }}
-        hidden
-      {{ end }} mt-2"
-    >
-      <div
-        class="prose text-foreground/90 max-w-none text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-      >
-        {{ .Text }}
+        </span>
+      </summary>
+      <div class="alert-content prose prose-sm max-w-none">{{ .Text }}</div>
+    </details>
+  {{- else -}}
+    <div class="alert alert-{{ $type }}" role="note">
+      <div class="alert-header">
+        <span class="alert-icon" aria-hidden="true">
+          {{ partial "features/icon.html" (dict "name" $icon "size" "sm" "ariaLabel" "") }}
+        </span>
+        <span class="alert-title">{{ $title }}</span>
       </div>
+      <div class="alert-content prose prose-sm max-w-none">{{ .Text }}</div>
     </div>
-  </div>
+  {{- end -}}
 {{- else -}}
-  {{/* Regular blockquote */}}
-  <blockquote class="border-border my-6 border-l-2 pl-4">
-    <div class="prose max-w-none">
-      {{ .Text }}
-    </div>
-  </blockquote>
+  {{/* Regular blockquote; typography is inherited from the surrounding .prose. */}}
+  <blockquote>{{ .Text }}</blockquote>
 {{- end -}}
-
-
-<script>
-  function toggleAlert(alertId) {
-    const content = document.getElementById(alertId + "-content");
-    const chevron = document.getElementById(alertId + "-chevron");
-    const header = content.previousElementSibling;
-
-    if (content.classList.contains("hidden")) {
-      content.classList.remove("hidden");
-      chevron.style.transform = "rotate(0deg)";
-      header.setAttribute("aria-expanded", "true");
-    } else {
-      content.classList.add("hidden");
-      chevron.style.transform = "rotate(-90deg)";
-      header.setAttribute("aria-expanded", "false");
-    }
-  }
-
-  // Initialize chevron rotation for collapsed alerts
-  document.addEventListener("DOMContentLoaded", function () {
-    const collapsedAlerts = document.querySelectorAll(".alert-content.hidden");
-    collapsedAlerts.forEach(function (content) {
-      const alertId = content.id.replace("-content", "");
-      const chevron = document.getElementById(alertId + "-chevron");
-      if (chevron) {
-        chevron.style.transform = "rotate(-90deg)";
-      }
-    });
-  });
-</script>

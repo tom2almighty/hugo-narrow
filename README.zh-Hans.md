@@ -6,7 +6,7 @@
 
 一个以阅读为核心的 Hugo 主题：自适应 dock、面包屑上下文栏、shadcn 语义 token，以及可调节的居中阅读宽度。
 
-2.0 去掉了顶部导航，改为浮动自适应 dock、分开卡片式的面包屑，以及无重阴影的卡片内容。配置从 `header.*` 迁移到 `ui.appearance.*` 与 `ui.language.*`；首页区块名称为 `author-section`、`recent-posts`、`featured-projects`、`page-content`；公告可以手动关闭，不再自动消失。
+2.0 去掉了顶部导航，改为浮动自适应 dock、吸顶上下文栏和无重阴影的边框卡片。配置大幅收敛：`header.*`、`dock`、`timeFormat`、`toc.pinned`、`list.*` 以及各分区的 UI 开关都已移除，内置配色注册在 `data/themes.yaml`。首页区块名称为 `author-section`、`recent-posts`、`featured-projects`、`page-content`；公告可以手动关闭，不再自动消失。
 
 ## 开发环境
 

@@ -29,7 +29,7 @@ Hugo 0.165.0 and deploys to GitHub Pages on push to `main`; tags `v*` cut a rele
 
 ## Critical: the CSS is compiled outside Hugo and committed
 
-`assets/css/compiled.css` is a **checked-in build artifact** (roughly 80 KB). The asset pipeline is split:
+`assets/css/compiled.css` is a **checked-in build artifact** (roughly 110 KB). The asset pipeline is split:
 
 - **Tailwind CSS is compiled by the standalone Tailwind CLI**, *not* by Hugo. `main.css`
   (`@import "tailwindcss"` + `@import`s of the partial CSS files) → `compiled.css`. Hugo only
@@ -49,8 +49,8 @@ regenerated `compiled.css` alongside template changes.
    custom properties (oklch colors) in `assets/css/themes.css`. `main.css` maps those vars into
    Tailwind via `@theme` so utilities like `bg-background`, `text-foreground`, `text-primary`,
    `bg-sidebar`, `border-input` and `ring-ring` work. A new scheme requires **both** a
-   `[data-theme="x"]` block in `themes.css` **and** an entry under `themes:` in the site's
-   `params.yaml` (the latter populates the UI switcher).
+   `[data-theme="x"]` block in `themes.css` **and** an entry in `data/themes.yaml` (the latter
+   populates the UI switcher).
 2. **Light/dark** — toggled by the `.dark` class on `<html>` (`@custom-variant dark` in `main.css`).
    Each color scheme defines its own `.dark` overrides.
 
@@ -66,9 +66,9 @@ utilities come from the single `--radius` scale (`rounded-sm/md/lg/xl`); do not 
 announcement, sticky context bar (`navigation/context-bar.html`, non-home pages), `<main>`, and the
 footer. The dock, TOC panel, search dialog and KaTeX/Mermaid assets sit outside that container.
 
-- The context bar is a full-content-width breadcrumb made of separate crumb cards joined by
-  chevron icons. Series posts add a full-width progress row (prev/next cards around a track) that
-  opens `navigation/series-popover.html`. Series data is resolved once by
+- The context bar is a sticky, translucent breadcrumb strip with slash separators. Series posts
+  add a progress row (dots and lines) with previous/next controls that opens
+  `navigation/series-popover.html`. Series data is resolved once by
   `content/series-info.html` and reused by the context bar, the post header and post navigation.
 - `ui/dock.html` is the only page/function chrome: Home, Menu, Search, TOC (when present),
   Appearance (color scheme, light/dark, width, language), and a contextual Back-to-top.
@@ -78,16 +78,17 @@ footer. The dock, TOC panel, search dialog and KaTeX/Mermaid assets sit outside 
   vertical folds. It overlays the page margin and does not offset the centered content.
   `dock.js` mirrors the placement into `aria-orientation`, updates the top reading-progress line
   and back-to-top, and implements toolbar arrow keys.
-- Posts use `content/post-card.html`, projects use `content/project-card.html`, and series use
-  `content/series-card.html`. Cards are bordered surfaces without content shadows.
+- Cards have one implementation in `content/card.html` with `post` / `project` / `series`
+  variants. `post-card.html`, `project-card.html`, and `series-card.html` are thin wrappers.
+  Grids use `content/card-grid.html`; list page headers use `content/page-header.html`.
+  Cards are bordered surfaces without content shadows and without cover images.
 - The content width is `--content-width-base` (from `contentWidth`) overridable at runtime by
   `--content-width` (40–90rem slider, `localStorage` key `contentWidth`). CSS applies the max-width
   to `#page-container`; `ui.js` resets from the configured base value.
 - Popovers use native `popover` plus CSS anchor positioning with fixed-position fallbacks. Keep
   click-only behavior; hover-open was removed.
-- Appearance and language switches are configured under `ui.appearance.*` and `ui.language.*`.
-  Boolean switches use `isset` so an explicit `false` is respected (Hugo's `default` treats `false`
-  as empty).
+- The appearance panel is always fully available; there are no `ui.appearance.*` / `ui.language.*`
+  flags. Language options appear automatically on multilingual sites.
 
 `assets/js/theme-init.js` is rendered with `resources.ExecuteAsTemplate` and **inlined into `<head>`**
 in `baseof.html` so it runs before first paint (reads `localStorage` `theme`/`colorScheme` to avoid
@@ -106,7 +107,8 @@ params directly in the consuming template.
 Goldmark output is customized via render hooks: `render-image.html` (wraps images in a `<figure>`
 with lightbox/gallery data attributes), `render-codeblock.html` + `render-codeblock-mermaid.html`,
 `render-heading.html`, `render-link.html`, `render-blockquote.html` (GitHub-style alerts —
-note/tip/important/warning/caution, whose colors are the `--color-note` etc. vars).
+note/tip/important/warning/caution, whose colors are the `--note` etc. vars). Collapsible alerts
+use native `<details>`, so no inline script is emitted per block.
 Syntax-highlighting CSS is generated at build time by Hugo's `css.ChromaStyles` from
 `params.codeblock.style` / `params.codeblock.darkStyle`; there is no checked-in Chroma stylesheet.
 

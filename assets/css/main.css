@@ -1,5 +1,6 @@
 /* Hugo Narrow 主题 - 主样式文件 */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -60,11 +61,6 @@
 
 @layer base {
   @import "./base.css";
-  @import "./prose.typography.css";
-  @import "./prose.lists.css";
-  @import "./prose.code.css";
-  @import "./prose.table.css";
-  @import "./prose.misc.css";
 }
 
 @layer components {
@@ -73,6 +69,11 @@
   @import "./toc.css";
 }
 
+/* Prose overrides must live in the same layer as @tailwindcss/typography,
+   which injects its defaults into the utilities layer. */
 @layer utilities {
+  @import "./prose.typography.css";
+  @import "./prose.misc.css";
+  @import "./prose.code.css";
   @import "./custom.css";
 }

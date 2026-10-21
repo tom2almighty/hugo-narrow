@@ -1,12 +1,11 @@
 {{/* Recent posts cards */}}
 {{- $sections := site.MainSections | default (slice "posts") -}}
-{{- $count := 5 -}}
+{{- $count := 3 -}}
 {{- with site.Params.home -}}
   {{- if isset . "recentPostsCount" -}}{{- $count = .recentPostsCount -}}{{- end -}}
 {{- end -}}
 {{- $posts := where site.RegularPages "Section" "in" $sections | first $count -}}
 {{- $allURL := printf "/%s/" (index $sections 0) | relLangURL -}}
-{{- $columns := site.Params.home.postColumns | default site.Params.list.columns | default 1 -}}
 
 {{ partial "content/post-list.html" (dict
   "posts" $posts
@@ -14,6 +13,6 @@
   "showTitle" true
   "showViewAll" true
   "viewAllUrl" $allURL
-  "columns" $columns
+  "columns" 1
   )
 }}

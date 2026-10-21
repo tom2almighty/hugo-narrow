@@ -6,7 +6,7 @@
 
 A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shadcn-style semantic tokens, and a centered content width that readers can adjust.
 
-Version 2.0 removes the top navbar and introduces a floating adaptive dock, separate card-style breadcrumb items, and card-based content surfaces without heavy shadows. Configuration moved from `header.*` to `ui.appearance.*` and `ui.language.*`; the home section names are `author-section`, `recent-posts`, `featured-projects`, and `page-content`. The announcement is dismissible and no longer auto-hides.
+Version 2.0 removes the top navbar and introduces a floating adaptive dock, a sticky context bar, and border-only content cards. Configuration is substantially smaller: `header.*`, `dock`, `timeFormat`, `toc.pinned`, `list.*`, and the per-section UI flags are gone; built-in color schemes live in `data/themes.yaml`. The home section names are `author-section`, `recent-posts`, `featured-projects`, and `page-content`. The announcement is dismissible and no longer auto-hides.
 
 ## Development environment
 

@@ -1,67 +1,40 @@
 {{ define "main" }}
-  <header class="border-border mb-8 border-b pb-6">
-    <h1 class="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
-      {{ .Title }}
-    </h1>
-    {{- with .Description -}}
-      <p class="text-muted-foreground mt-2 text-sm">{{ . }}</p>
-    {{- end -}}
-  </header>
+  {{ partial "content/page-header.html" (dict "page" .) }}
 
-  {{- $content := .Content -}}
-  {{- $parts := split $content "<h2" -}}
+  {{- $split := partial "content/split-sections.html" (dict "content" .Content) -}}
 
-  {{- if gt (len $parts) 1 -}}
+  {{- if $split.sections -}}
     <div class="border-border border-l pl-5">
-      {{- $preContent := index $parts 0 -}}
-      {{- if ne (trim $preContent " \n\r\t") "" -}}
-        <div class="prose mb-8 max-w-none">{{ $preContent | safeHTML }}</div>
+      {{- if ne (trim $split.pre " \n\r\t") "" -}}
+        <div class="prose mb-8 max-w-none">{{ $split.pre | safeHTML }}</div>
       {{- end -}}
 
-      {{- range $index, $part := $parts -}}
-        {{- if gt $index 0 -}}
-          {{- $subparts := split $part "</h2>" -}}
-          {{- $h2TagAndTitle := index $subparts 0 -}}
-          {{- $body := "" -}}
-          {{- if gt (len $subparts) 1 -}}
-            {{- $body = index $subparts 1 -}}
-          {{- end -}}
-
-          {{- $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h2TagAndTitle -}}
-          {{- $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title -}}
-          {{- $idMatch := findRE `id="([^"]*)"` $h2TagAndTitle -}}
-          {{- $id := "" -}}
-          {{- if $idMatch -}}
-            {{- $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) -}}
-          {{- end -}}
-
-
-          <section class="relative mb-8">
-            <span
-              class="bg-muted-foreground absolute top-2 -left-6 size-1.5 rounded-full"
-              aria-hidden="true"
-            ></span>
-            <h2
-              {{ if $id }}id="{{ $id }}"{{ end }}
-              class="timeline-heading text-foreground m-0 scroll-m-20 text-base font-semibold"
-            >
-              <span class="timeline-heading-text">{{ $titleContent | safeHTML }}</span>
-              {{- if $id -}}
-                <a
-                  href="#{{ $id }}"
-                  class="heading-anchor"
-                  aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
-                >
-                  {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
-                </a>
-              {{- end -}}
-            </h2>
-
-            {{- if ne (trim $body " \n\r\t") "" -}}
-              <div class="prose mt-3 max-w-none">{{ $body | safeHTML }}</div>
+      {{- range $split.sections -}}
+        <section class="relative mb-8">
+          <span
+            class="bg-muted-foreground absolute top-2 -left-6 size-1.5 rounded-full"
+            aria-hidden="true"
+          ></span>
+          <h2
+            {{ if .id }}id="{{ .id }}"{{ end }}
+            class="timeline-heading text-foreground m-0 scroll-m-20 text-base font-semibold"
+          >
+            <span class="timeline-heading-text">{{ .title | safeHTML }}</span>
+            {{- if .id -}}
+              <a
+                href="#{{ .id }}"
+                class="heading-anchor"
+                aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
+              >
+                {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+              </a>
             {{- end -}}
-          </section>
-        {{- end -}}
+          </h2>
+
+          {{- if ne (trim .body " \n\r\t") "" -}}
+            <div class="prose mt-3 max-w-none">{{ .body | safeHTML }}</div>
+          {{- end -}}
+        </section>
       {{- end -}}
     </div>
   {{- else -}}

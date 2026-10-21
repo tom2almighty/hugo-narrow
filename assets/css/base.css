@@ -5,6 +5,13 @@
   --control-height-lg: 2.25rem;
   --dock-size: 3.5rem;
   --dock-clearance: calc(var(--dock-size) + env(safe-area-inset-bottom) + 2rem);
+  --page-gutter: clamp(1rem, 2vw, 1.5rem);
+
+  /* Runtime appearance knobs, not theme colors. */
+  --backdrop-blur: 12px;
+  --surface-alpha: 82%;
+  --grain-size: 140px;
+  --grain-opacity: 0;
 }
 
 html {
@@ -44,6 +51,18 @@ body {
     var(--fold-content-width, 100vw)
   );
   margin-inline: var(--fold-margin-start, auto) auto;
+}
+
+.page-main {
+  padding: 1rem var(--page-gutter) 2.5rem;
+}
+
+.page-content {
+  width: 100%;
+}
+
+.site-footer {
+  padding-inline: var(--page-gutter);
 }
 
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {

@@ -10,7 +10,7 @@
   "background_color" "#ffffff"
   "theme_color" $themeColor
   "orientation" "portrait-primary"
-  "lang" (site.Params.language | default site.Language.Locale | default "zh-CN")
+  "lang" site.Language.Locale
   "dir" "ltr"
   "scope" "/"
   "categories" (slice "blog" "technology" "education")

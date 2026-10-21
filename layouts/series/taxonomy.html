@@ -8,23 +8,17 @@
     {{- $items = $items | append (dict "page" .Page "count" .Count "latest" $latest) -}}
   {{- end -}}
   {{- $items = sort $items "latest" "desc" -}}
+  {{- $meta := T "list.terms" (dict "count" (len $items)) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "showContent" true) }}
-
-  {{- $columns := .Params.columns | default site.Params.list.seriesColumns | default site.Params.list.columns | default 1 -}}
-  {{- $gridClass := "grid grid-cols-1 gap-4" -}}
-  {{- if eq (int $columns) 2 -}}
-    {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
-  {{- else if eq (int $columns) 3 -}}
-    {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
-  {{- end -}}
+  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
   {{- if $items -}}
-    <div class="{{ $gridClass }}">
-      {{- range $items -}}
-        {{ partial "content/series-card.html" . }}
-      {{- end -}}
-    </div>
+    {{ partial "content/card-grid.html" (dict
+      "items" $items
+      "variant" "series"
+      "columns" .Params.columns
+      )
+    }}
   {{- else -}}
     <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
   {{- end -}}

@@ -1,10 +1,8 @@
 <!doctype html>
-{{- $tocConfig := partial "config/toc.html" . -}}
-{{- $tocPinned := cond $tocConfig.pinned "true" "false" -}}
 <html
   lang="{{ site.Language.Locale }}"
   data-theme="{{ site.Params.colorScheme | default `default` }}"
-  data-toc-pinned="{{ $tocPinned }}"
+  data-toc-pinned="false"
 >
   <head>
     {{ partial "layout/head.html" . }}
@@ -31,8 +29,10 @@
       {{- end -}}
 
 
-      <main id="main-content" tabindex="-1" class="px-4 pt-4 pb-10">
-        {{ block "main" . }}{{ end }}
+      <main id="main-content" tabindex="-1" class="page-main">
+        <div class="page-content">
+          {{ block "main" . }}{{ end }}
+        </div>
       </main>
 
       {{ partial "layout/footer.html" . }}

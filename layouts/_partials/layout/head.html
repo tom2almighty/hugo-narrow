@@ -53,7 +53,10 @@
     {{- with site.Params.keywords -}}{{ delimit . `, ` }}{{- end -}}
   {{- end -}}"
 />
-{{- $metaAuthor := site.Params.defaultAuthor | default "" -}}
+{{- $metaAuthor := "" -}}
+{{- with site.Params.author -}}
+  {{- $metaAuthor = .name | default "" -}}
+{{- end -}}
 {{- with .Params.author -}}
   {{- if reflect.IsMap . -}}
     {{- $metaAuthor = .name | default $metaAuthor -}}
@@ -62,7 +65,7 @@
   {{- end -}}
 {{- end -}}
 <meta name="author" content="{{ $metaAuthor }}" />
-<meta name="language" content="{{ site.Params.language | default site.Language.Locale }}" />
+<meta name="language" content="{{ site.Language.Locale }}" />
 
 <meta
   name="robots"

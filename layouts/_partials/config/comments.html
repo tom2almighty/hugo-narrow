@@ -1,0 +1,20 @@
+{{/* Resolve the comments configuration with page front matter overrides.
+
+  A page can set `comments: false` / `comments: true`, or pass a map with
+  `enabled` and `system`.
+
+  @context {page} .
+  @returns {dict} enabled, system, plus provider settings
+*/}}
+{{- $config := dict "enabled" false "system" "" -}}
+{{- with site.Params.comments -}}
+  {{- $config = merge $config . -}}
+{{- end -}}
+{{- if isset .Params "comments" -}}
+  {{- if reflect.IsMap .Params.comments -}}
+    {{- $config = merge $config .Params.comments -}}
+  {{- else -}}
+    {{- $config = merge $config (dict "enabled" .Params.comments) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $config -}}

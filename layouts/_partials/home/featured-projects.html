@@ -5,31 +5,18 @@
 
 {{- if $featured -}}
   <section class="featured-projects">
-    <div class="mb-4 flex items-baseline justify-between gap-3">
-      <h2 class="text-foreground text-xl font-semibold tracking-tight">
-        {{ T "home.featuredProjects" }}
-      </h2>
-      {{- if gt $total (len $featured) -}}
-        <a
-          href="{{ $allURL }}"
-          class="text-muted-foreground hover:text-foreground text-sm transition-colors"
-        >
-          {{ T "home.viewAll" }}
-        </a>
-      {{- end -}}
-    </div>
+    {{ partial "content/section-header.html" (dict
+      "title" (T "home.featuredProjects")
+      "showViewAll" (gt $total (len $featured))
+      "viewAllUrl" $allURL
+      )
+    }}
 
-    {{- $columns := site.Params.home.projectColumns | default site.Params.list.projectColumns | default 2 -}}
-    {{- $gridClass := "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
-    {{- if eq (int $columns) 1 -}}
-      {{- $gridClass = "grid grid-cols-1 gap-4" -}}
-    {{- else if eq (int $columns) 3 -}}
-      {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
-    {{- end -}}
-    <div class="{{ $gridClass }}">
-      {{- range first 4 $featured -}}
-        {{ partial "content/project-card.html" (dict "page" .) }}
-      {{- end -}}
-    </div>
+    {{ partial "content/card-grid.html" (dict
+      "items" (first 4 $featured)
+      "variant" "project"
+      "columns" 2
+      )
+    }}
   </section>
 {{- end -}}

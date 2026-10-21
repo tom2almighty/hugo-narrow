@@ -43,7 +43,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
-  margin: 0.75rem 1rem 0.5rem;
+  margin: 0.75rem var(--page-gutter) 0.5rem;
 }
 
 .context-crumbs {
@@ -493,8 +493,10 @@
 .site-tip {
   position: fixed;
   z-index: 45;
-  bottom: calc(env(safe-area-inset-bottom) + var(--dock-size) + 1.5rem);
-  left: 1rem;
+  top: calc(env(safe-area-inset-top) + 1rem);
+  right: calc(env(safe-area-inset-right) + 1rem);
+  bottom: auto;
+  left: auto;
   display: flex;
   width: min(22rem, calc(100vw - 2rem));
   align-items: flex-start;
@@ -509,11 +511,16 @@
     transform 0.18s ease;
 }
 
+/* On pages with a context bar, drop below it instead of covering the crumbs. */
+.site-tip--below-context {
+  top: calc(env(safe-area-inset-top) + 4.5rem);
+}
+
 .site-tip::after {
   content: "";
   position: absolute;
+  right: 1.5rem;
   bottom: -7px;
-  left: 1.5rem;
   width: 12px;
   height: 12px;
   border-right: 1px solid;
@@ -526,12 +533,6 @@
 .site-tip.is-hiding {
   opacity: 0;
   transform: translateY(-0.25rem);
-}
-
-@media (min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2) {
-  .site-tip {
-    bottom: 1rem;
-  }
 }
 
 /* Search dialog --------------------------------------------------------- */
@@ -608,6 +609,100 @@ input[type="range"]::-moz-range-thumb {
   background: var(--primary);
   box-shadow: 0 0 0 1px var(--border);
   transition: transform 0.15s ease;
+}
+
+/* Alerts ----------------------------------------------------------------- */
+
+.alert {
+  --alert-color: var(--note);
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
+}
+
+/* Left capsule only; the alert body stays transparent. */
+.alert::before {
+  content: "";
+  position: absolute;
+  top: 0.125rem;
+  bottom: 0.125rem;
+  left: 0;
+  width: 0.25rem;
+  border-radius: 9999px;
+  background: var(--alert-color);
+}
+
+.alert-note {
+  --alert-color: var(--note);
+}
+
+.alert-tip {
+  --alert-color: var(--tip);
+}
+
+.alert-important {
+  --alert-color: var(--important);
+}
+
+.alert-warning {
+  --alert-color: var(--warning);
+}
+
+.alert-caution {
+  --alert-color: var(--caution);
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--alert-color);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+summary.alert-header {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+summary.alert-header::-webkit-details-marker {
+  display: none;
+}
+
+.alert-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.alert-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.alert[open] .alert-chevron {
+  transform: rotate(180deg);
+}
+
+.alert-content {
+  margin-top: 0.5rem;
+  color: var(--foreground);
+}
+
+.alert-content > :first-child {
+  margin-top: 0;
+}
+
+.alert-content > :last-child {
+  margin-bottom: 0;
 }
 
 /* Print ----------------------------------------------------------------- */

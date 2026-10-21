@@ -5,6 +5,10 @@
         many = "{{ .count }} страниц"
         other = "{{ .count }} страниц"
 
+    [list.terms]
+        one = "{{ .count }} элемент"
+        other = "{{ .count }} элементов"
+
 [article]
     empty          = "Нет содержимого"
     relatedContent = "Похожие материалы"
@@ -12,6 +16,13 @@
     next           = "Следующая"
     noPrev         = "Нет предыдущей"
     noNext         = "Нет следующей"
+
+    [article.alert]
+        note      = "Примечание"
+        tip       = "Совет"
+        important = "Важно"
+        caution   = "Осторожно"
+        warning   = "Предупреждение"
 
     [article.readingTime]
         one = "{{ .count }} минута"

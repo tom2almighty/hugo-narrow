@@ -14,40 +14,26 @@
 {{- $showViewAll := .showViewAll | default false -}}
 {{- $viewAllUrl := .viewAllUrl | default ("/posts/" | relLangURL) -}}
 {{- $compact := .compact | default false -}}
-{{- $columns := .columns | default site.Params.list.columns | default 1 -}}
-{{- $gridClass := "grid grid-cols-1 gap-4" -}}
-{{- if eq (int $columns) 2 -}}
-  {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
-{{- else if eq (int $columns) 3 -}}
-  {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
-{{- end -}}
+{{- $columns := .columns -}}
 
 {{- if $posts -}}
   <section class="post-list">
     {{- if and $showTitle $title -}}
-      <div class="mb-4 flex items-baseline justify-between gap-3">
-        <h2 class="text-foreground text-xl font-semibold tracking-tight">{{ $title }}</h2>
-        {{- if $showViewAll -}}
-          <a
-            href="{{ $viewAllUrl }}"
-            class="text-muted-foreground hover:text-foreground text-sm transition-colors"
-          >
-            {{ T "home.viewAll" }}
-          </a>
-        {{- end -}}
-      </div>
+      {{ partial "content/section-header.html" (dict
+        "title" $title
+        "showViewAll" $showViewAll
+        "viewAllUrl" $viewAllUrl
+        )
+      }}
     {{- end -}}
 
-
-    <div class="{{ $gridClass }}">
-      {{- range $posts -}}
-        {{ partial "content/post-card.html" (dict
-          "page" .
-          "compact" $compact
-          )
-        }}
-      {{- end -}}
-    </div>
+    {{ partial "content/card-grid.html" (dict
+      "items" $posts
+      "variant" "post"
+      "columns" $columns
+      "compact" $compact
+      )
+    }}
   </section>
 {{- else -}}
   <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>

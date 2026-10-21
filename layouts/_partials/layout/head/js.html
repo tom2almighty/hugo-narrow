@@ -37,6 +37,6 @@
   }}
 {{- end }}
 
-{{ if .Site.Params.analytics.enabled -}}
+{{ if .Site.Params.analytics.provider -}}
   {{ partial "features/analytics.html" . }}
 {{- end }}

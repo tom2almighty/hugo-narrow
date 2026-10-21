@@ -25,8 +25,8 @@
     {{- $found := false -}}
 
     {{- /* 检查数据文件是否存在 */ -}}
-    {{- if site.Data.links -}}
-      {{- range $catName, $linkList := site.Data.links -}}
+    {{- if hugo.Data.links -}}
+      {{- range $catName, $linkList := hugo.Data.links -}}
         {{- if $linkList -}}
           {{- range $linkData := $linkList -}}
             {{- if and $linkData $linkData.id (eq $linkData.id $linkId) -}}
@@ -56,8 +56,8 @@
   {{- else if or $category $group -}}
     {{- $categoryName := $category | default $group -}}
     {{- $links := "" -}}
-    {{- if site.Data.links -}}
-      {{- $links = index site.Data.links $categoryName -}}
+    {{- if hugo.Data.links -}}
+      {{- $links = index hugo.Data.links $categoryName -}}
     {{- end -}}
 
     {{- if $links -}}

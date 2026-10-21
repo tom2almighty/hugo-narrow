@@ -1,21 +1,9 @@
-{{- $ui := site.Params.ui | default dict -}}
-{{- $appearance := $ui.appearance | default dict -}}
-{{- $language := $ui.language | default dict -}}
-
 {{- $showScheme := true -}}
 {{- $showMode := true -}}
 {{- $showWidth := true -}}
 {{- $showBlur := true -}}
 {{- $showGrain := true -}}
 {{- $showLanguage := hugo.IsMultilingual -}}
-{{- if isset $appearance "colorScheme" -}}{{- $showScheme = $appearance.colorScheme -}}{{- end -}}
-{{- if isset $appearance "themeMode" -}}{{- $showMode = $appearance.themeMode -}}{{- end -}}
-{{- if isset $appearance "contentWidth" -}}{{- $showWidth = $appearance.contentWidth -}}{{- end -}}
-{{- if isset $appearance "backdropBlur" -}}{{- $showBlur = $appearance.backdropBlur -}}{{- end -}}
-{{- if isset $appearance "grainSize" -}}{{- $showGrain = $appearance.grainSize -}}{{- end -}}
-{{- if isset $language "enabled" -}}
-  {{- $showLanguage = and hugo.IsMultilingual $language.enabled -}}
-{{- end -}}
 
 {{- if or $showScheme $showMode $showWidth $showBlur $showGrain $showLanguage -}}
   <button
@@ -37,7 +25,7 @@
     class="dock-popover bg-popover text-popover-foreground border-border shadow-popover w-80 space-y-3 rounded-lg border p-2"
   >
     {{- if $showScheme -}}
-      {{- $themes := site.Params.themes | default dict -}}
+      {{- $themes := hugo.Data.themes | default dict -}}
       {{- $sortedThemes := slice -}}
       {{- range $key, $theme := $themes -}}
         {{- $sortedThemes = $sortedThemes | append (dict "key" $key "name" ($theme.name | default $key) "order" ($theme.order | default 999)) -}}

@@ -9,6 +9,12 @@
   font-weight: 500;
 }
 
+/* The typography plugin wraps inline code in backticks; this theme does not. */
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
 /* Code block shell */
 .code-block-container {
   margin: 1.5rem 0;
@@ -33,6 +39,7 @@
   font-size: 0.875rem;
 }
 
+.code-block-content pre,
 .code-block-content .chroma pre {
   margin: 0;
   overflow: visible;

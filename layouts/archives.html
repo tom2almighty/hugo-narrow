@@ -35,7 +35,7 @@
                 ></div>
                 <div class="ml-12">
                   <h3 class="text-foreground text-base font-semibold">
-                    {{ $date | time.Format "January 2006" }}
+                    {{ partial "helpers/date.html" (dict "date" $date "variant" "month") }}
                   </h3>
                   <p class="text-muted-foreground text-xs">
                     {{ T "list.pages" (dict "count" (len .Pages)) }}

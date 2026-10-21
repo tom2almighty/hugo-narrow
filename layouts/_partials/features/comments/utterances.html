@@ -7,7 +7,7 @@
 */}}
 
 {{ $id := .id | default "utterances-comments" }}
-{{ $config := .Site.Params.comments.utterances }}
+{{ $config := .Site.Params.comments.utterances | default dict }}
 
 {{ if $config.repo }}
   <div id="{{ $id }}" class="utterances-container">

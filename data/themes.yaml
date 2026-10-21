@@ -1,0 +1,38 @@
+# Built-in color schemes. Each key must have a matching [data-theme="key"]
+# block in assets/css/themes.css. The site only needs to set params.colorScheme.
+default:
+  name: Default
+  order: 1
+claude:
+  name: Claude
+  order: 2
+bumblebee:
+  name: Bumblebee
+  order: 3
+emerald:
+  name: Emerald
+  order: 4
+nord:
+  name: Nord
+  order: 5
+sunset:
+  name: Sunset
+  order: 6
+abyss:
+  name: Abyss
+  order: 7
+dracula:
+  name: Dracula
+  order: 8
+amethyst:
+  name: Amethyst
+  order: 9
+slate:
+  name: Slate
+  order: 10
+x:
+  name: X
+  order: 11
+minimal:
+  name: Minimal
+  order: 12

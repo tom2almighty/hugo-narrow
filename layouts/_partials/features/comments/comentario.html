@@ -7,7 +7,7 @@
 */}}
 
 {{ $id := .id | default "comentario-comments" }}
-{{ $config := .Site.Params.comments.comentario }}
+{{ $config := .Site.Params.comments.comentario | default dict }}
 
 {{ if $config.server }}
   {{ $server := strings.TrimSuffix "/" $config.server }}

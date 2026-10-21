@@ -15,15 +15,10 @@ function countSourceLines(block) {
 }
 
 function shouldAutoCollapse(block) {
-  const autoCollapseLines = Number.parseInt(block.dataset.autoCollapseLines || "30", 10);
-  const autoCollapseHeight = Number.parseInt(block.dataset.autoCollapseHeight || "400", 10);
-  const renderedCode = block.querySelector(
-    ".code-block-content pre.chroma, .code-block-content pre"
-  );
-  const renderedHeight = renderedCode?.offsetHeight || 0;
+  const maxLines = Number.parseInt(block.dataset.maxLines || "30", 10);
   const sourceLines = countSourceLines(block);
 
-  return sourceLines > autoCollapseLines || renderedHeight > autoCollapseHeight;
+  return sourceLines > maxLines;
 }
 
 function updateCollapseButton(block, collapsed) {
@@ -97,7 +92,7 @@ function setCopyFeedback(button, copied) {
 
   if (text) text.textContent = label || "";
 
-  button.classList.toggle("text-green-600", copied);
+  button.classList.toggle("text-primary", copied);
   button.title = label || "";
   button.setAttribute("aria-label", label || "");
 }

@@ -1,12 +1,6 @@
 {{ define "main" }}
-  <header class="border-border mb-8 border-b pb-6">
-    <h1 class="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
-      {{ .Title }}
-    </h1>
-    {{- with .Params.summary -}}
-      <p class="text-muted-foreground mt-2 text-sm leading-relaxed">{{ . | plainify }}</p>
-    {{- end -}}
-  </header>
+  {{ partial "content/page-header.html" (dict "page" .) }}
+
 
   <div class="prose max-w-none">{{ .Content }}</div>
 

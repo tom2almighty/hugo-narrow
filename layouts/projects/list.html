@@ -4,20 +4,13 @@
 
   {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  {{- $columns := .Params.columns | default site.Params.list.projectColumns | default site.Params.list.columns | default 2 -}}
-  {{- $gridClass := "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
-  {{- if eq (int $columns) 1 -}}
-    {{- $gridClass = "grid grid-cols-1 gap-4" -}}
-  {{- else if eq (int $columns) 3 -}}
-    {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
-  {{- end -}}
-
   {{- if $projects -}}
-    <div class="{{ $gridClass }}">
-      {{- range $projects -}}
-        {{ partial "content/project-card.html" (dict "page" .) }}
-      {{- end -}}
-    </div>
+    {{ partial "content/card-grid.html" (dict
+      "items" $projects
+      "variant" "project"
+      "columns" .Params.columns
+      )
+    }}
     {{ partial "navigation/pagination.html" . }}
   {{- else -}}
     <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>

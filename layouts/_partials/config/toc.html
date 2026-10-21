@@ -1,34 +1,24 @@
-{{- $tocConfig := dict "enabled" false "pinned" false -}}
+{{- $tocConfig := dict "enabled" false -}}
 
 {{- if .IsPage -}}
   {{- $globalEnabled := true -}}
-  {{- $globalPinned := false -}}
-
   {{- $globalToc := .Site.Params.toc | default dict -}}
   {{- if isset $globalToc "enabled" -}}
     {{- $globalEnabled = $globalToc.enabled -}}
   {{- end -}}
-  {{- if isset $globalToc "pinned" -}}
-    {{- $globalPinned = $globalToc.pinned -}}
-  {{- end -}}
 
   {{- $pageEnabled := $globalEnabled -}}
-  {{- $pagePinned := $globalPinned -}}
-
   {{- if isset .Params "toc" -}}
     {{- if reflect.IsMap .Params.toc -}}
       {{- if isset .Params.toc "enabled" -}}
         {{- $pageEnabled = .Params.toc.enabled -}}
-      {{- end -}}
-      {{- if isset .Params.toc "pinned" -}}
-        {{- $pagePinned = .Params.toc.pinned -}}
       {{- end -}}
     {{- else -}}
       {{- $pageEnabled = .Params.toc -}}
     {{- end -}}
   {{- end -}}
 
-  {{- $tocConfig = dict "enabled" $pageEnabled "pinned" (and $pageEnabled $pagePinned) -}}
+  {{- $tocConfig = dict "enabled" $pageEnabled -}}
 {{- end -}}
 
 {{- return $tocConfig -}}

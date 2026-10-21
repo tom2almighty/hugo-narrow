@@ -7,7 +7,8 @@
 
   <div class="space-y-10">
     {{- range $order -}}
-      {{ partial (printf "home/%s.html" .) $ }}
+      {{- $name := strings.TrimSuffix ".html" . -}}
+      {{ partial (printf "home/%s.html" $name) $ }}
     {{- end -}}
   </div>
 {{ end }}

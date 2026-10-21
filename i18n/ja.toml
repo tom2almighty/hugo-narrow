@@ -2,6 +2,10 @@
     [list.pages]
         other = "{{ .count }} ページ"
 
+    [list.terms]
+        one = "{{ .count }} 件"
+        other = "{{ .count }} 件"
+
 [article]
     empty          = "コンテンツはありません"
     relatedContent = "関連記事"
@@ -9,6 +13,13 @@
     next           = "次へ"
     noPrev         = "前はありません"
     noNext         = "次はありません"
+
+    [article.alert]
+        note      = "注意"
+        tip       = "ヒント"
+        important = "重要"
+        caution   = "注意"
+        warning   = "警告"
 
     [article.readingTime]
         other = "{{ .count }}分"

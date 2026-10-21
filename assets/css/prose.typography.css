@@ -1,5 +1,10 @@
-.prose {
-  /* Base text styles */
+/* Typography plugin token overrides and site-specific heading/link refinements.
+   Generic lists, tables, blockquotes and inline elements come from
+   @tailwindcss/typography; keep only the rules this theme intentionally changes. */
+
+/* `html .prose` outranks the plugin's own `.prose` variable block without
+   interfering with `.prose-sm` sizing. */
+html .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
   --tw-prose-lead: var(--muted-foreground);
@@ -11,17 +16,21 @@
   --tw-prose-quotes: var(--muted-foreground);
   --tw-prose-quote-borders: var(--border);
   --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-kbd: var(--foreground);
   --tw-prose-code: var(--foreground);
-  --tw-prose-pre-code: var(--muted-foreground);
+  --tw-prose-pre-code: var(--foreground);
   --tw-prose-pre-bg: var(--muted);
   --tw-prose-th-borders: var(--border);
   --tw-prose-td-borders: var(--border);
 
+  max-width: none;
   font-family: var(--font-sans);
+  color: var(--tw-prose-body);
+}
+
+.prose:not(.prose-sm) {
   font-size: 1rem;
   line-height: 1.75;
-  max-width: none;
-  color: var(--tw-prose-body);
 }
 
 /* Headings */
@@ -78,12 +87,6 @@
   line-height: 1.5;
 }
 
-.prose h4[id^="alert-"] {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 0.875rem;
-}
-
 /* Heading anchors */
 .heading-anchor {
   display: inline-flex;
@@ -105,81 +108,6 @@
 .prose .heading-anchor:hover,
 .timeline-heading .heading-anchor:hover {
   color: var(--foreground);
-}
-
-/* Paragraphs */
-.prose p {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-  color: var(--tw-prose-body);
-}
-
-.prose p:first-child {
-  margin-top: 0;
-}
-
-.prose p:last-child {
-  margin-bottom: 0;
-}
-
-/* Blockquote */
-.prose blockquote {
-  margin: 1.5rem 0;
-  border-left: 2px solid var(--tw-prose-quote-borders);
-  padding-left: 1rem;
-  color: var(--tw-prose-quotes);
-}
-
-.prose blockquote p {
-  margin: 0;
-  font-size: 1rem;
-  font-style: italic;
-}
-
-.prose blockquote blockquote {
-  margin: 1rem 0;
-}
-
-/* Footnotes */
-.prose .footnote-ref {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.75rem;
-  vertical-align: super;
-  line-height: 1;
-}
-
-.prose .footnote-ref:hover {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.prose .footnotes {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.875rem;
-}
-
-.prose .footnotes ol {
-  padding-left: 1rem;
-}
-
-.prose .footnotes li {
-  margin: 0.5rem 0;
-}
-
-.prose .footnote-backref {
-  color: var(--primary);
-  text-decoration: none;
-  margin-left: 0.5rem;
-  font-weight: 500;
-}
-
-.prose .footnote-backref:hover {
-  text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
 /* Links */

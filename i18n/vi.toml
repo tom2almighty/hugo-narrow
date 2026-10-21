@@ -2,6 +2,10 @@
     [list.pages]
         other = "{{ .count }} trang"
 
+    [list.terms]
+        one = "{{ .count }} mục"
+        other = "{{ .count }} mục"
+
 [article]
     empty          = "Không có nội dung"
     relatedContent = "Nội dung liên quan"
@@ -9,6 +13,13 @@
     next           = "Sau"
     noPrev         = "Không có trước"
     noNext         = "Không có sau"
+
+    [article.alert]
+        note      = "Lưu ý"
+        tip       = "Mẹo"
+        important = "Quan trọng"
+        caution   = "Cẩn trọng"
+        warning   = "Cảnh báo"
 
     [article.readingTime]
         other = "{{ .count }} phút"

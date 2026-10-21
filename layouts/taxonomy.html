@@ -1,7 +1,8 @@
 {{ define "main" }}
   {{- $terms := .Data.Terms.ByCount -}}
+  {{- $meta := T "list.terms" (dict "count" (len $terms)) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "showContent" true) }}
+  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
   {{- if $terms -}}
     {{- $maxCount := 0 -}}

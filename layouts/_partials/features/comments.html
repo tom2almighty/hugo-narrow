@@ -12,20 +12,7 @@
   @context {page} . 当前文章页面对象
 */}}
 
-{{- $commentsConfig := dict
-  "enabled" false
-  "system" ""
--}}
-
-{{/* 合并全局配置 */}}
-{{- with .Site.Params.comments -}}
-  {{- $commentsConfig = merge $commentsConfig . -}}
-{{- end -}}
-
-{{/* 合并页面配置 */}}
-{{- with .Params.comments -}}
-  {{- $commentsConfig = merge $commentsConfig . -}}
-{{- end -}}
+{{- $commentsConfig := partial "config/comments.html" . -}}
 
 {{/* 判断是否加载评论 */}}
 {{- if and $commentsConfig.enabled $commentsConfig.system -}}

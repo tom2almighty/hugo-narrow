@@ -10,6 +10,12 @@
 {{/* 检查是否启用灯箱功能 */}}
 {{- $globalLightbox := site.Params.lightbox | default dict -}}
 {{- $pageLightbox := .Page.Params.lightbox | default dict -}}
+{{- if not (reflect.IsMap $globalLightbox) -}}
+  {{- $globalLightbox = dict "enabled" $globalLightbox -}}
+{{- end -}}
+{{- if not (reflect.IsMap $pageLightbox) -}}
+  {{- $pageLightbox = dict "enabled" $pageLightbox -}}
+{{- end -}}
 {{- $lightboxEnabled := false -}}
 {{- $pageContext.Store.Set "hasImageFigure" true -}}
 {{- .Page.Store.Set "hasImageFigure" true -}}

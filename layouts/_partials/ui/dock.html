@@ -1,6 +1,8 @@
 {{/* Global dock: floating capsule on the right (wide landscape) or bottom. */}}
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- $tocEnabled := and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
+{{- $commentsConfig := partial "config/comments.html" . -}}
+{{- $commentsEnabled := and $commentsConfig.enabled $commentsConfig.system -}}
 
 
 <nav
@@ -57,6 +59,19 @@
         aria-expanded="false"
       >
         {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
+      </button>
+    {{- end -}}
+
+    {{- if $commentsEnabled }}
+      <span class="dock-divider" aria-hidden="true"></span>
+      <button
+        id="dock-comments"
+        type="button"
+        class="dock-item"
+        title="{{ T `ui.dockComments` }}"
+        aria-label="{{ T `ui.dockComments` }}"
+      >
+        {{ partial "features/icon.html" (dict "name" "message-circle" "size" "sm" "ariaLabel" "") }}
       </button>
     {{- end -}}
 

@@ -1,67 +1,17 @@
-/* Horizontal rule */
-.prose hr {
-  margin: 2rem 0;
-  border: 0;
-  border-top: 1px solid var(--tw-prose-hr);
-}
+/* Site-specific content additions not covered by @tailwindcss/typography. */
 
 /* Images */
 .prose img {
-  max-width: 100%;
-  height: auto;
   margin-inline: auto;
   border-radius: var(--radius-lg);
 }
 
-.prose figure {
-  margin: 2rem 0;
-}
-
-.prose figcaption {
-  margin-top: 0.5rem;
-  color: var(--tw-prose-captions);
-  font-size: 0.875rem;
-  text-align: center;
-}
-
-/* Inline emphasis */
-.prose strong {
-  color: var(--tw-prose-bold);
-  font-weight: 600;
-}
-
-.prose em {
-  color: var(--tw-prose-body);
-  font-style: italic;
-}
-
-.prose del,
-.prose s {
-  color: var(--muted-foreground);
-  text-decoration: line-through;
-}
-
+/* Mark / keyboard keys */
 .prose mark {
   border-radius: var(--radius-sm);
   background: color-mix(in oklab, var(--warning) 18%, transparent);
   padding: 0.125rem 0.25rem;
   color: var(--tw-prose-body);
-}
-
-.prose sup,
-.prose sub {
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1;
-}
-
-.prose sup {
-  vertical-align: super;
-}
-
-.prose sub {
-  vertical-align: sub;
 }
 
 .prose kbd {
@@ -76,6 +26,7 @@
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
+  box-shadow: none;
 }
 
 .prose abbr {
@@ -84,8 +35,86 @@
   text-decoration-color: var(--muted-foreground);
 }
 
+/* Task list */
+.prose ul > li:has(> input[type="checkbox"]) {
+  list-style: none;
+}
+
+.prose ul > li > input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0 0.5rem 0 -1.25rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-sm);
+  background: var(--background);
+  vertical-align: -0.125rem;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.prose ul > li > input[type="checkbox"]:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.prose ul > li > input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  width: 0.25rem;
+  height: 0.5rem;
+  margin: 0.05rem auto 0;
+  border-style: solid;
+  border-color: var(--primary-foreground);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.prose ul > li > input[type="checkbox"]:hover {
+  border-color: var(--primary);
+}
+
+/* Tables keep the bordered surface used by the rest of the theme. */
+.prose table {
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-collapse: collapse;
+  border-radius: var(--radius-md);
+}
+
+.prose th {
+  border-bottom: 1px solid var(--border);
+  background: var(--muted);
+  padding: 0.75rem;
+  color: var(--tw-prose-headings);
+  font-weight: 600;
+  text-align: left;
+}
+
+.prose td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem;
+  color: var(--tw-prose-body);
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tr:hover td {
+  background: color-mix(in oklab, var(--muted) 40%, transparent);
+}
+
 /* Details */
-.prose details {
+.prose details:not(.alert) {
   margin: 1.5rem 0;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -93,7 +122,7 @@
   background: var(--card);
 }
 
-.prose details summary {
+.prose details:not(.alert) summary {
   cursor: pointer;
   padding: 0.875rem 1.25rem;
   color: var(--tw-prose-headings);
@@ -102,30 +131,30 @@
   transition: background-color 0.15s ease;
 }
 
-.prose details summary:hover {
+.prose details:not(.alert) summary:hover {
   background: color-mix(in oklab, var(--muted) 60%, transparent);
 }
 
-.prose details[open] > summary {
+.prose details:not(.alert)[open] > summary {
   border-bottom: 1px solid var(--border);
   background: color-mix(in oklab, var(--muted) 35%, transparent);
 }
 
-.prose details > *:not(summary) {
+.prose details:not(.alert) > *:not(summary) {
   margin: 0;
   padding: 0.75rem 1.25rem 0;
 }
 
-.prose details > ul,
-.prose details > ol {
+.prose details:not(.alert) > ul,
+.prose details:not(.alert) > ol {
   padding-left: 2.5rem;
 }
 
-.prose details > summary + * {
+.prose details:not(.alert) > summary + * {
   padding-top: 1rem;
 }
 
-.prose details > *:last-child {
+.prose details:not(.alert) > *:last-child {
   padding-bottom: 1.25rem;
 }
 

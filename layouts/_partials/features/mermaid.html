@@ -14,24 +14,14 @@
   {{- end -}}
 {{- end -}}
 
-{{/* 获取页面级配置 */}}
-{{- $pageMermaid := .Params.mermaid -}}
-{{- $pageEnabled := false -}}
-
-{{- if $pageMermaid -}}
-  {{- if eq (printf "%T" $pageMermaid) "bool" -}}
-    {{- $pageEnabled = $pageMermaid -}}
+{{/* 页面级配置覆盖全局配置；显式 false 可以关闭 */}}
+{{- $shouldLoad := $globalEnabled -}}
+{{- if isset .Params "mermaid" -}}
+  {{- if eq (printf "%T" .Params.mermaid) "bool" -}}
+    {{- $shouldLoad = .Params.mermaid -}}
   {{- else -}}
-    {{- $pageEnabled = $pageMermaid.enabled | default false -}}
+    {{- $shouldLoad = .Params.mermaid.enabled | default false -}}
   {{- end -}}
-{{- end -}}
-
-{{/* 检查是否需要加载 Mermaid */}}
-{{- $shouldLoad := false -}}
-{{- if $globalEnabled -}}
-  {{- $shouldLoad = true -}}
-{{- else if $pageEnabled -}}
-  {{- $shouldLoad = true -}}
 {{- end -}}
 
 {{/* 如果页面包含 Mermaid 图表且配置允许，则加载库 */}}

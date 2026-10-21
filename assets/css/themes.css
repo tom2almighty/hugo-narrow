@@ -16,10 +16,6 @@
   --popover-foreground: oklch(0.145 0 0);
 
   --radius: 0.625rem;
-  --backdrop-blur: 12px;
-  --surface-alpha: 82%;
-  --grain-size: 140px;
-  --grain-opacity: 0;
   --destructive: oklch(0.577 0.245 27.325);
   --input: var(--border);
   --ring: var(--muted-foreground);

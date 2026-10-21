@@ -3,6 +3,10 @@
         one = "{{ .count }} page"
         other = "{{ .count }} pages"
 
+    [list.terms]
+        one = "{{ .count }} élément"
+        other = "{{ .count }} éléments"
+
 [article]
     empty          = "Aucun contenu"
     relatedContent = "Contenu associé"
@@ -10,6 +14,13 @@
     next           = "Suivant"
     noPrev         = "Aucun précédent"
     noNext         = "Aucun suivant"
+
+    [article.alert]
+        note      = "Note"
+        tip       = "Astuce"
+        important = "Important"
+        caution   = "Attention"
+        warning   = "Avertissement"
 
     [article.readingTime]
         one = "{{ .count }} min"

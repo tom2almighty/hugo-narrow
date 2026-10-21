@@ -50,8 +50,7 @@
 
   const syncBackToTop = () => {
     if (!topButton) return;
-    const canShow = sideQuery.matches && window.scrollY > window.innerHeight * 0.8;
-    topButton.hidden = !canShow;
+    topButton.hidden = window.scrollY <= window.innerHeight * 0.8;
   };
 
   let ticking = false;
@@ -67,7 +66,7 @@
         if (scrollingUp) {
           setCollapsed(false);
         } else if (
-          window.scrollY > 120 &&
+          window.scrollY > 320 &&
           !dock.matches(":hover") &&
           !dock.contains(document.activeElement)
         ) {
@@ -103,6 +102,13 @@
       return;
     }
     document.dispatchEvent(new CustomEvent("toc:toggle"));
+  });
+
+  document.getElementById("dock-comments")?.addEventListener("click", () => {
+    document.getElementById("comments")?.scrollIntoView({
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+      block: "start",
+    });
   });
 
   topButton?.addEventListener("click", () => {

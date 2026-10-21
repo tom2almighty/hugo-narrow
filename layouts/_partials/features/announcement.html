@@ -6,9 +6,12 @@
     {{- $dismissible = $announcement.dismissible -}}
   {{- end -}}
   {{- $role := cond (eq $type "destructive") "alert" "status" -}}
+  {{- $hasContextBar := and (not .IsHome) (ne .Kind "404") -}}
   <div
     id="site-announcement"
-    class="site-tip {{ if eq $type `warning` }}
+    class="site-tip {{ if $hasContextBar }}
+      site-tip--below-context
+    {{ end }} {{ if eq $type `warning` }}
       border-warning/30 bg-warning/10
     {{ else if eq $type `destructive` }}
       border-destructive/30 bg-destructive/10

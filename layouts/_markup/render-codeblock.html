@@ -15,12 +15,13 @@
 {{- $codeId := printf "code-%d" .Ordinal -}}
 
 {{/* 折叠功能相关参数 */}}
+{{- $codeblock := site.Params.codeblock | default dict -}}
+{{- $collapse := $codeblock.collapse | default dict -}}
 {{- $collapsed := .Attributes.collapsed | default false -}}
-{{- $defaultState := .Attributes.defaultState | default (site.Params.codeblock.collapse.defaultState | default "expanded") -}}
-{{- $autoCollapseLines := site.Params.codeblock.collapse.autoCollapseLines | default 30 -}}
-{{- $autoCollapseHeight := site.Params.codeblock.collapse.autoCollapseHeight | default 400 -}}
-{{- $collapsedHeight := site.Params.codeblock.collapse.collapsedHeight | default 120 -}}
-{{- $collapseEnabled := site.Params.codeblock.collapse.enabled | default true -}}
+{{- $defaultState := .Attributes.defaultState | default ($collapse.defaultState | default "expanded") -}}
+{{- $maxLines := $collapse.maxLines | default 30 -}}
+{{- $collapsedHeight := $collapse.collapsedHeight | default 120 -}}
+{{- $collapseEnabled := $collapse.enabled | default true -}}
 
 {{/* 使用 Hugo 的 transform.HighlightCodeBlock 进行语法高亮 */}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
@@ -33,8 +34,7 @@
   data-collapsible="{{ $collapseEnabled }}"
   data-default-state="{{ $defaultState }}"
   data-collapsed="{{ $collapsed }}"
-  data-auto-collapse-lines="{{ $autoCollapseLines }}"
-  data-auto-collapse-height="{{ $autoCollapseHeight }}"
+  data-max-lines="{{ $maxLines }}"
   data-collapsed-height="{{ $collapsedHeight }}"
 >
   {{/* Code block header */}}

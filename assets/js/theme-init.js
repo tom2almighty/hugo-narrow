@@ -17,7 +17,7 @@ function currentTheme() {
     return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
 }
 
-const colorSchemes = {{ site.Params.themes | default dict | jsonify | safeJS }};
+const colorSchemes = {{ hugo.Data.themes | default dict | jsonify | safeJS }};
 const configuredScheme = '{{ site.Params.colorScheme | default "default" }}';
 const storedScheme = readStorage('colorScheme');
 const colorScheme = Object.prototype.hasOwnProperty.call(colorSchemes || {}, storedScheme)
