@@ -1,70 +1,65 @@
-// 主题初始化脚本
-// 注意：本文件经 resources.ExecuteAsTemplate 渲染且输出路径固定，结果会跨页面缓存，
-// 因此只能读取站点级参数，不能读取页面 front matter。
+// Inlined before first paint to restore theme, width, blur, and grain without
+// a flash. This file is templated by Hugo and bundled with js.Build, so it can
+// share the same helpers as the runtime controls.
+import { STORAGE_KEYS, readStorage } from "./core.js";
+import { applyThemeMode } from "./appearance.js";
+import { grainTokensFor, surfaceAlphaFor } from "./viewport.js";
+
 (function () {
-const root = document.documentElement;
+  const root = document.documentElement;
 
-function readStorage(key) {
-    try {
-        return localStorage.getItem(key);
-    } catch (_) {
-        return null;
-    }
-}
-
-function currentTheme() {
-    const stored = readStorage('theme');
-    return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
-}
-
-const colorSchemes = {{ hugo.Data.themes | default dict | jsonify | safeJS }};
-const configuredScheme = '{{ site.Params.colorScheme | default "default" }}';
-const storedScheme = readStorage('colorScheme');
-const colorScheme = Object.prototype.hasOwnProperty.call(colorSchemes || {}, storedScheme)
+  const colorSchemes = {{ hugo.Data.themes | default dict | jsonify | safeJS }};
+  const configuredScheme = '{{ site.Params.colorScheme | default "default" }}';
+  const storedScheme = readStorage(STORAGE_KEYS.colorScheme);
+  const colorScheme = Object.prototype.hasOwnProperty.call(colorSchemes || {}, storedScheme)
     ? storedScheme
     : configuredScheme;
-const contentWidth = Number.parseInt(readStorage('contentWidth'), 10);
-const hasStoredWidth = Number.isInteger(contentWidth) && contentWidth >= 40 && contentWidth <= 90;
-const configuredBlur = Number.parseInt('{{ site.Params.backdropBlur | default 12 }}', 10);
-const defaultBlur = Number.isInteger(configuredBlur) && configuredBlur >= 0 && configuredBlur <= 24 ? configuredBlur : 12;
-const storedBlur = Number.parseInt(readStorage('backdropBlur'), 10);
-const hasStoredBlur = Number.isInteger(storedBlur) && storedBlur >= 0 && storedBlur <= 24;
-const initialBlur = hasStoredBlur ? storedBlur : defaultBlur;
-const configuredGrain = Number.parseInt('{{ site.Params.grainSize | default 0 }}', 10);
-const defaultGrain = Number.isInteger(configuredGrain) && configuredGrain >= 0 && configuredGrain <= 100 ? configuredGrain : 0;
-const storedGrain = Number.parseInt(readStorage('grainSize'), 10);
-const hasStoredGrain = Number.isInteger(storedGrain) && storedGrain >= 0 && storedGrain <= 100;
-const initialGrain = hasStoredGrain ? storedGrain : defaultGrain;
+  root.setAttribute("data-theme", colorScheme);
 
-// 尽早恢复用户设置的页面宽度、磨砂模糊度与噪点大小，避免首屏闪动
-if (hasStoredWidth) {
-    root.style.setProperty('--content-width', `${contentWidth}rem`);
-}
-root.style.setProperty('--backdrop-blur', `${initialBlur}px`);
-root.style.setProperty('--surface-alpha', `${initialBlur > 0 ? Math.max(68, 92 - Math.round((initialBlur / 24) * 20)) : 100}%`);
-root.style.setProperty('--grain-size', `${Math.round(64 + initialGrain * 2.5)}px`);
-root.style.setProperty('--grain-opacity', initialGrain > 0 ? (0.04 + (initialGrain / 100) * 0.20).toFixed(3) : '0');
-// 设置颜色主题
-root.setAttribute('data-theme', colorScheme);
+  const contentWidth = Number.parseInt(readStorage(STORAGE_KEYS.contentWidth), 10);
+  if (Number.isInteger(contentWidth) && contentWidth >= 40 && contentWidth <= 90) {
+    root.style.setProperty("--content-width", `${contentWidth}rem`);
+  }
 
-// 侧边目录：常显偏好覆盖模板渲染出的默认值
-const storedPin = readStorage('tocPinned');
-if (storedPin === 'true' || storedPin === 'false') {
-    root.setAttribute('data-toc-pinned', storedPin);
-}
+  const configuredBlur = Number.parseInt("{{ site.Params.backdropBlur | default 12 }}", 10);
+  const defaultBlur =
+    Number.isInteger(configuredBlur) && configuredBlur >= 0 && configuredBlur <= 24
+      ? configuredBlur
+      : 12;
+  const storedBlur = Number.parseInt(readStorage(STORAGE_KEYS.backdropBlur), 10);
+  const blur =
+    Number.isInteger(storedBlur) && storedBlur >= 0 && storedBlur <= 24 ? storedBlur : defaultBlur;
 
-// 设置明暗模式
-function applyTheme() {
-    const theme = currentTheme();
-    const isDark =
-        theme === 'dark' ||
-        (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  root.style.setProperty("--backdrop-blur", `${blur}px`);
+  root.style.setProperty("--surface-alpha", `${surfaceAlphaFor(blur)}%`);
 
-    root.classList.toggle('dark', isDark);
-}
+  const configuredGrain = Number.parseInt("{{ site.Params.grainSize | default 0 }}", 10);
+  const defaultGrain =
+    Number.isInteger(configuredGrain) && configuredGrain >= 0 && configuredGrain <= 100
+      ? configuredGrain
+      : 0;
+  const storedGrain = Number.parseInt(readStorage(STORAGE_KEYS.grainSize), 10);
+  const grain =
+    Number.isInteger(storedGrain) && storedGrain >= 0 && storedGrain <= 100
+      ? storedGrain
+      : defaultGrain;
+  const grainTokens = grainTokensFor(grain);
 
-applyTheme();
+  root.style.setProperty("--grain-size", `${grainTokens.size}px`);
+  root.style.setProperty("--grain-opacity", grainTokens.opacity);
 
-// 监听系统主题变化；applyTheme 每次读取当前偏好，用户切走后不会误触发
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+  const storedPin = readStorage(STORAGE_KEYS.tocPinned);
+  if (storedPin === "true" || storedPin === "false") {
+    root.setAttribute("data-toc-pinned", storedPin);
+  }
+
+  const currentTheme = () => {
+    const stored = readStorage(STORAGE_KEYS.theme);
+    return ["light", "dark", "system"].includes(stored) ? stored : "system";
+  };
+
+  applyThemeMode(root, currentTheme());
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => applyThemeMode(root, currentTheme()));
 })();

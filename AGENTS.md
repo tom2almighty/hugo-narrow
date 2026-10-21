@@ -35,9 +35,10 @@ Hugo 0.165.0 and deploys to GitHub Pages on push to `main`; tags `v*` cut a rele
   (`@import "tailwindcss"` + `@import`s of the partial CSS files) → `compiled.css`. Hugo only
   fingerprints/minifies the already-built `compiled.css` (see `_partials/layout/head/css.html`).
 - **JS is bundled by Hugo** via `js.Build` (esbuild) at render time — no separate JS build step.
-  `assets/js/main.js` is the always-on entry (UI, dock, search, announcement, tabs, code blocks).
-  `toc.js` and `gallery.js` remain conditional. Shared layout breakpoints live in
-  `assets/js/layout.js`; keep the matching CSS media queries in sync.
+  `assets/js/main.js` is the always-on entry; it composes `appearance.js`, `viewport.js`,
+  `popovers.js`, `fold.js`, `dock.js`, `search.js`, `announcement.js`, `tabs.js`, and
+  `codeblock.js`. `toc.js` and `gallery.js` remain conditional. Shared storage, events, and
+  breakpoints live in `core.js` / `layout.js`; keep the matching CSS media queries in sync.
 
 Consequence: **if you add or change Tailwind utility classes in any `layouts/**/*.html`, you must
 recompile** (`pnpm run compile`, or just use `pnpm run dev:parallel` which watches). Running plain
@@ -87,7 +88,7 @@ footer. The dock, TOC panel, search dialog and KaTeX/Mermaid assets sit outside 
   Cards are bordered surfaces without content shadows and without cover images.
 - The content width is `--content-width-base` (from `contentWidth`) overridable at runtime by
   `--content-width` (40–90rem slider, `localStorage` key `contentWidth`). CSS applies the max-width
-  to `#page-container`; `ui.js` resets from the configured base value.
+  to `#page-container`; `viewport.js` resets from the configured base value.
 - Popovers use native `popover` plus CSS anchor positioning with fixed-position fallbacks. Keep
   click-only behavior; hover-open was removed.
 - The appearance panel is always fully available; there are no `ui.appearance.*` / `ui.language.*`

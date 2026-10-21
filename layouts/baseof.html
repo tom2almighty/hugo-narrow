@@ -6,7 +6,13 @@
 >
   <head>
     {{ partial "layout/head.html" . }}
-    {{ $themeInit := resources.Get "js/theme-init.js" | resources.ExecuteAsTemplate "js/theme-init.js" . | minify }}
+    {{- $themeInit := resources.Get "js/theme-init.js"
+      | resources.ExecuteAsTemplate "js/theme-init.js" .
+      | js.Build (dict
+      "minify" (not hugo.IsDevelopment)
+      "targetPath" "js/theme-init.bundle.js"
+      )
+    -}}
     <script>{{ $themeInit.Content | safeJS }}</script>
   </head>
 
