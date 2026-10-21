@@ -10,13 +10,6 @@
     noPrev         = "Không có trước"
     noNext         = "Không có sau"
 
-    [article.alert]
-        note      = "Lưu ý"
-        tip       = "Mẹo"
-        important = "Quan trọng"
-        caution   = "Cẩn trọng"
-        warning   = "Cảnh báo"
-
     [article.readingTime]
         other = "{{ .count }} phút"
 
@@ -30,6 +23,7 @@
   collapse        = "Thu gọn"
 
 [nav]
+    home = "Trang chủ"
     anchor        = "Liên kết đến phần này"
     backHome      = "Về trang chủ"
     breadcrumb    = "Đường dẫn"
@@ -39,12 +33,17 @@
     pageInfo      = "Trang {{ .current }} / {{ .total }}"
 
 [ui]
+    skipToContent = "Chuyển đến nội dung"
+    language = "Ngôn ngữ"
+    announcementDismiss = "Đóng thông báo"
     dockAriaLabel = "Thanh thao tác nhanh"
     dockBack      = "Quay lại"
     dockSearch    = "Tìm kiếm"
     dockComments  = "Bình luận"
     dockBackToTop = "Lên đầu trang"
     dockTop       = "Đầu trang"
+    dockBottom    = "Đến cuối"
+    scrollDown    = "Cuộn xuống"
     toc           = "Mục lục"
     tocPin        = "Ghim mục lục"
     tocUnpin      = "Bỏ ghim mục lục"
@@ -69,6 +68,10 @@
     contentWidth       = "Chiều rộng trang"
     contentWidthReset  = "Khôi phục mặc định"
     contentWidthToggle = "Điều chỉnh chiều rộng trang"
+    backdropBlur       = "Độ mờ nền"
+    backdropBlurReset  = "Khôi phục mặc định"
+    grainSize          = "Độ hạt nền"
+    grainSizeReset     = "Khôi phục mặc định"
 
     appearanceToggle = "Cài đặt giao diện"
     colorScheme      = "Bảng màu"
@@ -89,6 +92,9 @@
 
 
 [home]
+    writing = "Bài viết"
+    allPosts = "Tất cả bài viết"
+    noPosts = "Chưa có bài viết."
     featuredProjects = "Dự án nổi bật"
     viewAll          = "Xem tất cả"
     recentPosts      = "Bài viết mới"
@@ -106,3 +112,13 @@
 
 [footer]
   poweredBy = "Được cung cấp bởi"
+
+[context]
+    seriesPrev = "Phần trước"
+    seriesNext = "Phần sau"
+    seriesPartOf = "Phần {{ .current }} / {{ .total }}"
+    seriesParts = "Tất cả các phần"
+    seriesViewSeries = "Xem loạt bài"
+
+[projects]
+    visit = "Mở dự án"

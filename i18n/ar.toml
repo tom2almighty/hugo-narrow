@@ -15,13 +15,6 @@
     noPrev         = "لا يوجد سابق"
     noNext         = "لا يوجد تالٍ"
 
-    [article.alert]
-        note      = "ملاحظة"
-        tip       = "نصيحة"
-        important = "مهم"
-        caution   = "تنبيه"
-        warning   = "تحذير"
-
     [article.readingTime]
         zero = "{{ .count }} دقيقة"
         one = "{{ .count }} دقيقة"
@@ -45,6 +38,7 @@
   collapse        = "طي"
 
 [nav]
+    home = "الرئيسية"
     anchor        = "رابط إلى هذا القسم"
     backHome      = "العودة إلى الرئيسية"
     breadcrumb    = "مسار التنقل"
@@ -54,12 +48,17 @@
     pageInfo      = "الصفحة {{ .current }} من {{ .total }}"
 
 [ui]
+    skipToContent = "الانتقال إلى المحتوى"
+    language = "اللغة"
+    announcementDismiss = "إغلاق الإعلان"
     dockAriaLabel = "شريط الإجراءات السريعة"
     dockBack      = "رجوع"
     dockSearch    = "بحث"
     dockComments  = "التعليقات"
     dockBackToTop = "العودة للأعلى"
     dockTop       = "أعلى"
+    dockBottom    = "إلى الأسفل"
+    scrollDown    = "مرر للأسفل"
     toc           = "جدول المحتويات"
     tocPin        = "تثبيت جدول المحتويات"
     tocUnpin      = "إلغاء تثبيت جدول المحتويات"
@@ -84,6 +83,10 @@
     contentWidth       = "عرض الصفحة"
     contentWidthReset  = "استعادة الافتراضي"
     contentWidthToggle = "ضبط عرض الصفحة"
+    backdropBlur       = "تمويه الخلفية"
+    backdropBlurReset  = "استعادة الافتراضي"
+    grainSize          = "حجم التحبيب"
+    grainSizeReset     = "استعادة الافتراضي"
 
     appearanceToggle = "إعدادات المظهر"
     colorScheme      = "نظام الألوان"
@@ -104,6 +107,9 @@
 
 
 [home]
+    writing = "المقالات"
+    allPosts = "كل المقالات"
+    noPosts = "لا توجد مقالات بعد."
     featuredProjects = "مشاريع مميزة"
     viewAll          = "عرض الكل"
     recentPosts      = "أحدث المقالات"
@@ -121,3 +127,13 @@
 
 [footer]
   poweredBy = "مدعوم بواسطة"
+
+[context]
+    seriesPrev = "الجزء السابق"
+    seriesNext = "الجزء التالي"
+    seriesPartOf = "الجزء {{ .current }} من {{ .total }}"
+    seriesParts = "كل الأجزاء"
+    seriesViewSeries = "عرض السلسلة"
+
+[projects]
+    visit = "فتح المشروع"

@@ -10,13 +10,6 @@
     noPrev         = "沒有上一篇"
     noNext         = "沒有下一篇"
 
-    [article.alert]
-        note      = "注意"
-        tip       = "提示"
-        important = "重要"
-        caution   = "小心"
-        warning   = "警告"
-
     [article.readingTime]
         other = "{{ .count }} 分鐘"
 
@@ -30,6 +23,7 @@
   collapse        = "摺疊"
 
 [nav]
+    home = "首頁"
     anchor        = "連結到此部分"
     backHome      = "返回首頁"
     breadcrumb    = "麵包屑導航"
@@ -39,12 +33,17 @@
     pageInfo      = "第 {{ .current }} 頁，共 {{ .total }} 頁"
 
 [ui]
+    skipToContent = "跳到正文"
+    language = "語言"
+    announcementDismiss = "關閉公告"
     dockAriaLabel = "快捷操作工具列"
     dockBack      = "返回"
     dockSearch    = "搜尋"
     dockComments  = "留言"
     dockBackToTop = "返回頂部"
     dockTop       = "頂部"
+    dockBottom    = "到頁尾"
+    scrollDown    = "向下捲動"
     toc           = "目錄"
     tocPin        = "固定目錄"
     tocUnpin      = "取消固定目錄"
@@ -69,6 +68,10 @@
     contentWidth       = "頁面寬度"
     contentWidthReset  = "恢復預設"
     contentWidthToggle = "調整頁面寬度"
+    backdropBlur       = "背景磨砂"
+    backdropBlurReset  = "恢復預設"
+    grainSize          = "背景噪點"
+    grainSizeReset     = "恢復預設"
 
     appearanceToggle = "外觀設置"
     colorScheme      = "配色方案"
@@ -89,6 +92,9 @@
 
 
 [home]
+    writing = "寫作"
+    allPosts = "全部文章"
+    noPosts = "暫無文章。"
     featuredProjects = "特色專案"
     viewAll          = "查看全部"
     recentPosts      = "最近文章"
@@ -106,3 +112,13 @@
 
 [footer]
   poweredBy = "由"
+
+[context]
+    seriesPrev = "上一部分"
+    seriesNext = "下一部分"
+    seriesPartOf = "第 {{ .current }} 篇，共 {{ .total }} 篇"
+    seriesParts = "全部篇目"
+    seriesViewSeries = "查看系列"
+
+[projects]
+    visit = "開啟專案"

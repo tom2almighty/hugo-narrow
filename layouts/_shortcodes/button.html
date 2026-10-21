@@ -47,30 +47,30 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
   {{- $customColor = $variant -}}
 {{- end -}}
 
-{{- $baseClasses := "inline-flex items-center justify-center gap-2 rounded-control font-medium transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none cursor-pointer" -}}
+{{- $baseClasses := "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50" -}}
 
 {{- $variantClasses := "" -}}
 {{- if $isCustomColor -}}
-  {{- $variantClasses = "shadow-surface hover:shadow-raised" -}}
+  {{- $variantClasses = "" -}}
 {{- else if eq $variant "primary" -}}
-  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-surface hover:shadow-raised" -}}
+  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90" -}}
 {{- else if eq $variant "secondary" -}}
-  {{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-secondary/20 shadow-surface hover:shadow-raised" -}}
+  {{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/80" -}}
 {{- else if eq $variant "outline" -}}
-  {{- $variantClasses = "border-2 border-border bg-transparent text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary focus:ring-primary/20" -}}
+  {{- $variantClasses = "border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground" -}}
 {{- else -}}
-  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 shadow-surface hover:shadow-raised" -}}
+  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90" -}}
 {{- end -}}
 
 {{- $sizeClasses := "" -}}
 {{- if eq $size "sm" -}}
-  {{- $sizeClasses = "px-3 py-1.5 text-sm" -}}
+  {{- $sizeClasses = "h-8 px-3" -}}
 {{- else if eq $size "md" -}}
-  {{- $sizeClasses = "px-4 py-2 text-base" -}}
+  {{- $sizeClasses = "h-9 px-4" -}}
 {{- else if eq $size "lg" -}}
-  {{- $sizeClasses = "px-6 py-3 text-lg" -}}
+  {{- $sizeClasses = "h-10 px-6 text-base" -}}
 {{- else -}}
-  {{- $sizeClasses = "px-4 py-2 text-base" -}}
+  {{- $sizeClasses = "h-9 px-4" -}}
 {{- end -}}
 
 {{- $allClasses := printf "%s %s %s" $baseClasses $variantClasses $sizeClasses -}}

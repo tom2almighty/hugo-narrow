@@ -9,11 +9,7 @@ featured: true
 tags:
   - Go
   - Hugo
-categories:
-  - projects
-cover: "images/01.avif"
-status: "completed"
-link: "https://gohugo.io"
+link: "https://github.com/gohugoio/hugo"
 ---
 
 ## 项目概述

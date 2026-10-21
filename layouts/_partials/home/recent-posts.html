@@ -1,21 +1,19 @@
-{{/* 最近文章区域 */}}
-{{ $recentPostsCount := .Site.Params.home.recentPostsCount | default 5 }}
-
-{{ $mainSections := .Site.MainSections | default (slice "posts") }}
-{{ $firstSection := index $mainSections 0 }}
-
-{{ $posts := where .Site.RegularPages "Section" $firstSection | first $recentPostsCount }}
-
-{{ $viewAllUrl := "/" }}
-{{ if $mainSections }}
-  {{ $viewAllUrl = printf "/%s/" $firstSection | relLangURL }}
-{{ end }}
+{{/* Recent posts cards */}}
+{{- $sections := site.MainSections | default (slice "posts") -}}
+{{- $count := 5 -}}
+{{- with site.Params.home -}}
+  {{- if isset . "recentPostsCount" -}}{{- $count = .recentPostsCount -}}{{- end -}}
+{{- end -}}
+{{- $posts := where site.RegularPages "Section" "in" $sections | first $count -}}
+{{- $allURL := printf "/%s/" (index $sections 0) | relLangURL -}}
+{{- $columns := site.Params.home.postColumns | default site.Params.list.columns | default 1 -}}
 
 {{ partial "content/post-list.html" (dict
   "posts" $posts
   "title" (T "home.recentPosts")
   "showTitle" true
   "showViewAll" true
-  "viewAllUrl" $viewAllUrl
+  "viewAllUrl" $allURL
+  "columns" $columns
   )
 }}

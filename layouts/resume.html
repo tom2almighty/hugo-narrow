@@ -1,158 +1,123 @@
 {{ define "main" }}
-  <article class="py-6">
-    <!-- 页面标题 -->
-    <header class="mb-8">
-      <h1 class="text-foreground text-3xl font-bold md:text-4xl">{{ .Title }}</h1>
-      {{ with .Description }}
-        <p class="text-muted-foreground mt-2">{{ . }}</p>
-      {{ end }}
-    </header>
+  <header class="border-border mb-8 border-b pb-6">
+    <h1 class="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
+      {{ .Title }}
+    </h1>
+    {{- with .Description -}}
+      <p class="text-muted-foreground mt-2 text-sm">{{ . }}</p>
+    {{- end -}}
+  </header>
 
-    {{ $content := .Content }}
-    {{ $parts := split $content "<h2" }}
+  {{- $content := .Content -}}
+  {{- $parts := split $content "<h2" -}}
 
-    {{ if gt (len $parts) 1 }}
-      <!-- 第一个 H2 之前：身份区（职位 / 联系方式 / 概要），全部来自 Markdown -->
-      {{ $preContent := index $parts 0 }}
-      {{ if ne (trim $preContent " \n\r\t") "" }}
-        <div class="mb-10">
-          <div class="bg-primary/5 border-border rounded-control border p-6 sm:p-8">
-            <div class="prose prose-neutral dark:prose-invert max-w-none">
-              {{ $preContent | safeHTML }}
-            </div>
-          </div>
-        </div>
-      {{ end }}
+  {{- if gt (len $parts) 1 -}}
+    {{- $preContent := index $parts 0 -}}
+    {{- if ne (trim $preContent " \n\r\t") "" -}}
+      <div class="border-border prose mb-8 max-w-none border-b pb-6">
+        {{ $preContent | safeHTML }}
+      </div>
+    {{- end -}}
 
+    {{- range $index, $part := $parts -}}
+      {{- if gt $index 0 -}}
+        {{- $subparts := split $part "</h2>" -}}
+        {{- $h2TagAndTitle := index $subparts 0 -}}
+        {{- $body := "" -}}
+        {{- if gt (len $subparts) 1 -}}
+          {{- $body = index $subparts 1 -}}
+        {{- end -}}
 
-      <!-- 每个 H2：简历分区；其下 H3：条目卡片 -->
-      {{ range $index, $part := $parts }}
-        {{ if gt $index 0 }}
-          {{ $subparts := split $part "</h2>" }}
-          {{ $h2TagAndTitle := index $subparts 0 }}
-          {{ $body := "" }}
-          {{ if gt (len $subparts) 1 }}
-            {{ $body = index $subparts 1 }}
-          {{ end }}
-
-          {{/* 提取 H2 标题文本与锚点 ID */}}
-          {{ $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h2TagAndTitle }}
-          {{ $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title }}
-          {{ $idMatch := findRE `id="([^"]*)"` $h2TagAndTitle }}
-          {{ $id := "" }}
-          {{ if $idMatch }}
-            {{ $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) }}
-          {{ end }}
+        {{- $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h2TagAndTitle -}}
+        {{- $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title -}}
+        {{- $idMatch := findRE `id="([^"]*)"` $h2TagAndTitle -}}
+        {{- $id := "" -}}
+        {{- if $idMatch -}}
+          {{- $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) -}}
+        {{- end -}}
 
 
-          <section class="mb-10">
-            <h2
-              {{ if $id }}id="{{ $id }}"{{ end }}
-              class="text-foreground mb-4 flex scroll-m-20 items-center gap-2 text-xl font-bold"
-            >
-              <span
-                class="bg-primary block h-5 w-1 shrink-0 rounded-full"
-                aria-hidden="true"
-              ></span>
-              <span>{{ $titleContent | safeHTML }}</span>
-              {{ if $id }}
-                <a
-                  href="#{{ $id }}"
-                  class="heading-anchor"
-                  aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
-                >
-                  {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
-                </a>
-              {{ end }}
-            </h2>
+        <section class="mb-10">
+          <h2
+            {{ if $id }}id="{{ $id }}"{{ end }}
+            class="text-foreground border-border mb-4 flex scroll-m-20 items-center gap-2 border-b pb-2 text-base font-semibold"
+          >
+            <span>{{ $titleContent | safeHTML }}</span>
+            {{- if $id -}}
+              <a
+                href="#{{ $id }}"
+                class="heading-anchor"
+                aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
+              >
+                {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+              </a>
+            {{- end -}}
+          </h2>
 
-            {{ if ne (trim $body " \n\r\t") "" }}
-              {{ $h3Parts := split $body "<h3" }}
+          {{- if ne (trim $body " \n\r\t") "" -}}
+            {{- $h3Parts := split $body "<h3" -}}
 
-              {{ if gt (len $h3Parts) 1 }}
-                <!-- 首个 H3 之前的分区导语（可选） -->
-                {{ $preH3 := index $h3Parts 0 }}
-                {{ if ne (trim $preH3 " \n\r\t") "" }}
-                  <div
-                    class="resume-entry bg-card border-border rounded-control shadow-surface mb-4 border p-6"
-                  >
-                    <div class="prose prose-neutral dark:prose-invert max-w-none">
-                      {{ $preH3 | safeHTML }}
-                    </div>
-                  </div>
-                {{ end }}
+            {{- if gt (len $h3Parts) 1 -}}
+              {{- $preH3 := index $h3Parts 0 -}}
+              {{- if ne (trim $preH3 " \n\r\t") "" -}}
+                <div class="prose mb-4 max-w-none">{{ $preH3 | safeHTML }}</div>
+              {{- end -}}
 
 
-                <div class="space-y-4">
-                  {{ range $h3Index, $h3Part := $h3Parts }}
-                    {{ if gt $h3Index 0 }}
-                      {{ $h3sub := split $h3Part "</h3>" }}
-                      {{ $h3TagAndTitle := index $h3sub 0 }}
-                      {{ $h3Body := "" }}
-                      {{ if gt (len $h3sub) 1 }}
-                        {{ $h3Body = index $h3sub 1 }}
-                      {{ end }}
+              <div>
+                {{- range $h3Index, $h3Part := $h3Parts -}}
+                  {{- if gt $h3Index 0 -}}
+                    {{- $h3sub := split $h3Part "</h3>" -}}
+                    {{- $h3TagAndTitle := index $h3sub 0 -}}
+                    {{- $h3Body := "" -}}
+                    {{- if gt (len $h3sub) 1 -}}
+                      {{- $h3Body = index $h3sub 1 -}}
+                    {{- end -}}
 
-                      {{ $h3title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h3TagAndTitle }}
-                      {{ $h3titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $h3title }}
-                      {{ $h3idMatch := findRE `id="([^"]*)"` $h3TagAndTitle }}
-                      {{ $h3id := "" }}
-                      {{ if $h3idMatch }}
-                        {{ $h3id = replaceRE `id="([^"]*)"` "$1" (index $h3idMatch 0) }}
-                      {{ end }}
+                    {{- $h3title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h3TagAndTitle -}}
+                    {{- $h3titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $h3title -}}
+                    {{- $h3idMatch := findRE `id="([^"]*)"` $h3TagAndTitle -}}
+                    {{- $h3id := "" -}}
+                    {{- if $h3idMatch -}}
+                      {{- $h3id = replaceRE `id="([^"]*)"` "$1" (index $h3idMatch 0) -}}
+                    {{- end -}}
 
 
-                      <div
-                        class="resume-entry bg-card border-border rounded-control shadow-surface border p-6"
+                    <div class="resume-entry border-border border-b py-4">
+                      <h3
+                        {{ if $h3id }}id="{{ $h3id }}"{{ end }}
+                        class="text-foreground mb-2 scroll-m-20 text-sm font-semibold"
                       >
-                        <h3
-                          {{ if $h3id }}id="{{ $h3id }}"{{ end }}
-                          class="text-foreground mb-3 scroll-m-20 text-base font-semibold"
-                        >
-                          {{ $h3titleContent | safeHTML }}
-                          {{ if $h3id }}
-                            <a
-                              href="#{{ $h3id }}"
-                              class="heading-anchor"
-                              aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
-                            >
-                              {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
-                            </a>
-                          {{ end }}
-                        </h3>
-                        {{ if ne (trim $h3Body " \n\r\t") "" }}
-                          <div class="prose prose-neutral dark:prose-invert max-w-none">
-                            {{ $h3Body | safeHTML }}
-                          </div>
-                        {{ end }}
-                      </div>
-                    {{ end }}
-                  {{ end }}
-                </div>
-              {{ else }}
-                <!-- 无 H3：整段分区正文作为一张卡片（适合 Skills 等） -->
-                <div
-                  class="resume-entry bg-card border-border rounded-control shadow-surface border p-6"
-                >
-                  <div class="prose prose-neutral dark:prose-invert max-w-none">
-                    {{ $body | safeHTML }}
-                  </div>
-                </div>
-              {{ end }}
-            {{ end }}
-          </section>
-        {{ end }}
-      {{ end }}
+                        {{ $h3titleContent | safeHTML }}
+                        {{- if $h3id -}}
+                          <a
+                            href="#{{ $h3id }}"
+                            class="heading-anchor"
+                            aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
+                          >
+                            {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+                          </a>
+                        {{- end -}}
+                      </h3>
+                      {{- if ne (trim $h3Body " \n\r\t") "" -}}
+                        <div class="prose max-w-none">{{ $h3Body | safeHTML }}</div>
+                      {{- end -}}
+                    </div>
+                  {{- end -}}
+                {{- end -}}
+              </div>
+            {{- else -}}
+              <div class="prose max-w-none">{{ $body | safeHTML }}</div>
+            {{- end -}}
+          {{- end -}}
+        </section>
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with .Content -}}
+      <div class="prose max-w-none">{{ . }}</div>
+    {{- end -}}
+  {{- end -}}
 
-    {{ else }}
-      <!-- 无 H2：全文按普通 prose 渲染 -->
-      {{ with .Content }}
-        <div class="prose prose-neutral dark:prose-invert max-w-none">
-          {{ . }}
-        </div>
-      {{ end }}
-    {{ end }}
-
-    {{ partial "features/comments.html" . }}
-  </article>
+  {{ partial "features/comments.html" . }}
 {{ end }}

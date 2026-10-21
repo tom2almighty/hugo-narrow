@@ -1,129 +1,74 @@
-{{/* 项目卡片组件 - 背景图片遮罩样式
-  @context {page} .page 项目页面对象
+{{/* Project card: unified card layout with title, summary, GitHub link, date and tags.
+
+  @context {page} .page
 */}}
-
-{{ $page := .page }}
-
-{{/* 使用通用图片处理器 */}}
-{{- $coverImage := "" -}}
-{{- $coverSrcset := "" -}}
-{{- $coverWidth := 0 -}}
-{{- $coverHeight := 0 -}}
-{{- if $page.Params.cover -}}
-  {{- partial "content/image-processor.html" (dict
-    "context" $page
-    "src" $page.Params.cover
-    "outputType" "data"
-    )
-  -}}
-  {{- $coverImage = $page.Store.Get "imageUrl" -}}
-  {{- $coverSrcset = $page.Store.Get "imageSrcset" -}}
-  {{- $coverWidth = $page.Store.Get "imageWidth" | default 0 -}}
-  {{- $coverHeight = $page.Store.Get "imageHeight" | default 0 -}}
-{{- end -}}
-
-{{- $summaryContent := "" -}}
+{{- $page := .page -}}
+{{- $summary := "" -}}
 {{- if $page.Params.summary -}}
-  {{- $summaryContent = $page.Params.summary -}}
+  {{- $summary = $page.Params.summary | plainify -}}
 {{- else if $page.Params.description -}}
-  {{- $summaryContent = $page.Params.description -}}
-{{- else if $page.Summary -}}
-  {{- $summaryContent = $page.Summary | plainify | truncate 120 -}}
+  {{- $summary = $page.Params.description | plainify -}}
+{{- else -}}
+  {{- $summary = $page.Summary | plainify | truncate 140 -}}
 {{- end -}}
 
-{{/* 项目卡片 */}}
-<article class="group h-full">
-  <a href="{{ $page.RelPermalink }}" class="block h-full">
-    <div
-      class="border-border focus:ring-primary/20 bg-card rounded-card hover:shadow-raised relative flex h-full min-h-64 flex-col overflow-hidden border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] focus:ring-2 focus:outline-none"
-    >
-      <!-- 背景图片及遮罩 -->
-      {{- if $coverImage -}}
-        <img
-          src="{{ $coverImage }}"
-          {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-          alt="{{ $page.Title }}"
-          {{ if gt $coverWidth 0 }}width="{{ $coverWidth }}" height="{{ $coverHeight }}"{{ end }}
-          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-          decoding="async"
-        />
-        <!-- 黑色渐变遮罩以保证文字可读性 -->
-        <div
-          class="from-media-scrim/90 via-media-scrim/60 to-media-scrim/30 absolute inset-0 bg-linear-to-t transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
+
+<article class="group relative h-full">
+  <div
+    class="border-border bg-card hover:bg-accent/20 hover:border-primary/30 flex h-full flex-col justify-between gap-3 rounded-lg border p-5 transition-colors"
+  >
+    <div class="flex items-start justify-between gap-3">
+      <h3 class="text-foreground text-base leading-snug font-semibold">
+        <a href="{{ $page.RelPermalink }}" class="after:absolute after:inset-0">
+          {{ $page.LinkTitle }}
+        </a>
+      </h3>
+      {{- with $page.Params.link -}}
+        <a
+          href="{{ . }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{ T `projects.visit` }}"
+          title="{{ T `projects.visit` }}"
+          class="text-muted-foreground hover:text-foreground hover:bg-muted relative z-10 -mt-1 -mr-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md transition-colors"
+        >
+          {{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
+        </a>
       {{- else -}}
-        <!-- 无背景图片时的 Hover 光效 (可选) -->
-        <div
-          class="bg-primary/5 absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
+        <span
+          class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
+          aria-hidden="true"
+        >
+          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
+        </span>
       {{- end -}}
-
-
-      <!-- 文字颜色变量计算 -->
-      {{- $textColorClass := "text-foreground" -}}
-      {{- $mutedColorClass := "text-muted-foreground" -}}
-      {{- $tagBgClass := "bg-muted/50 text-foreground border-muted/30" -}}
-      {{- if $coverImage -}}
-        {{- $textColorClass = "text-on-media" -}}
-        {{- $mutedColorClass = "text-on-media/80" -}}
-        {{- $tagBgClass = "bg-on-media/20 text-on-media border-on-media/10 backdrop-blur-sm" -}}
-      {{- end -}}
-
-
-      <!-- 卡片文字内容区域 (设置 z-10 悬浮在背景之上) -->
-      <div class="relative z-10 flex h-full flex-1 flex-col">
-        <!-- Featured 标签 (顶部) -->
-        {{ if $page.Params.featured }}
-          <div class="mb-4">
-            <span
-              class="bg-primary/10 text-primary shadow-surface inline-flex h-7 w-7 items-center justify-center rounded-full"
-            >
-              {{ partial "features/icon.html" (dict "name" "star" "size" "sm" "ariaLabel" "") }}
-            </span>
-          </div>
-        {{ end }}
-
-
-        <!-- 垂直居中撑开间隙 -->
-        <div class="flex-1"></div>
-
-        <!-- 卡片主体文字 (放在中下部) -->
-        <div class="mt-auto">
-          <!-- 项目标题 - 强制单行截断 -->
-          <h3
-            class="{{ $textColorClass }} group-hover:text-primary {{ if $coverImage }}
-              group-hover:text-on-media
-            {{ end }} mb-2 truncate text-xl leading-tight font-bold transition-colors duration-200"
-          >
-            {{ $page.Title }}
-          </h3>
-
-          <!-- 项目摘要 - 最多两行截断 -->
-          {{ if $summaryContent }}
-            <p
-              class="{{ $mutedColorClass }} drop-shadow-surface mb-4 line-clamp-2 text-sm leading-relaxed"
-            >
-              {{ $summaryContent }}
-            </p>
-          {{ end }}
-
-
-          <!-- 标签展示区, 严格限制最多显示 3 个 -->
-          {{ if $page.Params.tags }}
-            <div class="flex w-full flex-wrap gap-2 pt-1">
-              {{ range first 3 $page.Params.tags }}
-                <span
-                  class="{{ $tagBgClass }} shrink-0 rounded border px-2.5 py-0.5 text-xs font-medium"
-                >
-                  {{ . }}
-                </span>
-              {{ end }}
-            </div>
-          {{ end }}
-        </div>
-      </div>
     </div>
-  </a>
+
+    {{- with $summary -}}
+      <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">{{ . }}</p>
+    {{- end -}}
+
+    {{- $tags := $page.GetTerms "tags" -}}
+    {{- if or (not $page.Date.IsZero) $tags -}}
+      <div
+        class="text-muted-foreground mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 text-xs"
+      >
+        {{- if not $page.Date.IsZero -}}
+          <time datetime="{{ $page.Date.Format `2006-01-02` }}" class="tabular-nums">
+            {{ partial "helpers/date.html" (dict "date" $page.Date "variant" "short") }}
+          </time>
+        {{- end -}}
+
+        {{- with $tags -}}
+          <div class="flex flex-wrap items-center gap-1.5">
+            {{- range first 3 . -}}
+              <span class="border-border bg-muted/40 rounded-sm border px-1.5 py-0.5 text-xs">
+                {{ .LinkTitle }}
+              </span>
+            {{- end -}}
+          </div>
+        {{- end -}}
+      </div>
+    {{- end -}}
+  </div>
 </article>

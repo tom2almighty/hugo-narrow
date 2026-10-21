@@ -82,6 +82,7 @@ class TOCManager {
     const next = Boolean(open);
     this.panel.dataset.open = next ? "true" : "false";
     this.panel.setAttribute("aria-hidden", next ? "false" : "true");
+    this.panel.inert = !next;
     this.dockBtn?.setAttribute("aria-expanded", next ? "true" : "false");
 
     if (next) {
@@ -108,7 +109,7 @@ class TOCManager {
 
   isSideLayout() {
     return window.matchMedia(
-      "(min-aspect-ratio: 4/3) and (min-width: 48rem), (horizontal-viewport-segments: 2)"
+      "(min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2)"
     ).matches;
   }
 
@@ -173,10 +174,7 @@ class TOCManager {
     const target = document.getElementById(id);
     if (!target) return;
 
-    window.scrollTo({
-      top: target.getBoundingClientRect().top + window.pageYOffset - 96,
-      behavior: "smooth",
-    });
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
 
     if (!this.isPinned()) this.close();
   }
@@ -194,6 +192,7 @@ class TOCManager {
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && this.isOpen() && !this.isPinned()) {
         this.close();
+        this.dockBtn?.focus();
       }
     });
 
@@ -204,8 +203,9 @@ class TOCManager {
     });
 
     const sideQuery = window.matchMedia(
-      "(min-aspect-ratio: 4/3) and (min-width: 48rem), (horizontal-viewport-segments: 2)"
+      "(min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2)"
     );
+
     sideQuery.addEventListener("change", () => {
       if (!sideQuery.matches || !this.isPinAvailable()) {
         this.setOpen(false);

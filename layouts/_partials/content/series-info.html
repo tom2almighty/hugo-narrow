@@ -1,0 +1,34 @@
+{{/* Resolve the current page's series and its ordered parts.
+
+  @context {page} .
+  @returns {dict} term, pages, current, total, has
+*/}}
+{{- $page := . -}}
+{{- $term := false -}}
+{{- $pages := slice -}}
+{{- $current := 0 -}}
+{{- $total := 0 -}}
+
+{{- with $page.GetTerms "series" -}}
+  {{- $term = index . 0 -}}
+  {{- $candidate := $term.Pages.ByParam "series_order" -}}
+  {{- $missingOrder := false -}}
+  {{- range $candidate -}}
+    {{- if not (isset .Params "series_order") -}}
+      {{- $missingOrder = true -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $missingOrder -}}
+    {{- $candidate = $term.Pages.ByDate -}}
+  {{- end -}}
+  {{- $pages = $candidate -}}
+  {{- $total = len $pages -}}
+  {{- range $index, $part := $pages -}}
+    {{- if eq $part.RelPermalink $page.RelPermalink -}}
+      {{- $current = add $index 1 -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $has := and $term (gt $total 1) (gt $current 0) -}}
+{{- return dict "term" $term "pages" $pages "current" $current "total" $total "has" $has -}}

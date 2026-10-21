@@ -1,0 +1,53 @@
+{{- $series := .series -}}
+{{- $term := $series.term -}}
+{{- $pages := $series.pages -}}
+{{- $current := $series.current -}}
+
+
+<div id="series-popover" popover class="p-0" aria-label="{{ $term.LinkTitle }}">
+  <div class="border-border flex items-center justify-between gap-3 border-b px-3.5 py-2.5">
+    <div class="flex min-w-0 items-center gap-2">
+      <span class="text-primary shrink-0">
+        {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
+      </span>
+      <span class="text-foreground truncate text-xs font-semibold">
+        {{ $term.LinkTitle }}
+      </span>
+    </div>
+    <a
+      href="{{ $term.RelPermalink }}"
+      class="text-muted-foreground hover:text-foreground inline-flex shrink-0 items-center gap-1 text-xs transition-colors"
+    >
+      <span>{{ T `context.seriesViewSeries` }}</span>
+      {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
+    </a>
+  </div>
+
+  <ol class="max-h-72 space-y-0.5 overflow-y-auto p-1.5">
+    {{- range $index, $part := $pages -}}
+      {{- $isCurrent := eq (add $index 1) $current -}}
+      <li>
+        <a
+          href="{{ $part.RelPermalink }}"
+          class="{{ if $isCurrent }}
+            bg-accent text-accent-foreground font-medium
+          {{ else }}
+            text-muted-foreground hover:bg-muted/70 hover:text-foreground
+          {{ end }} flex items-center gap-2.5 rounded-md px-2.5 py-2 text-xs transition-colors"
+          {{ if $isCurrent }}aria-current="page"{{ end }}
+        >
+          <span
+            class="{{ if $isCurrent }}
+              bg-primary text-primary-foreground
+            {{ else }}
+              bg-muted text-muted-foreground
+            {{ end }} inline-flex size-5 shrink-0 items-center justify-center rounded font-mono text-xs tabular-nums"
+          >
+            {{ add $index 1 }}
+          </span>
+          <span class="truncate">{{ $part.LinkTitle }}</span>
+        </a>
+      </li>
+    {{- end -}}
+  </ol>
+</div>

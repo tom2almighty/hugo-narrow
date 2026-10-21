@@ -6,12 +6,14 @@
     data-open="false"
     aria-label="{{ T `ui.toc` }}"
     aria-hidden="true"
+    inert
   >
     <div class="toc-panel-header">
-      <h2 class="text-foreground truncate text-sm font-bold">{{ T "ui.toc" }}</h2>
-      <div class="flex shrink-0 items-center gap-1">
+      <h2 class="text-muted-foreground truncate text-xs font-medium">{{ T "ui.toc" }}</h2>
+      <div class="flex shrink-0 items-center gap-0.5">
         <button
           id="toc-pin"
+          type="button"
           class="dock-item"
           aria-pressed="{{ cond $tocConfig.pinned `true` `false` }}"
           aria-label="{{ T `ui.tocPin` }}"
@@ -28,6 +30,7 @@
         </button>
         <button
           id="toc-close"
+          type="button"
           class="dock-item"
           aria-label="{{ T `ui.tocClose` }}"
           title="{{ T `ui.tocClose` }}"

@@ -447,17 +447,17 @@
     link.href = result.permalink;
     link.dataset.index = String(index);
     link.className =
-      "search-result-item block rounded-lg p-4 transition-colors duration-200 hover:bg-primary/10";
+      "search-result-item block rounded-md px-3 py-2.5 transition-colors hover:bg-accent/60";
 
     const container = document.createElement("div");
-    container.className = "flex flex-col gap-2";
+    container.className = "flex flex-col gap-1";
 
     const title = document.createElement("h3");
-    title.className = "text-foreground line-clamp-1 text-base font-semibold";
+    title.className = "text-foreground line-clamp-1 text-sm font-medium";
     title.appendChild(createHighlightedFragment(result.title || "", result.keywords));
 
     const summary = document.createElement("p");
-    summary.className = "text-muted-foreground line-clamp-2 text-sm";
+    summary.className = "text-muted-foreground line-clamp-2 text-xs";
     summary.appendChild(
       createExcerptFragment(result.summary || result.content || "", result.keywords, 140)
     );
@@ -534,7 +534,7 @@
       }
 
       const mark = document.createElement("mark");
-      mark.className = "bg-primary/20 text-primary rounded px-1 font-medium";
+      mark.className = "bg-primary/15 text-foreground rounded-sm px-0.5 font-medium";
       mark.textContent = text.slice(start, end);
       fragment.append(mark);
       cursor = end;
@@ -613,8 +613,8 @@
       const isSelected = index === selectedIndex;
       const item = element.parentElement;
 
-      element.classList.toggle("bg-primary/10", isSelected);
-      element.classList.toggle("text-primary", isSelected);
+      element.classList.toggle("bg-accent", isSelected);
+      element.classList.toggle("text-accent-foreground", isSelected);
       item?.setAttribute("aria-selected", isSelected ? "true" : "false");
     });
 

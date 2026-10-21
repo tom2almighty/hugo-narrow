@@ -1,14 +1,16 @@
-/* 分隔线 */
+/* Horizontal rule */
 .prose hr {
-  @apply via-border my-8 h-px border-0 bg-gradient-to-r from-transparent to-transparent;
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--tw-prose-hr);
 }
 
-/* 图片样式 */
+/* Images */
 .prose img {
-  @apply mx-auto rounded-lg shadow-md;
-  margin: 0 auto;
   max-width: 100%;
   height: auto;
+  margin-inline: auto;
+  border-radius: var(--radius-lg);
 }
 
 .prose figure {
@@ -16,145 +18,122 @@
 }
 
 .prose figcaption {
-  @apply mt-2 text-center text-sm;
+  margin-top: 0.5rem;
   color: var(--tw-prose-captions);
-  font-style: italic;
+  font-size: 0.875rem;
+  text-align: center;
 }
 
-/* 强调文本 */
+/* Inline emphasis */
 .prose strong {
   color: var(--tw-prose-bold);
   font-weight: 600;
 }
 
 .prose em {
-  font-style: italic;
   color: var(--tw-prose-body);
+  font-style: italic;
 }
 
-/* 删除线文本 */
 .prose del,
 .prose s {
-  text-decoration: line-through;
   color: var(--muted-foreground);
-  opacity: 0.8;
+  text-decoration: line-through;
 }
 
-/* 高亮文本 */
 .prose mark {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--primary) 20%, transparent),
-    color-mix(in srgb, var(--accent) 20%, transparent)
-  );
-  color: var(--tw-prose-body);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--warning) 18%, transparent);
   padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
+  color: var(--tw-prose-body);
 }
 
-/* 上标和下标 */
-.prose sup {
+.prose sup,
+.prose sub {
+  color: var(--muted-foreground);
   font-size: 0.75rem;
-  line-height: 1;
-  vertical-align: super;
-  color: var(--primary);
   font-weight: 500;
+  line-height: 1;
+}
+
+.prose sup {
+  vertical-align: super;
 }
 
 .prose sub {
-  font-size: 0.75rem;
-  line-height: 1;
   vertical-align: sub;
-  color: var(--primary);
-  font-weight: 500;
 }
 
-/* 键盘按键 */
 .prose kbd {
-  @apply inline-flex items-center rounded border px-2 py-1 font-mono text-xs font-semibold;
-  background: var(--muted);
-  color: var(--tw-prose-body);
-  border-color: var(--border);
-  box-shadow: 0 1px 2px
-    color-mix(in srgb, var(--foreground) 10%, transparent);
+  display: inline-flex;
   min-height: 1.5rem;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--muted);
+  padding: 0.125rem 0.375rem;
+  color: var(--tw-prose-body);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-/* 缩写 */
 .prose abbr {
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-decoration-color: var(--primary);
   cursor: help;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--muted-foreground);
 }
 
-/* 详情折叠 (Details/Summary) */
+/* Details */
 .prose details {
   margin: 1.5rem 0;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
   overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   background: var(--card);
 }
 
 .prose details summary {
-  padding: 1rem 1.5rem;
-  background: color-mix(in srgb, var(--muted) 50%, transparent);
   cursor: pointer;
-  font-weight: 600;
+  padding: 0.875rem 1.25rem;
   color: var(--tw-prose-headings);
-  border-bottom: 1px solid var(--border);
-  transition: all 0.2s ease;
-  position: relative;
+  font-weight: 600;
   user-select: none;
+  transition: background-color 0.15s ease;
 }
 
 .prose details summary:hover {
-  background: color-mix(
-    in srgb,
-    var(--primary) 10%,
-    var(--muted)
-  );
-  color: var(--primary);
+  background: color-mix(in oklab, var(--muted) 60%, transparent);
 }
 
-.prose details summary::marker {
-  content: none;
-}
-
-.prose details summary::before {
-  content: "▶";
-  position: absolute;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: transform 0.2s ease;
-  color: var(--primary);
-  font-size: 0.875rem;
-}
-
-.prose details[open] summary::before {
-  transform: translateY(-50%) rotate(90deg);
-}
-
-.prose details[open] summary {
-  border-bottom-color: var(--border);
+.prose details[open] > summary {
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--muted) 35%, transparent);
 }
 
 .prose details > *:not(summary) {
-  padding: 1rem 1.5rem 0;
   margin: 0;
+  padding: 0.75rem 1.25rem 0;
+}
+
+.prose details > ul,
+.prose details > ol {
+  padding-left: 2.5rem;
+}
+
+.prose details > summary + * {
+  padding-top: 1rem;
 }
 
 .prose details > *:last-child {
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
 }
 
+/* KaTeX */
 .katex-display {
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  max-width: 100%;
   padding: 1em 0;
 }
 
@@ -163,25 +142,33 @@
     margin: 1.5cm;
   }
 
-  /* hide all chrome */
-  header,
   footer,
-  [data-dock],
-  .dock,
-  .toc-sidebar,
-  .reading-progress-bar,
-  .resume-print-btn,
+  #bg-grain,
+  #dock,
+  #context-bar,
+  #toc-panel,
+  #search-modal,
+  #site-announcement,
+  .skip-link,
+  .post-navigation,
+  .related-posts,
+  #comments,
+  .heading-anchor,
   nav {
     display: none !important;
   }
 
-  /* force white/black */
   body {
     background: white !important;
     color: black !important;
+    padding: 0 !important;
   }
 
-  /* keep cards readable */
+  #page-container {
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
   .bg-card {
     background: white !important;
     border-color: #e5e7eb !important;
@@ -192,17 +179,10 @@
     color: #6b7280 !important;
   }
 
-  .text-primary {
-    color: black !important;
-    font-weight: 600;
-  }
-
-  /* avoid splitting entries across pages */
   .resume-entry {
     break-inside: avoid;
   }
 
-  /* remove hover/animation artifacts */
   * {
     transition: none !important;
     animation: none !important;

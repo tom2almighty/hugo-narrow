@@ -11,13 +11,6 @@
     noPrev         = "No previous"
     noNext         = "No next"
 
-    [article.alert]
-        note      = "Note"
-        tip       = "Tip"
-        important = "Important"
-        caution   = "Caution"
-        warning   = "Warning"
-
     [article.readingTime]
         one = "{{ .count }} min"
         other = "{{ .count }} min"
@@ -33,6 +26,7 @@
   collapse        = "Collapse"
 
 [nav]
+    home = "Home"
     anchor        = "Link to this section"
     backHome      = "Back to home"
     breadcrumb    = "Breadcrumb"
@@ -42,12 +36,17 @@
     pageInfo      = "Page {{ .current }} of {{ .total }}"
 
 [ui]
+    skipToContent = "Skip to content"
+    language = "Language"
+    announcementDismiss = "Dismiss announcement"
     dockAriaLabel = "Quick actions toolbar"
     dockBack      = "Back"
     dockSearch    = "Search"
     dockComments  = "Comments"
     dockBackToTop = "Back to top"
     dockTop       = "Top"
+    dockBottom    = "Go to bottom"
+    scrollDown    = "Scroll down"
     toc           = "Table of contents"
     tocPin        = "Pin table of contents"
     tocUnpin      = "Unpin table of contents"
@@ -72,6 +71,10 @@
     contentWidth       = "Page width"
     contentWidthReset  = "Restore default"
     contentWidthToggle = "Adjust page width"
+    backdropBlur       = "Backdrop blur"
+    backdropBlurReset  = "Restore default"
+    grainSize          = "Grain size"
+    grainSizeReset     = "Restore default"
 
     appearanceToggle = "Appearance settings"
     colorScheme      = "Color scheme"
@@ -92,6 +95,9 @@
 
 
 [home]
+    writing = "Writing"
+    allPosts = "All posts"
+    noPosts = "No posts yet."
     featuredProjects = "Featured Projects"
     viewAll          = "View all"
     recentPosts      = "Recent Posts"
@@ -109,3 +115,13 @@
 
 [footer]
   poweredBy = "Powered by"
+
+[context]
+    seriesPrev = "Previous part"
+    seriesNext = "Next part"
+    seriesPartOf = "Part {{ .current }} of {{ .total }}"
+    seriesParts = "All parts"
+    seriesViewSeries = "View series"
+
+[projects]
+    visit = "Open project"

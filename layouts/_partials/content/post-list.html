@@ -1,60 +1,54 @@
-{{/* 文章列表组件
+{{/* Post list built from unified cards.
 
-  显示文章卡片列表
-
-  @context {slice} .posts 文章列表
-  @context {string} .title 列表标题 (可选)
-  @context {bool} .showTitle 是否显示标题 (默认: false)
-  @context {bool} .showViewAll 是否显示"查看所有"按钮 (默认: false)
-  @context {string} .viewAllUrl "查看所有"按钮的链接 (默认: /posts/)
+  @context {slice} .posts
+  @context {string} .title
+  @context {bool} .showTitle
+  @context {bool} .showViewAll
+  @context {string} .viewAllUrl
+  @context {int} .columns
+  @context {bool} .compact
 */}}
+{{- $posts := .posts -}}
+{{- $title := .title | default "" -}}
+{{- $showTitle := .showTitle | default false -}}
+{{- $showViewAll := .showViewAll | default false -}}
+{{- $viewAllUrl := .viewAllUrl | default ("/posts/" | relLangURL) -}}
+{{- $compact := .compact | default false -}}
+{{- $columns := .columns | default site.Params.list.columns | default 1 -}}
+{{- $gridClass := "grid grid-cols-1 gap-4" -}}
+{{- if eq (int $columns) 2 -}}
+  {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
+{{- else if eq (int $columns) 3 -}}
+  {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
+{{- end -}}
 
-{{ $posts := .posts }}
-{{ $title := .title | default "" }}
-{{ $showTitle := .showTitle | default false }}
-{{ $showViewAll := .showViewAll | default false }}
-{{ $viewAllUrl := .viewAllUrl | default ("/posts/" | relLangURL) }}
-
-{{ if $posts }}
+{{- if $posts -}}
   <section class="post-list">
-    <!-- 列表标题 -->
-    {{ if and $showTitle $title }}
-      <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-foreground text-2xl font-bold">{{ $title }}</h2>
+    {{- if and $showTitle $title -}}
+      <div class="mb-4 flex items-baseline justify-between gap-3">
+        <h2 class="text-foreground text-xl font-semibold tracking-tight">{{ $title }}</h2>
+        {{- if $showViewAll -}}
+          <a
+            href="{{ $viewAllUrl }}"
+            class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+          >
+            {{ T "home.viewAll" }}
+          </a>
+        {{- end -}}
       </div>
-    {{ end }}
+    {{- end -}}
 
 
-    <!-- 文章卡片列表 -->
-    <div class="space-y-4">
-      {{ range $posts }}
-        {{ partial "content/card-base.html" (dict "page" .) }}
-      {{ end }}
+    <div class="{{ $gridClass }}">
+      {{- range $posts -}}
+        {{ partial "content/post-card.html" (dict
+          "page" .
+          "compact" $compact
+          )
+        }}
+      {{- end -}}
     </div>
-
-    <!-- 查看所有文章按钮 (底部) -->
-    {{ if $showViewAll }}
-      <div class="mt-8 mb-6 text-center">
-        <a
-          href="{{ $viewAllUrl }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 rounded-card shadow-surface hover:shadow-raised inline-flex items-center gap-2 px-6 py-3 font-medium transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
-        >
-          {{ partial "features/icon.html" (dict "name" "posts" "size" "md" "ariaLabel" "") }}
-          <span>{{ T "home.viewAll" }}</span>
-          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
-        </a>
-      </div>
-    {{ end }}
-
   </section>
-{{ else }}
-  <!-- 空状态 -->
-  <div class="py-12 text-center">
-    <div class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-      {{ partial "features/icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
-    </div>
-    <h3 class="text-foreground mb-2 text-lg font-medium">
-      {{ T "article.empty" }}
-    </h3>
-  </div>
-{{ end }}
+{{- else -}}
+  <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}

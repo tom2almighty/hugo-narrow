@@ -1,93 +1,27 @@
-<footer class="px-4 py-6">
-  <!-- 外部链接菜单 -->
-  {{ if site.Menus.footer }}
-    <nav class="mb-6">
-      <div class="flex flex-wrap items-center justify-center gap-1">
-        {{ range site.Menus.footer }}
-          {{/* 生成语言感知的URL */}}
-          {{ $menuURL := .URL }}
-          {{ if .PageRef }}
-            {{ with site.GetPage .PageRef }}
-              {{ $menuURL = .RelPermalink }}
-            {{ else }}
-              {{ $menuURL = .URL | relLangURL }}
-            {{ end }}
-          {{ end }}
-          <a
-            href="{{ $menuURL }}"
-            {{ if strings.HasPrefix $menuURL "http" }}
-              target="_blank" rel="noopener noreferrer"
-            {{ end }}
-            class="nav-link hover:text-primary hover:bg-primary/10 text-muted-foreground rounded-control flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105"
-          >
-            {{ if .Params.icon }}
-              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "md" "ariaLabel" "") }}
-            {{ end }}
-            <span>{{ .Name }}</span>
-          </a>
-        {{ end }}
-      </div>
-    </nav>
-  {{ end }}
-
-
-  <!-- 分隔线 -->
-  {{ if and site.Menus.footer site.Menus.social }}
-    <div class="border-border mb-6 border-t"></div>
-  {{ end }}
-
-
-  <!-- 底部区域：版权信息和社交媒体 -->
-  <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
-    <!-- 版权信息 -->
-    <div class="text-muted-foreground text-center text-sm md:text-left">
-      <p class="mb-2">
-        &copy;
-        {{ now.Year }}
-        {{ site.Title }}
-      </p>
-      <p class="flex flex-wrap items-center justify-center gap-1 md:justify-start">
-        <span>{{ T "footer.poweredBy" }}</span>
-        <a
-          href="https://gohugo.io/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
-        >
-          Hugo
-        </a>
-        <span>&</span>
-        <a
-          href="https://github.com/tom2almighty/hugo-narrow"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
-        >
-          Narrow
-        </a>
-      </p>
-    </div>
-
-    <!-- 社交媒体图标 -->
-    {{ if site.Menus.social }}
-      <div class="flex items-center gap-3">
-        {{ range site.Menus.social }}
-          <a
-            href="{{ .URL }}"
-            {{ if strings.HasPrefix .URL "http" }}
-              target="_blank" rel="noopener noreferrer"
-            {{ end }}
-            class="text-muted-foreground hover:text-primary focus:ring-primary/20 rounded-control p-1 transition-all duration-300 ease-out hover:scale-110 focus:ring-2 focus:outline-none"
-            title="{{ .Name }}"
-            aria-label="{{ .Name }}"
-          >
-            {{ if .Params.icon }}
-              {{ partial "features/icon.html" (dict "name" .Params.icon "size" "lg" "ariaLabel" "") }}
-            {{ end }}
-          </a>
-        {{ end }}
-      </div>
-    {{ end }}
-
+<footer class="border-border mt-10 border-t px-4 py-6">
+  <div
+    class="text-muted-foreground flex flex-col gap-1 text-xs sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p>&copy; {{ now.Year }} {{ site.Title }}</p>
+    <p>
+      {{ T "footer.poweredBy" }}
+      <a
+        href="https://gohugo.io/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-foreground transition-colors"
+      >
+        Hugo
+      </a>
+      &amp;
+      <a
+        href="https://github.com/tom2almighty/hugo-narrow"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-foreground transition-colors"
+      >
+        Narrow
+      </a>
+    </p>
   </div>
 </footer>

@@ -13,13 +13,6 @@
     noPrev         = "Нет предыдущей"
     noNext         = "Нет следующей"
 
-    [article.alert]
-        note      = "Примечание"
-        tip       = "Совет"
-        important = "Важно"
-        caution   = "Осторожно"
-        warning   = "Предупреждение"
-
     [article.readingTime]
         one = "{{ .count }} минута"
         few = "{{ .count }} минуты"
@@ -39,6 +32,7 @@
   collapse        = "Свернуть"
 
 [nav]
+    home = "Главная"
     anchor        = "Ссылка на этот раздел"
     backHome      = "На главную"
     breadcrumb    = "Хлебные крошки"
@@ -48,12 +42,17 @@
     pageInfo      = "Страница {{ .current }} из {{ .total }}"
 
 [ui]
+    skipToContent = "Перейти к содержимому"
+    language = "Язык"
+    announcementDismiss = "Закрыть объявление"
     dockAriaLabel = "Панель быстрых действий"
     dockBack      = "Назад"
     dockSearch    = "Поиск"
     dockComments  = "Комментарии"
     dockBackToTop = "Наверх"
     dockTop       = "Вверх"
+    dockBottom    = "В конец"
+    scrollDown    = "Прокрутить вниз"
     toc           = "Оглавление"
     tocPin        = "Закрепить оглавление"
     tocUnpin      = "Открепить оглавление"
@@ -78,6 +77,10 @@
     contentWidth       = "Ширина страницы"
     contentWidthReset  = "Восстановить по умолчанию"
     contentWidthToggle = "Настроить ширину страницы"
+    backdropBlur       = "Размытие фона"
+    backdropBlurReset  = "Восстановить по умолчанию"
+    grainSize          = "Размер зерна"
+    grainSizeReset     = "Восстановить по умолчанию"
 
     appearanceToggle = "Настройки оформления"
     colorScheme      = "Цветовая схема"
@@ -98,6 +101,9 @@
 
 
 [home]
+    writing = "Записи"
+    allPosts = "Все записи"
+    noPosts = "Записей пока нет."
     featuredProjects = "Избранные проекты"
     viewAll          = "Показать все"
     recentPosts      = "Последние статьи"
@@ -115,3 +121,13 @@
 
 [footer]
   poweredBy = "Работает на"
+
+[context]
+    seriesPrev = "Предыдущая часть"
+    seriesNext = "Следующая часть"
+    seriesPartOf = "Часть {{ .current }} из {{ .total }}"
+    seriesParts = "Все части"
+    seriesViewSeries = "Смотреть серию"
+
+[projects]
+    visit = "Открыть проект"

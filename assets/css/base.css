@@ -1,5 +1,58 @@
+/* Base layer: shadcn tokens, density, focus, scroll and page shell. */
+
+:root {
+  --control-height: 2rem;
+  --control-height-lg: 2.25rem;
+  --dock-size: 3.5rem;
+  --dock-clearance: calc(var(--dock-size) + env(safe-area-inset-bottom) + 2rem);
+}
+
 html {
+  color-scheme: light;
   scrollbar-gutter: stable;
+  scroll-padding-top: 1rem;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+*,
+::before,
+::after {
+  border-color: var(--border);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding-bottom: var(--dock-clearance);
+  -webkit-font-smoothing: antialiased;
+}
+
+#page-container {
+  max-width: min(
+    var(--content-width, var(--content-width-base, 56rem)),
+    var(--fold-content-width, 100vw)
+  );
+  margin-inline: var(--fold-margin-start, auto) auto;
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--primary) 18%, transparent);
 }
 
 body:has(dialog[open]) {
@@ -32,4 +85,18 @@ body:has(dialog[open]) {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--muted-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

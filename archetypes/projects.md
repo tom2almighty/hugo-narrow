@@ -8,12 +8,7 @@ summary: "Project summary that appears in card previews"
 featured: false
 tags:
   - project
-categories:
-  - projects
-cover: ""
-# Project-specific fields
-link: "" # Project link 
-status: "completed"  # Options: completed, in_progress, planning
+link: ""
 ---
 
 ## Project Overview

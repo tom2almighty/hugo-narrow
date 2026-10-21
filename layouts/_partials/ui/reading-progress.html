@@ -1,49 +1,10 @@
-{{/* 阅读进度条组件 */}}
-{{- $enabled := site.Params.readingProgress.enabled | default true -}}
-{{- $showOnHomepage := site.Params.readingProgress.showOnHomepage | default false -}}
+{{- $config := site.Params.readingProgress | default dict -}}
+{{- $enabled := true -}}
+{{- $showOnHomepage := false -}}
+{{- if isset $config "enabled" -}}{{- $enabled = $config.enabled -}}{{- end -}}
+{{- if isset $config "showOnHomepage" -}}{{- $showOnHomepage = $config.showOnHomepage -}}{{- end -}}
+{{- $show := and $enabled (or (ne .Kind "home") $showOnHomepage) -}}
 
-{{- $shouldShow := false -}}
-{{- if $enabled -}}
-  {{- if eq .Kind "home" -}}
-    {{- $shouldShow = $showOnHomepage -}}
-  {{- else -}}
-    {{- $shouldShow = true -}}
-  {{- end -}}
-{{- end -}}
-
-{{- if $shouldShow -}}
-  <div
-    id="reading-progress-bar"
-    class="from-primary to-primary/80 pointer-events-none fixed top-0 left-0 z-50 h-[3px] w-0 bg-linear-to-r transition-[width] duration-150 ease-out"
-  ></div>
-
-  <script>
-    (function () {
-      const bar = document.getElementById("reading-progress-bar");
-      if (!bar) return;
-
-      function update() {
-        const scrolled = window.scrollY;
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        bar.style.width = total > 0 ? (scrolled / total) * 100 + "%" : "0%";
-      }
-
-      let ticking = false;
-      window.addEventListener(
-        "scroll",
-        () => {
-          if (!ticking) {
-            requestAnimationFrame(() => {
-              update();
-              ticking = false;
-            });
-            ticking = true;
-          }
-        },
-        { passive: true }
-      );
-
-      update();
-    })();
-  </script>
+{{- if $show -}}
+  <div id="reading-progress" aria-hidden="true"><span></span></div>
 {{- end -}}

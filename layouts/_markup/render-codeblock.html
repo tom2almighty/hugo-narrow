@@ -27,7 +27,7 @@
 
 
 <div
-  class="code-block-container border-border bg-card rounded-card shadow-surface hover:shadow-raised my-6 overflow-hidden border transition-all duration-200 ease-out hover:-translate-y-0.5"
+  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-md border"
   data-code-block
   data-code-id="{{ $codeId }}"
   data-collapsible="{{ $collapseEnabled }}"
@@ -39,14 +39,14 @@
 >
   {{/* Code block header */}}
   <div
-    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3"
+    class="code-block-header bg-muted/40 border-border flex items-center justify-between border-b px-3 py-2"
   >
     {{/* Language/filename display */}}
     <div class="flex items-center gap-2">
       <div class="text-muted-foreground shrink-0">
         {{ partial "features/icon.html" (dict "name" "code" "size" "sm" "ariaLabel" "") }}
       </div>
-      <span class="text-muted-foreground text-sm font-medium">
+      <span class="text-muted-foreground text-xs font-medium">
         {{ $displayLang }}
       </span>
     </div>
@@ -56,7 +56,7 @@
       {{/* Collapse button (if collapse is enabled) */}}
       {{- if $collapseEnabled -}}
         <button
-          class="collapse-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 rounded-control flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+          class="collapse-code-btn text-muted-foreground hover:bg-muted hover:text-foreground inline-flex h-7 items-center gap-1 rounded-md px-2 text-xs font-medium transition-colors"
           type="button"
           data-code-action="toggle-collapse"
           data-label-expand="{{ T `code.expand` }}"
@@ -75,7 +75,7 @@
 
       {{/* Copy button */}}
       <button
-        class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 rounded-control flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+        class="copy-code-btn text-muted-foreground hover:bg-muted hover:text-foreground inline-flex h-7 items-center gap-1 rounded-md px-2 text-xs font-medium transition-colors"
         type="button"
         data-code-action="copy"
         data-label-copy="{{ T `code.copy` }}"
@@ -101,7 +101,7 @@
       hidden
     >
       <button
-        class="collapse-overlay-btn text-muted-foreground bg-card/80 border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border p-2 backdrop-blur-sm transition-all duration-200"
+        class="collapse-overlay-btn text-muted-foreground bg-background border-border hover:bg-muted hover:text-foreground absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-md border p-1.5 transition-colors"
         type="button"
         data-code-action="expand"
         aria-label="{{ T `code.expand` }}"

@@ -1,93 +1,79 @@
-{{/* 文章许可证信息组件
+{{/* Post license note.
 
-  显示文章的版权和许可证信息
-
-  @context {page} . 当前文章页面对象
+  @context {page} .
 */}}
-
-{{/* 构建许可证配置 */}}
-{{ $license := dict }}
-
-{{/* 设置默认值 */}}
-{{ $defaults := dict
+{{- $license := dict -}}
+{{- $defaultAuthor := "" -}}
+{{- with site.Params.author -}}{{- $defaultAuthor = .name | default "" -}}{{- end -}}
+{{- $defaults := dict
   "show" true
-  "author" (.Site.Params.author.name | default "")
+  "author" $defaultAuthor
   "name" "CC BY-NC-SA 4.0"
   "description" "本作品采用知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议进行许可。"
   "url" "https://creativecommons.org/licenses/by-nc-sa/4.0/"
   "displayName" "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议"
-}}
+-}}
+{{- $license = $defaults -}}
+{{- with .Site.Params.post.license -}}
+  {{- $license = merge $license . -}}
+{{- end -}}
+{{- with .Params.license -}}
+  {{- $license = merge $license . -}}
+{{- end -}}
 
-{{ $license = $defaults }}
-{{ with .Site.Params.post.license }}
-  {{ $license = merge $license . }}
-{{ end }}
-{{ with .Params.license }}
-  {{ $license = merge $license . }}
-{{ end }}
-
-{{ if $license.show }}
-  <div class="post-license bg-muted/30 border-border rounded-card mb-8 border p-6">
-    <div class="flex items-start gap-4">
-      <!-- 许可证图标 -->
-      <div
-        class="bg-primary/10 rounded-control flex h-12 w-12 shrink-0 items-center justify-center"
-      >
-        {{ partial "features/icon.html" (dict "name" "license" "size" "lg" "ariaLabel" "许可证") }}
+{{- if $license.show -}}
+  <aside
+    class="post-license border-border bg-card text-muted-foreground mt-10 rounded-lg border p-4 text-xs"
+    aria-label="{{ T `license.title` }}"
+  >
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <div class="text-foreground flex items-center gap-1.5 font-semibold">
+        <span class="text-primary shrink-0">
+          {{ partial "features/icon.html" (dict "name" "license" "size" "sm" "ariaLabel" "") }}
+        </span>
+        <span>{{ .Title }}</span>
       </div>
-
-      <!-- 许可证信息 -->
-      <div class="min-w-0 flex-1">
-        <h3 class="text-foreground mb-2 text-lg font-semibold">
-          {{ T "license.title" }}
-        </h3>
-
-        <div class="text-muted-foreground space-y-2 text-sm">
-          <!-- 作者信息 -->
-          {{ with $license.author }}
-            <p>
-              <strong>{{ T "license.author" }}:</strong>
-              {{ . }}
-            </p>
-          {{ end }}
-
-
-          <!-- 文章链接 -->
-          <p>
-            <strong>{{ T "license.link" }}:</strong>
-            <a
-              href="{{ .Permalink }}"
-              class="text-primary hover:text-primary/80 break-all hyphens-auto transition-colors duration-200"
-            >
-              {{ .Permalink }}
-            </a>
-          </p>
-
-          <!-- 许可证类型 -->
-          <p>
-            <strong>{{ T "license.type" }}:</strong>
-            {{ with $license.url }}
-              <a
-                href="{{ . }}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-primary hover:text-primary/80 transition-colors duration-200"
-              >
-                {{ $license.displayName }}
-              </a>
-            {{ else }}
-              <span class="text-foreground">{{ $license.displayName }}</span>
-            {{ end }}
-          </p>
-
-          <!-- 许可证说明 -->
-          {{ with $license.description }}
-            <p class="text-xs">
-              {{ . }}
-            </p>
-          {{ end }}
-        </div>
-      </div>
+      {{- with $license.url -}}
+        <a
+          href="{{ . }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-border bg-muted/50 text-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-xs font-medium transition-colors"
+        >
+          <span>{{ $license.name | default $license.displayName }}</span>
+          {{ partial "features/icon.html" (dict "name" "external-link" "size" "xs" "ariaLabel" "") }}
+        </a>
+      {{- else -}}
+        <span
+          class="border-border bg-muted/50 text-foreground rounded-sm border px-2 py-0.5 font-mono text-xs font-medium"
+        >
+          {{ $license.name | default $license.displayName }}
+        </span>
+      {{- end -}}
     </div>
-  </div>
-{{ end }}
+
+    <dl class="border-border mt-3 grid grid-cols-1 gap-2 border-t pt-3 sm:grid-cols-3">
+      {{- with $license.author -}}
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-muted-foreground/70">{{ T "license.author" }}</dt>
+          <dd class="text-foreground font-medium">{{ . }}</dd>
+        </div>
+      {{- end -}}
+      <div class="flex flex-col gap-0.5 sm:col-span-2">
+        <dt class="text-muted-foreground/70">{{ T "license.link" }}</dt>
+        <dd class="truncate">
+          <a
+            href="{{ .Permalink }}"
+            class="text-foreground hover:text-primary font-mono underline underline-offset-2 transition-colors"
+          >
+            {{ .Permalink }}
+          </a>
+        </dd>
+      </div>
+    </dl>
+
+    {{- with $license.description -}}
+      <p class="text-muted-foreground/80 mt-2.5 leading-relaxed">{{ . }}</p>
+    {{- end -}}
+  </aside>
+{{- end -}}

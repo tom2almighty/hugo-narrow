@@ -1,11 +1,11 @@
 const NAV_SHELL_CLASS =
-  "tabs-nav-shell overflow-x-auto px-2 pt-2 pb-1 sm:px-3 sm:pt-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+  "tabs-nav-shell overflow-x-auto p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 const NAV_CLASS =
-  "tabs-nav inline-flex min-w-max items-center gap-1 rounded-xl border border-border bg-background/70 p-1 shadow-sm text-muted-foreground";
+  "tabs-nav inline-flex min-w-max items-center gap-0.5 rounded-md border border-border bg-muted p-0.5 text-muted-foreground";
 const TRIGGER_BASE_CLASS =
-  "tabs-trigger inline-flex items-center justify-center whitespace-nowrap rounded-lg px-3.5 py-1.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20";
-const TRIGGER_ACTIVE_CLASS = "bg-primary/10 text-primary shadow-xs";
-const TRIGGER_INACTIVE_CLASS = "text-muted-foreground hover:bg-primary/10 hover:text-primary";
+  "tabs-trigger inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50";
+const TRIGGER_ACTIVE_CLASS = "bg-background text-foreground";
+const TRIGGER_INACTIVE_CLASS = "text-muted-foreground hover:text-foreground";
 
 function getTabWrappers(root = document) {
   return [...root.querySelectorAll("[data-tabs]")];

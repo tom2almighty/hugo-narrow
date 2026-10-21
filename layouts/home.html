@@ -1,11 +1,13 @@
 {{ define "main" }}
-  {{ $contentOrder := site.Params.home.contentOrder }}
-  {{ if not $contentOrder }}
-    {{ $contentOrder = slice "author-section" "page-content" "recent-posts" }}
-  {{ end }}
-  {{ range $contentOrder }}
-    {{ $sectionName := . }}
-    {{ $partialPath := printf "home/%s.html" $sectionName }}
-    {{ partial $partialPath $ }}
-  {{ end }}
+  {{- $order := site.Params.home.contentOrder -}}
+  {{- if not $order -}}
+    {{- $order = slice "author-section" "recent-posts" "featured-projects" -}}
+  {{- end -}}
+
+
+  <div class="space-y-10">
+    {{- range $order -}}
+      {{ partial (printf "home/%s.html" .) $ }}
+    {{- end -}}
+  </div>
 {{ end }}

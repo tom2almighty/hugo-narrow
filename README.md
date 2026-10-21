@@ -1,42 +1,35 @@
-<img src="https://cdn.jsdelivr.net/gh/tom2almighty/hugo-narrow@main/images/screenshot.png"/>
+<img src="https://cdn.jsdelivr.net/gh/tom2almighty/hugo-narrow@main/images/screenshot.png" />
 
 # Hugo Narrow
 
-A Modern Hugo Theme with Multiple Color Schemes - Built on TailwindCSS 4.
+[中文](README.zh-Hans.md)
 
-**[Documentation](https://tom2almighty.github.io/hugo-narrow-docs)** · **[Demo](https://tom2almighty.github.io/hugo-narrow)** · **[中文](README.zh-Hans.md)**
+A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shadcn-style semantic tokens, and a centered content width that readers can adjust.
 
-## ✨ Features
+Version 2.0 removes the top navbar and introduces a floating adaptive dock, separate card-style breadcrumb items, and card-based content surfaces without heavy shadows. Configuration moved from `header.*` to `ui.appearance.*` and `ui.language.*`; the home section names are `author-section`, `recent-posts`, `featured-projects`, and `page-content`. The announcement is dismissible and no longer auto-hides.
 
-- Multiple Color Schemes
-- Custom Colors
-- Dark Mode
-- Table of Contents
-- Search Functionality
-- Comment Systems
-- Analytics Systems
-- Enhanced Markdown
-- Enhanced Code Blocks
-- Multilingual Support
-- Katex Support
-- Mermaid Support
-- Lightbox
-- Justified/Masonry/Grid Gallery with markdown
+## Development environment
 
-## 📄 License
+- Hugo Extended 0.165.0 or newer
+- Node.js 18 or newer
+- pnpm 10
 
-This project is open source under the [AGPL-3.0](LICENSE).
+```bash
+pnpm install
+pnpm run dev:parallel
+```
 
-## 🙏 Acknowledgments
+`dev:parallel` runs the Tailwind watcher and the Hugo server together. Run `pnpm run compile` after changing Tailwind classes if you use plain `hugo server`.
 
-- [Hugo](https://gohugo.io/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [KaTeX](https://katex.org/)
-- [Mermaid](https://mermaid.js.org/)
-- [Daisyui](https://daisyui.com/)
-- [Tweakcn](https://tweakcn.com/)
-- [Hexo Theme icarus](https://github.com/ppoffice/hexo-theme-icarus)
-- [Hugo Theme Stack](https://stack.jimmycai.com/)
-- [Vercel](https://vercel.com)
-- [iconify](https://iconify.design/)
-- [Awesome-Merge-Picture](https://github.com/XiCheng148/Awesome-Merge-Picture)
+## Build and deploy
+
+```bash
+pnpm run check   # prettier check + production build
+pnpm run build   # compile assets/css/compiled.css, then hugo --minify
+```
+
+The example site is built into `exampleSite/public`. When packaging the theme, ship the regenerated `assets/css/compiled.css`; Hugo only fingerprints and minifies it. The theme has no Nginx or container configuration; mount it in a Hugo site or serve the static output from your own runtime.
+
+## License
+
+AGPL-3.0. See [LICENSE](LICENSE).

@@ -25,12 +25,25 @@ const colorScheme = Object.prototype.hasOwnProperty.call(colorSchemes || {}, sto
     : configuredScheme;
 const contentWidth = Number.parseInt(readStorage('contentWidth'), 10);
 const hasStoredWidth = Number.isInteger(contentWidth) && contentWidth >= 40 && contentWidth <= 90;
+const configuredBlur = Number.parseInt('{{ site.Params.backdropBlur | default 12 }}', 10);
+const defaultBlur = Number.isInteger(configuredBlur) && configuredBlur >= 0 && configuredBlur <= 24 ? configuredBlur : 12;
+const storedBlur = Number.parseInt(readStorage('backdropBlur'), 10);
+const hasStoredBlur = Number.isInteger(storedBlur) && storedBlur >= 0 && storedBlur <= 24;
+const initialBlur = hasStoredBlur ? storedBlur : defaultBlur;
+const configuredGrain = Number.parseInt('{{ site.Params.grainSize | default 0 }}', 10);
+const defaultGrain = Number.isInteger(configuredGrain) && configuredGrain >= 0 && configuredGrain <= 100 ? configuredGrain : 0;
+const storedGrain = Number.parseInt(readStorage('grainSize'), 10);
+const hasStoredGrain = Number.isInteger(storedGrain) && storedGrain >= 0 && storedGrain <= 100;
+const initialGrain = hasStoredGrain ? storedGrain : defaultGrain;
 
-// 尽早恢复用户设置的页面宽度，避免首屏布局闪动
+// 尽早恢复用户设置的页面宽度、磨砂模糊度与噪点大小，避免首屏闪动
 if (hasStoredWidth) {
     root.style.setProperty('--content-width', `${contentWidth}rem`);
 }
-
+root.style.setProperty('--backdrop-blur', `${initialBlur}px`);
+root.style.setProperty('--surface-alpha', `${initialBlur > 0 ? Math.max(68, 92 - Math.round((initialBlur / 24) * 20)) : 100}%`);
+root.style.setProperty('--grain-size', `${Math.round(64 + initialGrain * 2.5)}px`);
+root.style.setProperty('--grain-opacity', initialGrain > 0 ? (0.04 + (initialGrain / 100) * 0.20).toFixed(3) : '0');
 // 设置颜色主题
 root.setAttribute('data-theme', colorScheme);
 

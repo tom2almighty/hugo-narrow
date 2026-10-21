@@ -1,42 +1,31 @@
-{{/* 相关文章组件
+{{/* Related posts cards.
 
-  显示与当前文章相关的其他文章
-
-  @context {page} . 当前文章页面对象
+  @context {page} .
 */}}
+{{- $relatedCount := .Params.relatedPostsCount | default .Site.Params.post.relatedPostsCount | default 3 -}}
+{{- $showRelated := .Params.showRelated | default .Site.Params.post.showRelated | default true -}}
+{{- $related := .Site.RegularPages.Related . | first $relatedCount -}}
 
-{{/* 获取配置参数 */}}
-{{ $relatedCount := .Params.relatedPostsCount | default .Site.Params.post.relatedPostsCount | default 3 }}
-{{ $showRelated := .Params.showRelated | default .Site.Params.post.showRelated | default true }}
-{{ $related := .Site.RegularPages.Related . | first $relatedCount }}
+{{- if and $showRelated $related -}}
+  <section class="related-posts border-border mt-10 border-t pt-6">
+    <h2 class="text-foreground mb-4 text-xl font-semibold tracking-tight">
+      {{ T "article.relatedContent" }}
+    </h2>
 
-{{ if and $showRelated $related }}
-  <section class="related-posts mb-12">
-    <!-- 标题 -->
-    <div class="mb-6 flex items-center gap-3">
-      {{ partial "features/icon.html" (dict "name" "related" "size" "md" "ariaLabel" "") }}
-      <h2 class="text-foreground text-2xl font-bold">
-        {{ T "article.relatedContent" }}
-      </h2>
-    </div>
-
-    <!-- 相关文章列表 -->
-    <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {{ range $related }}
-        <article class="group">
-          <a href="{{ .RelPermalink }}" class="block">
-            <div
-              class="bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 rounded-card hover:shadow-raised flex min-h-[120px] items-center border p-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] focus:ring-2 focus:outline-none"
-            >
-              <h3
-                class="text-foreground group-hover:text-primary line-clamp-3 w-full text-lg leading-snug font-semibold"
-              >
-                {{ .Title }}
-              </h3>
-            </div>
-          </a>
-        </article>
-      {{ end }}
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {{- range $related -}}
+        <a
+          href="{{ .RelPermalink }}"
+          class="border-border bg-card hover:bg-accent/30 hover:border-primary/30 flex min-h-24 flex-col justify-between rounded-lg border p-4 transition-colors"
+        >
+          <h3 class="text-foreground line-clamp-2 text-sm leading-snug font-semibold">
+            {{ .LinkTitle }}
+          </h3>
+          <span class="text-muted-foreground mt-2 text-xs">
+            {{ T "article.readingTime" (dict "count" .ReadingTime) }}
+          </span>
+        </a>
+      {{- end -}}
     </div>
   </section>
-{{ end }}
+{{- end -}}

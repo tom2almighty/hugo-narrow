@@ -11,13 +11,6 @@
     noPrev         = "Nessun precedente"
     noNext         = "Nessun successivo"
 
-    [article.alert]
-        note      = "Nota"
-        tip       = "Suggerimento"
-        important = "Importante"
-        caution   = "Attenzione"
-        warning   = "Avviso"
-
     [article.readingTime]
         one = "{{ .count }} min"
         other = "{{ .count }} min"
@@ -33,6 +26,7 @@
   collapse        = "Comprimi"
 
 [nav]
+    home = "Home"
     anchor        = "Link a questa sezione"
     backHome      = "Torna alla home"
     breadcrumb    = "Percorso"
@@ -42,12 +36,17 @@
     pageInfo      = "Pagina {{ .current }} di {{ .total }}"
 
 [ui]
+    skipToContent = "Vai al contenuto"
+    language = "Lingua"
+    announcementDismiss = "Chiudi annuncio"
     dockAriaLabel = "Barra azioni rapide"
     dockBack      = "Indietro"
     dockSearch    = "Cerca"
     dockComments  = "Commenti"
     dockBackToTop = "Torna su"
     dockTop       = "In alto"
+    dockBottom    = "Vai in fondo"
+    scrollDown    = "Scorri verso il basso"
     toc           = "Indice"
     tocPin        = "Fissa l'indice"
     tocUnpin      = "Sblocca l'indice"
@@ -72,6 +71,10 @@
     contentWidth       = "Larghezza pagina"
     contentWidthReset  = "Ripristina predefinita"
     contentWidthToggle = "Regola larghezza pagina"
+    backdropBlur       = "Sfocatura sfondo"
+    backdropBlurReset  = "Ripristina predefinita"
+    grainSize          = "Dimensione grana"
+    grainSizeReset     = "Ripristina predefinita"
 
     appearanceToggle = "Impostazioni aspetto"
     colorScheme      = "Schema colori"
@@ -92,6 +95,9 @@
 
 
 [home]
+    writing = "Articoli"
+    allPosts = "Tutti gli articoli"
+    noPosts = "Nessun articolo."
     featuredProjects = "Progetti in evidenza"
     viewAll          = "Vedi tutto"
     recentPosts      = "Articoli recenti"
@@ -109,3 +115,13 @@
 
 [footer]
   poweredBy = "Realizzato con"
+
+[context]
+    seriesPrev = "Parte precedente"
+    seriesNext = "Parte successiva"
+    seriesPartOf = "Parte {{ .current }} di {{ .total }}"
+    seriesParts = "Tutte le parti"
+    seriesViewSeries = "Vedi serie"
+
+[projects]
+    visit = "Apri progetto"

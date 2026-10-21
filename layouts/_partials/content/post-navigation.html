@@ -1,101 +1,39 @@
-{{/* 文章导航组件
+{{/* Previous / next post cards.
 
-  显示上一篇和下一篇文章的导航链接
-
-  @context {page} . 当前文章页面对象
+  @context {page} .
 */}}
+{{- $prev := .PrevInSection -}}
+{{- $next := .NextInSection -}}
 
-{{ $prev := .PrevInSection }}
-{{ $next := .NextInSection }}
+{{- if or $prev $next -}}
+  <nav
+    class="border-border mt-10 grid grid-cols-1 gap-3 border-t pt-6 sm:grid-cols-2"
+    aria-label="{{ T `article.prev` }} / {{ T `article.next` }}"
+  >
+    {{- with $prev -}}
+      <a
+        href="{{ .RelPermalink }}"
+        class="border-border bg-card hover:bg-accent/30 hover:border-primary/30 flex flex-col gap-1 rounded-lg border p-4 transition-colors"
+      >
+        <span class="text-muted-foreground flex items-center gap-1 text-xs">
+          {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "xs" "ariaLabel" "") }}
+          {{ T "article.prev" }}
+        </span>
+        <span class="text-foreground text-sm font-medium">{{ .LinkTitle }}</span>
+      </a>
+    {{- end -}}
 
-{{ if or $prev $next }}
-  <nav class="post-navigation mb-12">
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <!-- 上一篇文章 -->
-      <div class="nav-item">
-        {{ if $prev }}
-          <a
-            href="{{ $prev.RelPermalink }}"
-            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 rounded-card hover:shadow-raised flex min-h-[140px] flex-col justify-between border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] focus:ring-2 focus:outline-none"
-          >
-            <div>
-              <div class="mb-3 flex items-center gap-3">
-                {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
-                <span class="text-muted-foreground text-sm font-medium">
-                  {{ T "article.prev" }}
-                </span>
-              </div>
-
-              <h3
-                class="text-foreground group-hover:text-primary mb-3 line-clamp-2 text-lg leading-tight font-semibold transition-colors duration-200"
-              >
-                {{ $prev.Title }}
-              </h3>
-            </div>
-
-            <div class="text-muted-foreground mt-auto flex items-center gap-2 text-xs">
-              {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
-              <time datetime="{{ $prev.Date.Format `2006-01-02` }}">
-                {{ partial "helpers/date.html" (dict "date" $prev.Date "variant" "short") }}
-              </time>
-            </div>
-          </a>
-        {{ else }}
-          <div
-            class="bg-muted/30 border-border/50 rounded-card flex min-h-[140px] flex-col justify-center border p-6"
-          >
-            <div class="mb-3 flex items-center gap-3">
-              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
-              <span class="text-muted-foreground/50 text-sm font-medium">
-                {{ T "article.noPrev" }}
-              </span>
-            </div>
-          </div>
-        {{ end }}
-      </div>
-
-      <!-- 下一篇文章 -->
-      <div class="nav-item">
-        {{ if $next }}
-          <a
-            href="{{ $next.RelPermalink }}"
-            class="group bg-card border-border hover:bg-primary/5 hover:border-primary/20 focus:ring-primary/20 rounded-card hover:shadow-raised flex min-h-[140px] flex-col justify-between border p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] focus:ring-2 focus:outline-none"
-          >
-            <div>
-              <div class="mb-3 flex items-center justify-end gap-3">
-                <span class="text-muted-foreground text-sm font-medium">
-                  {{ T "article.next" }}
-                </span>
-                {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
-              </div>
-
-              <h3
-                class="text-foreground group-hover:text-primary mb-3 line-clamp-2 text-right text-lg leading-tight font-semibold transition-colors duration-200"
-              >
-                {{ $next.Title }}
-              </h3>
-            </div>
-
-            <div class="text-muted-foreground mt-auto flex items-center justify-end gap-2 text-xs">
-              <time datetime="{{ $next.Date.Format `2006-01-02` }}">
-                {{ partial "helpers/date.html" (dict "date" $next.Date "variant" "short") }}
-              </time>
-              {{ partial "features/icon.html" (dict "name" "calendar" "size" "xs" "ariaLabel" "") }}
-            </div>
-          </a>
-        {{ else }}
-          <div
-            class="bg-muted/30 border-border/50 rounded-card flex min-h-[140px] flex-col justify-center border p-6"
-          >
-            <div class="mb-3 flex items-center justify-end gap-3">
-              <span class="text-muted-foreground/50 text-sm font-medium">
-                {{ T "article.noNext" }}
-              </span>
-              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
-            </div>
-          </div>
-        {{ end }}
-      </div>
-    </div>
+    {{- with $next -}}
+      <a
+        href="{{ .RelPermalink }}"
+        class="border-border bg-card hover:bg-accent/30 hover:border-primary/30 flex flex-col items-end gap-1 rounded-lg border p-4 text-right transition-colors"
+      >
+        <span class="text-muted-foreground flex items-center gap-1 text-xs">
+          {{ T "article.next" }}
+          {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "xs" "ariaLabel" "") }}
+        </span>
+        <span class="text-foreground text-sm font-medium">{{ .LinkTitle }}</span>
+      </a>
+    {{- end -}}
   </nav>
-{{ end }}
+{{- end -}}

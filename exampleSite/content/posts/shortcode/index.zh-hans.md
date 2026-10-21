@@ -5,6 +5,8 @@ draft: false
 description: "Hugo Narrow 主题可用的短代码"
 tags: ["shortcode"]
 categories: ["shortcode"]
+series: ["Test"]
+series_order: 3
 ---
 
 本页面展示了 Hugo Narrow 主题中所有可用的短代码。

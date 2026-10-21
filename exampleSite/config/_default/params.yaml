@@ -7,6 +7,13 @@ shortName: "Hugo Narrow" # PWA
 images:
   - "/images/og-default.avif"
 
+# Site-wide broadcast announcement
+announcement:
+  enabled: true
+  message: "Site Redesign! We've revamped the website with a new interface and smoother experience."
+  type: "info" # info | warning | destructive
+  dismissible: true
+
 # Favicon
 favicon:
   svg: "/favicon.svg" # SVG format favicon (recommended)
@@ -28,27 +35,24 @@ author:
       url: "mailto:hello@example.com"
       icon: "email"
 
-# Header configuration (modularized)
-header:
-  sticky: true # Enable sticky navigation bar
-  logo:
-    image: "/images/logo.svg" # Logo path relative to static folder, leave empty to use site title first letter
-    link: "/" # Click to home page
-  # UI Components Control (header controls)
-  # These flags control sections inside the appearance popover.
-  # If all three are false, the appearance button is hidden.
-  showThemeSwitch: true # Show the color scheme section
-  showDarkModeSwitch: true # Show the light/dark/system section
-  showContentWidthSwitch: true # Show the page width section
-  showLanguageSwitch: true # Set to false to hide language switcher
-  languageSwitchMode: "dropdown" # Language switch mode: "dropdown" (show panel) or "cycle" (direct cycle)
+# UI controls (appearance panel inside the dock)
+ui:
+  appearance:
+    colorScheme: true # Show the color scheme section
+    themeMode: true # Show the light/dark/system section
+    contentWidth: true # Show the page width section
+    backdropBlur: true # Show the backdrop blur (frosted glass) section
+    grainSize: true # Show the background grain size section
+  language:
+    enabled: true # Set to false to hide the language section
 
-# Content width
-# The ,max content width is set to "56rem" by default, which is a good balance between readability and aesthetics.
-# You can change it to "56rem" to make the content wider, or "48rem" to make it narrower.
+# The centered content column. Users can adjust it at runtime with the
+# appearance panel slider (40-90rem); the value is stored in localStorage.
 contentWidth: "56rem"
-
-# TOC (Table of Contents)
+# Default backdrop blur radius in px (0-24) for floating dock, popovers and context bar.
+backdropBlur: 12
+# Default background grain size (0-100, 0 disables the grain texture).
+grainSize: 25
 toc:
   enabled: true # Enable or disable TOC globally
   pinned: false # Keep the TOC panel open on wide screens
@@ -86,8 +90,8 @@ themes:
   slate:
     name: "Slate"
     order: 10
-  twitter:
-    name: "Twitter"
+  x:
+    name: "X"
     order: 11
   minimal:
     name: "Minimal"
@@ -95,17 +99,22 @@ themes:
 
 # Home page configuration
 home:
-  recentPostsCount: 5 # Number of recent posts to show on the home page
+  recentPostsCount: 5 # Number of recent post cards on the home page
 
   # Content order configuration - customize the order of home page sections
   # Available sections: author-section, recent-posts, featured-projects, page-content
   # You can add your custom content by creating files in `layouts/_partials/home/` folder, then add it to the list
   contentOrder:
     - author-section
-    - page-content
     - recent-posts
-    - featured-projects.html
+    - featured-projects
 
+
+# List grid columns configuration (1, 2, or 3; can also be overridden via page front matter `columns`)
+list:
+  columns: 1 # Default columns for post lists
+  projectColumns: 2 # Default columns for project lists
+  seriesColumns: 1 # Default columns for series lists
 # Post configuration
 post:
   showRelated: true # show related posts

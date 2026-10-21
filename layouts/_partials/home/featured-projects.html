@@ -1,36 +1,35 @@
-{{/* 特色项目区域 - 首页展示 */}}
+{{/* Featured project cards */}}
+{{- $featured := where (where site.RegularPages "Section" "projects") "Params.featured" true -}}
+{{- $total := len (where site.RegularPages "Section" "projects") -}}
+{{- $allURL := "/projects/" | relLangURL -}}
 
-{{ $featuredProjects := where (where .Site.RegularPages "Section" "projects") "Params.featured" true }}
-
-{{ if $featuredProjects }}
-  <section class="mb-6">
-    <!-- 标题 -->
-    <div class="mb-6">
-      <h2 class="text-foreground text-2xl font-bold">
+{{- if $featured -}}
+  <section class="featured-projects">
+    <div class="mb-4 flex items-baseline justify-between gap-3">
+      <h2 class="text-foreground text-xl font-semibold tracking-tight">
         {{ T "home.featuredProjects" }}
       </h2>
-    </div>
-
-    <!-- 项目网格 - 响应式布局 -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {{ range first 3 $featuredProjects }}
-        {{ partial "content/project-card.html" (dict "page" .) }}
-      {{ end }}
-    </div>
-
-    <!-- 查看所有项目按钮 -->
-    {{ $projectsCount := len (where .Site.RegularPages "Section" "projects") }}
-    {{ if gt $projectsCount (len $featuredProjects) }}
-      <div class="mt-8 mb-6 text-center">
+      {{- if gt $total (len $featured) -}}
         <a
-          href="{{ `/projects/` | relLangURL }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 rounded-card shadow-surface hover:shadow-raised inline-flex items-center gap-2 px-6 py-3 font-medium transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+          href="{{ $allURL }}"
+          class="text-muted-foreground hover:text-foreground text-sm transition-colors"
         >
-          {{ partial "features/icon.html" (dict "name" "projects" "size" "md" "ariaLabel" "") }}
-          <span>{{ T "home.viewAll" }}</span>
-          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
+          {{ T "home.viewAll" }}
         </a>
-      </div>
-    {{ end }}
+      {{- end -}}
+    </div>
+
+    {{- $columns := site.Params.home.projectColumns | default site.Params.list.projectColumns | default 2 -}}
+    {{- $gridClass := "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
+    {{- if eq (int $columns) 1 -}}
+      {{- $gridClass = "grid grid-cols-1 gap-4" -}}
+    {{- else if eq (int $columns) 3 -}}
+      {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
+    {{- end -}}
+    <div class="{{ $gridClass }}">
+      {{- range first 4 $featured -}}
+        {{ partial "content/project-card.html" (dict "page" .) }}
+      {{- end -}}
+    </div>
   </section>
-{{ end }}
+{{- end -}}

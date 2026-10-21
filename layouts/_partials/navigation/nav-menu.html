@@ -1,77 +1,63 @@
-{{/* 移动端两层菜单：主菜单与子菜单面板，使用原生 button + hidden 切换。 */}}
+{{/* Dock 导航弹出菜单：平铺分区的双列 Bento 网格布局，支持一级菜单与分组子菜单。 */}}
 {{- $page := . -}}
-{{- $inactive := "text-muted-foreground hover:text-primary hover:bg-primary/10" -}}
-{{- $active := "bg-accent text-accent-foreground" -}}
-{{- $topClass := "nav-panel-link flex w-full items-center gap-3 rounded-control px-4 py-3 text-sm font-medium transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
-{{- $childClass := "nav-panel-link flex items-center gap-3 rounded-control px-3 py-2.5 text-sm transition-all duration-200 ease-out focus:ring-2 focus:ring-primary/20 focus:outline-none" -}}
-
-
-<div data-nav-main>
-  <nav class="flex flex-col gap-1 p-2" aria-label="{{ T `nav.menu` }}">
-    {{- range site.Menus.main -}}
-      {{- $menuURL := .URL -}}
-      {{- if .PageRef -}}
-        {{- with site.GetPage .PageRef -}}
-          {{- $menuURL = .RelPermalink -}}
-        {{- else -}}
-          {{- $menuURL = .URL | relLangURL -}}
-        {{- end -}}
-      {{- end -}}
-
-      {{- if .HasChildren -}}
-        {{- $menuKey := .Name | anchorize -}}
-        <button
-          type="button"
-          class="{{ $topClass }} {{ $inactive }}"
-          data-nav-target="{{ $menuKey }}"
-          aria-expanded="false"
-          aria-controls="nav-panel-{{ $menuKey }}"
-        >
-          {{- with .Params.icon -}}
-            {{ partial "features/icon.html" (dict "name" . "size" "md" "ariaLabel" "") }}
-          {{- end -}}
-          <span class="flex-1 text-left">{{ .Name }}</span>
-          {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "class" "ml-auto" "ariaLabel" "") }}
-        </button>
-      {{- else -}}
-        {{- $isActive := eq $page.RelPermalink $menuURL -}}
-        <a
-          href="{{ $menuURL }}"
-          class="{{ $topClass }} {{ if $isActive }}
-            {{ $active }}
-          {{ else }}
-            {{ $inactive }}
-          {{ end }}"
-          {{ if $isActive }}aria-current="page"{{ end }}
-        >
-          {{- with .Params.icon -}}
-            {{ partial "features/icon.html" (dict "name" . "size" "md" "ariaLabel" "") }}
-          {{- end -}}
-          <span>{{ .Name }}</span>
-        </a>
-      {{- end -}}
-    {{- end -}}
-  </nav>
-</div>
-
+{{- $topLinks := slice -}}
+{{- $groups := slice -}}
 {{- range site.Menus.main -}}
   {{- if .HasChildren -}}
-    {{- $menuKey := .Name | anchorize -}}
-    <div id="nav-panel-{{ $menuKey }}" data-nav-panel="{{ $menuKey }}" hidden>
-      <div class="border-border flex items-center gap-2 border-b px-3 py-3">
-        <button
-          type="button"
-          data-nav-back
-          class="text-muted-foreground hover:text-foreground hover:bg-accent focus:ring-primary/20 rounded-control flex h-9 w-9 items-center justify-center transition-colors focus:ring-2 focus:outline-none"
-          aria-label="{{ T `ui.dockBack` }}"
-        >
-          {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "md" "ariaLabel" "") }}
-        </button>
-        <h2 class="text-foreground text-base font-semibold">{{ .Name }}</h2>
-      </div>
+    {{- $groups = $groups | append . -}}
+  {{- else -}}
+    {{- $topLinks = $topLinks | append . -}}
+  {{- end -}}
+{{- end -}}
 
-      <div class="flex flex-col gap-1 p-2">
-        {{- range .Children -}}
+{{- $inactive := "text-muted-foreground hover:bg-muted hover:text-foreground" -}}
+{{- $active := "bg-accent text-accent-foreground font-medium" -}}
+{{- $itemClass := "nav-panel-link flex h-8 items-center gap-2 rounded-md px-2.5 text-sm transition-colors" -}}
+
+
+<nav class="space-y-3" aria-label="{{ T `nav.menu` }}">
+  {{- if $topLinks -}}
+    <fieldset>
+      <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
+        {{ T "nav.menu" }}
+      </legend>
+      <div class="grid grid-cols-2 gap-1">
+        {{- range $topLinks -}}
+          {{- $menuURL := .URL -}}
+          {{- if .PageRef -}}
+            {{- with site.GetPage .PageRef -}}
+              {{- $menuURL = .RelPermalink -}}
+            {{- else -}}
+              {{- $menuURL = .URL | relLangURL -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $isActive := eq $page.RelPermalink $menuURL -}}
+          <a
+            href="{{ $menuURL }}"
+            class="{{ $itemClass }} {{ if $isActive }}
+              {{ $active }}
+            {{ else }}
+              {{ $inactive }}
+            {{ end }}"
+            {{ if $isActive }}aria-current="page"{{ end }}
+          >
+            {{- with .Params.icon -}}
+              {{ partial "features/icon.html" (dict "name" . "size" "sm" "class" "shrink-0" "ariaLabel" "") }}
+            {{- end -}}
+            <span class="truncate">{{ .Name }}</span>
+          </a>
+        {{- end -}}
+      </div>
+    </fieldset>
+  {{- end -}}
+
+  {{- range $index, $group := $groups -}}
+    <fieldset class="{{ if or $topLinks (gt $index 0) }}border-border border-t pt-3{{ end }}">
+      <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
+        {{ $group.Name }}
+      </legend>
+      <div class="grid grid-cols-2 gap-1">
+        {{- range $group.Children -}}
           {{- $childURL := .URL -}}
           {{- if .PageRef -}}
             {{- with site.GetPage .PageRef -}}
@@ -83,7 +69,7 @@
           {{- $isActive := eq $page.RelPermalink $childURL -}}
           <a
             href="{{ $childURL }}"
-            class="{{ $childClass }} {{ if $isActive }}
+            class="{{ $itemClass }} {{ if $isActive }}
               {{ $active }}
             {{ else }}
               {{ $inactive }}
@@ -91,12 +77,12 @@
             {{ if $isActive }}aria-current="page"{{ end }}
           >
             {{- with .Params.icon -}}
-              {{ partial "features/icon.html" (dict "name" . "size" "sm" "ariaLabel" "") }}
+              {{ partial "features/icon.html" (dict "name" . "size" "sm" "class" "shrink-0" "ariaLabel" "") }}
             {{- end -}}
-            <span>{{ .Name }}</span>
+            <span class="truncate">{{ .Name }}</span>
           </a>
         {{- end -}}
       </div>
-    </div>
+    </fieldset>
   {{- end -}}
-{{- end -}}
+</nav>

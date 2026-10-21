@@ -1,39 +1,28 @@
 {{ define "main" }}
-  <!-- 页面标题 -->
-  <header class="mb-8">
-    <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+  <header class="border-border mb-8 border-b pb-6">
+    <h1 class="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
       {{ .Title }}
     </h1>
-    {{ if .Params.summary }}
-      <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
-        {{ .Params.summary | plainify }}
-      </div>
-    {{ end }}
+    {{- with .Params.summary -}}
+      <p class="text-muted-foreground mt-2 text-sm leading-relaxed">{{ . | plainify }}</p>
+    {{- end -}}
   </header>
 
-  <!-- 个人描述卡片 -->
-  <div class="bg-card border-border rounded-control shadow-surface mb-8 border p-6">
-    <div class="prose prose-neutral dark:prose-invert max-w-none">
-      {{ .Content }}
-    </div>
-  </div>
+  <div class="prose max-w-none">{{ .Content }}</div>
 
-  <!-- Links section -->
-  {{ $links := .Params.links }}
-  {{ if $links }}
-    <div class="mt-6">
-      <div class="link-card-group">
-        {{ range $links }}
-          {{ partial "content/link.html" (dict
-            "title" .name
-            "description" .description
-            "url" .url
-            "icon" .icon
-            )
-          }}
-        {{ end }}
-      </div>
+  {{- with .Params.links -}}
+    <div class="mt-8">
+      {{- range . -}}
+        {{ partial "content/link.html" (dict
+          "title" .name
+          "description" .description
+          "url" .url
+          "icon" .icon
+          )
+        }}
+      {{- end -}}
     </div>
-  {{ end }}
+  {{- end -}}
+
   {{ partial "features/comments.html" . }}
 {{ end }}

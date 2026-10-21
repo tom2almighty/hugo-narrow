@@ -1,25 +1,27 @@
-/* 表格样式 */
+/* Tables */
 .prose table {
-  @apply w-full border-collapse;
+  width: 100%;
   margin: 1.5rem 0;
-  border-radius: 0.5rem;
   overflow: hidden;
   border: 1px solid var(--border);
-  box-shadow: 0 1px 3px 0
-    color-mix(in srgb, var(--foreground) 10%, transparent);
+  border-collapse: collapse;
+  border-radius: var(--radius-md);
 }
 
 .prose th {
-  @apply bg-muted px-4 py-3 text-left font-semibold;
+  border-bottom: 1px solid var(--border);
+  background: var(--muted);
+  padding: 0.75rem;
   color: var(--tw-prose-headings);
-  border-bottom: 1px solid var(--tw-prose-th-borders);
-  background: color-mix(in srgb, var(--primary) 5%, var(--muted));
+  font-weight: 600;
+  text-align: left;
 }
 
 .prose td {
-  @apply border-b px-4 py-3 text-left;
-  border-bottom-color: var(--tw-prose-td-borders);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem;
   color: var(--tw-prose-body);
+  text-align: left;
   vertical-align: top;
   word-break: break-word;
 }
@@ -29,5 +31,5 @@
 }
 
 .prose tr:hover td {
-  background: color-mix(in srgb, var(--muted) 50%, transparent);
+  background: color-mix(in oklab, var(--muted) 40%, transparent);
 }

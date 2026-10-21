@@ -1,0 +1,12 @@
+{{/* Taxonomy term row.
+
+  @context {term} .term
+*/}}
+{{- $term := .term -}}
+<a
+  href="{{ $term.Page.RelPermalink }}"
+  class="group border-border hover:bg-accent/50 -mx-2 flex items-center justify-between gap-4 rounded-md border-b px-2 py-3 transition-colors"
+>
+  <span class="text-foreground text-sm font-medium">{{ $term.Page.LinkTitle }}</span>
+  <span class="text-muted-foreground text-xs tabular-nums">{{ $term.Count }}</span>
+</a>

@@ -1,5 +1,5 @@
 name = "Hugo Narrow"
-license = "GPL-3.0"
+license = "AGPL-3.0"
 licenselink = "https://github.com/tom2almighty/hugo-narrow/blob/main/LICENSE"
 description = "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
 homepage = "https://github.com/tom2almighty/hugo-narrow"
@@ -30,12 +30,12 @@ features = [
   "math support",
   "Mermaid support"
 ]
-min_version = "0.158.0"
+min_version = "0.165.0"
 browser_support = [
-  "Chrome >= 90",
-  "Firefox >= 88",
-  "Safari >= 14",
-  "Edge >= 90"
+  "Chrome >= 114",
+  "Firefox >= 125",
+  "Safari >= 17",
+  "Edge >= 114"
 ]
 
 
@@ -51,7 +51,7 @@ description = "CSS framework"
 
 
 [hugo]
-min = "0.158.0"
+min = "0.165.0"
 extended = true
 
 [theme_features]

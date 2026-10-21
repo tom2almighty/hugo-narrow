@@ -20,15 +20,12 @@ links:
     description: "全球最大的代码托管平台"
 ---
 
-## 关于
-
 Hugo Narrow 是一个现代、简洁、极简的 Hugo 主题，基于 Tailwind CSS 4.0 构建。用于个人博客，具有丰富的自定义选项，包括多种配色方案、暗色模式支持和响应式设计。
 
 ## 技术栈
 
 - Hugo Extended
 - Tailwind CSS 4.0
-- @tailwindcss/typography
 - Glightbox
 - fjGallery
 - Macy.js

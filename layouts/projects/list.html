@@ -1,61 +1,25 @@
 {{ define "main" }}
-  <div class="mx-auto max-w-6xl">
-    <!-- 页面标题和描述 -->
-    <header class="mb-8">
-      <h1 class="text-foreground mb-4 text-3xl font-bold">
-        {{ .Title }}
-      </h1>
+  {{- $projects := .Paginator.Pages -}}
+  {{- $meta := T "list.pages" (dict "count" .Paginator.TotalNumberOfElements) -}}
 
-      {{ if .Content }}
-        <div class="prose prose-neutral dark:prose-invert mb-6 max-w-none">
-          {{ .Content }}
-        </div>
-      {{ else if .Description }}
-        <p class="text-muted-foreground mb-6">
-          {{ .Description }}
-        </p>
-      {{ end }}
+  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
+  {{- $columns := .Params.columns | default site.Params.list.projectColumns | default site.Params.list.columns | default 2 -}}
+  {{- $gridClass := "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
+  {{- if eq (int $columns) 1 -}}
+    {{- $gridClass = "grid grid-cols-1 gap-4" -}}
+  {{- else if eq (int $columns) 3 -}}
+    {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
+  {{- end -}}
 
-      <!-- 项目统计 -->
-      {{ $totalProjects := len (where .Site.RegularPages "Section" "projects") }}
-      {{ if gt $totalProjects 0 }}
-        <div class="text-muted-foreground text-sm">
-          {{ T "list.pages" (dict "count" $totalProjects) }}
-        </div>
-      {{ end }}
-    </header>
-
-    <!-- 项目网格 -->
-    {{ $projects := .Paginator.Pages }}
-    {{ if $projects }}
-      <div class="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {{ range $projects }}
-          {{ partial "content/project-card.html" (dict "page" .) }}
-        {{ end }}
-      </div>
-
-      <!-- 分页 -->
-      {{ partial "navigation/pagination.html" . }}
-    {{ else }}
-      <!-- 空状态 -->
-      <div class="py-16 text-center">
-        <div
-          class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
-        >
-          {{ partial "features/icon.html" (dict "name" "folder" "size" "xl" "ariaLabel" "") }}
-        </div>
-        <h2 class="text-foreground mb-3 text-xl font-medium">
-          {{ T "article.empty" }}
-        </h2>
-        <a
-          href="{{ `/` | relLangURL }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-control inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors"
-        >
-          {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-          {{ T "nav.backHome" }}
-        </a>
-      </div>
-    {{ end }}
-  </div>
+  {{- if $projects -}}
+    <div class="{{ $gridClass }}">
+      {{- range $projects -}}
+        {{ partial "content/project-card.html" (dict "page" .) }}
+      {{- end -}}
+    </div>
+    {{ partial "navigation/pagination.html" . }}
+  {{- else -}}
+    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+  {{- end -}}
 {{ end }}
