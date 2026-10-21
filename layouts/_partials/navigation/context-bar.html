@@ -22,21 +22,28 @@
       <ol class="crumb-trail">
         {{- range $index, $item := $crumbs -}}
           {{- if gt $index 0 -}}
-            <li class="crumb-sep" aria-hidden="true">/</li>
+            <li class="crumb-sep" aria-hidden="true">
+              {{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") -}}
+            </li>
           {{- end -}}
           <li class="crumb-node">
             {{- if $item.current -}}
-              <span class="crumb crumb-current" aria-current="page">
-                <span class="max-w-48 truncate sm:max-w-72">{{ $item.title }}</span>
+              <span class="crumb crumb-current" aria-current="page" title="{{ $item.title }}">
+                <span class="max-w-56 truncate sm:max-w-96">{{ $item.title }}</span>
               </span>
             {{- else -}}
-              <a href="{{ $item.url }}" class="crumb">
-                <span
-                  class="{{ if and (gt $index 0) $series.term }}
-                    hidden sm:inline
-                  {{ end }}max-w-36 truncate"
-                  >{{ $item.title }}</span
-                >
+              <a
+                href="{{ $item.url }}"
+                class="crumb"
+                title="{{ $item.title }}"
+                {{ if eq $index 0 }}aria-label="{{ $item.title }}"{{ end }}
+              >
+                {{- if eq $index 0 -}}
+                  {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+                  <span class="hidden max-w-32 truncate sm:inline">{{ $item.title }}</span>
+                {{- else -}}
+                  <span class="max-w-40 truncate sm:max-w-56">{{ $item.title }}</span>
+                {{- end -}}
               </a>
             {{- end -}}
           </li>
