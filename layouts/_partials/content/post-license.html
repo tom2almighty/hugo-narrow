@@ -1,78 +1,60 @@
-{{/* Post license note.
+{{/* Post license line.
+
+  Site config:
+  post.license: { enabled, name, url }
+
+  Page override:
+  license: false
+  license: { name, url }        # implies enabled
+  license: { enabled, name, url }
 
   @context {page} .
 */}}
-{{- $license := dict -}}
-{{- $defaultAuthor := "" -}}
-{{- with site.Params.author -}}{{- $defaultAuthor = .name | default "" -}}{{- end -}}
-{{- $defaults := dict
-  "show" true
-  "author" $defaultAuthor
-  "name" "CC BY-NC-SA 4.0"
-  "description" ""
-  "url" "https://creativecommons.org/licenses/by-nc-sa/4.0/"
--}}
-{{- $license = $defaults -}}
-{{- with .Site.Params.post.license -}}
-  {{- $license = merge $license . -}}
+{{- $license := dict "enabled" false "name" "" "url" "" -}}
+{{- $post := site.Params.post | default dict -}}
+{{- with $post.license -}}
+  {{- if reflect.IsMap . -}}
+    {{- $license = merge $license . -}}
+  {{- else -}}
+    {{- $license = merge $license (dict "enabled" .) -}}
+  {{- end -}}
 {{- end -}}
-{{- with .Params.license -}}
-  {{- $license = merge $license . -}}
+{{- if isset .Params "license" -}}
+  {{- if reflect.IsMap .Params.license -}}
+    {{- $license = merge $license .Params.license -}}
+    {{- if not (isset .Params.license "enabled") -}}
+      {{- $license = merge $license (dict "enabled" true) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $license = merge $license (dict "enabled" .Params.license) -}}
+  {{- end -}}
 {{- end -}}
 
-{{- if $license.show -}}
+{{- if $license.enabled -}}
+  {{- if not $license.name -}}
+    {{- errorf "post.license.enabled requires a name (page %q)" .RelPermalink -}}
+  {{- end -}}
   <aside
-    class="post-license border-border bg-card text-muted-foreground mt-10 rounded-lg border p-4 text-xs"
+    class="post-license border-border text-muted-foreground mt-10 flex flex-wrap items-center gap-x-2 gap-y-1 border-t pt-6 text-sm"
     aria-label="{{ T `license.title` }}"
   >
-    <div class="flex flex-wrap items-center justify-between gap-2">
-      <div class="text-foreground flex items-center gap-1.5 font-semibold">
-        <span class="text-primary shrink-0">
-          {{ partial "features/icon.html" (dict "name" "license" "size" "sm" "ariaLabel" "") }}
-        </span>
-        <span>{{ .Title }}</span>
-      </div>
-      {{- with $license.url -}}
-        <a
-          href="{{ . }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="border-border bg-muted/50 text-foreground hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-xs font-medium transition-colors"
-        >
-          <span>{{ $license.name }}</span>
-          {{ partial "features/icon.html" (dict "name" "external-link" "size" "xs" "ariaLabel" "") }}
-        </a>
-      {{- else -}}
-        <span
-          class="border-border bg-muted/50 text-foreground rounded-sm border px-2 py-0.5 font-mono text-xs font-medium"
-        >
-          {{ $license.name }}
-        </span>
-      {{- end -}}
-    </div>
-
-    <dl class="border-border mt-3 grid grid-cols-1 gap-2 border-t pt-3 sm:grid-cols-3">
-      {{- with $license.author -}}
-        <div class="flex flex-col gap-0.5">
-          <dt class="text-muted-foreground/70">{{ T "license.author" }}</dt>
-          <dd class="text-foreground font-medium">{{ . }}</dd>
-        </div>
-      {{- end -}}
-      <div class="flex flex-col gap-0.5 sm:col-span-2">
-        <dt class="text-muted-foreground/70">{{ T "license.link" }}</dt>
-        <dd class="truncate">
-          <a
-            href="{{ .Permalink }}"
-            class="text-foreground hover:text-primary font-mono underline underline-offset-2 transition-colors"
-          >
-            {{ .Permalink }}
-          </a>
-        </dd>
-      </div>
-    </dl>
-
-    {{- with $license.description -}}
-      <p class="text-muted-foreground/80 mt-2.5 leading-relaxed">{{ . }}</p>
+    <span class="text-primary shrink-0">
+      {{ partial "features/icon.html" (dict "name" "license" "size" "sm" "ariaLabel" "") }}
+    </span>
+    <span class="text-foreground font-medium">{{ T "license.title" }}</span>
+    <span class="text-muted-foreground/50" aria-hidden="true">/</span>
+    {{- with $license.url -}}
+      <a
+        href="{{ . }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-foreground hover:text-primary inline-flex items-center gap-1 font-medium underline underline-offset-4 transition-colors"
+      >
+        <span>{{ $license.name }}</span>
+        {{ partial "features/icon.html" (dict "name" "external-link" "size" "xs" "ariaLabel" "") }}
+      </a>
+    {{- else -}}
+      <span class="text-foreground font-medium">{{ $license.name }}</span>
     {{- end -}}
   </aside>
 {{- end -}}
