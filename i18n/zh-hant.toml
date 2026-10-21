@@ -89,8 +89,6 @@
     themeMode        = "明暗模式"
     closeMenu        = "關閉選單"
 
-[license]
-    title  = "版權聲明"
 
 
 [comments]

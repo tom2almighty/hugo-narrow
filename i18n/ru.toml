@@ -98,8 +98,6 @@
     themeMode        = "Режим оформления"
     closeMenu        = "Закрыть меню"
 
-[license]
-    title  = "Лицензия"
 
 
 [comments]

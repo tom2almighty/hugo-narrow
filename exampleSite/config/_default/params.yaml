@@ -60,10 +60,7 @@ home:
 post:
   showRelated: true
   relatedPostsCount: 3
-  license:
-    enabled: true
-    name: "CC BY-NC-SA 4.0"
-    url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  license: "CC BY-NC-SA 4.0" # shown in the post meta line; empty to hide
 
 # Comments
 # Supported systems: giscus, disqus, utterances, waline, artalk, twikoo, comentario

@@ -3,6 +3,25 @@
   @context {page} .
 */}}
 {{- $title := .Title | strings.TrimSpace -}}
+{{- $license := "" -}}
+{{- with site.Params.post -}}
+  {{- with .license -}}
+    {{- if reflect.IsMap . -}}
+      {{- errorf "post.license must be a string (page %q)" $.RelPermalink -}}
+    {{- else -}}
+      {{- $license = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if isset .Params "license" -}}
+  {{- if reflect.IsMap .Params.license -}}
+    {{- errorf "license front matter must be a string or false (page %q)" .RelPermalink -}}
+  {{- else if eq .Params.license false -}}
+    {{- $license = "" -}}
+  {{- else if ne .Params.license true -}}
+    {{- $license = .Params.license -}}
+  {{- end -}}
+{{- end -}}
 
 
 <div class="post-meta mb-8">
@@ -31,6 +50,14 @@
     {{- end -}}
     {{- with .WordCount -}}
       <span>{{ T "article.wordCount" (dict "count" .) }}</span>
+    {{- end -}}
+    {{- with $license -}}
+      <span class="inline-flex items-center gap-1">
+        <span class="text-primary shrink-0">
+          {{ partial "features/icon.html" (dict "name" "license" "size" "xs" "ariaLabel" "") }}
+        </span>
+        <span>{{ . }}</span>
+      </span>
     {{- end -}}
   </div>
 

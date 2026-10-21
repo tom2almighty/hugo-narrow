@@ -92,8 +92,6 @@
     themeMode        = "Theme mode"
     closeMenu        = "Close menu"
 
-[license]
-    title  = "License"
 
 
 [comments]

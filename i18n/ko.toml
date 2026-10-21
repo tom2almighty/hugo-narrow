@@ -89,8 +89,6 @@
     themeMode        = "표시 모드"
     closeMenu        = "메뉴 닫기"
 
-[license]
-    title  = "라이선스"
 
 
 [comments]
