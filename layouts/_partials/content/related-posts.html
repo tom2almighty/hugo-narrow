@@ -4,9 +4,13 @@
 */}}
 {{- $relatedCount := .Params.relatedPostsCount | default .Site.Params.post.relatedPostsCount | default 3 -}}
 {{- $showRelated := .Params.showRelated | default .Site.Params.post.showRelated | default true -}}
-{{- $related := .Site.RegularPages.Related . | first $relatedCount -}}
+{{- $mainSections := .Site.MainSections | default (slice "posts") -}}
+{{- $related := slice -}}
+{{- if $showRelated -}}
+  {{- $related = where (.Site.RegularPages.Related .) "Section" "in" $mainSections | first $relatedCount -}}
+{{- end -}}
 
-{{- if and $showRelated $related -}}
+{{- if $related -}}
   <section class="related-posts border-border mt-10 border-t pt-6">
     <h2 class="text-foreground mb-4 text-xl font-semibold tracking-tight">
       {{ T "article.relatedContent" }}
