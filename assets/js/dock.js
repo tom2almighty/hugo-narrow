@@ -2,6 +2,7 @@
  * Global dock behavior: placement semantics, reading progress,
  * back-to-top visibility, search/TOC dispatch, and toolbar keyboard focus.
  */
+import { EVENTS, emit } from "./core.js";
 import { REDUCED_MOTION_QUERY, SIDE_DOCK_QUERY } from "./layout.js";
 
 export function initDock() {
@@ -86,11 +87,11 @@ export function initDock() {
   dock.addEventListener("focusin", () => setCollapsed(false));
 
   document.getElementById("dock-search")?.addEventListener("click", () => {
-    document.dispatchEvent(new CustomEvent("search:open"));
+    emit(EVENTS.searchOpen);
   });
 
   document.getElementById("dock-toc")?.addEventListener("click", () => {
-    document.dispatchEvent(new CustomEvent("toc:toggle"));
+    emit(EVENTS.tocToggle);
   });
 
   document.getElementById("dock-comments")?.addEventListener("click", () => {

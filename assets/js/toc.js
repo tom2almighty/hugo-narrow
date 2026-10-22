@@ -1,6 +1,7 @@
 /**
  * 目录功能模块：Dock 驱动的单一目录面板。
  */
+import { EVENTS, STORAGE_KEYS, prefersReducedMotion, writeStorage } from "./core.js";
 import { SIDE_DOCK_QUERY, TOC_PIN_QUERY } from "./layout.js";
 
 function tocHashOf(link) {
@@ -115,11 +116,7 @@ class TOCManager {
   applyPin(pinned, persist) {
     document.documentElement.dataset.tocPinned = pinned ? "true" : "false";
     if (persist) {
-      try {
-        localStorage.setItem("tocPinned", pinned ? "true" : "false");
-      } catch (_) {
-        // localStorage may be unavailable.
-      }
+      writeStorage(STORAGE_KEYS.tocPinned, pinned ? "true" : "false");
     }
 
     this.pinBtn?.setAttribute("aria-pressed", pinned ? "true" : "false");
@@ -167,7 +164,10 @@ class TOCManager {
     const target = document.getElementById(id);
     if (!target) return;
 
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    target.scrollIntoView({
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "start",
+    });
 
     if (!this.isPinned()) this.close();
   }
@@ -180,7 +180,7 @@ class TOCManager {
       this.applyPin(!this.isPinned(), true);
     });
 
-    document.addEventListener("toc:toggle", () => this.toggle());
+    document.addEventListener(EVENTS.tocToggle, () => this.toggle());
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && this.isOpen() && !this.isPinned()) {
