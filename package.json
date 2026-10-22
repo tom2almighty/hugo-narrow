@@ -1,6 +1,6 @@
 {
   "name": "hugo-narrow",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A modern, clean Hugo theme built with Tailwind CSS 4.",
   "scripts": {
     "compile": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --minify",
@@ -19,6 +19,7 @@
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
+    "@tailwindcss/typography": "^0.5.20",
     "concurrently": "^9.2.1",
     "prettier": "^3.8.1",
     "prettier-plugin-go-template": "^0.0.15",

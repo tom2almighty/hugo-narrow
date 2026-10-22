@@ -4,10 +4,11 @@
     href="{{ .Destination | safeURL }}"
     {{- with .Title }}title="{{ . }}"{{ end -}}
     target="_blank"
+    rel="noopener noreferrer"
     class="inline-flex items-center gap-1"
   >
     {{- with .Text | safeHTML }}{{ . }}{{ end -}}
-    {{ partial "features/icon.html" (dict "name" "external-link" "class" "h-3 w-3 flex-shrink-0" "id" "external-link" "style" "color: #9ca3af; stroke: #9ca3af;") }}
+    {{ partial "features/icon.html" (dict "name" "external-link" "class" "text-muted-foreground h-3 w-3 flex-shrink-0" "hidden" true) }}
   </a>
 {{- else -}}
   <a

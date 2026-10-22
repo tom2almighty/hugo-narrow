@@ -20,3 +20,4 @@ yarn.lock
 .worktrees/
 .codex
 .agents
+.playwright-cli/

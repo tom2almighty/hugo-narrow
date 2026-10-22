@@ -1,43 +1,48 @@
 {{- /*
-  日期 / 时间格式化辅助 partial。
+  Localized date formatting.
 
-  根据 site.Params.dateFormat（kind=date）或 site.Params.timeFormat（kind=time）渲染输入值，
-  可被 languages.<lang>.params.dateFormat / .timeFormat 覆盖。
+  The theme renders three variants:
+  - long  : post detail header, page headers
+  - short : cards, archives, series
+  - month : archive month heading (no Hugo token exists for "month year")
 
-  支持两种格式串：
-  - Hugo 本地化 token（依据当前语言的 locale 自动本地化）：
-  日期：":date_full" / ":date_long" / ":date_medium" / ":date_short"
-  时间：":time_full" / ":time_long" / ":time_medium" / ":time_short"
-  - Go 时间布局串（按字面输出，不本地化）：
-  例如 "2006-01-02"、"January 2, 2006"、"15:04"、"3:04 PM"
+  Resolution order:
+  1. site.Params.dateFormat.<variant> (language params are already merged)
+  2. data/dateFormats.yaml, matched by locale, primary language, then language key
+  3. built-in Hugo localization tokens / English month-year fallback
 
-  入参 (dict)：
-  date    : time.Time，必填
-  variant : "full" | "long" | "medium" | "short"，可选，默认 "long"
-  kind    : "date" | "time"，可选，默认 "date"
+  Values accept either a Hugo localization token (":date_long", ":date_short")
+  or a Go layout string ("2006年1月").
 
-  使用示例：
-  {{ partial "helpers/date.html" (dict "date" .Date "variant" "long")
-}}
-{{ partial "helpers/date.html" (dict "date" .Date "variant" "short" "kind" "time") }}
-*/ -}}
+  @context {time.Time} .date
+  @context {string} .variant "long" | "short" | "month", default "long"
+  */
+-}}
 {{- $date := .date -}}
 {{- $variant := .variant | default "long" -}}
-{{- $kind := .kind | default "date" -}}
 {{- $defaults := dict
-  "date" (dict
-  "full" ":date_full"
   "long" ":date_long"
-  "medium" ":date_medium"
-  "short" ":date_short")
-  "time" (dict
-  "full" ":time_full"
-  "long" ":time_long"
-  "medium" ":time_medium"
-  "short" ":time_short")
+  "short" ":date_short"
+  "month" "January 2006"
 -}}
-{{- $configKey := cond (eq $kind "time") "timeFormat" "dateFormat" -}}
-{{- $configured := (index site.Params $configKey) | default dict -}}
-{{- $kindDefaults := index $defaults $kind -}}
-{{- $format := (index $configured $variant) | default (index $kindDefaults $variant) -}}
+{{- $configured := site.Params.dateFormat | default dict -}}
+{{- $format := index $configured $variant -}}
+
+{{- if not $format -}}
+  {{- $locale := lower site.Language.Locale -}}
+  {{- $language := lower site.Language.Lang -}}
+  {{- $dateFormats := hugo.Data.dateFormats | default dict -}}
+  {{- $languageFormats := dict -}}
+  {{- with index $dateFormats $locale -}}{{- $languageFormats = . -}}{{- end -}}
+  {{- if not $languageFormats -}}
+    {{- $primary := index (split $locale "-") 0 -}}
+    {{- with index $dateFormats $primary -}}{{- $languageFormats = . -}}{{- end -}}
+  {{- end -}}
+  {{- if not $languageFormats -}}
+    {{- with index $dateFormats $language -}}{{- $languageFormats = . -}}{{- end -}}
+  {{- end -}}
+  {{- with $languageFormats -}}{{- $format = index . $variant -}}{{- end -}}
+{{- end -}}
+
+{{- $format = $format | default (index $defaults $variant) -}}
 {{- $date | time.Format $format -}}

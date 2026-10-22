@@ -1,0 +1,20 @@
+# Date formats that Hugo's localization tokens cannot express directly.
+# Keys are normalized locale tags; the primary language tag is used as a
+# fallback (for example, ko-KR resolves to ko).
+
+zh-hans:
+  month: "2006年1月"
+zh-hant:
+  month: "2006年1月"
+zh:
+  month: "2006年1月"
+ja:
+  month: "2006年1月"
+ko:
+  month: "2006년 1월"
+vi:
+  month: "Tháng 1, 2006"
+es:
+  month: "January de 2006"
+pt:
+  month: "January de 2006"

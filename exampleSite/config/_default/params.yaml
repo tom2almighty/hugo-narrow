@@ -1,11 +1,23 @@
 # Basic site info with SEO
 description: "A modern, clean, and minimal Hugo theme built with Tailwind CSS 4.0. Support custom themes, dark mode, and responsive design."
 keywords: ["Hugo", "Blog", "Theme", "Technology", "Programming"]
-defaultAuthor: "Hugo Narrow"
-language: "en"
 shortName: "Hugo Narrow" # PWA
 images:
   - "/images/og-default.avif"
+
+# PWA manifest
+pwa:
+  backgroundColor: "#ffffff"
+  themeColor: "#09090b"
+  darkThemeColor: "#09090b"
+  orientation: "portrait-primary" # any | natural | portrait-primary | landscape-primary
+  appleTouchIcon: "" # e.g. "/apple-touch-icon.png"
+
+# Site-wide broadcast announcement
+announcement:
+  enabled: true
+  message: "Site Redesign! We've revamped the website with a new interface and smoother experience."
+  type: "info" # info | warning | destructive
 
 # Favicon
 favicon:
@@ -28,99 +40,45 @@ author:
       url: "mailto:hello@example.com"
       icon: "email"
 
-# Header configuration (modularized)
-header:
-  sticky: true # Enable sticky navigation bar
-  logo:
-    image: "/images/logo.svg" # Logo path relative to static folder, leave empty to use site title first letter
-    link: "/" # Click to home page
-  # The appearance panel always shows color scheme, light/dark mode and page width.
-  # The language switcher is always shown on multilingual sites.
+# Search
+search:
+  # Number of characters of each page stored in the client-side search index.
+  indexContentLength: 2000
 
-# Dock display mode
-# Options: "scroll" (show on scroll up), "always" (always visible), "float" (floating button)
-dock: "scroll"
-
-# Content width
-# The ,max content width is set to "56rem" by default, which is a good balance between readability and aesthetics.
-# You can change it to "56rem" to make the content wider, or "48rem" to make it narrower.
+# The centered content column. Users can adjust it at runtime with the
+# appearance panel slider (40-90rem); the value is stored in localStorage.
 contentWidth: "56rem"
+# Default backdrop blur radius in px (0-24) for floating dock, popovers and context bar.
+backdropBlur: 12
+# Default background grain size (0-100, 0 disables the grain texture).
+grainSize: 25
 
-# TOC (Table of Contents)
 toc:
-  enabled: true # Enable or disable TOC globally
-  position: "side" # Options: center | side
-  pinned: false # Side mode only: keep the TOC panel always visible when there is enough space
+  enabled: true # Enable the dock-driven table of contents
 
-# Default color scheme
+# Built-in color schemes live in data/themes.yaml; this picks the default.
 colorScheme: "default"
-themes:
-  default:
-    name: "Default"
-    order: 1
-  claude:
-    name: "Claude"
-    order: 2
-  bumblebee:
-    name: "Bumblebee"
-    order: 3
-  emerald:
-    name: "Emerald"
-    order: 4
-  nord:
-    name: "Nord"
-    order: 5
-  sunset:
-    name: "Sunset"
-    order: 6
-  abyss:
-    name: "Abyss"
-    order: 7
-  dracula:
-    name: "Dracula"
-    order: 8
-  amethyst:
-    name: "Amethyst"
-    order: 9
-  slate:
-    name: "Slate"
-    order: 10
-  twitter:
-    name: "Twitter"
-    order: 11
-  minimal:
-    name: "Minimal"
-    order: 12
 
 # Home page configuration
 home:
-  recentPostsCount: 5 # Number of recent posts to show on the home page
-
-  # Content order configuration - customize the order of home page sections
+  recentPostsCount: 3 # Number of recent post cards on the home page
   # Available sections: author-section, recent-posts, featured-projects, page-content
-  # You can add your custom content by creating files in `layouts/_partials/home/` folder, then add it to the list
+  # Add a custom file in layouts/_partials/home/ and list its name here (without .html).
   contentOrder:
     - author-section
-    - page-content
     - recent-posts
-    - featured-projects.html
+    - featured-projects
 
 # Post configuration
 post:
-  showRelated: true # show related posts
-  relatedPostsCount: 3 # posts number
-  license:
-    show: true
-    author: "Hugo Narrow"
-    name: "CC BY-NC-SA 4.0"
-    description: "This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Please attribute the source, use non-commercially, and maintain the same license."
-    url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
-    displayName: "CC BY-NC-SA 4.0"
+  showRelated: true
+  relatedPostsCount: 3
+  license: "CC BY-NC-SA 4.0" # shown in the post meta line; empty to hide
 
 # Comments
+# Supported systems: giscus, disqus, utterances, waline, artalk, twikoo, comentario
 comments:
   enabled: false
-  # giscus, disqus, utterances, waline, artalk, twikoo, comentario
   system: "giscus"
   giscus:
     repo: "tom2almighty/hugo-narrow-giscus"
@@ -134,61 +92,26 @@ comments:
     inputPosition: "bottom"
     theme: "preferred_color_scheme"
     lang: "en"
-  disqus:
-    shortname: ""
-  utterances:
-    repo: ""
-    issueTerm: "pathname"
-    label: "comment"
-    theme: "preferred-color-scheme"
-  waline:
-    serverURL: ""
-    lang: "zh-CN"
-  artalk:
-    server: ""
-    site: ""
-    locale: "zh-CN" # String|Object|"auto"
-    darkMode: "auto"
-    gravatar:
-      mirror: "https://cravatar.cn/avatar/"
-  twikoo:
-    envId: ""
-    region: "ap-shanghai"
-    path: ""
-    lang: "zh-CN"
-  comentario:
-    server: ""
-    lang: "zh-CN"
-    theme: "" # light, dark, or empty to follow browser preference
-    domainId: ""
-    cssOverride: ""
-    liveUpdate: true
-    maxLevel: 10
-    noFonts: false
-    autoInit: true
-    autoNonInteractiveSso: false
 
 # Analytics
+# Supported providers: google, baidu, clarity, umami
 analytics:
-  enabled: false
-  baidu:
-    enabled: false
-    id: "your-baidu-analytics-id"
-  clarity:
-    enabled: false
-    id: "your-clarity-analytics-id"
+  provider: "" # e.g. "google"; leave empty to disable
   google:
-    enabled: false
-    id: "your-google-analytics-id"
+    id: ""
+  baidu:
+    id: ""
+  clarity:
+    id: ""
   umami:
-    enabled: false
-    id: "your-umami-website-id"
-    src: "https://umami.com/myscript.js"
-    domains: "example.domain.com"
+    id: ""
+    src: ""
+    domains: ""
 
 # KaTeX
 katex:
   enabled: true
+  # Auto-render delimiters. Can also be overridden per page via front matter.
   delimiters:
     - left: "$$"
       right: "$$"
@@ -207,32 +130,25 @@ katex:
 mermaid:
   enabled: true
 
-# Gallery 配置
+# Gallery
 gallery:
   enabled: true
-  defaultLayout: justified # justified, masonry, grid
-  gap: 10
-  targetRowHeight: 200
-  lastRowBehavior: center # left, center, right, fill, hide
-  columnWidth: 200
-  columns: 4 # auto 或具体数字
+  defaultLayout: justified # justified | masonry | grid
 
 # Lightbox
 lightbox:
   enabled: true
 
 # Code block
-# Colors come from markup.highlight.style in hugo.yaml. Hugo generates the dark
-# mode stylesheet from that style's dark counterpart, so use a style that has one.
-# Available style names: https://gohugo.io/quick-reference/syntax-highlighting-styles/
-# css.ChromaStyles docs: https://gohugo.io/functions/css/chromastyles/
-# Markup highlight docs: https://gohugo.io/configuration/markup/#highlight
+# Colors come from markup.highlight.style in hugo.yaml. Use a style with a
+# dark counterpart (for example catppuccin-latte or github).
+# https://gohugo.io/functions/css/chromastyles/
+# https://gohugo.io/quick-reference/syntax-highlighting-styles/
 codeblock:
   collapse:
     enabled: true
-    defaultState: expanded # expanded, collapsed
-    autoCollapseLines: 30
-    autoCollapseHeight: 400
+    defaultState: expanded # expanded | collapsed
+    maxLines: 30
     collapsedHeight: 120
 
 # Reading progress
@@ -241,52 +157,9 @@ readingProgress:
   showOnHomepage: false
 
 # Date format
-
-# Customize the display format for article/page dates.
-# Accepted values:
-#   1) Hugo localization tokens (recommended): ":date_full" / ":date_long" / ":date_medium" / ":date_short"
-#      Automatically localized based on the current language's locale
-#      (e.g., en → "January 2, 2006", zh-Hans → "2006年1月2日").
-#      NOTE: ":date_medium" currently has an upstream bug under en-GB (month is omitted except September),
-#      so the theme uses ":date_long" for places that previously used medium.
-#   2) Go time layout string: reference time is "Mon Jan 2 15:04:05 MST 2006". Examples:
-#        "2006-01-02"           → 2024-05-01
-#        "January 2, 2006"      → May 1, 2024
-#        "2006年1月2日"         → 2024年5月1日
-#        "Jan 2, 2006"          → May 1, 2024
-#        "02 Jan 2006"          → 01 May 2024
-# Usage (which variants the theme actually renders):
-#   full   : reserved for opt-in custom usage
-#   long   : article detail page, homepage hero, list / card / timeline / JSON Feed,
-#            archive page, previous/next article (i.e. all theme-rendered dates)
-#   medium : not used by the theme by default (kept here for user customization)
-#   short  : not used by the theme by default (kept here for user customization)
-# Leave empty to keep the defaults below.
-# To configure per language, override via languages.<lang>.params.dateFormat in languages.yaml.
-dateFormat:
-  full: ":date_full"
-  long: ":date_long"
-  medium: ":date_medium"
-  short: ":date_short"
-  # Custom examples:
-  # long: "January 2, 2006"
-  # medium: "2006-01-02"
-  # short: "01/02"
-
-# Time format (optional)
-#
-# Used by helpers/date.html when called with kind="time", e.g.:
-#   {{ partial "helpers/date.html" (dict "date" .Date "variant" "short" "kind" "time") }}
-# Same value rules as dateFormat: either Hugo localization tokens
-# (":time_full" / ":time_long" / ":time_medium" / ":time_short") or a Go time layout
-# string (e.g. "15:04", "3:04 PM"). The theme does not render time values out of the
-# box; this block exists so users / custom partials can use it without extra config.
-# Per-language override is also supported via languages.<lang>.params.timeFormat.
-timeFormat:
-  full: ":time_full"
-  long: ":time_long"
-  medium: ":time_medium"
-  short: ":time_short"
-  # Custom examples:
-  # long: "15:04:05"
-  # short: "3:04 PM"
+# The theme uses Hugo's localized tokens by default, so this block is optional.
+# Override it globally here, or per language in languages.<lang>.params.dateFormat.
+# dateFormat:
+#   long: ":date_long" # post detail, page headers
+#   short: ":date_short" # cards, archives, series
+#   month: "January 2006" # archive month heading

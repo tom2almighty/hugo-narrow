@@ -2,13 +2,15 @@
     [list.pages]
         other = "{{ .count }} trang"
 
+    [list.terms]
+        one = "{{ .count }} mục"
+        other = "{{ .count }} mục"
+
 [article]
     empty          = "Không có nội dung"
     relatedContent = "Nội dung liên quan"
     prev           = "Trước"
     next           = "Sau"
-    noPrev         = "Không có trước"
-    noNext         = "Không có sau"
 
     [article.alert]
         note      = "Lưu ý"
@@ -30,6 +32,7 @@
   collapse        = "Thu gọn"
 
 [nav]
+    home = "Trang chủ"
     anchor        = "Liên kết đến phần này"
     backHome      = "Về trang chủ"
     breadcrumb    = "Đường dẫn"
@@ -39,12 +42,13 @@
     pageInfo      = "Trang {{ .current }} / {{ .total }}"
 
 [ui]
+    skipToContent = "Chuyển đến nội dung"
+    language = "Ngôn ngữ"
+    announcementDismiss = "Đóng thông báo"
     dockAriaLabel = "Thanh thao tác nhanh"
-    dockBack      = "Quay lại"
     dockSearch    = "Tìm kiếm"
     dockComments  = "Bình luận"
     dockBackToTop = "Lên đầu trang"
-    dockTop       = "Đầu trang"
     toc           = "Mục lục"
     tocPin        = "Ghim mục lục"
     tocUnpin      = "Bỏ ghim mục lục"
@@ -62,24 +66,19 @@
     themeDark    = "Tối"
     themeLight   = "Sáng"
     themeSystem  = "Hệ thống"
-    themeToggle  = "Chuyển giao diện"
 
-    languageToggle = "Đổi ngôn ngữ"
 
     contentWidth       = "Chiều rộng trang"
     contentWidthReset  = "Khôi phục mặc định"
-    contentWidthToggle = "Điều chỉnh chiều rộng trang"
+    backdropBlur       = "Độ mờ nền"
+    backdropBlurReset  = "Khôi phục mặc định"
+    grainSize          = "Độ hạt nền"
+    grainSizeReset     = "Khôi phục mặc định"
 
     appearanceToggle = "Cài đặt giao diện"
     colorScheme      = "Bảng màu"
     themeMode        = "Chế độ hiển thị"
-    closeMenu        = "Đóng menu"
 
-[license]
-    title  = "Giấy phép"
-    author = "Tác giả"
-    link   = "Liên kết"
-    type   = "Giấy phép"
 
 
 [comments]
@@ -106,3 +105,13 @@
 
 [footer]
   poweredBy = "Được cung cấp bởi"
+
+[context]
+    seriesPrev = "Phần trước"
+    seriesNext = "Phần sau"
+    seriesPartOf = "Phần {{ .current }} / {{ .total }}"
+    seriesParts = "Tất cả các phần"
+    seriesViewSeries = "Xem loạt bài"
+
+[projects]
+    visit = "Mở dự án"

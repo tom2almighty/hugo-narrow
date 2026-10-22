@@ -1,17 +1,13 @@
-{{ if .Site.Params.analytics.enabled -}}
-  {{ if .Site.Params.analytics.baidu.enabled -}}
+{{- $analytics := site.Params.analytics | default dict -}}
+{{- $provider := $analytics.provider | default "" -}}
+{{- if $provider -}}
+  {{- if eq $provider "baidu" -}}
     {{ partial "features/analytics/baidu.html" . }}
-  {{- end }}
-
-  {{ if .Site.Params.analytics.clarity.enabled -}}
+  {{- else if eq $provider "clarity" -}}
     {{ partial "features/analytics/clarity.html" . }}
-  {{- end }}
-
-  {{ if .Site.Params.analytics.google.enabled -}}
+  {{- else if eq $provider "google" -}}
     {{ partial "features/analytics/google.html" . }}
-  {{- end }}
-
-  {{ if .Site.Params.analytics.umami.enabled -}}
+  {{- else if eq $provider "umami" -}}
     {{ partial "features/analytics/umami.html" . }}
-  {{- end }}
-{{- end }}
+  {{- end -}}
+{{- end -}}

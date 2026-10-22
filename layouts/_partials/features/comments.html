@@ -12,49 +12,33 @@
   @context {page} . 当前文章页面对象
 */}}
 
-{{- $commentsConfig := dict
-  "enabled" false
-  "system" ""
--}}
-
-{{/* 合并全局配置 */}}
-{{- with .Site.Params.comments -}}
-  {{- $commentsConfig = merge $commentsConfig . -}}
-{{- end -}}
-
-{{/* 合并页面配置 */}}
-{{- with .Params.comments -}}
-  {{- $commentsConfig = merge $commentsConfig . -}}
-{{- end -}}
+{{- $commentsConfig := partial "config/comments.html" . -}}
 
 {{/* 判断是否加载评论 */}}
 {{- if and $commentsConfig.enabled $commentsConfig.system -}}
   {{- $commentSystem := $commentsConfig.system -}}
-  <section
-    id="comments"
-    class="bg-card border-border mx-auto mt-12 rounded-2xl border p-8 px-4 shadow-sm"
-  >
-    <div class="bg-card">
-      <h2 class="text-foreground mb-6 flex items-center gap-3 text-2xl font-bold">
-        {{ partial "features/icon.html" (dict "name" "message-circle" "size" "lg" "ariaLabel" "") }}
+  {{- $providerConfig := index $commentsConfig $commentSystem | default dict -}}
+  <section id="comments" class="border-border mt-10 border-t pt-8">
+    <div>
+      <h2 class="text-foreground mb-4 text-lg font-semibold">
         {{ T "comments.title" }}
       </h2>
 
       <div class="comments-container">
         {{- if eq $commentSystem "giscus" -}}
-          {{ partial "features/comments/giscus.html" (dict "Site" $.Site "Page" $ "id" "giscus-comments") }}
+          {{ partial "features/comments/giscus.html" (dict "Site" $.Site "Page" $ "id" "giscus-comments" "config" $providerConfig) }}
         {{- else if eq $commentSystem "disqus" -}}
-          {{ partial "features/comments/disqus.html" (dict "Site" $.Site "Page" $ "id" "disqus-comments") }}
+          {{ partial "features/comments/disqus.html" (dict "Site" $.Site "Page" $ "id" "disqus-comments" "config" $providerConfig) }}
         {{- else if eq $commentSystem "utterances" -}}
-          {{ partial "features/comments/utterances.html" (dict "Site" $.Site "Page" $ "id" "utterances-comments") }}
+          {{ partial "features/comments/utterances.html" (dict "Site" $.Site "Page" $ "id" "utterances-comments" "config" $providerConfig) }}
         {{- else if eq $commentSystem "waline" -}}
-          {{ partial "features/comments/waline.html" (dict "Site" $.Site "Page" $ "id" "waline-comments") }}
+          {{ partial "features/comments/waline.html" (dict "Site" $.Site "Page" $ "id" "waline-comments" "config" $providerConfig) }}
         {{- else if eq $commentSystem "artalk" -}}
-          {{ partial "features/comments/artalk.html" (dict "Site" $.Site "Page" $ "id" "artalk-comments") }}
+          {{ partial "features/comments/artalk.html" (dict "Site" $.Site "Page" $ "id" "artalk-comments" "config" $providerConfig) }}
         {{- else if eq $commentSystem "twikoo" -}}
-          {{ partial "features/comments/twikoo.html" (dict "Site" $.Site "Page" $ "id" "twikoo-comments") }}
+          {{ partial "features/comments/twikoo.html" (dict "Site" $.Site "Page" $ "id" "twikoo-comments" "config" $providerConfig) }}
         {{- else if eq $commentSystem "comentario" -}}
-          {{ partial "features/comments/comentario.html" (dict "Site" $.Site "Page" $ "id" "comentario-comments") }}
+          {{ partial "features/comments/comentario.html" (dict "Site" $.Site "Page" $ "id" "comentario-comments" "config" $providerConfig) }}
         {{- else -}}
           {{- /* 不支持的评论系统 */ -}}
           {{ partial "features/comments/notice.html" (dict "icon" "alert-circle") }}

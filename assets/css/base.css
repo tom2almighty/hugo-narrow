@@ -1,5 +1,96 @@
+/* Base layer: shadcn tokens, density, focus, scroll and page shell. */
+
+:root {
+  --dock-size: 3.5rem;
+  --dock-clearance: calc(var(--dock-size) + env(safe-area-inset-bottom) + 2rem);
+  --page-gutter: clamp(1rem, 2vw, 1.5rem);
+
+  /* Runtime appearance knobs, not theme colors. */
+  --backdrop-blur: 12px;
+  --surface-alpha: 82%;
+  --grain-size: 140px;
+  --grain-opacity: 0;
+}
+
 html {
+  color-scheme: light;
   scrollbar-gutter: stable;
+  scroll-padding-top: 1rem;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Respect user requests for opaque surfaces. The CSS variables are also set
+   inline by theme-init/viewport, so these declarations must win. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --surface-alpha: 100% !important;
+    --backdrop-blur: 0px !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --surface-alpha: 100% !important;
+    --backdrop-blur: 0px !important;
+  }
+}
+
+/* Directional icons (chevrons and arrows) mirror in right-to-left layouts. */
+[dir="rtl"] .icon-directional {
+  transform: scaleX(-1);
+}
+
+*,
+::before,
+::after {
+  border-color: var(--border);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding-bottom: var(--dock-clearance);
+  -webkit-font-smoothing: antialiased;
+}
+
+#page-container {
+  max-width: min(
+    var(--content-width, var(--content-width-base, 56rem)),
+    var(--fold-content-width, 100vw)
+  );
+  margin-inline: var(--fold-margin-start, auto) auto;
+}
+
+.page-main {
+  padding: 1rem var(--page-gutter) 2.5rem;
+}
+
+.page-content {
+  width: 100%;
+}
+
+.site-footer {
+  padding-inline: var(--page-gutter);
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--primary) 18%, transparent);
 }
 
 body:has(dialog[open]) {
@@ -8,7 +99,7 @@ body:has(dialog[open]) {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
+  scrollbar-color: var(--border) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -26,10 +117,24 @@ body:has(dialog[open]) {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
+  background-color: var(--border);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-muted-foreground);
+  background-color: var(--muted-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

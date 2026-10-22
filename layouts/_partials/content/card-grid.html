@@ -1,0 +1,41 @@
+{{/* Shared card grid.
+
+  @context {slice} .items pages, or series dicts ({ page, count, latest })
+  @context {string} .variant "post" | "project" | "series"
+  @context {int} .columns optional; defaults by variant
+  @context {bool} .compact
+*/}}
+{{- $items := .items -}}
+{{- $variant := .variant | default "post" -}}
+{{- $compact := .compact | default false -}}
+{{- $columns := .columns -}}
+{{- if not $columns -}}
+  {{- $columns = cond (eq $variant "project") 2 1 -}}
+  {{- if eq $variant "series" -}}
+    {{- $columns = 2 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $gridClass := "grid grid-cols-1 gap-4" -}}
+{{- if eq (int $columns) 2 -}}
+  {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2" -}}
+{{- else if eq (int $columns) 3 -}}
+  {{- $gridClass = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" -}}
+{{- end -}}
+
+{{- with $items -}}
+  <div class="{{ $gridClass }}">
+    {{- range . -}}
+      {{- if eq $variant "series" -}}
+        {{ partial "content/series-card.html" . }}
+      {{- else -}}
+        {{ partial "content/card.html" (dict
+          "page" .
+          "variant" $variant
+          "compact" $compact
+          )
+        }}
+      {{- end -}}
+    {{- end -}}
+  </div>
+{{- end -}}

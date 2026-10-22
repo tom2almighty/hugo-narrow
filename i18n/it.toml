@@ -3,13 +3,15 @@
         one = "{{ .count }} pagina"
         other = "{{ .count }} pagine"
 
+    [list.terms]
+        one = "{{ .count }} elemento"
+        other = "{{ .count }} elementi"
+
 [article]
     empty          = "Nessun contenuto"
     relatedContent = "Contenuti correlati"
     prev           = "Precedente"
     next           = "Successivo"
-    noPrev         = "Nessun precedente"
-    noNext         = "Nessun successivo"
 
     [article.alert]
         note      = "Nota"
@@ -33,6 +35,7 @@
   collapse        = "Comprimi"
 
 [nav]
+    home = "Home"
     anchor        = "Link a questa sezione"
     backHome      = "Torna alla home"
     breadcrumb    = "Percorso"
@@ -42,12 +45,13 @@
     pageInfo      = "Pagina {{ .current }} di {{ .total }}"
 
 [ui]
+    skipToContent = "Vai al contenuto"
+    language = "Lingua"
+    announcementDismiss = "Chiudi annuncio"
     dockAriaLabel = "Barra azioni rapide"
-    dockBack      = "Indietro"
     dockSearch    = "Cerca"
     dockComments  = "Commenti"
     dockBackToTop = "Torna su"
-    dockTop       = "In alto"
     toc           = "Indice"
     tocPin        = "Fissa l'indice"
     tocUnpin      = "Sblocca l'indice"
@@ -65,24 +69,19 @@
     themeDark    = "Scuro"
     themeLight   = "Chiaro"
     themeSystem  = "Sistema"
-    themeToggle  = "Cambia tema"
 
-    languageToggle = "Cambia lingua"
 
     contentWidth       = "Larghezza pagina"
     contentWidthReset  = "Ripristina predefinita"
-    contentWidthToggle = "Regola larghezza pagina"
+    backdropBlur       = "Sfocatura sfondo"
+    backdropBlurReset  = "Ripristina predefinita"
+    grainSize          = "Dimensione grana"
+    grainSizeReset     = "Ripristina predefinita"
 
     appearanceToggle = "Impostazioni aspetto"
     colorScheme      = "Schema colori"
     themeMode        = "Modalità aspetto"
-    closeMenu        = "Chiudi menu"
 
-[license]
-    title  = "Licenza"
-    author = "Autore"
-    link   = "Link"
-    type   = "Licenza"
 
 
 [comments]
@@ -109,3 +108,13 @@
 
 [footer]
   poweredBy = "Realizzato con"
+
+[context]
+    seriesPrev = "Parte precedente"
+    seriesNext = "Parte successiva"
+    seriesPartOf = "Parte {{ .current }} di {{ .total }}"
+    seriesParts = "Tutte le parti"
+    seriesViewSeries = "Vedi serie"
+
+[projects]
+    visit = "Apri progetto"

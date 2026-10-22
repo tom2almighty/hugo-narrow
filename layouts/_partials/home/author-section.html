@@ -1,72 +1,66 @@
-{{/* 作者信息区域 */}}
-{{/* 优先使用页面配置，否则回退站点配置 */}}
-{{ $author := .Params.author | default site.Params.author }}
-{{ $avatarSrc := strings.TrimPrefix "/" ($author.avatar | default "") }}
+{{/* Author card */}}
+{{- $author := .Params.author | default site.Params.author -}}
+{{- $avatarSrc := "" -}}
+{{- with $author -}}
+  {{- with .avatar -}}{{- $avatarSrc = strings.TrimPrefix "/" . | relURL -}}{{- end -}}
+{{- end -}}
 
-{{ if $author }}
-  <section class="author-section mb-12">
-    <div class="bg-card border-border rounded-xl border p-8 shadow-sm">
+{{- if $author -}}
+  <section class="author-section">
+    <div class="border-border bg-card rounded-lg border p-6 md:p-8">
       <div
         class="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:text-left"
       >
-        <!-- 头像 -->
         <div class="shrink-0">
-          {{ if $author.avatar }}
+          {{- if $avatarSrc -}}
             <img
-              src="{{ $avatarSrc | relURL }}"
+              src="{{ $avatarSrc }}"
               alt="{{ $author.name | default site.Title }}"
-              class="border-primary/20 h-24 w-24 rounded-full border-4 object-cover shadow-lg"
+              class="border-border size-20 rounded-full border object-cover md:size-24"
             />
-          {{ else }}
-            <!-- 默认头像：使用作者姓名首字母 -->
+          {{- else -}}
             <div
-              class="bg-primary text-primary-foreground flex h-24 w-24 items-center justify-center rounded-full text-2xl font-bold shadow-lg"
+              class="bg-muted text-foreground flex size-20 items-center justify-center rounded-full text-2xl font-semibold md:size-24"
             >
               {{ substr ($author.name | default site.Title) 0 1 | upper }}
             </div>
-          {{ end }}
+          {{- end -}}
         </div>
 
-        <!-- 作者信息 -->
         <div class="min-w-0 flex-1">
-          <h1 class="text-foreground mb-2 text-3xl font-bold">
+          <h1 class="text-foreground text-2xl font-semibold tracking-tight">
             {{ $author.name | default site.Title }}
           </h1>
 
-          {{ if $author.title }}
-            <p class="text-muted-foreground mb-3 text-lg">
-              {{ $author.title }}
-            </p>
-          {{ end }}
+          {{- with $author.title -}}
+            <p class="text-muted-foreground mt-1 text-base">{{ . }}</p>
+          {{- end -}}
 
-          {{ if $author.description }}
-            <p class="text-foreground mb-4 leading-relaxed">
-              {{ $author.description }}
-            </p>
-          {{ end }}
+          {{- with $author.description -}}
+            <p class="text-foreground mt-3 text-sm leading-relaxed">{{ . }}</p>
+          {{- end -}}
 
-
-          <!-- 社交链接 -->
-          {{ if $author.social }}
-            <div class="flex flex-wrap justify-center gap-3 md:justify-start">
-              {{ range $author.social }}
+          {{- with $author.social -}}
+            <div class="mt-4 flex flex-wrap justify-center gap-1.5 md:justify-start">
+              {{- range . -}}
                 <a
                   href="{{ .url }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="bg-muted text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 inline-flex items-center gap-2 rounded-lg px-3 py-2 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus:ring-2 focus:outline-none"
+                  {{ if strings.HasPrefix .url "http" }}
+                    target="_blank" rel="noopener noreferrer"
+                  {{ end }}
+                  class="border-border bg-background text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs font-medium transition-colors"
                   title="{{ .name }}"
                 >
-                  {{ if .icon }}
-                    {{ partial "features/icon.html" (dict "name" .icon "size" "sm" "ariaLabel" .name) }}
-                  {{ end }}
-                  <span class="text-sm font-medium">{{ .name }}</span>
+                  {{- with .icon -}}
+                    {{ partial "features/icon.html" (dict "name" . "size" "sm" "ariaLabel" "") }}
+                  {{- end -}}
+                  <span>{{ .name }}</span>
                 </a>
-              {{ end }}
+              {{- end -}}
             </div>
-          {{ end }}
+          {{- end -}}
         </div>
       </div>
     </div>
   </section>
-{{ end }}
+{{- end -}}

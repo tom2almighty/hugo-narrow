@@ -3,13 +3,15 @@
         one = "{{ .count }} page"
         other = "{{ .count }} pages"
 
+    [list.terms]
+        one = "{{ .count }} élément"
+        other = "{{ .count }} éléments"
+
 [article]
     empty          = "Aucun contenu"
     relatedContent = "Contenu associé"
     prev           = "Précédent"
     next           = "Suivant"
-    noPrev         = "Aucun précédent"
-    noNext         = "Aucun suivant"
 
     [article.alert]
         note      = "Note"
@@ -33,6 +35,7 @@
   collapse        = "Replier"
 
 [nav]
+    home = "Accueil"
     anchor        = "Lien vers cette section"
     backHome      = "Retour à l'accueil"
     breadcrumb    = "Fil d’Ariane"
@@ -42,12 +45,13 @@
     pageInfo      = "Page {{ .current }} sur {{ .total }}"
 
 [ui]
+    skipToContent = "Aller au contenu"
+    language = "Langue"
+    announcementDismiss = "Fermer l'annonce"
     dockAriaLabel = "Barre d’actions rapides"
-    dockBack      = "Retour"
     dockSearch    = "Recherche"
     dockComments  = "Commentaires"
     dockBackToTop = "Haut de page"
-    dockTop       = "Haut"
     toc           = "Table des matières"
     tocPin        = "Épingler la table des matières"
     tocUnpin      = "Détacher la table des matières"
@@ -65,24 +69,19 @@
     themeDark    = "Sombre"
     themeLight   = "Clair"
     themeSystem  = "Système"
-    themeToggle  = "Changer de thème"
 
-    languageToggle = "Changer de langue"
 
     contentWidth       = "Largeur de page"
     contentWidthReset  = "Rétablir par défaut"
-    contentWidthToggle = "Ajuster la largeur de page"
+    backdropBlur       = "Flou d'arrière-plan"
+    backdropBlurReset  = "Rétablir par défaut"
+    grainSize          = "Taille du grain"
+    grainSizeReset     = "Rétablir par défaut"
 
     appearanceToggle = "Paramètres d'apparence"
     colorScheme      = "Palette de couleurs"
     themeMode        = "Mode d'affichage"
-    closeMenu        = "Fermer le menu"
 
-[license]
-    title  = "Licence"
-    author = "Auteur"
-    link   = "Lien"
-    type   = "Licence"
 
 
 [comments]
@@ -109,3 +108,13 @@
 
 [footer]
   poweredBy = "Propulsé par"
+
+[context]
+    seriesPrev = "Partie précédente"
+    seriesNext = "Partie suivante"
+    seriesPartOf = "Partie {{ .current }} sur {{ .total }}"
+    seriesParts = "Toutes les parties"
+    seriesViewSeries = "Voir la série"
+
+[projects]
+    visit = "Ouvrir le projet"

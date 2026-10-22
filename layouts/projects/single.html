@@ -1,131 +1,32 @@
 {{ define "main" }}
-  <!-- 页面头部区域: 图、标题、摘要 -->
-  <header class="mb-10">
-    <!-- 项目封面图片 -->
-    {{- if .Params.cover -}}
-      {{/* 使用通用图片处理器 */}}
-      {{- partial "content/image-processor.html" (dict
-        "context" .
-        "src" .Params.cover
-        "alt" .Title
-        "outputType" "data"
-        )
-      -}}
-      {{- $coverImage := .Store.Get "imageUrl" -}}
-      {{- $coverSrcset := .Store.Get "imageSrcset" -}}
-      {{- $coverWidth := .Store.Get "imageWidth" | default 0 -}}
-      {{- $coverHeight := .Store.Get "imageHeight" | default 0 -}}
+  <header class="border-border mb-8 border-b pb-6">
+    <div class="flex items-start justify-between gap-4">
+      <h1 class="text-foreground text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
+        {{ .Title }}
+      </h1>
 
-      {{- if $coverImage -}}
-        <div class="border-border mb-8 overflow-hidden rounded-2xl border shadow-sm">
-          <img
-            src="{{ $coverImage }}"
-            {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
-            sizes="(min-width: 768px) 720px, 100vw"
-            alt="{{ .Title }}"
-            {{ if gt $coverWidth 0 }}width="{{ $coverWidth }}" height="{{ $coverHeight }}"{{ end }}
-            class="aspect-video w-full object-cover md:aspect-auto md:h-112"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </div>
-      {{- end -}}
-    {{ end }}
-
-
-    <!-- 标题 -->
-    <h1 class="text-foreground mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">
-      {{ .Title }}
-    </h1>
-
-    <!-- 摘要 -->
-    {{ if .Params.summary }}
-      <div class="text-muted-foreground text-lg leading-relaxed md:text-xl">
-        {{ .Params.summary | plainify }}
-      </div>
-    {{ end }}
-  </header>
-
-  <!-- 项目元信息按钮组 -->
-  <div class="mb-12">
-    <div class="flex flex-wrap items-center gap-2.5 text-sm font-medium">
-      {{ if not .Date.IsZero }}
-        <span
-          class="bg-muted/45 text-foreground border-border inline-flex h-10 items-center gap-2 rounded-lg border px-3.5 shadow-sm"
-        >
-          {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "class" "text-primary shrink-0" "hidden" true) }}
-          <time datetime="{{ .Date.Format `2006-01-02` }}">
-            {{ partial "helpers/date.html" (dict "date" .Date "variant" "long") }}
-          </time>
-        </span>
-      {{ end }}
-
-      {{ if .Params.status }}
-        <span
-          class="bg-muted/45 text-foreground border-border inline-flex h-10 items-center gap-2 rounded-lg border px-3.5 shadow-sm"
-        >
-          {{ partial "features/icon.html" (dict "name" "status" "size" "sm" "class" "text-primary shrink-0" "hidden" true) }}
-          <span class="relative flex h-2.5 w-2.5 shrink-0">
-            <span
-              class="{{ if eq .Params.status `completed` }}
-                bg-green-400
-              {{ else if eq .Params.status `in_progress` }}
-                bg-blue-400
-              {{ else }}
-                bg-primary
-              {{ end }} absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
-            ></span>
-            <span
-              class="{{ if eq .Params.status `completed` }}
-                bg-green-500
-              {{ else if eq .Params.status `in_progress` }}
-                bg-blue-500
-              {{ else }}
-                bg-primary
-              {{ end }} relative inline-flex h-2.5 w-2.5 rounded-full"
-            ></span>
-          </span>
-          <span>{{ .Params.status | humanize }}</span>
-        </span>
-      {{ end }}
-
-      {{ if .Params.tags }}
-        {{ range .Params.tags }}
-          <a
-            href="{{ `/tags/` | relLangURL }}{{ . | urlize }}/"
-            class="bg-background text-foreground border-border hover:bg-primary hover:text-primary-foreground hover:border-primary focus:ring-primary/20 inline-flex h-10 items-center gap-2 rounded-lg border px-3.5 shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:outline-none"
-          >
-            {{ partial "features/icon.html" (dict "name" "tag" "size" "sm" "class" "shrink-0" "hidden" true) }}
-            <span>{{ . }}</span>
-          </a>
-        {{ end }}
-      {{ end }}
-
-      {{ if .Params.link }}
+      {{- with .Params.link -}}
         <a
-          href="{{ .Params.link }}"
+          href="{{ . }}"
           target="_blank"
           rel="noopener noreferrer"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex h-10 items-center gap-2 rounded-lg px-3.5 shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 focus:ring-2 focus:outline-none"
-          aria-label="{{ .Title }}"
+          class="border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border px-3 text-xs font-medium transition-colors"
         >
-          {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "class" "shrink-0" "hidden" true) }}
-          <span>{{ .Title }}</span>
+          {{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
+          <span>{{ T "projects.visit" | default "Open project" }}</span>
         </a>
-      {{ end }}
+      {{- end -}}
     </div>
-  </div>
 
-  <!-- 正文区域 (垂直布局最底部) -->
-  <div class="bg-card border-border rounded-xl border p-6 shadow-sm md:p-8 md:px-10">
-    <article class="prose prose-neutral dark:prose-invert max-w-none">
-      {{ .Content }}
-    </article>
-  </div>
+    {{- $summary := .Params.summary | default .Description -}}
+    {{- with $summary -}}
+      <p class="text-muted-foreground mt-3 text-base leading-relaxed">{{ . | plainify }}</p>
+    {{- end -}}
+  </header>
 
-  <!-- 评论组件 -->
-  <div class="mt-12">
-    {{ partial "features/comments.html" . }}
-  </div>
+  <article class="prose max-w-none">
+    {{ .Content }}
+  </article>
+
+  {{ partial "features/comments.html" . }}
 {{ end }}

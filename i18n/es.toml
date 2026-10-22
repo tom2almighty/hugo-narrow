@@ -3,13 +3,15 @@
         one = "{{ .count }} página"
         other = "{{ .count }} páginas"
 
+    [list.terms]
+        one = "{{ .count }} elemento"
+        other = "{{ .count }} elementos"
+
 [article]
     empty          = "Sin contenido"
     relatedContent = "Contenido relacionado"
     prev           = "Anterior"
     next           = "Siguiente"
-    noPrev         = "Sin anterior"
-    noNext         = "Sin siguiente"
 
     [article.alert]
         note      = "Nota"
@@ -33,6 +35,7 @@
   collapse        = "Contraer"
 
 [nav]
+    home = "Inicio"
     anchor        = "Enlace a esta sección"
     backHome      = "Volver al inicio"
     breadcrumb    = "Migas de pan"
@@ -42,12 +45,13 @@
     pageInfo      = "Página {{ .current }} de {{ .total }}"
 
 [ui]
+    skipToContent = "Saltar al contenido"
+    language = "Idioma"
+    announcementDismiss = "Cerrar anuncio"
     dockAriaLabel = "Barra de acciones rápidas"
-    dockBack      = "Volver"
     dockSearch    = "Buscar"
     dockComments  = "Comentarios"
     dockBackToTop = "Volver arriba"
-    dockTop       = "Arriba"
     toc           = "Tabla de contenidos"
     tocPin        = "Fijar tabla de contenidos"
     tocUnpin      = "Dejar de fijar la tabla de contenidos"
@@ -65,24 +69,19 @@
     themeDark    = "Oscuro"
     themeLight   = "Claro"
     themeSystem  = "Sistema"
-    themeToggle  = "Cambiar tema"
 
-    languageToggle = "Cambiar idioma"
 
     contentWidth       = "Ancho de página"
     contentWidthReset  = "Restaurar predeterminado"
-    contentWidthToggle = "Ajustar ancho de página"
+    backdropBlur       = "Desenfoque de fondo"
+    backdropBlurReset  = "Restaurar predeterminado"
+    grainSize          = "Tamaño de grano"
+    grainSizeReset     = "Restaurar predeterminado"
 
     appearanceToggle = "Ajustes de apariencia"
     colorScheme      = "Esquema de colores"
     themeMode        = "Modo de apariencia"
-    closeMenu        = "Cerrar menú"
 
-[license]
-    title  = "Licencia"
-    author = "Autor"
-    link   = "Enlace"
-    type   = "Licencia"
 
 
 [comments]
@@ -109,3 +108,13 @@
 
 [footer]
   poweredBy = "Desarrollado con"
+
+[context]
+    seriesPrev = "Parte anterior"
+    seriesNext = "Parte siguiente"
+    seriesPartOf = "Parte {{ .current }} de {{ .total }}"
+    seriesParts = "Todas las partes"
+    seriesViewSeries = "Ver serie"
+
+[projects]
+    visit = "Abrir proyecto"

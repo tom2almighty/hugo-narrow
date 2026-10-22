@@ -1,12 +1,12 @@
 <!-- 搜索模态框：原生 dialog 提供焦点陷阱、Esc 关闭和背景 inert -->
 <dialog
   id="search-modal"
-  class="bg-card text-foreground border-border m-auto max-h-[80vh] w-11/12 max-w-2xl overflow-hidden rounded-xl border p-0 shadow-xl"
+  class="text-popover-foreground border-border shadow-popover m-auto max-h-[80dvh] w-11/12 max-w-xl overflow-hidden rounded-lg border p-0"
   aria-labelledby="search-title"
   tabindex="-1"
 >
   <!-- 搜索头部 -->
-  <div class="border-border flex items-center gap-3 border-b p-4">
+  <div class="border-border flex items-center gap-3 border-b p-3">
     <!-- 搜索图标 -->
     <div class="text-muted-foreground h-5 w-5 shrink-0">
       {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
@@ -36,7 +36,7 @@
         aria-expanded="false"
         aria-labelledby="search-title"
         placeholder="{{ T `ui.searchPlaceholder` }}"
-        class="text-foreground placeholder:text-muted-foreground w-full border-none bg-transparent pl-8 text-lg outline-none"
+        class="text-foreground placeholder:text-muted-foreground w-full border-none bg-transparent pl-8 text-base outline-none"
         autocomplete="off"
         autocapitalize="off"
         spellcheck="false"
@@ -47,7 +47,8 @@
     <!-- 关闭按钮 -->
     <button
       id="search-close"
-      class="text-muted-foreground hover:text-foreground hover:bg-muted/50 flex h-6 w-6 items-center justify-center rounded-md p-0.5 transition-all duration-200"
+      type="button"
+      class="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex size-7 items-center justify-center rounded-md transition-colors"
       title="{{ T `ui.searchClose` }}"
       aria-label="{{ T `ui.searchClose` }}"
     >
@@ -58,13 +59,8 @@
   <!-- 搜索结果区域 -->
   <div id="search-results" class="max-h-96 overflow-y-auto">
     <!-- 空状态 -->
-    <div id="search-empty" class="flex flex-col items-center justify-center py-12 text-center">
-      <div class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-        {{ partial "features/icon.html" (dict "name" "search" "size" "lg" "ariaLabel" "") }}
-      </div>
-      <h3 class="text-foreground mb-2 text-lg font-semibold">
-        {{ T "ui.searchEmpty" }}
-      </h3>
+    <div id="search-empty" class="text-muted-foreground px-4 py-10 text-center text-sm">
+      {{ T "ui.searchEmpty" }}
     </div>
 
     <!-- 加载状态 -->
@@ -76,17 +72,8 @@
     </div>
 
     <!-- 无结果状态 -->
-    <div
-      id="search-no-results"
-      class="flex flex-col items-center justify-center py-12 text-center"
-      hidden
-    >
-      <div class="bg-muted/50 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-        {{ partial "features/icon.html" (dict "name" "text" "size" "lg" "ariaLabel" "") }}
-      </div>
-      <h3 class="text-foreground mb-2 text-lg font-semibold">
-        {{ T "ui.searchNoResults" }}
-      </h3>
+    <div id="search-no-results" class="text-muted-foreground px-4 py-10 text-center text-sm" hidden>
+      {{ T "ui.searchNoResults" }}
     </div>
 
     <!-- 搜索结果列表 -->
@@ -94,7 +81,7 @@
       <!-- 结果统计 -->
       <div
         id="search-stats"
-        class="text-muted-foreground border-border border-b px-4 py-3 text-sm"
+        class="text-muted-foreground border-border border-b px-3 py-2 text-xs"
         data-count-other="{{ T `ui.searchResultsCount` }}"
         role="status"
         aria-live="polite"
@@ -108,7 +95,7 @@
   </div>
 
   <!-- 搜索底部提示 -->
-  <div class="border-border bg-muted/20 border-t px-4 py-3">
+  <div class="border-border bg-muted/30 border-t px-3 py-2">
     {{- $searchHintLabels := split (T "ui.searchHints") "|" -}}
     <div class="text-muted-foreground flex items-center justify-between text-xs">
       <div class="flex items-center gap-2 md:gap-4">
@@ -126,7 +113,11 @@
         </div>
       </div>
       <div class="search-hint-desktop flex items-center gap-1">
-        <kbd class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs">⌘K</kbd>
+        <kbd
+          id="search-shortcut"
+          class="bg-muted border-border rounded border px-1.5 py-0.5 text-xs"
+          >Ctrl K</kbd
+        >
         <span>{{ index $searchHintLabels 3 }}</span>
       </div>
     </div>

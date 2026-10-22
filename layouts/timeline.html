@@ -1,116 +1,45 @@
 {{ define "main" }}
-  <article class="px-4 py-6">
-    <!-- 页面头部 -->
-    <header class="mb-8">
-      <div class="mb-4 flex items-center gap-3">
-        {{ partial "features/icon.html" (dict "name" "calendar" "size" "lg" "ariaLabel" "") }}
-        <h1 class="text-foreground text-3xl font-bold">
-          {{ .Title }}
-        </h1>
-      </div>
+  {{ partial "content/page-header.html" (dict "page" .) }}
 
-      {{ with .Date }}
-        <div class="text-muted-foreground flex items-center gap-2 text-sm">
-          {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-          <time datetime="{{ .Format `2006-01-02` }}">
-            {{ partial "helpers/date.html" (dict "date" . "variant" "long") }}
-          </time>
-        </div>
-      {{ end }}
+  {{- $split := partial "content/split-sections.html" (dict "content" .Content) -}}
 
-      {{ with .Description }}
-        <p>{{ . }}</p>
-      {{ end }}
-    </header>
+  {{- if $split.sections -}}
+    <div class="border-border border-l pl-5">
+      {{- if ne (trim $split.pre " \n\r\t") "" -}}
+        <div class="prose mb-8 max-w-none">{{ $split.pre | safeHTML }}</div>
+      {{- end -}}
 
-    <!-- 页面内容 & Timeline -->
-    <div class="relative">
-      {{ $content := .Content }}
-      {{ $parts := split $content "<h2" }}
+      {{- range $split.sections -}}
+        <section class="relative mb-8">
+          <span
+            class="bg-muted-foreground absolute top-2 -left-6 size-1.5 rounded-full"
+            aria-hidden="true"
+          ></span>
+          <h2
+            {{ if .id }}id="{{ .id }}"{{ end }}
+            class="timeline-heading text-foreground m-0 scroll-m-20 text-base font-semibold"
+          >
+            <span class="timeline-heading-text">{{ .title | safeHTML }}</span>
+            {{- if .id -}}
+              <a
+                href="#{{ .id }}"
+                class="heading-anchor"
+                aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
+              >
+                {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+              </a>
+            {{- end -}}
+          </h2>
 
-      {{ if gt (len $parts) 1 }}
-        <!-- 时间轴线 -->
-        <div class="bg-border absolute top-0 bottom-0 left-4 w-0.5"></div>
-
-        <!-- Content before first h2 -->
-        {{ $preContent := index $parts 0 }}
-        {{ if ne (trim $preContent " \n\r\t") "" }}
-          <div class="mb-12 ml-12 max-w-none">
-            {{ $preContent | safeHTML }}
-          </div>
-        {{ end }}
-
-
-        <!-- Render each timeline block -->
-        {{ range $index, $part := $parts }}
-          {{ if gt $index 0 }}
-            {{ $subparts := split $part "</h2>" }}
-            {{ $h2TagAndTitle := index $subparts 0 }}
-            {{ $body := "" }}
-            {{ if gt (len $subparts) 1 }}
-              {{ $body = index $subparts 1 }}
-            {{ end }}
-
-            {{/* Extract ID and Title from the h2 tag */}}
-            {{ $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $h2TagAndTitle }}
-            {{ $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title }}
-            {{ $idMatch := findRE `id="([^"]*)"` $h2TagAndTitle }}
-            {{ $id := "" }}
-            {{ if $idMatch }}
-              {{ $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) }}
-            {{ end }}
-
-
-            <div class="relative mb-12">
-              <!-- 时间点标题 -->
-              <div class="relative mb-8 flex items-center">
-                <div
-                  class="bg-primary absolute left-0 z-10 flex h-8 w-8 items-center justify-center rounded-full"
-                >
-                  {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "" "class" "text-primary-foreground") }}
-                </div>
-                <div class="ml-12">
-                  <h2
-                    {{ if $id }}id="{{ $id }}"{{ end }}
-                    class="timeline-heading text-foreground m-0 scroll-m-20 text-2xl font-bold"
-                  >
-                    <span class="timeline-heading-text">{{ $titleContent | safeHTML }}</span>
-                    {{ if $id }}
-                      <a
-                        href="#{{ $id }}"
-                        class="heading-anchor"
-                        aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
-                      >
-                        {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
-                      </a>
-                    {{ end }}
-                  </h2>
-                </div>
-              </div>
-
-              <!-- 内容区域 -->
-              {{ if ne (trim $body " \n\r\t") "" }}
-                <div class="ml-12">
-                  <div
-                    class="prose prose-neutral dark:prose-invert group bg-card border-border hover:bg-accent/50 mb-6 max-w-none rounded-lg border p-6 transition-all duration-300"
-                  >
-                    {{ $body | safeHTML }}
-                  </div>
-                </div>
-              {{ end }}
-            </div>
-          {{ end }}
-        {{ end }}
-
-      {{ else }}
-        <div class="mb-12 max-w-none">
-          {{ .Content }}
-        </div>
-      {{ end }}
-
+          {{- if ne (trim .body " \n\r\t") "" -}}
+            <div class="prose mt-3 max-w-none">{{ .body | safeHTML }}</div>
+          {{- end -}}
+        </section>
+      {{- end -}}
     </div>
+  {{- else -}}
+    <div class="prose max-w-none">{{ .Content }}</div>
+  {{- end -}}
 
-    <!-- 评论组件 -->
-    {{ partial "features/comments.html" . }}
-  </article>
+  {{ partial "features/comments.html" . }}
 {{ end }}

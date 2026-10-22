@@ -1,9 +1,7 @@
 <!-- tencent.html -->
 {{ $vid := .Get 0 }}
-<div
-  class="bg-card border-border my-8 overflow-hidden rounded-lg border shadow-md transition-shadow duration-300 hover:shadow-lg"
->
-  <div class="h-96 md:h-[500px] lg:h-[600px]">
+<div class="bg-card border-border my-8 overflow-hidden rounded-md border">
+  <div class="aspect-video">
     <iframe
       src="https://v.qq.com/txp/iframe/player.html?vid={{ $vid }}&auto=0"
       class="h-full w-full"

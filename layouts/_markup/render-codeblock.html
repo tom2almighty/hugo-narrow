@@ -15,38 +15,38 @@
 {{- $codeId := printf "code-%d" .Ordinal -}}
 
 {{/* 折叠功能相关参数 */}}
+{{- $codeblock := site.Params.codeblock | default dict -}}
+{{- $collapse := $codeblock.collapse | default dict -}}
 {{- $collapsed := .Attributes.collapsed | default false -}}
-{{- $defaultState := .Attributes.defaultState | default (site.Params.codeblock.collapse.defaultState | default "expanded") -}}
-{{- $autoCollapseLines := site.Params.codeblock.collapse.autoCollapseLines | default 30 -}}
-{{- $autoCollapseHeight := site.Params.codeblock.collapse.autoCollapseHeight | default 400 -}}
-{{- $collapsedHeight := site.Params.codeblock.collapse.collapsedHeight | default 120 -}}
-{{- $collapseEnabled := site.Params.codeblock.collapse.enabled | default true -}}
+{{- $defaultState := .Attributes.defaultState | default ($collapse.defaultState | default "expanded") -}}
+{{- $maxLines := $collapse.maxLines | default 30 -}}
+{{- $collapsedHeight := $collapse.collapsedHeight | default 120 -}}
+{{- $collapseEnabled := $collapse.enabled | default true -}}
 
 {{/* 使用 Hugo 的 transform.HighlightCodeBlock 进行语法高亮 */}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
 
 
 <div
-  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-xl border shadow-sm transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
+  class="code-block-container border-border bg-card my-6 overflow-hidden rounded-md border"
   data-code-block
   data-code-id="{{ $codeId }}"
   data-collapsible="{{ $collapseEnabled }}"
   data-default-state="{{ $defaultState }}"
   data-collapsed="{{ $collapsed }}"
-  data-auto-collapse-lines="{{ $autoCollapseLines }}"
-  data-auto-collapse-height="{{ $autoCollapseHeight }}"
+  data-max-lines="{{ $maxLines }}"
   data-collapsed-height="{{ $collapsedHeight }}"
 >
   {{/* Code block header */}}
   <div
-    class="code-block-header bg-muted/30 border-border flex items-center justify-between border-b px-4 py-3"
+    class="code-block-header bg-muted/40 border-border flex items-center justify-between border-b px-3 py-2"
   >
     {{/* Language/filename display */}}
     <div class="flex items-center gap-2">
       <div class="text-muted-foreground shrink-0">
         {{ partial "features/icon.html" (dict "name" "code" "size" "sm" "ariaLabel" "") }}
       </div>
-      <span class="text-muted-foreground text-sm font-medium">
+      <span class="text-muted-foreground text-xs font-medium">
         {{ $displayLang }}
       </span>
     </div>
@@ -56,7 +56,7 @@
       {{/* Collapse button (if collapse is enabled) */}}
       {{- if $collapseEnabled -}}
         <button
-          class="collapse-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+          class="collapse-code-btn text-muted-foreground hover:bg-muted hover:text-foreground inline-flex h-7 items-center gap-1 rounded-md px-2 text-xs font-medium transition-colors"
           type="button"
           data-code-action="toggle-collapse"
           data-label-expand="{{ T `code.expand` }}"
@@ -75,7 +75,7 @@
 
       {{/* Copy button */}}
       <button
-        class="copy-code-btn text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 ease-out focus:ring-2 focus:outline-none"
+        class="copy-code-btn text-muted-foreground hover:bg-muted hover:text-foreground inline-flex h-7 items-center gap-1 rounded-md px-2 text-xs font-medium transition-colors"
         type="button"
         data-code-action="copy"
         data-label-copy="{{ T `code.copy` }}"
@@ -101,7 +101,7 @@
       hidden
     >
       <button
-        class="collapse-overlay-btn text-muted-foreground bg-card/80 border-border/50 hover:bg-primary/10 hover:text-primary hover:border-primary/30 absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border p-2 backdrop-blur-sm transition-all duration-200"
+        class="collapse-overlay-btn text-muted-foreground bg-background border-border hover:bg-muted hover:text-foreground absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-md border p-1.5 transition-colors"
         type="button"
         data-code-action="expand"
         aria-label="{{ T `code.expand` }}"

@@ -1,5 +1,8 @@
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 <title>
@@ -50,15 +53,19 @@
     {{- with site.Params.keywords -}}{{ delimit . `, ` }}{{- end -}}
   {{- end -}}"
 />
-<meta
-  name="author"
-  content="{{- with .Params.author -}}
-    {{ . }}
+{{- $metaAuthor := "" -}}
+{{- with site.Params.author -}}
+  {{- $metaAuthor = .name | default "" -}}
+{{- end -}}
+{{- with .Params.author -}}
+  {{- if reflect.IsMap . -}}
+    {{- $metaAuthor = .name | default $metaAuthor -}}
   {{- else -}}
-    {{ site.Params.defaultAuthor }}
-  {{- end -}}"
-/>
-<meta name="language" content="{{ site.Params.language | default site.Language.Locale }}" />
+    {{- $metaAuthor = . -}}
+  {{- end -}}
+{{- end -}}
+<meta name="author" content="{{ $metaAuthor }}" />
+<meta name="language" content="{{ site.Language.Locale }}" />
 
 <meta
   name="robots"
@@ -76,6 +83,18 @@
   <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}" />
 {{ end }}
 
+{{- $pwa := site.Params.pwa | default dict -}}
+{{- $themeColor := $pwa.themeColor | default "#09090b" -}}
+<meta name="theme-color" content="{{ $themeColor }}" media="(prefers-color-scheme: light)" />
+<meta
+  name="theme-color"
+  content="{{ $pwa.darkThemeColor | default $themeColor }}"
+  media="(prefers-color-scheme: dark)"
+/>
+{{- with $pwa.appleTouchIcon }}
+  <link rel="apple-touch-icon" href="{{ strings.TrimPrefix `/` . | relURL }}" />
+{{- end }}
+
 {{- $_ := .Content -}}
 
 {{- $searchConfig := partial "config/search.html" . -}}
@@ -86,6 +105,8 @@
 
 
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />
+{{- $sprite := partialCached "features/icon-sprite.html" . -}}
+<link rel="preload" as="image" type="image/svg+xml" href="{{ $sprite.RelPermalink }}" />
 {{ partial "layout/head/seo.html" . }}
 
 {{ partial "config/script.html" (dict "id" "search-config" "value" $searchConfig) }}

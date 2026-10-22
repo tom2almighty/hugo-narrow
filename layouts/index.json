@@ -1,5 +1,6 @@
 {{- $records := slice -}}
 {{- $mainSections := .Site.MainSections -}}
+{{- $contentLength := site.Params.search.indexContentLength | default 2000 -}}
 
 {{- range where .Site.RegularPages "Section" "in" $mainSections -}}
   {{- $summary := .Summary | plainify | strings.TrimSpace -}}
@@ -10,7 +11,7 @@
   {{- $records = $records | append (dict
     "title" .Title
     "summary" $summary
-    "content" (.Plain | truncate 2000)
+    "content" (.Plain | truncate $contentLength)
     "permalink" .RelPermalink
     "section" .Section
     "date" (partial "helpers/date.html" (dict "date" .Date "variant" "long"))

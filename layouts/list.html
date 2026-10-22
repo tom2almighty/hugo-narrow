@@ -1,70 +1,18 @@
 {{ define "main" }}
-  {{ $pages := .Paginator.Pages }}
+  {{- $pages := .Paginator.Pages -}}
+  {{- $meta := T "list.pages" (dict "count" .Paginator.TotalNumberOfElements) -}}
 
+  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  <!-- 页面标题和描述 -->
-  <header class="mb-8">
-    <h1 class="text-foreground mb-4 text-3xl font-bold">
-      {{ .Title }}
-    </h1>
-
-    {{ if .Content }}
-      <div class="prose prose-neutral dark:prose-invert max-w-none">
-        {{ .Content }}
-      </div>
-    {{ else if .Description }}
-      <p class="text-muted-foreground">
-        {{ .Description }}
-      </p>
-    {{ end }}
-
-
-    <!-- 列表统计信息 -->
-    {{ if $pages }}
-      <div class="text-muted-foreground mt-4 flex items-center gap-4 text-sm">
-        <div class="flex items-center gap-1">
-          {{ partial "features/icon.html" (dict "name" "folder" "size" "sm" "ariaLabel" "") }}
-          <span>{{ T "list.pages" (dict "count" .Paginator.TotalNumberOfElements) }}</span>
-        </div>
-        {{ if gt .Paginator.TotalPages 1 }}
-          <div class="flex items-center gap-1">
-            {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
-            <span>
-              {{ .Paginator.PageNumber }} /
-              {{ .Paginator.TotalPages }}
-            </span>
-          </div>
-        {{ end }}
-      </div>
-    {{ end }}
-  </header>
-
-  <!-- 内容列表 -->
-  {{ if $pages }}
-    <div class="space-y-4">
-      {{ range $pages }}
-        {{ partial "content/card-base.html" (dict "page" .) }}
-      {{ end }}
-    </div>
-
-    <!-- 分页导航 -->
+  {{- if $pages -}}
+    {{ partial "content/card-grid.html" (dict
+      "items" $pages
+      "variant" "post"
+      "columns" .Params.columns
+      )
+    }}
     {{ partial "navigation/pagination.html" . }}
-  {{ else }}
-    <!-- 空状态 -->
-    <div class="py-16 text-center">
-      <div class="bg-muted/50 mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full">
-        {{ partial "features/icon.html" (dict "name" "folder" "size" "xl" "ariaLabel" "") }}
-      </div>
-      <h2 class="text-foreground mb-3 text-xl font-medium">
-        {{ T "article.empty" }}
-      </h2>
-      <a
-        href="{{ `/` | relLangURL }}"
-        class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors duration-300"
-      >
-        {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-        <span>{{ T "nav.backHome" }}</span>
-      </a>
-    </div>
-  {{ end }}
+  {{- else -}}
+    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+  {{- end -}}
 {{ end }}

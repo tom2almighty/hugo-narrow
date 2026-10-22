@@ -1,0 +1,39 @@
+{{- $announcement := site.Params.announcement -}}
+{{- if and $announcement $announcement.enabled $announcement.message -}}
+  {{- $type := $announcement.type | default "info" -}}
+  {{- $dismissible := true -}}
+  {{- if isset $announcement "dismissible" -}}
+    {{- $dismissible = $announcement.dismissible -}}
+  {{- end -}}
+  {{- $role := cond (eq $type "destructive") "alert" "status" -}}
+  {{- $hasContextBar := and (not .IsHome) (ne .Kind "404") -}}
+  <div
+    id="site-announcement"
+    class="site-tip {{ if $hasContextBar }}
+      site-tip--below-context
+    {{ end }} {{ if eq $type `warning` }}
+      border-warning/30 bg-warning/10
+    {{ else if eq $type `destructive` }}
+      border-destructive/30 bg-destructive/10
+    {{ else }}
+      border-border bg-popover
+    {{ end }}"
+    role="{{ $role }}"
+    data-announcement-id="{{ substr (md5 $announcement.message) 0 8 }}"
+  >
+    <p class="text-foreground min-w-0 flex-1 text-sm leading-relaxed">
+      {{ $announcement.message }}
+    </p>
+    {{- if $dismissible -}}
+      <button
+        id="announcement-close"
+        type="button"
+        class="text-muted-foreground hover:bg-accent hover:text-accent-foreground -my-1 inline-flex size-7 shrink-0 items-center justify-center rounded-md transition-colors"
+        aria-label="{{ T `ui.announcementDismiss` }}"
+        title="{{ T `ui.announcementDismiss` }}"
+      >
+        {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
+      </button>
+    {{- end -}}
+  </div>
+{{- end -}}

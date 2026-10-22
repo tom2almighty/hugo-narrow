@@ -59,7 +59,8 @@ body.gallery-lightbox-open {
   display: none;
 }
 .gallery-lightbox {
-  @apply fixed inset-0 z-[100] bg-background/88 p-4 opacity-0 backdrop-blur-md transition-opacity duration-200;
+  @apply fixed inset-0 z-[100] p-4 opacity-0 transition-opacity duration-200;
+  background: rgb(0 0 0 / 0.85);
 }
 .gallery-lightbox.is-open {
   @apply opacity-100;
@@ -84,7 +85,7 @@ body.gallery-lightbox-open {
   max-height: inherit;
 }
 .gallery-lightbox__image {
-  @apply block h-auto w-auto rounded-2xl object-contain shadow-2xl;
+  @apply block h-auto w-auto rounded-xl object-contain shadow-popover;
   max-width: min(92vw, 1400px);
   max-height: calc(100vh - 7rem);
   transform: scale(0.985);
@@ -99,7 +100,7 @@ body.gallery-lightbox-open {
 .gallery-lightbox__nav,
 .gallery-lightbox__caption-bubble,
 .gallery-lightbox__counter {
-  @apply bg-popover/78 text-popover-foreground border-border shadow-lg backdrop-blur-md;
+  @apply bg-popover text-popover-foreground border-border shadow-popover;
 }
 .gallery-lightbox__close {
   @apply absolute top-4 right-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border text-3xl leading-none transition-all duration-200;
@@ -135,7 +136,7 @@ body.gallery-lightbox-open {
   pointer-events: auto;
 }
 .gallery-lightbox__caption-bubble {
-  @apply min-w-0 rounded-2xl px-4 py-3;
+  @apply min-w-0 rounded-xl px-4 py-3;
   max-width: min(72vw, 48rem);
   transform: translateY(6px);
   transition:
@@ -221,10 +222,10 @@ body.gallery-lightbox-open {
   }
   .gallery-lightbox__caption-bubble {
     max-width: min(80vw, 24rem);
-    @apply rounded-[1.125rem] px-3.5 py-2.5;
+    @apply rounded-xl px-3.5 py-2.5;
   }
   .gallery-lightbox__counter {
-    @apply px-2.5 py-2 text-[0.7rem];
+    @apply px-2.5 py-2 text-xs;
   }
   .gallery-lightbox__nav {
     @apply h-11 w-11 text-3xl;
@@ -269,5 +270,30 @@ body.gallery-lightbox-open {
   .gallery-lightbox__nav {
     transition: none;
     transform: none;
+  }
+}
+
+/* Mirror the lightbox navigation in right-to-left layouts. */
+[dir="rtl"] .gallery-lightbox__nav svg {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .gallery-lightbox__nav--prev {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .gallery-lightbox__nav--next {
+  right: auto;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  [dir="rtl"] .gallery-lightbox__nav--prev {
+    right: 0.5rem;
+  }
+
+  [dir="rtl"] .gallery-lightbox__nav--next {
+    left: 0.5rem;
   }
 }

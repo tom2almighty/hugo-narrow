@@ -1,32 +1,71 @@
 /* Hugo Narrow 主题 - 主样式文件 */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --color-primary: var(--color-primary);
-  --color-primary-foreground: var(--color-primary-foreground);
-  --color-secondary: var(--color-secondary);
-  --color-secondary-foreground: var(--color-secondary-foreground);
-  --color-accent: var(--color-accent);
-  --color-accent-foreground: var(--color-accent-foreground);
-  --color-background: var(--color-background);
-  --color-foreground: var(--color-foreground);
-  --color-muted: var(--color-muted);
-  --color-muted-foreground: var(--color-muted-foreground);
-  --color-border: var(--color-border);
-  --color-card: var(--color-card);
-  --color-card-foreground: var(--color-card-foreground);
-  --color-popover: var(--color-popover);
-  --color-popover-foreground: var(--color-popover-foreground);
-
-  --color-note: var(--color-note);
-  --color-tip: var(--color-tip);
-  --color-important: var(--color-important);
-  --color-warning: var(--color-warning);
-  --color-caution: var(--color-caution);
+/* Shared translucent surfaces: page chrome follows the page background,
+   floating panels follow the popover surface. */
+@utility surface-chrome {
+  background: color-mix(in oklab, var(--background) var(--surface-alpha, 82%), transparent);
+  backdrop-filter: blur(var(--backdrop-blur, 12px));
 }
 
+@utility surface-popover {
+  background: color-mix(in oklab, var(--popover) var(--surface-alpha, 82%), transparent);
+  backdrop-filter: blur(var(--backdrop-blur, 12px));
+}
+
+/* shadcn/tweakcn raw tokens are defined in themes.css. */
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-note: var(--note);
+  --color-tip: var(--tip);
+  --color-important: var(--important);
+  --color-warning: var(--warning);
+  --color-caution: var(--caution);
+
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+
+  --shadow-popover: 0 8px 24px rgb(0 0 0 / 0.08);
+}
 
 @layer theme {
   @import "./themes.css";
@@ -34,11 +73,6 @@
 
 @layer base {
   @import "./base.css";
-  @import "./prose.typography.css";
-  @import "./prose.lists.css";
-  @import "./prose.code.css";
-  @import "./prose.table.css";
-  @import "./prose.misc.css";
 }
 
 @layer components {
@@ -47,7 +81,11 @@
   @import "./toc.css";
 }
 
+/* Prose overrides must live in the same layer as @tailwindcss/typography,
+   which injects its defaults into the utilities layer. */
 @layer utilities {
+  @import "./prose.typography.css";
+  @import "./prose.misc.css";
+  @import "./prose.code.css";
   @import "./custom.css";
 }
-

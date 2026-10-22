@@ -9,13 +9,7 @@ featured: true
 tags:
   - Hugo
   - Tailwind CSS
-  - Web 开发
-  - 开源项目
-categories:
-  - projects
-cover: "images/02.avif"
-status: "in_progress"
-link: "https://hugo-narrow.vercel.app"
+link: "https://github.com/tom2almighty/hugo-narrow"
 ---
 
 ## 项目概述

@@ -1,24 +1,3 @@
-{{ if .Content }}
-  <div
-    class="bg-primary/10 border-primary/30 mb-6 rounded-xl border p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
-  >
-    <div class="flex items-start gap-4">
-      <!-- 图标容器 -->
-      <div class="text-primary mt-0.5 shrink-0 text-2xl" aria-hidden="true">📢</div>
-
-      <!-- 内容区域 -->
-      <div class="flex-1 space-y-2">
-        <div class="text-foreground/80 leading-relaxed">
-          {{ .Content }}
-        </div>
-
-        <!-- 日期 -->
-        {{ with .Params.date }}
-          <div class="text-muted-foreground/60 mt-3 text-xs">
-            {{ partial "helpers/date.html" (dict "date" . "variant" "long") }}
-          </div>
-        {{ end }}
-      </div>
-    </div>
-  </div>
-{{ end }}
+{{- with .Content -}}
+  <section class="prose max-w-none">{{ . }}</section>
+{{- end -}}

@@ -1,9 +1,11 @@
-{{- /* The appearance panel always exposes all sections. */ -}}
 {{- $showScheme := true -}}
 {{- $showMode := true -}}
 {{- $showWidth := true -}}
+{{- $showBlur := true -}}
+{{- $showGrain := true -}}
+{{- $showLanguage := hugo.IsMultilingual -}}
 
-{{- if or $showScheme $showMode $showWidth -}}
+{{- if or $showScheme $showMode $showWidth $showBlur $showGrain $showLanguage -}}
   <button
     id="appearance-toggle"
     type="button"
@@ -11,33 +13,34 @@
     aria-controls="appearance-panel"
     aria-expanded="false"
     aria-label="{{ T `ui.appearanceToggle` }}"
-    class="border-border bg-background text-muted-foreground hover:text-primary hover:bg-primary/10 focus:ring-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:outline-none active:scale-95"
+    title="{{ T `ui.appearanceToggle` }}"
+    class="dock-item"
   >
-    {{ partial "features/icon.html" (dict "name" "palette" "class" "relative z-10" "size" "md" "ariaLabel" "") }}
+    {{ partial "features/icon.html" (dict "name" "palette" "size" "sm" "ariaLabel" "") }}
   </button>
 
   <div
     id="appearance-panel"
     popover
-    class="header-popover bg-popover text-popover-foreground border-border w-80 space-y-3 rounded-lg border p-3 shadow-lg"
+    class="dock-popover text-popover-foreground border-border shadow-popover w-80 space-y-3 rounded-lg border p-2"
   >
     {{- if $showScheme -}}
-      {{- $themes := site.Params.themes | default dict -}}
+      {{- $themes := hugo.Data.themes | default dict -}}
       {{- $sortedThemes := slice -}}
       {{- range $key, $theme := $themes -}}
         {{- $sortedThemes = $sortedThemes | append (dict "key" $key "name" ($theme.name | default $key) "order" ($theme.order | default 999)) -}}
       {{- end -}}
       {{- $sortedThemes = sort $sortedThemes "order" -}}
       <fieldset>
-        <legend class="text-foreground mb-2 text-sm font-semibold">
+        <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
           {{ T "ui.colorScheme" }}
         </legend>
-        <div class="grid grid-cols-2 gap-1">
+        <div class="grid grid-cols-2 gap-0.5">
           {{- range $sortedThemes -}}
             <label class="block min-w-0">
               <input type="radio" name="color-scheme" value="{{ .key }}" class="peer sr-only" />
               <span
-                class="text-muted-foreground hover:bg-accent hover:text-accent-foreground peer-checked:bg-accent peer-checked:text-accent-foreground peer-focus-visible:ring-primary/20 flex w-full cursor-pointer items-center truncate rounded-md px-2.5 py-2 text-sm transition-colors duration-200 peer-focus-visible:ring-2 peer-focus-visible:outline-none"
+                class="text-muted-foreground hover:bg-muted hover:text-foreground peer-checked:bg-accent peer-checked:text-accent-foreground peer-focus-visible:ring-ring/50 flex h-8 w-full cursor-pointer items-center truncate rounded-md px-2 text-sm transition-colors peer-checked:font-medium peer-focus-visible:ring-2"
               >
                 {{ .name }}
               </span>
@@ -49,10 +52,10 @@
 
     {{- if $showMode -}}
       <fieldset class="border-border border-t pt-3">
-        <legend class="text-foreground mb-2 text-sm font-semibold">
+        <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
           {{ T "ui.themeMode" }}
         </legend>
-        <div class="grid grid-cols-3 gap-1">
+        <div class="bg-muted grid grid-cols-3 gap-0.5 rounded-md p-0.5">
           {{- range slice
             (dict "value" "light" "label" (T "ui.themeLight"))
             (dict "value" "dark" "label" (T "ui.themeDark"))
@@ -61,7 +64,7 @@
             <label class="block">
               <input type="radio" name="theme-mode" value="{{ .value }}" class="peer sr-only" />
               <span
-                class="text-muted-foreground hover:bg-accent hover:text-accent-foreground peer-checked:bg-accent peer-checked:text-accent-foreground peer-focus-visible:ring-primary/20 flex w-full cursor-pointer items-center justify-center rounded-md px-2 py-2 text-sm transition-colors duration-200 peer-focus-visible:ring-2 peer-focus-visible:outline-none"
+                class="text-muted-foreground hover:text-foreground peer-checked:bg-background peer-checked:text-foreground peer-focus-visible:ring-ring/50 flex h-7 w-full cursor-pointer items-center justify-center rounded-sm px-2 text-xs font-medium transition-colors peer-focus-visible:ring-2"
               >
                 {{ .label }}
               </span>
@@ -73,32 +76,109 @@
 
     {{- if $showWidth -}}
       <fieldset class="border-border space-y-2 border-t pt-3">
-        <legend class="text-foreground mb-2 text-sm font-semibold">
-          {{ T "ui.contentWidth" }}
-        </legend>
-        <div class="flex items-center justify-between gap-4">
-          <output
-            id="content-width-value"
-            for="content-width-range"
-            class="text-muted-foreground min-w-12 text-sm tabular-nums"
-          ></output>
+        <div class="flex items-center justify-between px-1">
+          <legend class="text-muted-foreground text-xs font-medium">
+            {{ T "ui.contentWidth" }}
+          </legend>
+          <div class="flex items-center gap-2">
+            <output
+              id="content-width-value"
+              for="content-width-range"
+              class="text-muted-foreground font-mono text-xs tabular-nums"
+            ></output>
+            <button
+              id="content-width-reset"
+              type="button"
+              class="text-muted-foreground hover:text-foreground text-xs transition-colors"
+            >
+              {{ T "ui.contentWidthReset" }}
+            </button>
+          </div>
         </div>
         <input
           id="content-width-range"
-          class="accent-primary w-full cursor-pointer"
+          class="w-full"
           type="range"
           min="40"
           max="90"
           step="1"
           aria-label="{{ T `ui.contentWidth` }}"
         />
-        <button
-          id="content-width-reset"
-          type="button"
-          class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:ring-primary/20 w-full rounded-md border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
-        >
-          {{ T "ui.contentWidthReset" }}
-        </button>
+      </fieldset>
+    {{- end -}}
+
+    {{- if $showBlur -}}
+      <fieldset class="border-border space-y-2 border-t pt-3">
+        <div class="flex items-center justify-between px-1">
+          <legend class="text-muted-foreground text-xs font-medium">
+            {{ T "ui.backdropBlur" }}
+          </legend>
+          <div class="flex items-center gap-2">
+            <output
+              id="backdrop-blur-value"
+              for="backdrop-blur-range"
+              class="text-muted-foreground font-mono text-xs tabular-nums"
+            ></output>
+            <button
+              id="backdrop-blur-reset"
+              type="button"
+              class="text-muted-foreground hover:text-foreground text-xs transition-colors"
+            >
+              {{ T "ui.backdropBlurReset" }}
+            </button>
+          </div>
+        </div>
+        <input
+          id="backdrop-blur-range"
+          class="w-full"
+          type="range"
+          min="0"
+          max="24"
+          step="1"
+          aria-label="{{ T `ui.backdropBlur` }}"
+        />
+      </fieldset>
+    {{- end -}}
+
+    {{- if $showGrain -}}
+      <fieldset class="border-border space-y-2 border-t pt-3">
+        <div class="flex items-center justify-between px-1">
+          <legend class="text-muted-foreground text-xs font-medium">
+            {{ T "ui.grainSize" }}
+          </legend>
+          <div class="flex items-center gap-2">
+            <output
+              id="grain-size-value"
+              for="grain-size-range"
+              class="text-muted-foreground font-mono text-xs tabular-nums"
+            ></output>
+            <button
+              id="grain-size-reset"
+              type="button"
+              class="text-muted-foreground hover:text-foreground text-xs transition-colors"
+            >
+              {{ T "ui.grainSizeReset" }}
+            </button>
+          </div>
+        </div>
+        <input
+          id="grain-size-range"
+          class="w-full"
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          aria-label="{{ T `ui.grainSize` }}"
+        />
+      </fieldset>
+    {{- end -}}
+
+    {{- if $showLanguage -}}
+      <fieldset class="border-border border-t pt-3">
+        <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
+          {{ T "ui.language" }}
+        </legend>
+        {{ partial "ui/language-options.html" . }}
       </fieldset>
     {{- end -}}
   </div>

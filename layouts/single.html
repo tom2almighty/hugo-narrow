@@ -1,60 +1,43 @@
 {{ define "main" }}
-  <!-- 文章封面 -->
-  {{- if .Params.cover -}}
-    {{/* 使用通用图片处理器 */}}
+  {{- with .Params.cover -}}
     {{- partial "content/image-processor.html" (dict
-      "context" .
-      "src" .Params.cover
-      "alt" .Title
+      "context" $
+      "src" .
+      "alt" $.Title
       "outputType" "data"
       )
     -}}
-    {{- $coverImage := .Store.Get "imageUrl" -}}
-    {{- $coverSrcset := .Store.Get "imageSrcset" -}}
-    {{- $coverWidth := .Store.Get "imageWidth" | default 0 -}}
-    {{- $coverHeight := .Store.Get "imageHeight" | default 0 -}}
-
+    {{- $coverImage := $.Store.Get "imageUrl" -}}
+    {{- $coverSrcset := $.Store.Get "imageSrcset" -}}
+    {{- $coverWidth := $.Store.Get "imageWidth" | default 0 -}}
+    {{- $coverHeight := $.Store.Get "imageHeight" | default 0 -}}
     {{- if $coverImage -}}
-      <div class="mb-8 overflow-hidden rounded-2xl">
+      <div class="border-border mb-8 overflow-hidden rounded-lg border">
         <img
           src="{{ $coverImage }}"
           {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
           sizes="(min-width: 768px) 720px, 100vw"
-          alt="{{ .Title }}"
+          alt="{{ $.Title }}"
           {{ if gt $coverWidth 0 }}width="{{ $coverWidth }}" height="{{ $coverHeight }}"{{ end }}
-          class="aspect-video max-h-[50vh] w-full object-cover md:max-h-[60vh]"
+          class="aspect-video max-h-96 w-full object-cover"
           loading="eager"
           fetchpriority="high"
           decoding="async"
         />
       </div>
     {{- end -}}
-  {{ end }}
+  {{- end -}}
 
 
-  <!-- 页面头部信息 -->
   <header class="mb-8">
     {{ partial "content/post-meta.html" . }}
   </header>
 
-  <!-- 页面内容 -->
-  <article class="prose prose-neutral dark:prose-invert mb-12 max-w-none">
+  <article class="prose max-w-none">
     {{ .Content }}
   </article>
 
-  <!-- 许可证信息 -->
-  {{ partial "content/post-license.html" . }}
-
-
-  <!-- 上一篇/下一篇导航 -->
   {{ partial "content/post-navigation.html" . }}
-
-
-  <!-- 相关文章 -->
   {{ partial "content/related-posts.html" . }}
-
-
-  <!-- 评论组件 -->
   {{ partial "features/comments.html" . }}
-
 {{ end }}

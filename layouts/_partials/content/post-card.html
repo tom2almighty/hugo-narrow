@@ -1,0 +1,11 @@
+{{/* Post card wrapper around content/card.html.
+
+  @context {page} .page
+  @context {bool} .compact
+*/}}
+{{- partial "content/card.html" (dict
+  "page" .page
+  "variant" "post"
+  "compact" (.compact | default false)
+  )
+-}}

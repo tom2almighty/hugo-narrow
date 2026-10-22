@@ -1,60 +1,40 @@
-{{/* 文章列表组件
+{{/* Post list built from unified cards.
 
-  显示文章卡片列表
-
-  @context {slice} .posts 文章列表
-  @context {string} .title 列表标题 (可选)
-  @context {bool} .showTitle 是否显示标题 (默认: false)
-  @context {bool} .showViewAll 是否显示"查看所有"按钮 (默认: false)
-  @context {string} .viewAllUrl "查看所有"按钮的链接 (默认: /posts/)
+  @context {slice} .posts
+  @context {string} .title
+  @context {bool} .showTitle
+  @context {bool} .showViewAll
+  @context {string} .viewAllUrl
+  @context {int} .columns
+  @context {bool} .compact
 */}}
+{{- $posts := .posts -}}
+{{- $title := .title | default "" -}}
+{{- $showTitle := .showTitle | default false -}}
+{{- $showViewAll := .showViewAll | default false -}}
+{{- $viewAllUrl := .viewAllUrl | default ("/posts/" | relLangURL) -}}
+{{- $compact := .compact | default false -}}
+{{- $columns := .columns -}}
 
-{{ $posts := .posts }}
-{{ $title := .title | default "" }}
-{{ $showTitle := .showTitle | default false }}
-{{ $showViewAll := .showViewAll | default false }}
-{{ $viewAllUrl := .viewAllUrl | default ("/posts/" | relLangURL) }}
-
-{{ if $posts }}
+{{- if $posts -}}
   <section class="post-list">
-    <!-- 列表标题 -->
-    {{ if and $showTitle $title }}
-      <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-foreground text-2xl font-bold">{{ $title }}</h2>
-      </div>
-    {{ end }}
+    {{- if and $showTitle $title -}}
+      {{ partial "content/section-header.html" (dict
+        "title" $title
+        "showViewAll" $showViewAll
+        "viewAllUrl" $viewAllUrl
+        )
+      }}
+    {{- end -}}
 
-
-    <!-- 文章卡片列表 -->
-    <div class="space-y-4">
-      {{ range $posts }}
-        {{ partial "content/card-base.html" (dict "page" .) }}
-      {{ end }}
-    </div>
-
-    <!-- 查看所有文章按钮 (底部) -->
-    {{ if $showViewAll }}
-      <div class="mt-8 mb-6 text-center">
-        <a
-          href="{{ $viewAllUrl }}"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg focus:ring-2 focus:outline-none active:scale-95"
-        >
-          {{ partial "features/icon.html" (dict "name" "posts" "size" "md" "ariaLabel" "") }}
-          <span>{{ T "home.viewAll" }}</span>
-          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "") }}
-        </a>
-      </div>
-    {{ end }}
-
+    {{ partial "content/card-grid.html" (dict
+      "items" $posts
+      "variant" "post"
+      "columns" $columns
+      "compact" $compact
+      )
+    }}
   </section>
-{{ else }}
-  <!-- 空状态 -->
-  <div class="py-12 text-center">
-    <div class="bg-muted/50 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-      {{ partial "features/icon.html" (dict "name" "folder" "size" "lg" "ariaLabel" "") }}
-    </div>
-    <h3 class="text-foreground mb-2 text-lg font-medium">
-      {{ T "article.empty" }}
-    </h3>
-  </div>
-{{ end }}
+{{- else -}}
+  <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}

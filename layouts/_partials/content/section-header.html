@@ -1,0 +1,22 @@
+{{/* Section title with an optional "view all" link.
+
+  @context {string} .title
+  @context {bool} .showViewAll
+  @context {string} .viewAllUrl
+*/}}
+{{- $title := .title -}}
+{{- $showViewAll := .showViewAll | default false -}}
+{{- $viewAllUrl := .viewAllUrl -}}
+
+
+<div class="mb-4 flex items-baseline justify-between gap-3">
+  <h2 class="text-foreground text-xl font-semibold tracking-tight">{{ $title }}</h2>
+  {{- if and $showViewAll $viewAllUrl -}}
+    <a
+      href="{{ $viewAllUrl }}"
+      class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+    >
+      {{ T "home.viewAll" }}
+    </a>
+  {{- end -}}
+</div>

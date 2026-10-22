@@ -1,0 +1,38 @@
+{{/* Split rendered Content into an optional preface and tagged sections.
+
+  Used by timeline.html and resume.html, which both turn H2/H3 headings into
+  styled sections. Keeping the parsing here avoids two copies of the same regex
+  logic drifting apart.
+
+  @context {string} .content rendered HTML
+  @context {string} .tag heading tag to split on, default "h2"
+  @returns {dict} pre, sections ({ title, id, body })
+*/}}
+{{- $content := .content -}}
+{{- $tag := .tag | default "h2" -}}
+{{- $open := printf "<%s" $tag -}}
+{{- $close := printf "</%s>" $tag -}}
+{{- $parts := split $content $open -}}
+{{- $pre := index $parts 0 -}}
+{{- $sections := slice -}}
+
+{{- range $index, $part := $parts -}}
+  {{- if gt $index 0 -}}
+    {{- $subparts := split $part $close -}}
+    {{- $tagAndTitle := index $subparts 0 -}}
+    {{- $body := "" -}}
+    {{- if gt (len $subparts) 1 -}}
+      {{- $body = index $subparts 1 -}}
+    {{- end -}}
+    {{- $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $tagAndTitle -}}
+    {{- $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title -}}
+    {{- $idMatch := findRE `id="([^"]*)"` $tagAndTitle -}}
+    {{- $id := "" -}}
+    {{- if $idMatch -}}
+      {{- $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) -}}
+    {{- end -}}
+    {{- $sections = $sections | append (dict "title" $titleContent "id" $id "body" $body) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return dict "pre" $pre "sections" $sections -}}

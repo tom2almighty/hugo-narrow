@@ -7,7 +7,7 @@
 */}}
 
 {{ $id := .id | default "twikoo-comments" }}
-{{ $config := .Site.Params.comments.twikoo }}
+{{ $config := .config | default dict }}
 
 {{ if $config.envId }}
   <div id="{{ $id }}" class="twikoo-container"></div>

@@ -5,13 +5,15 @@
         many = "{{ .count }} страниц"
         other = "{{ .count }} страниц"
 
+    [list.terms]
+        one = "{{ .count }} элемент"
+        other = "{{ .count }} элементов"
+
 [article]
     empty          = "Нет содержимого"
     relatedContent = "Похожие материалы"
     prev           = "Предыдущая"
     next           = "Следующая"
-    noPrev         = "Нет предыдущей"
-    noNext         = "Нет следующей"
 
     [article.alert]
         note      = "Примечание"
@@ -39,6 +41,7 @@
   collapse        = "Свернуть"
 
 [nav]
+    home = "Главная"
     anchor        = "Ссылка на этот раздел"
     backHome      = "На главную"
     breadcrumb    = "Хлебные крошки"
@@ -48,12 +51,13 @@
     pageInfo      = "Страница {{ .current }} из {{ .total }}"
 
 [ui]
+    skipToContent = "Перейти к содержимому"
+    language = "Язык"
+    announcementDismiss = "Закрыть объявление"
     dockAriaLabel = "Панель быстрых действий"
-    dockBack      = "Назад"
     dockSearch    = "Поиск"
     dockComments  = "Комментарии"
     dockBackToTop = "Наверх"
-    dockTop       = "Вверх"
     toc           = "Оглавление"
     tocPin        = "Закрепить оглавление"
     tocUnpin      = "Открепить оглавление"
@@ -71,24 +75,19 @@
     themeDark    = "Темная"
     themeLight   = "Светлая"
     themeSystem  = "Системная"
-    themeToggle  = "Переключить тему"
 
-    languageToggle = "Сменить язык"
 
     contentWidth       = "Ширина страницы"
     contentWidthReset  = "Восстановить по умолчанию"
-    contentWidthToggle = "Настроить ширину страницы"
+    backdropBlur       = "Размытие фона"
+    backdropBlurReset  = "Восстановить по умолчанию"
+    grainSize          = "Размер зерна"
+    grainSizeReset     = "Восстановить по умолчанию"
 
     appearanceToggle = "Настройки оформления"
     colorScheme      = "Цветовая схема"
     themeMode        = "Режим оформления"
-    closeMenu        = "Закрыть меню"
 
-[license]
-    title  = "Лицензия"
-    author = "Автор"
-    link   = "Ссылка"
-    type   = "Лицензия"
 
 
 [comments]
@@ -115,3 +114,13 @@
 
 [footer]
   poweredBy = "Работает на"
+
+[context]
+    seriesPrev = "Предыдущая часть"
+    seriesNext = "Следующая часть"
+    seriesPartOf = "Часть {{ .current }} из {{ .total }}"
+    seriesParts = "Все части"
+    seriesViewSeries = "Смотреть серию"
+
+[projects]
+    visit = "Открыть проект"

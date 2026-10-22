@@ -11,7 +11,6 @@ main:
     params:
       icon: archive
 
-  # Example: parent item with dropdown submenu children
   - name: 更多
     weight: 30
     params:
@@ -45,47 +44,30 @@ main:
     params:
       icon: projects
 
-
-
-# footer menu
-footer:
   - name: 时间线
+    weight: 5
     pageRef: /timeline
-    weight: 10
+    parent: 更多
     params:
       icon: chart
 
   - name: 关于
+    weight: 6
     pageRef: /about
-    weight: 20
+    parent: 更多
     params:
       icon: about
 
+  - name: 简历
+    weight: 7
+    pageRef: /resume
+    parent: 更多
+    params:
+      icon: file-text
+
   - name: RSS 订阅
     url: /index.xml
-    weight: 30
+    weight: 8
+    parent: 更多
     params:
       icon: rss
-
-# 页脚社交链接
-social:
-  - name: GitHub
-    url: https://github.com/username
-    weight: 10
-    params:
-      icon: github
-  - name: Twitter
-    url: https://twitter.com/username
-    weight: 20
-    params:
-      icon: twitter
-  - name: LinkedIn
-    url: https://linkedin.com/in/username
-    weight: 30
-    params:
-      icon: linkedin
-  - name: 邮箱
-    url: mailto:your.email@example.com
-    weight: 40
-    params:
-      icon: email

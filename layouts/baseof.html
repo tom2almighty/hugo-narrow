@@ -1,43 +1,55 @@
 <!doctype html>
-{{- $tocConfig := partial "config/toc.html" . -}}
-{{- $tocPinned := cond $tocConfig.pinned "true" "false" -}}
 <html
   lang="{{ site.Language.Locale }}"
+  dir="{{ or site.Language.Direction `ltr` }}"
   data-theme="{{ site.Params.colorScheme | default `default` }}"
-  data-toc-pinned="{{ $tocPinned }}"
+  data-toc-pinned="false"
 >
   <head>
     {{ partial "layout/head.html" . }}
-    {{ $themeInit := resources.Get "js/theme-init.js" | resources.ExecuteAsTemplate "js/theme-init.js" . | minify }}
+    {{- $themeInit := resources.Get "js/theme-init.js"
+      | resources.ExecuteAsTemplate "js/theme-init.js" .
+      | js.Build (dict
+      "minify" (not hugo.IsDevelopment)
+      "targetPath" "js/theme-init.bundle.js"
+      )
+    -}}
     <script>{{ $themeInit.Content | safeJS }}</script>
   </head>
 
   {{- $contentWidth := .Site.Params.contentWidth | default `56rem` -}}
-  {{- $mainStyleAttr := printf `style="--content-width-base: %s; max-width: var(--content-width, var(--content-width-base))"` $contentWidth -}}
+  {{- $backdropBlur := .Site.Params.backdropBlur | default 12 -}}
+  {{- $grainSize := .Site.Params.grainSize | default 0 -}}
+  {{- $pageStyle := printf `--content-width-base: %s; --backdrop-blur-base: %vpx; --grain-size-base: %v;` $contentWidth $backdropBlur $grainSize -}}
 
 
-  <body class="bg-background text-foreground min-h-screen antialiased">
-    <main
-      id="page-container"
-      class="mx-auto w-full"
-      {{ $mainStyleAttr | safeHTMLAttr }}
-    >
-      {{ partial "ui/reading-progress.html" . }}
-
-      {{ partial "navigation/header.html" . }}
+  <body class="min-h-screen">
+    <div id="bg-grain" aria-hidden="true"></div>
+    <a class="skip-link" href="#main-content">{{ T `ui.skipToContent` }}</a>
+    {{ partial "ui/reading-progress.html" . }}
 
 
-      <div class="px-4 py-6">
-        {{ partial "navigation/breadcrumb.html" . }}
-        {{ block "main" . }}{{ end }}
-      </div>
+    <div id="page-container" {{ printf `style="%s"` $pageStyle | safeHTMLAttr }}>
+      {{ partial "features/announcement.html" . }}
+      {{- if and (not .IsHome) (ne .Kind "404") -}}
+        {{ partial "navigation/context-bar.html" . }}
+      {{- end -}}
+
+
+      <main id="main-content" tabindex="-1" class="page-main">
+        <div class="page-content">
+          {{ block "main" . }}{{ end }}
+        </div>
+      </main>
 
       {{ partial "layout/footer.html" . }}
-      {{ partial "ui/dock.html" . }}
-      {{ partial "ui/toc.html" . }}
-      {{ partial "ui/search-modal.html" . }}
-      {{ partial "features/katex.html" . }}
-      {{ partial "features/mermaid.html" . }}
-    </main>
+    </div>
+
+    {{ partial "navigation/nav-popover.html" . }}
+    {{ partial "ui/dock.html" . }}
+    {{ partial "ui/toc.html" . }}
+    {{ partial "ui/search-modal.html" . }}
+    {{ partial "features/katex.html" . }}
+    {{ partial "features/mermaid.html" . }}
   </body>
 </html>

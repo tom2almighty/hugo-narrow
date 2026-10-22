@@ -2,13 +2,15 @@
     [list.pages]
         other = "{{ .count }} ページ"
 
+    [list.terms]
+        one = "{{ .count }} 件"
+        other = "{{ .count }} 件"
+
 [article]
     empty          = "コンテンツはありません"
     relatedContent = "関連記事"
     prev           = "前へ"
     next           = "次へ"
-    noPrev         = "前はありません"
-    noNext         = "次はありません"
 
     [article.alert]
         note      = "注意"
@@ -30,6 +32,7 @@
   collapse        = "折りたたむ"
 
 [nav]
+    home = "ホーム"
     anchor        = "このセクションへのリンク"
     backHome      = "ホームへ戻る"
     breadcrumb    = "パンくず"
@@ -39,12 +42,13 @@
     pageInfo      = "全{{ .total }}ページ中{{ .current }}ページ"
 
 [ui]
+    skipToContent = "本文へスキップ"
+    language = "言語"
+    announcementDismiss = "お知らせを閉じる"
     dockAriaLabel = "クイックアクションバー"
-    dockBack      = "戻る"
     dockSearch    = "検索"
     dockComments  = "コメント"
     dockBackToTop = "トップへ戻る"
-    dockTop       = "トップ"
     toc           = "目次"
     tocPin        = "目次を固定"
     tocUnpin      = "目次の固定を解除"
@@ -62,24 +66,19 @@
     themeDark    = "ダーク"
     themeLight   = "ライト"
     themeSystem  = "システム"
-    themeToggle  = "テーマ切替"
 
-    languageToggle = "言語を切替"
 
     contentWidth       = "ページ幅"
     contentWidthReset  = "既定値に戻す"
-    contentWidthToggle = "ページ幅を調整"
+    backdropBlur       = "背景のぼかし"
+    backdropBlurReset  = "既定値に戻す"
+    grainSize          = "ノイズ粒子"
+    grainSizeReset     = "既定値に戻す"
 
     appearanceToggle = "外観設定"
     colorScheme      = "カラースキーム"
     themeMode        = "表示モード"
-    closeMenu        = "メニューを閉じる"
 
-[license]
-    title  = "ライセンス"
-    author = "著者"
-    link   = "リンク"
-    type   = "ライセンス"
 
 
 [comments]
@@ -106,3 +105,13 @@
 
 [footer]
   poweredBy = "提供:"
+
+[context]
+    seriesPrev = "前の部"
+    seriesNext = "次の部"
+    seriesPartOf = "{{ .total }} 篇中 {{ .current }} 篇目"
+    seriesParts = "すべての記事"
+    seriesViewSeries = "シリーズを見る"
+
+[projects]
+    visit = "プロジェクトを開く"

@@ -1,5 +1,4 @@
 ---
-dismissible: true
 date: 2025-12-31
 title: "Home"
 author:
@@ -18,5 +17,3 @@ author:
       url: "mailto:hello@example.com"
       icon: "email"
 ---
-
-🎉 **Site Redesign!** We've completely revamped our website with faster loading speeds, a beautiful new interface, and smoother user experience. Welcome to explore the new features!

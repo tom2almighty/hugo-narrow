@@ -1,18 +1,19 @@
-{{- /* 简洁的基础主题色 */ -}}
-{{- $themeColor := "#09090b" -}}
+{{- /* Manifest paths must follow the site's baseURL, including subpath deployments. */ -}}
+{{- $homePath := site.Home.RelPermalink -}}
+{{- $pwa := site.Params.pwa | default dict -}}
 
 {{- $manifest := dict
   "name" site.Title
   "short_name" (site.Params.shortName | default site.Title)
   "description" (site.Params.description | default "")
-  "start_url" "/"
+  "start_url" $homePath
   "display" "standalone"
-  "background_color" "#ffffff"
-  "theme_color" $themeColor
-  "orientation" "portrait-primary"
-  "lang" (site.Params.language | default site.Language.Locale | default "zh-CN")
-  "dir" "ltr"
-  "scope" "/"
+  "background_color" ($pwa.backgroundColor | default "#ffffff")
+  "theme_color" ($pwa.themeColor | default "#09090b")
+  "orientation" ($pwa.orientation | default "portrait-primary")
+  "lang" site.Language.Locale
+  "dir" (or site.Language.Direction "ltr")
+  "scope" $homePath
   "categories" (slice "blog" "technology" "education")
 -}}
 

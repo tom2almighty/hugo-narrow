@@ -1,229 +1,76 @@
-{{/* 文章元信息组件
+{{/* Post header: title, summary, one-line meta and tags.
 
-显示文章标题、发布时间、阅读时间、分类法信息等
-
-
-@context {page} . 当前文章页面对象
+  @context {page} .
 */}}
-
-{{/* 获取当前页面所属的 series */}}
-{{- $currentSeries := .GetTerms "series" }}
-{{- $title := .Title | strings.TrimSpace }}
+{{- $title := .Title | strings.TrimSpace -}}
+{{- $license := "" -}}
+{{- with site.Params.post -}}
+  {{- with .license -}}
+    {{- if reflect.IsMap . -}}
+      {{- errorf "post.license must be a string (page %q)" $.RelPermalink -}}
+    {{- else -}}
+      {{- $license = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if isset .Params "license" -}}
+  {{- if reflect.IsMap .Params.license -}}
+    {{- errorf "license front matter must be a string or false (page %q)" .RelPermalink -}}
+  {{- else if eq .Params.license false -}}
+    {{- $license = "" -}}
+  {{- else if ne .Params.license true -}}
+    {{- $license = .Params.license -}}
+  {{- end -}}
+{{- end -}}
 
 
 <div class="post-meta mb-8">
-  <!-- 文章标题 -->
-  {{ with $title }}
-    <h1 class="text-foreground mb-6 text-3xl leading-tight font-bold md:text-4xl">
+  {{- with $title -}}
+    <h1 class="text-foreground text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
       {{ . }}
     </h1>
-  {{ end }}
+  {{- end -}}
 
-  <!-- 文章摘要 -->
-  {{ if .Params.summary }}
-  <div class="text-muted-foreground mb-6 text-lg leading-relaxed">
-    {{ .Params.summary | plainify }}
+  {{- $summary := .Params.summary | default .Description -}}
+  {{- with $summary -}}
+    <p class="text-muted-foreground mt-3 text-base leading-relaxed">
+      {{ . | plainify }}
+    </p>
+  {{- end -}}
+
+
+  <div class="text-muted-foreground mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+    {{- if not .Date.IsZero -}}
+      <time datetime="{{ .Date.Format `2006-01-02` }}">
+        {{ partial "helpers/date.html" (dict "date" .Date "variant" "long") }}
+      </time>
+    {{- end -}}
+    {{- with .ReadingTime -}}
+      <span>{{ T "article.readingTime" (dict "count" .) }}</span>
+    {{- end -}}
+    {{- with .WordCount -}}
+      <span>{{ T "article.wordCount" (dict "count" .) }}</span>
+    {{- end -}}
+    {{- with $license -}}
+      <span class="inline-flex items-center gap-1">
+        <span class="text-primary shrink-0">
+          {{ partial "features/icon.html" (dict "name" "license" "size" "xs" "ariaLabel" "") }}
+        </span>
+        <span>{{ . }}</span>
+      </span>
+    {{- end -}}
   </div>
-  {{ end }}
 
-  <!-- 元信息区域 -->
-  <div class="bg-card border-border rounded-xl border">
-
-    {{/* 如果有 Series，使用 flex 左右分栏布局 */}}
-    {{- if $currentSeries }}
-    <div class="flex flex-col lg:flex-row">
-
-      {{/* 左侧：文章元信息 */}}
-      <div class="shrink-0 lg:w-3/5 p-6 border-b lg:border-b-0 lg:border-r border-border">
-        {{- else }}
-        {{/* 没有 Series 时，单栏显示 */}}
-        <div class="p-6">
-          {{- end }}
-
-          <!-- 发布时间和阅读时间 -->
-          <div class="text-muted-foreground flex flex-wrap items-center gap-3 text-sm mb-4">
-            <!-- 发布时间 -->
-            {{ if not .Date.IsZero }}
-            <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-              <time datetime="{{ .Date.Format `2006-01-02` }}">
-                {{ partial "helpers/date.html" (dict "date" .Date "variant" "long") }}
-              </time>
-            </div>
-            {{ end }}
-
-            <!-- 阅读时间 -->
-            {{ with .ReadingTime }}
-            <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "clock" "size" "sm" "ariaLabel" "")
-              }}
-              <span>{{ T "article.readingTime" (dict "count" .) }}</span>
-            </div>
-            {{ end }}
-
-            <!-- 字数统计 -->
-            {{ with .WordCount }}
-            <div class="flex items-center gap-2">
-              {{ partial "features/icon.html" (dict "name" "text" "size" "sm" "ariaLabel" "") }}
-              <span>{{ T "article.wordCount" (dict "count" .) }}</span>
-            </div>
-            {{ end }}
-          </div>
-
-          <!-- 分类法 -->
-          {{- $taxonomies := .Site.Taxonomies }}
-          {{- if $taxonomies }}
-          <div class="text-muted-foreground space-y-3 pt-4 border-t border-border">
-            {{- range $taxonomyName, $taxonomy := $taxonomies }}
-            {{- $terms := $.GetTerms $taxonomyName }}
-            {{- if $terms }}
-            <div class="flex items-center gap-2">
-              <div class="shrink-0">
-                {{ partial "features/icon.html" (dict "name" $taxonomyName "size" "sm" "ariaLabel" "") }}
-              </div>
-              <div class="flex-1 min-w-0">
-                {{- $taxonomyLabel := $taxonomyName | humanize }}
-                {{- with $.Site.GetPage (printf "/%s" $taxonomyName) }}
-                  {{- $taxonomyLabel = .LinkTitle | default .Title }}
-                {{- end }}
-                <div class="flex flex-wrap items-center gap-1.5">
-                  <span class="text-muted-foreground text-sm font-medium">
-                    {{ $taxonomyLabel }}:
-                  </span>
-                  {{- range $terms }}
-                  <a href="{{ .RelPermalink }}"
-                    class="inline-flex items-center rounded-full px-2.5 py-1 text-sm font-medium transition-all duration-200 bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground">
-                    {{ .LinkTitle }}
-                  </a>
-                  {{- end }}
-                </div>
-              </div>
-            </div>
-            {{- end }}
-            {{- end }}
-          </div>
-          {{- end }}
-
-          {{- if $currentSeries }}
-        </div>
-
-        {{/* 右侧：Series 文章列表 */}}
-        <div class="flex-1 lg:w-2/5 flex flex-col" id="series-container">
-          <!-- Series 标题栏 (Tabs) -->
-          <div class="shrink-0 p-4 border-b border-border">
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth" id="series-tabs">
-              {{- range $dataIndex, $seriesPage := $currentSeries }}
-              {{- $seriesPages := $seriesPage.Pages.ByParam "series_order" }}
-              {{- $totalCount := len $seriesPages }}
-              {{- $currentIndex := 0 }}
-              {{- range $idx, $p := $seriesPages }}
-              {{- if eq $p.RelPermalink $.RelPermalink }}
-              {{- $currentIndex = add $idx 1 }}
-              {{- end }}
-              {{- end }}
-
-              <button onclick="switchSeries({{ $dataIndex }})"
-                class="series-tab-btn group flex items-center gap-2 px-3 py-2 rounded-lg transition-all border border-transparent {{ if eq $dataIndex 0 }}bg-accent text-foreground border-border shadow-sm{{ else }}hover:bg-accent/50 text-muted-foreground{{ end }}"
-                data-index="{{ $dataIndex }}">
-                <span class="text-sm font-semibold whitespace-nowrap max-w-[120px] truncate">
-                  {{ $seriesPage.LinkTitle }}
-                </span>
-                <span class="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-[10px] font-bold">
-                  {{ $currentIndex }}/{{ $totalCount }}
-                </span>
-              </button>
-              {{- end }}
-
-              <!-- 跳转到分类页的按钮 (仅针对当前激活的 Series，通过 JS 更新 href) -->
-              <a href="#" id="series-link-btn"
-                class="ml-auto shrink-0 p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-accent/50 transition-colors"
-                >
-                {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm") }}
-              </a>
-            </div>
-          </div>
-
-          <!-- Series 内容列表区域 -->
-          <div class="flex-1">
-            {{- range $dataIndex, $seriesPage := $currentSeries }}
-            {{- $seriesPages := $seriesPage.Pages.ByParam "series_order" }}
-
-            <nav id="series-content-{{ $dataIndex }}"
-              class="series-content overflow-y-auto max-h-32 p-4 transition-opacity duration-300 {{ if eq $dataIndex 0 }}opacity-100 z-10 block{{ else }}opacity-0 z-0 hidden{{ end }}"
-              data-link="{{ $seriesPage.RelPermalink }}">
-              <ol class="space-y-1.5">
-                {{- range $index, $page := $seriesPages }}
-                {{- $isCurrent := eq $page.RelPermalink $.RelPermalink }}
-                <li>
-                  <a href="{{ $page.RelPermalink }}"
-                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all group {{ if $isCurrent }}bg-primary/15 text-primary font-medium shadow-sm{{ else }}text-muted-foreground hover:text-foreground hover:bg-muted/50{{ end }}"
-                    {{ if $isCurrent }}aria-current="page" {{ end }}>
-                    <span
-                      class="font-mono text-xs shrink-0 {{ if $isCurrent }}text-primary{{ else }}opacity-50 group-hover:opacity-100{{ end }} transition-opacity">
-                      {{ printf "%02d" (add $index 1) }}
-                    </span>
-                    <span class="flex-1 truncate">{{ $page.LinkTitle }}</span>
-                    {{- if $isCurrent }}
-                    <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    {{- end }}
-                  </a>
-                </li>
-                {{- end }}
-              </ol>
-            </nav>
-            {{- end }}
-          </div>
-
-          <script>
-            function switchSeries(index) {
-              // 1. 更新 Tabs 样式
-              document.querySelectorAll('.series-tab-btn').forEach(btn => {
-                const isTarget = parseInt(btn.dataset.index) === index;
-                if (isTarget) {
-                  btn.classList.add('bg-accent', 'text-foreground', 'border-border', 'shadow-sm');
-                  btn.classList.remove('hover:bg-accent/50', 'text-muted-foreground');
-                } else {
-                  btn.classList.remove('bg-accent', 'text-foreground', 'border-border', 'shadow-sm');
-                  btn.classList.add('hover:bg-accent/50', 'text-muted-foreground');
-                }
-              });
-
-              // 2. 切换内容显示
-              document.querySelectorAll('.series-content').forEach(content => {
-                content.classList.add('hidden', 'opacity-0', 'z-0');
-                content.classList.remove('block', 'opacity-100', 'z-10');
-              });
-
-              const targetContent = document.getElementById(`series-content-${index}`);
-              if (targetContent) {
-                targetContent.classList.remove('hidden', 'opacity-0', 'z-0');
-                targetContent.classList.add('block', 'opacity-100', 'z-10');
-
-                // 3. 更新跳转链接
-                const linkBtn = document.getElementById('series-link-btn');
-                if (linkBtn) {
-                  linkBtn.href = targetContent.dataset.link;
-                }
-              }
-            }
-
-            // 初始化链接
-            document.addEventListener('DOMContentLoaded', () => {
-              const activeContent = document.querySelector('.series-content.block');
-              if (activeContent) {
-                const linkBtn = document.getElementById('series-link-btn');
-                if (linkBtn) linkBtn.href = activeContent.dataset.link;
-              }
-            });
-          </script>
-        </div>
-      </div>
-      {{- else }}
+  {{- with .GetTerms "tags" -}}
+    <div class="mt-4 flex flex-wrap items-center gap-1.5">
+      {{- range . -}}
+        <a
+          href="{{ .RelPermalink }}"
+          class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-5 items-center rounded-md border px-1.5 text-xs transition-colors"
+        >
+          {{ .LinkTitle }}
+        </a>
+      {{- end -}}
     </div>
-    {{- end }}
-  </div>
+  {{- end -}}
 </div>

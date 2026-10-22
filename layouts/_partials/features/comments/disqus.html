@@ -7,7 +7,7 @@
 */}}
 
 {{ $id := .id | default "disqus-comments" }}
-{{ $config := .Site.Params.comments.disqus }}
+{{ $config := .config | default dict }}
 
 {{ if $config.shortname }}
   <div id="{{ $id }}" class="disqus-container">

@@ -7,13 +7,15 @@
         many = "{{ .count }} صفحة"
         other = "{{ .count }} صفحة"
 
+    [list.terms]
+        one = "{{ .count }} عنصر"
+        other = "{{ .count }} عناصر"
+
 [article]
     empty          = "لا يوجد محتوى"
     relatedContent = "محتوى ذو صلة"
     prev           = "السابق"
     next           = "التالي"
-    noPrev         = "لا يوجد سابق"
-    noNext         = "لا يوجد تالٍ"
 
     [article.alert]
         note      = "ملاحظة"
@@ -45,6 +47,7 @@
   collapse        = "طي"
 
 [nav]
+    home = "الرئيسية"
     anchor        = "رابط إلى هذا القسم"
     backHome      = "العودة إلى الرئيسية"
     breadcrumb    = "مسار التنقل"
@@ -54,12 +57,13 @@
     pageInfo      = "الصفحة {{ .current }} من {{ .total }}"
 
 [ui]
+    skipToContent = "الانتقال إلى المحتوى"
+    language = "اللغة"
+    announcementDismiss = "إغلاق الإعلان"
     dockAriaLabel = "شريط الإجراءات السريعة"
-    dockBack      = "رجوع"
     dockSearch    = "بحث"
     dockComments  = "التعليقات"
     dockBackToTop = "العودة للأعلى"
-    dockTop       = "أعلى"
     toc           = "جدول المحتويات"
     tocPin        = "تثبيت جدول المحتويات"
     tocUnpin      = "إلغاء تثبيت جدول المحتويات"
@@ -77,24 +81,19 @@
     themeDark    = "داكن"
     themeLight   = "فاتح"
     themeSystem  = "النظام"
-    themeToggle  = "تبديل السمة"
 
-    languageToggle = "تغيير اللغة"
 
     contentWidth       = "عرض الصفحة"
     contentWidthReset  = "استعادة الافتراضي"
-    contentWidthToggle = "ضبط عرض الصفحة"
+    backdropBlur       = "تمويه الخلفية"
+    backdropBlurReset  = "استعادة الافتراضي"
+    grainSize          = "حجم التحبيب"
+    grainSizeReset     = "استعادة الافتراضي"
 
     appearanceToggle = "إعدادات المظهر"
     colorScheme      = "نظام الألوان"
     themeMode        = "وضع العرض"
-    closeMenu        = "إغلاق القائمة"
 
-[license]
-    title  = "الترخيص"
-    author = "المؤلف"
-    link   = "الرابط"
-    type   = "الترخيص"
 
 
 [comments]
@@ -121,3 +120,13 @@
 
 [footer]
   poweredBy = "مدعوم بواسطة"
+
+[context]
+    seriesPrev = "الجزء السابق"
+    seriesNext = "الجزء التالي"
+    seriesPartOf = "الجزء {{ .current }} من {{ .total }}"
+    seriesParts = "كل الأجزاء"
+    seriesViewSeries = "عرض السلسلة"
+
+[projects]
+    visit = "فتح المشروع"
