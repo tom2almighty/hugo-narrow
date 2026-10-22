@@ -1,14 +1,7 @@
-{{- $header := site.Params.header | default dict -}}
+{{- /* The appearance panel always exposes all sections. */ -}}
 {{- $showScheme := true -}}
 {{- $showMode := true -}}
 {{- $showWidth := true -}}
-{{- if isset $header "showThemeSwitch" -}}{{- $showScheme = $header.showThemeSwitch -}}{{- end -}}
-{{- if isset $header "showDarkModeSwitch" -}}
-  {{- $showMode = $header.showDarkModeSwitch -}}
-{{- end -}}
-{{- if isset $header "showContentWidthSwitch" -}}
-  {{- $showWidth = $header.showContentWidthSwitch -}}
-{{- end -}}
 
 {{- if or $showScheme $showMode $showWidth -}}
   <button
