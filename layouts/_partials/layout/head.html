@@ -105,8 +105,6 @@
 
 
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />
-{{- $sprite := partialCached "features/icon-sprite.html" . -}}
-<link rel="preload" as="image" type="image/svg+xml" href="{{ $sprite.RelPermalink }}" />
 {{ partial "layout/head/seo.html" . }}
 
 {{ partial "config/script.html" (dict "id" "search-config" "value" $searchConfig) }}
