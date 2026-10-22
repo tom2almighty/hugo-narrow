@@ -23,162 +23,83 @@ export function grainTokensFor(value, max = 100) {
   };
 }
 
-function initContentWidth() {
+function initRangeControl({ name, baseProperty, fallback, storageKey, format, apply }) {
   const container = document.getElementById("page-container");
-  const range = document.getElementById("content-width-range");
-  const output = document.getElementById("content-width-value");
-  const reset = document.getElementById("content-width-reset");
+  const range = document.getElementById(`${name}-range`);
+  const output = document.getElementById(`${name}-value`);
+  const reset = document.getElementById(`${name}-reset`);
   if (!container || !range || !output || !reset) return;
 
   const min = Number(range.min);
   const max = Number(range.max);
-  const configuredWidth = () => {
-    const raw = getComputedStyle(container).getPropertyValue("--content-width-base").trim();
-    const rem = Number.parseFloat(raw);
-    return Number.isFinite(rem) ? rem : 56;
-  };
-  const defaultWidth = configuredWidth();
-  const storedWidth = Number.parseInt(readStorage(STORAGE_KEYS.contentWidth), 10);
-  const hasStoredWidth =
-    Number.isInteger(storedWidth) && storedWidth >= min && storedWidth <= max;
-  const initialWidth = hasStoredWidth ? storedWidth : defaultWidth;
+  const parsedBase = Number.parseFloat(
+    getComputedStyle(container).getPropertyValue(baseProperty).trim()
+  );
+  const defaultValue = clamp(Number.isFinite(parsedBase) ? parsedBase : fallback, min, max);
+  const stored = Number.parseInt(readStorage(storageKey), 10);
+  const initialValue =
+    Number.isInteger(stored) && stored >= min && stored <= max ? stored : defaultValue;
 
-  const updateControl = (value) => {
-    const width = clamp(value, min, max);
-    range.value = String(width);
-    output.value = `${width}rem`;
-    output.textContent = `${width}rem`;
-    return width;
+  const update = (value) => {
+    const next = clamp(value, min, max);
+    range.value = String(next);
+    const text = format(next);
+    output.value = text;
+    output.textContent = text;
+    apply(next, max);
+    return next;
   };
 
-  updateControl(initialWidth);
+  update(initialValue);
 
   range.addEventListener("input", () => {
-    const width = updateControl(Number(range.value));
-    document.documentElement.style.setProperty("--content-width", `${width}rem`);
+    update(Number(range.value));
   });
 
   range.addEventListener("change", () => {
-    const width = updateControl(Number(range.value));
-    document.documentElement.style.setProperty("--content-width", `${width}rem`);
-    writeStorage(STORAGE_KEYS.contentWidth, String(width));
+    writeStorage(storageKey, String(update(Number(range.value))));
   });
 
   reset.addEventListener("click", () => {
-    removeStorage(STORAGE_KEYS.contentWidth);
-    document.documentElement.style.removeProperty("--content-width");
-    updateControl(defaultWidth);
-  });
-}
-
-function initBackdropBlur() {
-  const container = document.getElementById("page-container");
-  const range = document.getElementById("backdrop-blur-range");
-  const output = document.getElementById("backdrop-blur-value");
-  const reset = document.getElementById("backdrop-blur-reset");
-  if (!container || !range || !output || !reset) return;
-
-  const min = Number(range.min);
-  const max = Number(range.max);
-  const configuredBlur = () => {
-    const raw = getComputedStyle(container).getPropertyValue("--backdrop-blur-base").trim();
-    const px = Number.parseFloat(raw);
-    return Number.isFinite(px) ? clamp(px, min, max) : 12;
-  };
-  const defaultBlur = configuredBlur();
-  const storedBlur = Number.parseInt(readStorage(STORAGE_KEYS.backdropBlur), 10);
-  const hasStoredBlur =
-    Number.isInteger(storedBlur) && storedBlur >= min && storedBlur <= max;
-  const initialBlur = hasStoredBlur ? storedBlur : defaultBlur;
-
-  const applyTokens = (px) => {
-    document.documentElement.style.setProperty("--backdrop-blur", `${px}px`);
-    document.documentElement.style.setProperty(
-      "--surface-alpha",
-      `${surfaceAlphaFor(px, max)}%`
-    );
-  };
-
-  const updateControl = (value) => {
-    const px = clamp(value, min, max);
-    range.value = String(px);
-    output.value = `${px}px`;
-    output.textContent = `${px}px`;
-    applyTokens(px);
-    return px;
-  };
-
-  updateControl(initialBlur);
-
-  range.addEventListener("input", () => {
-    updateControl(Number(range.value));
-  });
-
-  range.addEventListener("change", () => {
-    const px = updateControl(Number(range.value));
-    writeStorage(STORAGE_KEYS.backdropBlur, String(px));
-  });
-
-  reset.addEventListener("click", () => {
-    removeStorage(STORAGE_KEYS.backdropBlur);
-    updateControl(defaultBlur);
-  });
-}
-
-function initGrainSize() {
-  const container = document.getElementById("page-container");
-  const range = document.getElementById("grain-size-range");
-  const output = document.getElementById("grain-size-value");
-  const reset = document.getElementById("grain-size-reset");
-  if (!container || !range || !output || !reset) return;
-
-  const min = Number(range.min);
-  const max = Number(range.max);
-  const configuredGrain = () => {
-    const raw = getComputedStyle(container).getPropertyValue("--grain-size-base").trim();
-    const value = Number.parseFloat(raw);
-    return Number.isFinite(value) ? clamp(value, min, max) : 0;
-  };
-  const defaultGrain = configuredGrain();
-  const storedGrain = Number.parseInt(readStorage(STORAGE_KEYS.grainSize), 10);
-  const hasStoredGrain =
-    Number.isInteger(storedGrain) && storedGrain >= min && storedGrain <= max;
-  const initialGrain = hasStoredGrain ? storedGrain : defaultGrain;
-
-  const applyTokens = (value) => {
-    const tokens = grainTokensFor(value, max);
-    document.documentElement.style.setProperty("--grain-size", `${tokens.size}px`);
-    document.documentElement.style.setProperty("--grain-opacity", tokens.opacity);
-  };
-
-  const updateControl = (value) => {
-    const grain = clamp(value, min, max);
-    range.value = String(grain);
-    output.value = `${grain}%`;
-    output.textContent = `${grain}%`;
-    applyTokens(grain);
-    return grain;
-  };
-
-  updateControl(initialGrain);
-
-  range.addEventListener("input", () => {
-    updateControl(Number(range.value));
-  });
-
-  range.addEventListener("change", () => {
-    const value = updateControl(Number(range.value));
-    writeStorage(STORAGE_KEYS.grainSize, String(value));
-  });
-
-  reset.addEventListener("click", () => {
-    removeStorage(STORAGE_KEYS.grainSize);
-    updateControl(defaultGrain);
+    removeStorage(storageKey);
+    update(defaultValue);
   });
 }
 
 export function initViewportControls() {
-  initContentWidth();
-  initBackdropBlur();
-  initGrainSize();
+  const rootStyle = document.documentElement.style;
+
+  initRangeControl({
+    name: "content-width",
+    baseProperty: "--content-width-base",
+    fallback: 56,
+    storageKey: STORAGE_KEYS.contentWidth,
+    format: (value) => `${value}rem`,
+    apply: (value) => rootStyle.setProperty("--content-width", `${value}rem`),
+  });
+
+  initRangeControl({
+    name: "backdrop-blur",
+    baseProperty: "--backdrop-blur-base",
+    fallback: 12,
+    storageKey: STORAGE_KEYS.backdropBlur,
+    format: (value) => `${value}px`,
+    apply: (value, max) => {
+      rootStyle.setProperty("--backdrop-blur", `${value}px`);
+      rootStyle.setProperty("--surface-alpha", `${surfaceAlphaFor(value, max)}%`);
+    },
+  });
+
+  initRangeControl({
+    name: "grain-size",
+    baseProperty: "--grain-size-base",
+    fallback: 0,
+    storageKey: STORAGE_KEYS.grainSize,
+    format: (value) => `${value}%`,
+    apply: (value, max) => {
+      const tokens = grainTokensFor(value, max);
+      rootStyle.setProperty("--grain-size", `${tokens.size}px`);
+      rootStyle.setProperty("--grain-opacity", tokens.opacity);
+    },
+  });
 }
