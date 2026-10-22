@@ -241,18 +241,6 @@
   @apply text-muted-foreground flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors;
 }
 
-.dock-menu-icon-collapsed {
-  display: none;
-}
-
-#dock[data-collapsed="true"] .dock-menu-icon-expanded {
-  display: none;
-}
-
-#dock[data-collapsed="true"] .dock-menu-icon-collapsed {
-  display: inline-flex;
-}
-
 .dock-item:hover,
 .dock-item[aria-current="page"],
 .dock-item[data-active="true"] {

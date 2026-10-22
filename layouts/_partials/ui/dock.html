@@ -5,7 +5,7 @@
 {{- $commentsEnabled := and $commentsConfig.enabled $commentsConfig.system -}}
 
 
-<nav
+<div
   id="dock"
   role="toolbar"
   aria-label="{{ T `ui.dockAriaLabel` }}"
@@ -34,12 +34,7 @@
       aria-expanded="false"
       popovertarget="nav-menu-popover"
     >
-      <span class="dock-menu-icon-expanded">
-        {{ partial "features/icon.html" (dict "name" "categories" "size" "sm" "ariaLabel" "") }}
-      </span>
-      <span class="dock-menu-icon-collapsed">
-        {{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
-      </span>
+      {{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
     </button>
 
     <button
@@ -63,7 +58,7 @@
         aria-controls="toc-panel"
         aria-expanded="false"
       >
-        {{ partial "features/icon.html" (dict "name" "book-open" "size" "sm" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "toc" "size" "sm" "ariaLabel" "") }}
       </button>
     {{- end -}}
 
@@ -97,4 +92,4 @@
       {{ partial "features/icon.html" (dict "name" "arrow-up" "size" "sm" "ariaLabel" "") }}
     </button>
   </div>
-</nav>
+</div>
