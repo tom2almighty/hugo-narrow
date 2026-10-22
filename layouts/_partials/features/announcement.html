@@ -5,6 +5,7 @@
   {{- if isset $announcement "dismissible" -}}
     {{- $dismissible = $announcement.dismissible -}}
   {{- end -}}
+  {{- $autoClose := int ($announcement.autoClose | default 0) -}}
   {{- $role := cond (eq $type "destructive") "alert" "status" -}}
   {{- $hasContextBar := and (not .IsHome) (ne .Kind "404") -}}
   <div
@@ -20,6 +21,9 @@
     {{ end }}"
     role="{{ $role }}"
     data-announcement-id="{{ substr (md5 $announcement.message) 0 8 }}"
+    {{- if gt $autoClose 0 }}
+      data-auto-close="{{ $autoClose }}"
+    {{- end }}
   >
     <p class="text-foreground min-w-0 flex-1 text-sm leading-relaxed">
       {{ $announcement.message }}

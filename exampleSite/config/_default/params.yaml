@@ -18,6 +18,8 @@ announcement:
   enabled: true
   message: "Site Redesign! We've revamped the website with a new interface and smoother experience."
   type: "info" # info | warning | destructive
+  dismissible: true
+  autoClose: 8 # seconds; 0 or omit to keep it visible until dismissed
 
 # Favicon
 favicon:

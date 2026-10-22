@@ -14,7 +14,11 @@ export function initAnnouncement() {
     // sessionStorage may be unavailable.
   }
 
-  document.getElementById("announcement-close")?.addEventListener("click", () => {
+  let timer = 0;
+
+  const dismiss = () => {
+    if (element.classList.contains("is-hiding")) return;
+    window.clearTimeout(timer);
     element.classList.add("is-hiding");
     try {
       sessionStorage.setItem(storageKey, "1");
@@ -22,5 +26,12 @@ export function initAnnouncement() {
       // ignore
     }
     window.setTimeout(() => element.remove(), 180);
-  });
+  };
+
+  const autoClose = Number.parseInt(element.dataset.autoClose || "0", 10);
+  if (autoClose > 0) {
+    timer = window.setTimeout(dismiss, autoClose * 1000);
+  }
+
+  document.getElementById("announcement-close")?.addEventListener("click", dismiss);
 }
