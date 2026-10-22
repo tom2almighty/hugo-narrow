@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "README.md"
+      - "README.zh-Hans.md"
+      - "AGENTS.md"
+      - "LICENSE"
+      - ".gitignore"
     tags:
       - "v*"
   workflow_dispatch:
@@ -19,7 +25,7 @@ concurrency:
 
 env:
   # Keep the Hugo version in this branch's workflow so v1 and v2 can build independently.
-  HUGO_VERSION: "0.165.0"
+  HUGO_VERSION: "0.168.0"
 
 jobs:
   build:
@@ -75,8 +81,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          generate_release_notes: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NOTES_FILE=".github/release-notes/${GITHUB_REF_NAME}.md"
+          if [ -f "$NOTES_FILE" ]; then
+            gh release create "$GITHUB_REF_NAME" \
+              --title "Hugo Narrow ${GITHUB_REF_NAME}" \
+              --notes-file "$NOTES_FILE"
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              --title "Hugo Narrow ${GITHUB_REF_NAME}" \
+              --generate-notes
+          fi

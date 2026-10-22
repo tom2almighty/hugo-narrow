@@ -8,6 +8,8 @@ A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shad
 
 Version 2.0 removes the top navbar and introduces a floating adaptive dock, a sticky context bar, and border-only content cards. Configuration is substantially smaller: `header.*`, `dock`, `timeFormat`, `toc.pinned`, `list.*`, and the per-section UI flags are gone; built-in color schemes live in `data/themes.yaml`. The home section names are `author-section`, `recent-posts`, `featured-projects`, and `page-content`. The announcement is dismissible and no longer auto-hides.
 
+The final v1 release is v1.4.1, preserved on the `v1` branch. See the [2.0.0 release notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0) for the full list of breaking changes and migration notes.
+
 ## Development environment
 
 - Hugo Extended 0.165.0 or newer
