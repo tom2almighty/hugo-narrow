@@ -18,7 +18,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: ${{ vars.HUGO_VERSION || '0.165.0' }}
+  # Keep the Hugo version in this branch's workflow so v1 and v2 can build independently.
+  HUGO_VERSION: "0.165.0"
 
 jobs:
   build:
