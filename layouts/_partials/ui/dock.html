@@ -34,7 +34,12 @@
       aria-expanded="false"
       popovertarget="nav-menu-popover"
     >
-      {{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
+      <span class="dock-menu-icon-expanded">
+        {{ partial "features/icon.html" (dict "name" "categories" "size" "sm" "ariaLabel" "") }}
+      </span>
+      <span class="dock-menu-icon-collapsed">
+        {{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
+      </span>
     </button>
 
     <button
@@ -58,7 +63,7 @@
         aria-controls="toc-panel"
         aria-expanded="false"
       >
-        {{ partial "features/icon.html" (dict "name" "list" "size" "sm" "ariaLabel" "") }}
+        {{ partial "features/icon.html" (dict "name" "book-open" "size" "sm" "ariaLabel" "") }}
       </button>
     {{- end -}}
 
