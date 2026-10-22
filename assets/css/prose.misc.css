@@ -93,14 +93,14 @@
   padding: 0.75rem;
   color: var(--tw-prose-headings);
   font-weight: 600;
-  text-align: left;
+  text-align: start;
 }
 
 .prose td {
   border-bottom: 1px solid var(--border);
   padding: 0.75rem;
   color: var(--tw-prose-body);
-  text-align: left;
+  text-align: start;
   vertical-align: top;
   word-break: break-word;
 }
@@ -147,7 +147,7 @@
 
 .prose details:not(.alert) > ul,
 .prose details:not(.alert) > ol {
-  padding-left: 2.5rem;
+  padding-inline-start: 2.5rem;
 }
 
 .prose details:not(.alert) > summary + * {
@@ -166,54 +166,3 @@
   padding: 1em 0;
 }
 
-@media print {
-  @page {
-    margin: 1.5cm;
-  }
-
-  footer,
-  #bg-grain,
-  #dock,
-  #context-bar,
-  #toc-panel,
-  #search-modal,
-  #site-announcement,
-  .skip-link,
-  .post-navigation,
-  .related-posts,
-  #comments,
-  .heading-anchor,
-  nav {
-    display: none !important;
-  }
-
-  body {
-    background: white !important;
-    color: black !important;
-    padding: 0 !important;
-  }
-
-  #page-container {
-    max-width: none !important;
-    margin: 0 !important;
-  }
-
-  .bg-card {
-    background: white !important;
-    border-color: #e5e7eb !important;
-    box-shadow: none !important;
-  }
-
-  .text-muted-foreground {
-    color: #6b7280 !important;
-  }
-
-  .resume-entry {
-    break-inside: avoid;
-  }
-
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
-}

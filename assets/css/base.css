@@ -22,6 +22,27 @@ html.dark {
   color-scheme: dark;
 }
 
+/* Respect user requests for opaque surfaces. The CSS variables are also set
+   inline by theme-init/viewport, so these declarations must win. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --surface-alpha: 100% !important;
+    --backdrop-blur: 0px !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --surface-alpha: 100% !important;
+    --backdrop-blur: 0px !important;
+  }
+}
+
+/* Directional icons (chevrons and arrows) mirror in right-to-left layouts. */
+[dir="rtl"] .icon-directional {
+  transform: scaleX(-1);
+}
+
 *,
 ::before,
 ::after {

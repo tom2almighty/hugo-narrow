@@ -50,12 +50,12 @@
 }
 
 .toc-panel-content > nav > ul {
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 
 .toc-panel-content ul {
   margin: 0;
-  padding-left: 0.875rem;
+  padding-inline-start: 0.875rem;
   list-style: none;
 }
 

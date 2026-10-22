@@ -616,16 +616,17 @@ input[type="range"]::-moz-range-thumb {
   --alert-color: var(--note);
   position: relative;
   margin: 1.5rem 0;
-  padding: 0.25rem 0 0.25rem 1rem;
+  padding-block: 0.25rem;
+  padding-inline: 1rem 0;
 }
 
-/* Left capsule only; the alert body stays transparent. */
+/* Inline-start capsule only; the alert body stays transparent. */
 .alert::before {
   content: "";
   position: absolute;
   top: 0.125rem;
   bottom: 0.125rem;
-  left: 0;
+  inset-inline-start: 0;
   width: 0.25rem;
   border-radius: 9999px;
   background: var(--alert-color);
@@ -704,9 +705,32 @@ summary.alert-header::-webkit-details-marker {
   margin-bottom: 0;
 }
 
+/* High contrast / forced colors ---------------------------------------- */
+
+@media (forced-colors: active) {
+  .dock-shell,
+  .dock-popover,
+  .nav-popover,
+  .toc-panel,
+  #series-popover,
+  #search-modal,
+  .site-tip {
+    background: Canvas !important;
+    color: CanvasText !important;
+    border-color: GrayText !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+}
+
 /* Print ----------------------------------------------------------------- */
 
 @media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  footer,
   #bg-grain,
   #dock,
   #context-bar,
@@ -715,7 +739,13 @@ summary.alert-header::-webkit-details-marker {
   #search-modal,
   #site-announcement,
   .skip-link,
-  footer nav {
+  .post-navigation,
+  .related-posts,
+  #comments,
+  .heading-anchor,
+  .collapse-code-btn,
+  .collapse-overlay,
+  nav {
     display: none !important;
   }
 
@@ -728,5 +758,29 @@ summary.alert-header::-webkit-details-marker {
   #page-container {
     max-width: none !important;
     margin: 0 !important;
+  }
+
+  .bg-card {
+    background: white !important;
+    border-color: #e5e7eb !important;
+    box-shadow: none !important;
+  }
+
+  .text-muted-foreground {
+    color: #6b7280 !important;
+  }
+
+  [data-code-block] .code-block-content {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .resume-entry {
+    break-inside: avoid;
+  }
+
+  * {
+    transition: none !important;
+    animation: none !important;
   }
 }

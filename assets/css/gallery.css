@@ -272,3 +272,28 @@ body.gallery-lightbox-open {
     transform: none;
   }
 }
+
+/* Mirror the lightbox navigation in right-to-left layouts. */
+[dir="rtl"] .gallery-lightbox__nav svg {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .gallery-lightbox__nav--prev {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .gallery-lightbox__nav--next {
+  right: auto;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  [dir="rtl"] .gallery-lightbox__nav--prev {
+    right: 0.5rem;
+  }
+
+  [dir="rtl"] .gallery-lightbox__nav--next {
+    left: 0.5rem;
+  }
+}
