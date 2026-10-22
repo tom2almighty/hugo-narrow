@@ -2,6 +2,15 @@
 {{ partial "twitter_cards.html" . }}
 {{ partial "schema.html" . }}
 
+{{/* Translation alternates */}}
+{{- with .AllTranslations -}}
+  {{- if gt (len .) 1 -}}
+    {{- range . -}}
+      <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}" />
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{/* RSS Feed */}}
 {{ with .OutputFormats.Get "rss" }}
   <link
