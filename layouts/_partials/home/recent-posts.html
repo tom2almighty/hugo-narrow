@@ -5,7 +5,7 @@
   {{- if isset . "recentPostsCount" -}}{{- $count = .recentPostsCount -}}{{- end -}}
 {{- end -}}
 {{- $posts := where site.RegularPages "Section" "in" $sections | first $count -}}
-{{- $allURL := printf "/%s/" (index $sections 0) | relLangURL -}}
+{{- $allURL := printf "%s/" (index $sections 0) | relLangURL -}}
 
 {{ partial "content/post-list.html" (dict
   "posts" $posts

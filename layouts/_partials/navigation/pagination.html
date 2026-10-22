@@ -11,7 +11,7 @@
   >
     {{- if $paginator.HasPrev -}}
       <a
-        href="{{ $paginator.Prev.URL | relLangURL }}"
+        href="{{ $paginator.Prev.URL }}"
         class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center gap-1 rounded-md border px-2 text-sm transition-colors"
         aria-label="{{ T `nav.prev` }}"
       >
@@ -56,7 +56,7 @@
             </span>
           {{- else -}}
             <a
-              href="{{ .URL | relLangURL }}"
+              href="{{ .URL }}"
               class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex size-8 items-center justify-center rounded-md border text-sm transition-colors"
             >
               {{ $pageNum }}
@@ -80,7 +80,7 @@
 
     {{- if $paginator.HasNext -}}
       <a
-        href="{{ $paginator.Next.URL | relLangURL }}"
+        href="{{ $paginator.Next.URL }}"
         class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center gap-1 rounded-md border px-2 text-sm transition-colors"
         aria-label="{{ T `nav.next` }}"
       >

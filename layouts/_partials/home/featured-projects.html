@@ -1,7 +1,7 @@
 {{/* Featured project cards */}}
 {{- $featured := where (where site.RegularPages "Section" "projects") "Params.featured" true -}}
 {{- $total := len (where site.RegularPages "Section" "projects") -}}
-{{- $allURL := "/projects/" | relLangURL -}}
+{{- $allURL := "projects/" | relLangURL -}}
 
 {{- if $featured -}}
   <section class="featured-projects">

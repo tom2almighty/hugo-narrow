@@ -28,7 +28,7 @@
             {{- with site.GetPage .PageRef -}}
               {{- $menuURL = .RelPermalink -}}
             {{- else -}}
-              {{- $menuURL = .URL | relLangURL -}}
+              {{- $menuURL = strings.TrimPrefix "/" .URL | relLangURL -}}
             {{- end -}}
           {{- end -}}
           {{- $isActive := eq $page.RelPermalink $menuURL -}}
@@ -70,7 +70,7 @@
             {{- with site.GetPage .PageRef -}}
               {{- $childURL = .RelPermalink -}}
             {{- else -}}
-              {{- $childURL = .URL | relLangURL -}}
+              {{- $childURL = strings.TrimPrefix "/" .URL | relLangURL -}}
             {{- end -}}
           {{- end -}}
           {{- $isActive := eq $page.RelPermalink $childURL -}}
