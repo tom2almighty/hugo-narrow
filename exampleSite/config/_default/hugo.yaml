@@ -57,6 +57,9 @@ markup:
     lineNos: false
     lineNumbersInTable: false # Set to false
     noClasses: false
+    # Light style; Hugo uses its dark counterpart when generating dark mode CSS.
+    # https://gohugo.io/quick-reference/syntax-highlighting-styles/
+    style: catppuccin-latte
     tabWidth: 2
 
 outputs:

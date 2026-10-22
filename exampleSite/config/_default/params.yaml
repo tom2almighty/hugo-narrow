@@ -140,9 +140,11 @@ lightbox:
   enabled: true
 
 # Code block
+# Colors come from markup.highlight.style in hugo.yaml. Use a style with a
+# dark counterpart (for example catppuccin-latte or github).
+# https://gohugo.io/functions/css/chromastyles/
+# https://gohugo.io/quick-reference/syntax-highlighting-styles/
 codeblock:
-  style: catppuccin-latte # Chroma light style
-  darkStyle: catppuccin-mocha # Chroma dark style
   collapse:
     enabled: true
     defaultState: expanded # expanded | collapsed
