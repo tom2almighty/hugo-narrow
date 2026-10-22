@@ -98,6 +98,20 @@ analytics:
 # KaTeX
 katex:
   enabled: true
+  # Auto-render delimiters. Can also be overridden per page via front matter.
+  delimiters:
+    - left: "$$"
+      right: "$$"
+      display: true
+    - left: "$"
+      right: "$"
+      display: false
+    - left: "\\("
+      right: "\\)"
+      display: false
+    - left: "\\["
+      right: "\\]"
+      display: true
 
 # Mermaid
 mermaid:
