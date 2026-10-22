@@ -14,8 +14,7 @@
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: color-mix(in oklab, var(--popover) var(--surface-alpha, 82%), transparent);
-  backdrop-filter: blur(var(--backdrop-blur, 12px));
+  @apply surface-popover;
   color: var(--popover-foreground);
   box-shadow: var(--shadow-popover);
   opacity: 0;

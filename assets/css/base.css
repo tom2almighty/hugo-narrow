@@ -1,8 +1,6 @@
 /* Base layer: shadcn tokens, density, focus, scroll and page shell. */
 
 :root {
-  --control-height: 2rem;
-  --control-height-lg: 2.25rem;
   --dock-size: 3.5rem;
   --dock-clearance: calc(var(--dock-size) + env(safe-area-inset-bottom) + 2rem);
   --page-gutter: clamp(1rem, 2vw, 1.5rem);

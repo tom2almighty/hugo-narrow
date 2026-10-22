@@ -17,6 +17,7 @@
 
   --radius: 0.625rem;
   --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
   --input: var(--border);
   --ring: var(--muted-foreground);
   --sidebar: var(--background);
@@ -52,6 +53,7 @@
   --popover-foreground: oklch(0.985 0 0);
 
   --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
 
   --note: oklch(0.67 0.15 252.5);
   --tip: oklch(0.67 0.15 162.48);
