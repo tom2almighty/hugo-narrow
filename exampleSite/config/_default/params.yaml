@@ -40,6 +40,11 @@ author:
       url: "mailto:hello@example.com"
       icon: "email"
 
+# Search
+search:
+  # Number of characters of each page stored in the client-side search index.
+  indexContentLength: 2000
+
 # The centered content column. Users can adjust it at runtime with the
 # appearance panel slider (40-90rem); the value is stored in localStorage.
 contentWidth: "56rem"

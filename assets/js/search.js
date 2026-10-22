@@ -40,6 +40,11 @@ export function initSearch() {
 
     if (!modal) return;
 
+    const shortcut = document.getElementById("search-shortcut");
+    if (shortcut && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) {
+      shortcut.textContent = "⌘K";
+    }
+
     bindEvents();
 
     window.Search = {
