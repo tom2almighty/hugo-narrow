@@ -56,6 +56,21 @@ jobs:
             --destination=dist \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
 
+      - name: Checkout v1 theme
+        uses: actions/checkout@v4
+        with:
+          ref: v1
+          path: v1-build/hugo-narrow
+
+      - name: Build v1 demo
+        run: |
+          hugo \
+            --source=v1-build/hugo-narrow/exampleSite \
+            --themesDir=../.. \
+            --minify \
+            --destination="$GITHUB_WORKSPACE/exampleSite/dist/v1" \
+            --baseURL "${{ steps.pages.outputs.base_url }}/v1/"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
