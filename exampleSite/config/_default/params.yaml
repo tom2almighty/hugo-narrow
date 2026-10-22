@@ -35,8 +35,7 @@ header:
     image: "/images/logo.svg" # Logo path relative to static folder, leave empty to use site title first letter
     link: "/" # Click to home page
   # The appearance panel always shows color scheme, light/dark mode and page width.
-  showLanguageSwitch: true # Set to false to hide language switcher
-  languageSwitchMode: "dropdown" # Language switch mode: "dropdown" (show panel) or "cycle" (direct cycle)
+  # The language switcher is always shown on multilingual sites.
 
 # Dock display mode
 # Options: "scroll" (show on scroll up), "always" (always visible), "float" (floating button)
@@ -223,16 +222,12 @@ lightbox:
   enabled: true
 
 # Code block
-# Syntax colors are generated at build time by Hugo's css.ChromaStyles function.
-# `style` applies to light mode and `darkStyle` to dark mode. The theme passes
-# these names to css.ChromaStyles, so markup.highlight.style in hugo.yaml is not
-# used for code block colors.
+# Colors come from markup.highlight.style in hugo.yaml. Hugo generates the dark
+# mode stylesheet from that style's dark counterpart, so use a style that has one.
 # Available style names: https://gohugo.io/quick-reference/syntax-highlighting-styles/
 # css.ChromaStyles docs: https://gohugo.io/functions/css/chromastyles/
 # Markup highlight docs: https://gohugo.io/configuration/markup/#highlight
 codeblock:
-  style: catppuccin-latte # Chroma light style
-  darkStyle: catppuccin-mocha # Chroma dark style
   collapse:
     enabled: true
     defaultState: expanded # expanded, collapsed
