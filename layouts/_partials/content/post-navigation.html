@@ -16,7 +16,7 @@
         class="border-border bg-card hover:bg-accent/30 hover:border-primary/30 flex flex-col gap-1 rounded-lg border p-4 transition-colors"
       >
         <span class="text-muted-foreground flex items-center gap-1 text-xs">
-          {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "xs" "ariaLabel" "") }}
+          {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "xs" "ariaLabel" "" "class" "icon-directional") }}
           {{ T "article.prev" }}
         </span>
         <span class="text-foreground text-sm font-medium">{{ .LinkTitle }}</span>
@@ -30,7 +30,7 @@
       >
         <span class="text-muted-foreground flex items-center gap-1 text-xs">
           {{ T "article.next" }}
-          {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "xs" "ariaLabel" "") }}
+          {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "xs" "ariaLabel" "" "class" "icon-directional") }}
         </span>
         <span class="text-foreground text-sm font-medium">{{ .LinkTitle }}</span>
       </a>

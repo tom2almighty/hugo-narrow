@@ -23,7 +23,7 @@
         {{- range $index, $item := $crumbs -}}
           {{- if gt $index 0 -}}
             <li class="crumb-sep" aria-hidden="true">
-              {{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") -}}
+              {{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") -}}
             </li>
           {{- end -}}
           <li class="crumb-node">
@@ -121,11 +121,11 @@
               aria-label="{{ T `context.seriesPrev` }}"
               title="{{ T `context.seriesPrev` }}: {{ $prev.LinkTitle }}"
             >
-              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
+              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
             </a>
           {{- else -}}
             <span class="series-step" aria-disabled="true">
-              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "") }}
+              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
             </span>
           {{- end -}}
 
@@ -136,11 +136,11 @@
               aria-label="{{ T `context.seriesNext` }}"
               title="{{ T `context.seriesNext` }}: {{ $next.LinkTitle }}"
             >
-              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
             </a>
           {{- else -}}
             <span class="series-step" aria-disabled="true">
-              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "") }}
+              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
             </span>
           {{- end -}}
         </div>
