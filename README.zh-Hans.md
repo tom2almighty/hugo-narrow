@@ -2,13 +2,13 @@
 
 # Hugo Narrow
 
-[English](README.md)
+**[文档](https://tom2almighty.github.io/hugo-narrow-docs/zh/)** · **[演示](https://tom2almighty.github.io/hugo-narrow/zh-hans/)** · **[English](README.md)**
 
 一个以阅读为核心的 Hugo 主题：自适应 dock、面包屑上下文栏、shadcn 语义 token，以及可调节的居中阅读宽度。
 
 2.0 去掉了顶部导航，改为浮动自适应 dock、吸顶上下文栏和无重阴影的边框卡片。配置大幅收敛：`header.*`、`dock`、`timeFormat`、`toc.pinned`、`list.*` 以及各分区的 UI 开关都已移除，内置配色注册在 `data/themes.yaml`。首页区块名称为 `author-section`、`recent-posts`、`featured-projects`、`page-content`；公告可以手动关闭，不再自动消失。
 
-v1 的最终版本为 v1.4.1，保留在 `v1` 分支。完整的破坏性变更与迁移说明见 [2.0.0 Release Notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0)。
+v1 的最终版本为 v1.4.1，保留在 `v1` 分支。完整的破坏性变更与迁移说明见 [2.0.0 Release Notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0)。v1 预览地址：https://tom2almighty.github.io/hugo-narrow/v1/。
 
 ## 开发环境
 
