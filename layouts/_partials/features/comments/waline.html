@@ -13,11 +13,11 @@
   <div id="{{ $id }}" class="waline-container"></div>
 
   {{/* 加载 Waline CSS */}}
-  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@3.16.1/dist/waline.css" />
 
   {{/* 加载 Waline JS */}}
   <script type="module">
-    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    import { init } from 'https://unpkg.com/@waline/client@3.16.1/dist/waline.js';
 
     init({
       el: '#{{ $id }}',
