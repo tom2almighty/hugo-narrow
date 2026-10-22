@@ -83,6 +83,18 @@
   <link rel="icon" type="image/svg+xml" href="{{ `favicon.svg` | relURL }}" />
 {{ end }}
 
+{{- $pwa := site.Params.pwa | default dict -}}
+{{- $themeColor := $pwa.themeColor | default "#09090b" -}}
+<meta name="theme-color" content="{{ $themeColor }}" media="(prefers-color-scheme: light)" />
+<meta
+  name="theme-color"
+  content="{{ $pwa.darkThemeColor | default $themeColor }}"
+  media="(prefers-color-scheme: dark)"
+/>
+{{- with $pwa.appleTouchIcon }}
+  <link rel="apple-touch-icon" href="{{ strings.TrimPrefix `/` . | relURL }}" />
+{{- end }}
+
 {{- $_ := .Content -}}
 
 {{- $searchConfig := partial "config/search.html" . -}}
@@ -93,6 +105,8 @@
 
 
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />
+{{- $sprite := partialCached "features/icon-sprite.html" . -}}
+<link rel="preload" as="image" type="image/svg+xml" href="{{ $sprite.RelPermalink }}" />
 {{ partial "layout/head/seo.html" . }}
 
 {{ partial "config/script.html" (dict "id" "search-config" "value" $searchConfig) }}

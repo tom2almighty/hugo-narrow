@@ -5,10 +5,13 @@ shortName: "Hugo Narrow" # PWA
 images:
   - "/images/og-default.avif"
 
-# PWA manifest colors
+# PWA manifest
 pwa:
   backgroundColor: "#ffffff"
   themeColor: "#09090b"
+  darkThemeColor: "#09090b"
+  orientation: "portrait-primary" # any | natural | portrait-primary | landscape-primary
+  appleTouchIcon: "" # e.g. "/apple-touch-icon.png"
 
 # Site-wide broadcast announcement
 announcement:

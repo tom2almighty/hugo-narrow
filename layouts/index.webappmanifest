@@ -10,9 +10,9 @@
   "display" "standalone"
   "background_color" ($pwa.backgroundColor | default "#ffffff")
   "theme_color" ($pwa.themeColor | default "#09090b")
-  "orientation" "portrait-primary"
+  "orientation" ($pwa.orientation | default "portrait-primary")
   "lang" site.Language.Locale
-  "dir" "ltr"
+  "dir" (or site.Language.Direction "ltr")
   "scope" $homePath
   "categories" (slice "blog" "technology" "education")
 -}}
