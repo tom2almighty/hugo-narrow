@@ -57,7 +57,7 @@ markup:
     lineNos: false
     lineNumbersInTable: false # Set to false
     noClasses: false
-    style: github # No need to change
+    # Code block colors come from params.codeblock.style/darkStyle.
     tabWidth: 2
 
 outputs:
