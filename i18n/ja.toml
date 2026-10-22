@@ -11,8 +11,6 @@
     relatedContent = "関連記事"
     prev           = "前へ"
     next           = "次へ"
-    noPrev         = "前はありません"
-    noNext         = "次はありません"
 
     [article.alert]
         note      = "注意"
@@ -48,13 +46,9 @@
     language = "言語"
     announcementDismiss = "お知らせを閉じる"
     dockAriaLabel = "クイックアクションバー"
-    dockBack      = "戻る"
     dockSearch    = "検索"
     dockComments  = "コメント"
     dockBackToTop = "トップへ戻る"
-    dockTop       = "トップ"
-    dockBottom    = "一番下へ"
-    scrollDown    = "下へスクロール"
     toc           = "目次"
     tocPin        = "目次を固定"
     tocUnpin      = "目次の固定を解除"
@@ -72,13 +66,10 @@
     themeDark    = "ダーク"
     themeLight   = "ライト"
     themeSystem  = "システム"
-    themeToggle  = "テーマ切替"
 
-    languageToggle = "言語を切替"
 
     contentWidth       = "ページ幅"
     contentWidthReset  = "既定値に戻す"
-    contentWidthToggle = "ページ幅を調整"
     backdropBlur       = "背景のぼかし"
     backdropBlurReset  = "既定値に戻す"
     grainSize          = "ノイズ粒子"
@@ -87,7 +78,6 @@
     appearanceToggle = "外観設定"
     colorScheme      = "カラースキーム"
     themeMode        = "表示モード"
-    closeMenu        = "メニューを閉じる"
 
 
 
@@ -98,9 +88,6 @@
 
 
 [home]
-    writing = "記事"
-    allPosts = "すべての記事"
-    noPosts = "記事はまだありません。"
     featuredProjects = "注目のプロジェクト"
     viewAll          = "すべて表示"
     recentPosts      = "最近の記事"

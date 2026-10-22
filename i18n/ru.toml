@@ -14,8 +14,6 @@
     relatedContent = "Похожие материалы"
     prev           = "Предыдущая"
     next           = "Следующая"
-    noPrev         = "Нет предыдущей"
-    noNext         = "Нет следующей"
 
     [article.alert]
         note      = "Примечание"
@@ -57,13 +55,9 @@
     language = "Язык"
     announcementDismiss = "Закрыть объявление"
     dockAriaLabel = "Панель быстрых действий"
-    dockBack      = "Назад"
     dockSearch    = "Поиск"
     dockComments  = "Комментарии"
     dockBackToTop = "Наверх"
-    dockTop       = "Вверх"
-    dockBottom    = "В конец"
-    scrollDown    = "Прокрутить вниз"
     toc           = "Оглавление"
     tocPin        = "Закрепить оглавление"
     tocUnpin      = "Открепить оглавление"
@@ -81,13 +75,10 @@
     themeDark    = "Темная"
     themeLight   = "Светлая"
     themeSystem  = "Системная"
-    themeToggle  = "Переключить тему"
 
-    languageToggle = "Сменить язык"
 
     contentWidth       = "Ширина страницы"
     contentWidthReset  = "Восстановить по умолчанию"
-    contentWidthToggle = "Настроить ширину страницы"
     backdropBlur       = "Размытие фона"
     backdropBlurReset  = "Восстановить по умолчанию"
     grainSize          = "Размер зерна"
@@ -96,7 +87,6 @@
     appearanceToggle = "Настройки оформления"
     colorScheme      = "Цветовая схема"
     themeMode        = "Режим оформления"
-    closeMenu        = "Закрыть меню"
 
 
 
@@ -107,9 +97,6 @@
 
 
 [home]
-    writing = "Записи"
-    allPosts = "Все записи"
-    noPosts = "Записей пока нет."
     featuredProjects = "Избранные проекты"
     viewAll          = "Показать все"
     recentPosts      = "Последние статьи"

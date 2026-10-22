@@ -12,8 +12,6 @@
     relatedContent = "Related content"
     prev           = "Previous"
     next           = "Next"
-    noPrev         = "No previous"
-    noNext         = "No next"
 
     [article.alert]
         note      = "Note"
@@ -51,13 +49,9 @@
     language = "Language"
     announcementDismiss = "Dismiss announcement"
     dockAriaLabel = "Quick actions toolbar"
-    dockBack      = "Back"
     dockSearch    = "Search"
     dockComments  = "Comments"
     dockBackToTop = "Back to top"
-    dockTop       = "Top"
-    dockBottom    = "Go to bottom"
-    scrollDown    = "Scroll down"
     toc           = "Table of contents"
     tocPin        = "Pin table of contents"
     tocUnpin      = "Unpin table of contents"
@@ -75,13 +69,10 @@
     themeDark    = "Dark"
     themeLight   = "Light"
     themeSystem  = "System"
-    themeToggle  = "Toggle theme"
 
-    languageToggle = "Switch language"
 
     contentWidth       = "Page width"
     contentWidthReset  = "Restore default"
-    contentWidthToggle = "Adjust page width"
     backdropBlur       = "Backdrop blur"
     backdropBlurReset  = "Restore default"
     grainSize          = "Grain size"
@@ -90,7 +81,6 @@
     appearanceToggle = "Appearance settings"
     colorScheme      = "Color scheme"
     themeMode        = "Theme mode"
-    closeMenu        = "Close menu"
 
 
 
@@ -101,9 +91,6 @@
 
 
 [home]
-    writing = "Writing"
-    allPosts = "All posts"
-    noPosts = "No posts yet."
     featuredProjects = "Featured Projects"
     viewAll          = "View all"
     recentPosts      = "Recent Posts"

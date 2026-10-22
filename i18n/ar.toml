@@ -16,8 +16,6 @@
     relatedContent = "محتوى ذو صلة"
     prev           = "السابق"
     next           = "التالي"
-    noPrev         = "لا يوجد سابق"
-    noNext         = "لا يوجد تالٍ"
 
     [article.alert]
         note      = "ملاحظة"
@@ -63,13 +61,9 @@
     language = "اللغة"
     announcementDismiss = "إغلاق الإعلان"
     dockAriaLabel = "شريط الإجراءات السريعة"
-    dockBack      = "رجوع"
     dockSearch    = "بحث"
     dockComments  = "التعليقات"
     dockBackToTop = "العودة للأعلى"
-    dockTop       = "أعلى"
-    dockBottom    = "إلى الأسفل"
-    scrollDown    = "مرر للأسفل"
     toc           = "جدول المحتويات"
     tocPin        = "تثبيت جدول المحتويات"
     tocUnpin      = "إلغاء تثبيت جدول المحتويات"
@@ -87,13 +81,10 @@
     themeDark    = "داكن"
     themeLight   = "فاتح"
     themeSystem  = "النظام"
-    themeToggle  = "تبديل السمة"
 
-    languageToggle = "تغيير اللغة"
 
     contentWidth       = "عرض الصفحة"
     contentWidthReset  = "استعادة الافتراضي"
-    contentWidthToggle = "ضبط عرض الصفحة"
     backdropBlur       = "تمويه الخلفية"
     backdropBlurReset  = "استعادة الافتراضي"
     grainSize          = "حجم التحبيب"
@@ -102,7 +93,6 @@
     appearanceToggle = "إعدادات المظهر"
     colorScheme      = "نظام الألوان"
     themeMode        = "وضع العرض"
-    closeMenu        = "إغلاق القائمة"
 
 
 
@@ -113,9 +103,6 @@
 
 
 [home]
-    writing = "المقالات"
-    allPosts = "كل المقالات"
-    noPosts = "لا توجد مقالات بعد."
     featuredProjects = "مشاريع مميزة"
     viewAll          = "عرض الكل"
     recentPosts      = "أحدث المقالات"

@@ -12,8 +12,6 @@
     relatedContent = "Contenido relacionado"
     prev           = "Anterior"
     next           = "Siguiente"
-    noPrev         = "Sin anterior"
-    noNext         = "Sin siguiente"
 
     [article.alert]
         note      = "Nota"
@@ -51,13 +49,9 @@
     language = "Idioma"
     announcementDismiss = "Cerrar anuncio"
     dockAriaLabel = "Barra de acciones rápidas"
-    dockBack      = "Volver"
     dockSearch    = "Buscar"
     dockComments  = "Comentarios"
     dockBackToTop = "Volver arriba"
-    dockTop       = "Arriba"
-    dockBottom    = "Ir al final"
-    scrollDown    = "Desplazarse hacia abajo"
     toc           = "Tabla de contenidos"
     tocPin        = "Fijar tabla de contenidos"
     tocUnpin      = "Dejar de fijar la tabla de contenidos"
@@ -75,13 +69,10 @@
     themeDark    = "Oscuro"
     themeLight   = "Claro"
     themeSystem  = "Sistema"
-    themeToggle  = "Cambiar tema"
 
-    languageToggle = "Cambiar idioma"
 
     contentWidth       = "Ancho de página"
     contentWidthReset  = "Restaurar predeterminado"
-    contentWidthToggle = "Ajustar ancho de página"
     backdropBlur       = "Desenfoque de fondo"
     backdropBlurReset  = "Restaurar predeterminado"
     grainSize          = "Tamaño de grano"
@@ -90,7 +81,6 @@
     appearanceToggle = "Ajustes de apariencia"
     colorScheme      = "Esquema de colores"
     themeMode        = "Modo de apariencia"
-    closeMenu        = "Cerrar menú"
 
 
 
@@ -101,9 +91,6 @@
 
 
 [home]
-    writing = "Artículos"
-    allPosts = "Todos los artículos"
-    noPosts = "Aún no hay artículos."
     featuredProjects = "Proyectos destacados"
     viewAll          = "Ver todo"
     recentPosts      = "Artículos recientes"
