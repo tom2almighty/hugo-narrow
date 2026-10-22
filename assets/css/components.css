@@ -237,7 +237,7 @@
 .dock-shell {
   @apply shadow-md flex items-center gap-1 rounded-full border p-1.5;
   border-color: var(--border);
-  background: color-mix(in oklab, var(--popover) var(--surface-alpha, 82%), transparent);
+  background: color-mix(in oklab, var(--background) var(--surface-alpha, 82%), transparent);
   backdrop-filter: blur(var(--backdrop-blur, 12px));
 }
 
