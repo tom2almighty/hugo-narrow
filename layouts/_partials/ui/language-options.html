@@ -6,28 +6,52 @@
   {{- end -}}
 {{- end -}}
 
+{{- $currentName := .Language.Label | default .Language.Lang -}}
 
-<div class="grid grid-cols-2 gap-0.5">
-  {{- range hugo.Sites -}}
-    {{- $lang := .Language.Lang -}}
-    {{- $name := .Language.Label | default $lang -}}
-    {{- $target := .Home.RelPermalink -}}
-    {{- with index $translationURLs $lang -}}
-      {{- $target = . -}}
+
+<button
+  id="language-toggle"
+  type="button"
+  popovertarget="language-panel"
+  aria-controls="language-panel"
+  aria-expanded="false"
+  class="border-border bg-background text-foreground hover:bg-muted flex h-8 w-full items-center justify-between gap-2 rounded-md border px-2 text-sm transition-colors"
+>
+  <span class="flex min-w-0 items-center gap-1.5">
+    {{ partial "features/icon.html" (dict "name" "language" "size" "sm" "ariaLabel" "") }}
+    <span class="truncate">{{ $currentName }}</span>
+  </span>
+  {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "xs" "ariaLabel" "") }}
+</button>
+
+<div
+  id="language-panel"
+  popover
+  class="dock-popover text-popover-foreground border-border shadow-popover rounded-lg border p-1"
+  aria-label="{{ T `ui.language` }}"
+>
+  <div class="grid grid-cols-1 gap-0.5">
+    {{- range hugo.Sites -}}
+      {{- $lang := .Language.Lang -}}
+      {{- $name := .Language.Label | default $lang -}}
+      {{- $target := .Home.RelPermalink -}}
+      {{- with index $translationURLs $lang -}}
+        {{- $target = . -}}
+      {{- end -}}
+      {{- $isCurrent := eq $lang $currentLang -}}
+      <a
+        href="{{ $target }}"
+        hreflang="{{ $lang }}"
+        lang="{{ $lang }}"
+        class="{{ if $isCurrent }}
+          bg-accent text-accent-foreground font-medium
+        {{ else }}
+          text-muted-foreground hover:bg-muted hover:text-foreground
+        {{ end }} flex h-8 items-center truncate rounded-md px-2 text-sm transition-colors"
+        {{ if $isCurrent }}aria-current="true"{{ end }}
+      >
+        {{ $name }}
+      </a>
     {{- end -}}
-    {{- $isCurrent := eq $lang $currentLang -}}
-    <a
-      href="{{ $target }}"
-      hreflang="{{ $lang }}"
-      lang="{{ $lang }}"
-      class="{{ if $isCurrent }}
-        bg-accent text-accent-foreground font-medium
-      {{ else }}
-        text-muted-foreground hover:bg-muted hover:text-foreground
-      {{ end }} flex h-8 items-center truncate rounded-md px-2 text-sm transition-colors"
-      {{ if $isCurrent }}aria-current="true"{{ end }}
-    >
-      {{ $name }}
-    </a>
-  {{- end -}}
+  </div>
 </div>

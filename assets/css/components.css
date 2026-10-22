@@ -283,6 +283,31 @@
   transform: translateX(-50%);
 }
 
+#language-toggle {
+  anchor-name: --language-anchor;
+}
+
+#language-panel {
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  width: min(18rem, calc(100vw - 2rem));
+  transform: translate(-50%, -50%);
+}
+
+@supports (position-anchor: --language-anchor) {
+  #language-panel {
+    position-anchor: --language-anchor;
+    top: anchor(bottom);
+    right: auto;
+    left: anchor(left);
+    margin-top: 0.5rem;
+    transform: none;
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+}
+
 .nav-popover {
   position: fixed;
   top: auto;
