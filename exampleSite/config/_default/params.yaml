@@ -147,9 +147,9 @@ readingProgress:
   showOnHomepage: false
 
 # Date format
-# Accepts Hugo localization tokens (":date_long", ":date_short") or a Go layout.
-# Per-language overrides go in languages.<lang>.params.dateFormat.
-dateFormat:
-  long: ":date_long" # post detail, page headers
-  short: ":date_short" # cards, archives, series
-  month: "January 2006" # archive month heading; zh-hans overrides this in languages.yaml
+# The theme uses Hugo's localized tokens by default, so this block is optional.
+# Override it globally here, or per language in languages.<lang>.params.dateFormat.
+# dateFormat:
+#   long: ":date_long" # post detail, page headers
+#   short: ":date_short" # cards, archives, series
+#   month: "January 2006" # archive month heading
