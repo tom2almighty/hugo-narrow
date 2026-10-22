@@ -5,6 +5,11 @@ shortName: "Hugo Narrow" # PWA
 images:
   - "/images/og-default.avif"
 
+# PWA manifest colors
+pwa:
+  backgroundColor: "#ffffff"
+  themeColor: "#09090b"
+
 # Site-wide broadcast announcement
 announcement:
   enabled: true
