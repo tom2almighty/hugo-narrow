@@ -1,0 +1,115 @@
+[list]
+    [list.pages]
+        one = "{{ .count }}টি পৃষ্ঠা"
+        other = "{{ .count }}টি পৃষ্ঠা"
+
+    [list.terms]
+        one = "{{ .count }}টি টার্ম"
+        other = "{{ .count }}টি টার্ম"
+
+[article]
+    empty          = "কোনো কন্টেন্ট নেই"
+    relatedContent = "সম্পর্কিত কন্টেন্ট"
+    prev           = "পূর্ববর্তী"
+    next           = "পরবর্তী"
+
+    [article.alert]
+        note      = "নোট"
+        tip       = "টিপস"
+        important = "গুরুত্বপূর্ণ"
+        caution   = "সতর্কতা"
+        warning   = "সাবধান"
+
+    [article.readingTime]
+        one = "{{ .count }} মিনিট"
+        other = "{{ .count }} মিনিট"
+
+    [article.wordCount]
+        one = "{{ .count }}টি শব্দ"
+        other = "{{ .count }}টি শব্দ"
+
+[code]
+    copy            = "কপি করুন"
+    copied          = "কপি করা হয়েছে"
+    expand          = "প্রসারিত করুন"
+    collapse        = "সংকুচিত করুন"
+
+[nav]
+    home          = "হোম"
+    anchor        = "এই সেকশনের লিংক"
+    backHome      = "হোমে ফিরে যান"
+    breadcrumb    = "ব্রেডক্রাম্ব"
+    menu          = "মেনু"
+    prev          = "পূর্ববর্তী"
+    next          = "পরবর্তী"
+    pageInfo      = "পৃষ্ঠা {{ .current }} / {{ .total }}"
+
+[ui]
+    skipToContent       = "মূল কন্টেন্টে যান"
+    language            = "ভাষা"
+    announcementDismiss = "ঘোষণাটি বন্ধ করুন"
+    dockAriaLabel       = "কুইক অ্যাকশন টুলবার"
+    dockSearch          = "খুঁজুন"
+    dockComments        = "মন্তব্যসমূহ"
+    dockBackToTop       = "উপরে ফিরে যান"
+    toc                 = "সূচিপত্র"
+    tocPin              = "সূচিপত্র পিন করুন"
+    tocUnpin            = "সূচিপত্র আনপিন করুন"
+    tocClose            = "সূচিপত্র বন্ধ করুন"
+
+    searchClear        = "মুছে ফেলুন"
+    searchPlaceholder  = "পোস্ট খুঁজুন..."
+    searchClose        = "বন্ধ করুন"
+    searchEmpty        = "খোঁজা শুরু করুন"
+    searchLoading      = "খোঁজা হচ্ছে..."
+    searchNoResults    = "কোনো ফলাফল পাওয়া যায়নি"
+    searchResultsCount = "%dটি ফলাফল পাওয়া গেছে"
+    searchHints        = "নেভিগেট|নির্বাচন|বন্ধ|শর্টকাট"
+
+    themeDark   = "ডার্ক"
+    themeLight  = "লাইট"
+    themeSystem = "সিস্টেম"
+
+    contentWidth       = "পৃষ্ঠার প্রস্থ"
+    contentWidthReset  = "ডিফল্টে ফিরে যান"
+    backdropBlur       = "ব্যাকড্রপ ব্লার"
+    backdropBlurReset  = "ডিফল্টে ফিরে যান"
+    grainSize          = "গ্রেইন সাইজ"
+    grainSizeReset     = "ডিফল্টে ফিরে যান"
+
+    appearanceToggle = "অ্যাপিয়ারেন্স সেটিংস"
+    colorScheme      = "কালার স্কিম"
+    themeMode        = "থিম মোড"
+
+[comments]
+    title         = "মন্তব্যসমূহ"
+    notConfigured = "কমেন্ট সিস্টেম কনফিগার করা হয়নি"
+
+[home]
+    featuredProjects = "নির্বাচিত প্রজেক্টসমূহ"
+    viewAll          = "সব দেখুন"
+    recentPosts      = "সাম্প্রতিক পোস্টসমূহ"
+
+[resume]
+    experience     = "অভিজ্ঞতা"
+    education      = "শিক্ষাগত যোগ্যতা"
+    skills         = "দক্ষতা"
+    certifications = "সার্টিফিকেশন"
+    languages      = "ভাষা"
+
+[notFound]
+    title   = "পৃষ্ঠাটি পাওয়া যায়নি"
+    message = "দুঃখিত, আপনি যে পৃষ্ঠাটি খুঁজছেন তা বিদ্যমান নেই অথবা সরিয়ে ফেলা হয়েছে।"
+
+[footer]
+    poweredBy = "প্রযুক্তিগত সহায়তায়"
+
+[context]
+    seriesPrev       = "পূর্ববর্তী পর্ব"
+    seriesNext       = "পরবর্তী পর্ব"
+    seriesPartOf     = "পর্ব {{ .current }} / {{ .total }}"
+    seriesParts      = "সবগুলো পর্ব"
+    seriesViewSeries = "সিরিজটি দেখুন"
+
+[projects]
+    visit = "প্রজেক্ট দেখুন"
