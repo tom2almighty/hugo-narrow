@@ -48,7 +48,9 @@
     {{ partial "navigation/nav-popover.html" . }}
     {{ partial "ui/dock.html" . }}
     {{ partial "ui/toc.html" . }}
-    {{ partial "ui/search-modal.html" . }}
+    {{ if (partial "config/search.html" .).enabled }}
+      {{ partial "ui/search-modal.html" . }}
+    {{ end }}
     {{ if .Store.Get "galleryEnabled" }}
       {{ partial "ui/gallery-switcher.html" . }}
     {{ end }}

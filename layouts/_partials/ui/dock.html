@@ -3,6 +3,7 @@
 {{- $tocEnabled := and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
 {{- $commentsConfig := partial "config/comments.html" . -}}
 {{- $commentsEnabled := and $commentsConfig.enabled $commentsConfig.system -}}
+{{- $searchEnabled := (partial "config/search.html" .).enabled -}}
 
 
 <div
@@ -37,15 +38,17 @@
       {{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
     </button>
 
-    <button
-      id="dock-search"
-      type="button"
-      class="dock-item"
-      title="{{ T `ui.dockSearch` }}"
-      aria-label="{{ T `ui.dockSearch` }}"
-    >
-      {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
-    </button>
+    {{- if $searchEnabled }}
+      <button
+        id="dock-search"
+        type="button"
+        class="dock-item"
+        title="{{ T `ui.dockSearch` }}"
+        aria-label="{{ T `ui.dockSearch` }}"
+      >
+        {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
+      </button>
+    {{- end }}
 
     {{- if $tocEnabled }}
       <span class="dock-divider" aria-hidden="true"></span>

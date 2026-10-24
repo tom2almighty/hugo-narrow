@@ -107,7 +107,9 @@
 <link rel="manifest" href="{{ `site.webmanifest` | relURL }}" />
 {{ partial "layout/head/seo.html" . }}
 
-{{ partial "config/script.html" (dict "id" "search-config" "value" $searchConfig) }}
+{{ if $searchConfig.enabled }}
+  {{ partial "config/script.html" (dict "id" "search-config" "value" $searchConfig) }}
+{{ end }}
 {{ if or ($galleryConfig.gallery) ($galleryConfig.lightbox) }}
   {{ partial "config/script.html" (dict "id" "gallery-config" "value" $galleryConfig) }}
 {{ end }}

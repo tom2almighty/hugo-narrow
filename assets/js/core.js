@@ -5,8 +5,6 @@ import { REDUCED_MOTION_QUERY } from "./layout.js";
 
 export const EVENTS = {
   searchOpen: "search:open",
-  searchClose: "search:close",
-  searchToggle: "search:toggle",
   tocToggle: "toc:toggle",
   themeChanged: "themeChanged",
 };

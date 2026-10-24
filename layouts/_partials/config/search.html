@@ -1,1 +1,25 @@
-{{- return dict "searchIndexURL" (printf "%sindex.json" site.Home.RelPermalink) -}}
+{{/* Search configuration resolver.
+
+  `search: true` keeps the default on, `search: false` or
+  `search.enabled: false` turns the feature off entirely: the dock button,
+  the dialog, and the search bundle are all skipped.
+*/}}
+{{- $enabled := true -}}
+{{- $contentLength := 2000 -}}
+{{- $params := site.Params.search -}}
+{{- if reflect.IsMap $params -}}
+  {{- if isset $params "enabled" -}}
+    {{- $enabled = $params.enabled -}}
+  {{- end -}}
+  {{- if isset $params "indexcontentlength" -}}
+    {{- $contentLength = $params.indexcontentlength -}}
+  {{- end -}}
+{{- else if eq $params false -}}
+  {{- $enabled = false -}}
+{{- end -}}
+
+{{- return dict
+  "enabled" $enabled
+  "indexContentLength" $contentLength
+  "searchIndexURL" (printf "%sindex.json" site.Home.RelPermalink)
+-}}

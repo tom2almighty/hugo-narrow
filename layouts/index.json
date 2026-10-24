@@ -1,6 +1,6 @@
 {{- $records := slice -}}
 {{- $mainSections := .Site.MainSections -}}
-{{- $contentLength := site.Params.search.indexContentLength | default 2000 -}}
+{{- $contentLength := (partial "config/search.html" .).indexContentLength -}}
 
 {{- range where .Site.RegularPages "Section" "in" $mainSections -}}
   {{- $summary := .Summary | plainify | strings.TrimSpace -}}

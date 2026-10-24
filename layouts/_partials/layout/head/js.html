@@ -1,6 +1,12 @@
 {{/* 主脚本 */}}
 {{ partial "layout/script.html" (dict "path" "js/main.js") }}
 
+{{/* 搜索脚本 - 仅在搜索启用时加载，避免把索引引擎塞进全局包 */}}
+{{- $searchConfig := partial "config/search.html" . -}}
+{{- if $searchConfig.enabled -}}
+  {{ partial "layout/script.html" (dict "path" "js/search.js") }}
+{{- end -}}
+
 {{/* 目录功能脚本 - TOC 启用且当前页面有标题时才加载 */}}
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- if and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}

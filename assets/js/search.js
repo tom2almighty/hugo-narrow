@@ -2,8 +2,12 @@
  * Search modal controller: dialog state, input debouncing, data loading,
  * keyboard navigation and result selection. Indexing and result markup live
  * in search-engine.js and search-render.js.
+ *
+ * This file is its own Hugo entry (js/search.js) so the index engine only
+ * ships on sites that actually enable search. The dock button opens it with a
+ * `search:open` event, no shared global.
  */
-import { EVENTS, emit, prefersReducedMotion, readJSONConfig } from "./core.js";
+import { EVENTS, prefersReducedMotion, readJSONConfig } from "./core.js";
 import { prepareRecords, searchRecords } from "./search-engine.js";
 import { createResultsFragment } from "./search-render.js";
 
@@ -46,13 +50,6 @@ export function initSearch() {
     }
 
     bindEvents();
-
-    window.Search = {
-      show: show,
-      hide: hide,
-      toggle: toggle,
-      isVisible: () => Boolean(modal?.open),
-    };
   }
 
   function bindEvents() {
@@ -68,9 +65,7 @@ export function initSearch() {
     modal.addEventListener("close", handleDialogClose);
 
     document.addEventListener("keydown", handleGlobalKeydown);
-    document.addEventListener(EVENTS.searchOpen, handleSearchOpenEvent);
-    document.addEventListener(EVENTS.searchClose, handleSearchCloseEvent);
-    document.addEventListener(EVENTS.searchToggle, handleSearchToggleEvent);
+    document.addEventListener(EVENTS.searchOpen, show);
   }
 
   function handleBackdropClick(event) {
@@ -79,25 +74,6 @@ export function initSearch() {
 
   function handleDialogClose() {
     clearContent();
-    emit(EVENTS.searchClose, { origin: "search-module" });
-  }
-
-  function handleSearchOpenEvent(event) {
-    if (event?.detail) event.detail.handled = true;
-    if (event?.detail?.origin === "search-module") return;
-    show();
-  }
-
-  function handleSearchCloseEvent(event) {
-    if (event?.detail) event.detail.handled = true;
-    if (event?.detail?.origin === "search-module") return;
-    hide();
-  }
-
-  function handleSearchToggleEvent(event) {
-    if (event?.detail) event.detail.handled = true;
-    if (event?.detail?.origin === "search-module") return;
-    toggle();
   }
 
   function handleGlobalKeydown(event) {
@@ -153,21 +129,10 @@ export function initSearch() {
 
     window.setTimeout(() => input?.focus(), 50);
     ensureData().catch(() => {});
-    emit(EVENTS.searchOpen, { origin: "search-module" });
   }
 
   function hide() {
     if (modal?.open) modal.close();
-  }
-
-  function toggle() {
-    if (modal?.open) {
-      hide();
-    } else {
-      show();
-    }
-
-    emit(EVENTS.searchToggle, { origin: "search-module" });
   }
 
   function clear() {
@@ -370,3 +335,5 @@ export function initSearch() {
 
   init();
 }
+
+initSearch();
