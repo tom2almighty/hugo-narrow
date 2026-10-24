@@ -587,6 +587,16 @@ body:has(.series-bar) .site-tip--below-context {
   }
 }
 
+/* Tabs ------------------------------------------------------------------ */
+
+.tabs-trigger[aria-selected='true'] {
+  @apply bg-background text-foreground;
+}
+
+.tabs-trigger[aria-selected='false'] {
+  @apply text-muted-foreground hover:text-foreground;
+}
+
 /* Utilities ------------------------------------------------------------- */
 
 .scrollbar-hide {

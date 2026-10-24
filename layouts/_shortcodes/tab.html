@@ -9,13 +9,18 @@
 {{- $panelId := printf "%s-panel-%d" $tabsBaseId .Ordinal -}}
 {{- $content := (.Inner | strings.TrimSpace) | markdownify -}}
 
+{{/* 把标签交给父级 tabs shortcode，由它在内容之前统一输出 tablist */}}
+{{- $storeKey := printf "tabs-labels-%d" .Parent.Ordinal -}}
+{{- $labels := .Page.Store.Get $storeKey | default slice -}}
+{{- .Page.Store.Set $storeKey ($labels | append (dict "panelId" $panelId "label" $label)) -}}
+
 
 <section
   id="{{ $panelId }}"
   class="tabs-panel outline-none"
   role="tabpanel"
+  aria-labelledby="{{ $panelId }}-tab"
   data-tabs-panel
-  data-tab-label="{{ $label }}"
   {{ if ne .Ordinal 0 }}hidden{{ end }}
 >
   <div
