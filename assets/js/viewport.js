@@ -4,13 +4,7 @@
  * The pure token formulas are shared with the inline theme initializer so the
  * first paint and subsequent control changes stay consistent.
  */
-import {
-  STORAGE_KEYS,
-  clamp,
-  readStorage,
-  removeStorage,
-  writeStorage,
-} from "./core.js";
+import { STORAGE_KEYS, clamp, readStorage, removeStorage, writeStorage } from "./core.js";
 
 export function surfaceAlphaFor(blur, max = 24) {
   return blur > 0 ? Math.max(68, 92 - Math.round((blur / max) * 20)) : 100;

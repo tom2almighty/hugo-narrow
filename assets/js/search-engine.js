@@ -54,7 +54,7 @@ export function prepareRecords(data) {
       ? item.categories.join(" ")
       : String(item.categories || ""),
     _rawCategories: item.categories || [],
-    _rawTags: item.tags || []
+    _rawTags: item.tags || [],
   }));
 
   const miniSearch = new MiniSearch({
@@ -70,7 +70,7 @@ export function prepareRecords(data) {
       "readingTime",
       "categories",
       "_rawCategories",
-      "_rawTags"
+      "_rawTags",
     ],
     searchOptions: {
       boost: {
@@ -78,13 +78,13 @@ export function prepareRecords(data) {
         tags: 3,
         categories: 2.5,
         summary: 1.5,
-        content: 1
+        content: 1,
       },
       prefix: true,
-      fuzzy: (term) => (term.length > 3 ? 0.2 : false)
+      fuzzy: (term) => (term.length > 3 ? 0.2 : false),
     },
     tokenize,
-    processTerm: (term) => term.toLowerCase()
+    processTerm: (term) => term.toLowerCase(),
   });
 
   if (records.length > 0) {
@@ -108,7 +108,7 @@ export function searchRecords(engine, query) {
   const rawMatches = searchIndex.search(trimmedQuery, {
     combineWith: "AND",
     prefix: true,
-    fuzzy: (term) => (term.length > 3 ? 0.2 : false)
+    fuzzy: (term) => (term.length > 3 ? 0.2 : false),
   });
 
   const matches =
@@ -116,7 +116,7 @@ export function searchRecords(engine, query) {
       ? rawMatches
       : searchIndex.search(trimmedQuery, {
           combineWith: "OR",
-          prefix: true
+          prefix: true,
         });
 
   const results = matches.slice(0, RESULT_LIMIT).map((match) => {
@@ -134,13 +134,13 @@ export function searchRecords(engine, query) {
       categories: match._rawCategories || match.categories,
       tags: match._rawTags || [],
       keywords: allKeywords,
-      score: match.score
+      score: match.score,
     };
   });
 
   return {
     results,
-    total: matches.length
+    total: matches.length,
   };
 }
 

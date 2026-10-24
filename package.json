@@ -10,8 +10,8 @@
     "dev:parallel": "concurrently \"pnpm run compile:watch\" \"pnpm run hugo:dev\"",
     "build": "pnpm run compile && hugo --source=exampleSite --themesDir=../.. --minify",
     "check": "pnpm run format:check && pnpm run build",
-    "format:check": "prettier --check \"**/*.html\"",
-    "format:write": "prettier --write \"**/*.html\""
+    "format:check": "prettier --check \"**/*.{html,js}\"",
+    "format:write": "prettier --write \"**/*.{html,js}\""
   },
   "keywords": [],
   "author": "",
