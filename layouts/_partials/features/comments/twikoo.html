@@ -12,50 +12,17 @@
 {{ if $config.envId }}
   <div id="{{ $id }}" class="twikoo-container"></div>
 
-  {{/* 加载 Twikoo JS */}}
   <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
 
   <script>
-    (function() {
-      'use strict';
-
-      // 初始化 Twikoo
-      twikoo.init({
-        envId: '{{ $config.envId }}',
-        el: '#{{ $id }}',
-        {{ if $config.region }}region: '{{ $config.region }}',{{ end }}
-        {{ if $config.path }}path: '{{ $config.path }}',{{ else }}path: '{{ .Page.RelPermalink }}',{{ end }}
-        lang: '{{ $config.lang | default .Site.Language.Locale | default "zh-CN" }}',
-      });
-
-      // 主题切换支持
-      function updateTwikooTheme() {
-        const isDark = document.documentElement.classList.contains('dark');
-
-        // Twikoo 会自动检测系统主题，但我们可以手动触发更新
-        if (window.twikoo && window.twikoo.update) {
-          window.twikoo.update();
-        }
-      }
-
-      // 监听主题切换事件
-      document.addEventListener('themeChanged', updateTwikooTheme);
-
-      // 监听 DOM 变化（用于检测主题切换）
-      const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-            updateTwikooTheme();
-          }
-        });
-      });
-
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class']
-      });
-    })();
-  </script>
+    twikoo.init({
+      envId: "{{ $config.envId }}",
+      el: "#{{ $id }}",
+      {{ if $config.region }}region: "{{ $config.region }}",{{ end }}
+      {{ if $config.path }}path: "{{ $config.path }}",{{ else }}path: "{{ .Page.RelPermalink }}",{{ end }}
+      lang: "{{ $config.lang | default .Site.Language.Locale | default "zh-CN" }}",
+    });
+  </script> {{ partial "features/comments/theme-sync.html" (dict "provider" "twikoo" "container" (printf "#%s" $id)) }}
 {{ else }}
   {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}

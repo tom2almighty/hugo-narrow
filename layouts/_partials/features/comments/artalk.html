@@ -10,56 +10,38 @@
 {{ $config := .config | default dict }}
 
 {{ if $config.server }}
+  {{- $darkMode := $config.darkMode | default "auto" -}}
+  {{- $followSystem := eq $darkMode "auto" -}}
   <div id="{{ $id }}" class="artalk-container"></div>
-  {{/* 加载 Artalk CSS */}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
 
   <script type="module">
-    import Artalk from 'https://esm.sh/artalk@2.9.1'
+    import Artalk from "https://esm.sh/artalk@2.9.1";
 
-    // 初始化 Artalk
-    const artalk = Artalk.init({
-      el: '#{{ $id }}',
-      pageKey: '{{ .Page.RelPermalink }}',
-      pageTitle: '{{ .Page.Title | safeJS }}',
-      server: '{{ $config.server }}',
-      site: '{{ $config.site | default .Site.Title }}',
-      locale: '{{ $config.locale | default .Site.Language.Locale | default "zh-CN" }}',
-      darkMode: '{{ $config.darkMode | default "auto" }}',
+    window.artalk = Artalk.init({
+      el: "#{{ $id }}",
+      pageKey: "{{ .Page.RelPermalink }}",
+      pageTitle: "{{ .Page.Title | safeJS }}",
+      server: "{{ $config.server }}",
+      site: "{{ $config.site | default .Site.Title }}",
+      locale: "{{ $config.locale | default .Site.Language.Locale | default "zh-CN" }}",
+      {{ if $followSystem -}}
+      darkMode: document.documentElement.classList.contains("dark") ? "dark" : "light",
+      {{ else -}}
+      darkMode: "{{ $darkMode }}",
+      {{ end -}}
       gravatar: {
-        mirror: '{{ $config.gravatar.mirror | default "https://cravatar.cn/avatar/" }}'
+        mirror: "{{ $config.gravatar.mirror | default "https://cravatar.cn/avatar/" }}"
       },
     });
-
-    // 主题切换支持
-    function updateArtalkTheme() {
-      const isDark = document.documentElement.classList.contains('dark');
-      const theme = isDark ? 'dark' : 'light';
-
-      // 更新 Artalk 主题
-      artalk.setDarkMode(theme);
-    }
-
-    // 监听主题切换事件
-    document.addEventListener('themeChanged', updateArtalkTheme);
-
-    // 监听 DOM 变化（用于检测主题切换）
-    const observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          updateArtalkTheme();
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    // 初始化时设置主题
-    updateArtalkTheme();
-  </script>
+  </script> {{- if $followSystem }}
+    {{ partial "features/comments/theme-sync.html" (dict
+      "provider" "artalk"
+      "container" (printf "#%s" $id)
+      "initial" false
+      )
+    }}
+  {{- end }}
 {{ else }}
   {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}

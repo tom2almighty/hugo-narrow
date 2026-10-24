@@ -1,0 +1,63 @@
+{{/* 评论系统主题同步。
+
+  appearance.js 切换主题时会派发 themeChanged 并更新 <html class="dark">，
+  这里只监听该事件后通知各家 API。iframe 类评论系统需要等 iframe 插入后再补一次同步，
+  由一次性 MutationObserver 完成，不做轮询。
+
+  @param {string} provider   giscus | utterances | twikoo | artalk | comentario
+  @param {string} container  评论容器的选择器
+  @param {bool}   initial    是否在加载时立即同步一次，默认 true
+*/}}
+{{- $provider := .provider -}}
+{{- $container := .container -}}
+{{- $initial := .initial | default true -}}
+<script>
+  (function () {
+    "use strict";
+
+    const container = document.querySelector("{{ $container }}");
+
+    function isDark() {
+      return document.documentElement.classList.contains("dark");
+    }
+
+    function sync() {
+      if (!container) return;
+      {{- if eq $provider "giscus" }}
+      const frame = container.querySelector("iframe.giscus-frame");
+      frame?.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme: isDark() ? "dark" : "light" } } },
+        "https://giscus.app"
+      );
+      {{- else if eq $provider "utterances" }}
+      const frame = container.querySelector("iframe.utterances-frame");
+      frame?.contentWindow?.postMessage(
+        { type: "set-theme", theme: isDark() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+      {{- else if eq $provider "twikoo" }}
+      window.twikoo?.update();
+      {{- else if eq $provider "artalk" }}
+      window.artalk?.setDarkMode(isDark() ? "dark" : "light");
+      {{- else if eq $provider "comentario" }}
+      container.querySelector("comentario-comments")?.setAttribute("theme", isDark() ? "dark" : "light");
+      {{- end }}
+    }
+
+    {{ if $initial }}sync();{{ end }}
+    document.addEventListener("themeChanged", sync);
+
+    {{- if or (eq $provider "giscus") (eq $provider "utterances") }}
+    if (container) {
+      const observer = new MutationObserver(() => {
+        const frame = container.querySelector("iframe");
+        if (!frame) return;
+        observer.disconnect();
+        frame.addEventListener("load", sync, { once: true });
+        sync();
+      });
+      observer.observe(container, { childList: true, subtree: true });
+    }
+    {{- end }}
+  })();
+</script>

@@ -22,7 +22,7 @@
     init({
       el: '#{{ $id }}',
       serverURL: '{{ $config.serverURL }}',
-      dark: "html[class='dark']",
+      dark: 'html.dark',
       lang: '{{ $config.lang | default .Site.Language.Locale | default "zh-CN" }}',
     });
   </script>

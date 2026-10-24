@@ -26,37 +26,11 @@
       {{ if $config.autoNonInteractiveSso }}auto-non-interactive-sso="true"{{ end }}
     ></comentario-comments>
     {{ if not $config.theme }}
-      <script>
-        (function() {
-          'use strict';
-
-          function updateComentarioTheme() {
-            const comentario = document.querySelector('#{{ $id }} comentario-comments');
-            if (!comentario) return;
-
-            const isDark = document.documentElement.classList.contains('dark');
-            const theme = isDark ? 'dark' : 'light';
-
-            comentario.setAttribute('theme', theme);
-          }
-
-          updateComentarioTheme();
-          document.addEventListener('themeChanged', updateComentarioTheme);
-
-          const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-              if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                updateComentarioTheme();
-              }
-            });
-          });
-
-          observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
-          });
-        })();
-      </script>
+      {{ partial "features/comments/theme-sync.html" (dict
+        "provider" "comentario"
+        "container" (printf "#%s" $id)
+        )
+      }}
     {{ end }}
   </div>
 {{ else }}
