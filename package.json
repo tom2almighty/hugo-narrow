@@ -21,6 +21,7 @@
     "@tailwindcss/cli": "^4.1.17",
     "@tailwindcss/typography": "^0.5.20",
     "concurrently": "^9.2.1",
+    "minisearch": "^7.2.0",
     "prettier": "^3.8.1",
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-tailwindcss": "^0.7.2",
