@@ -32,7 +32,7 @@
   {{- .Page.Store.Set "hasLightboxFigure" true -}}
 {{- end -}}
 
-{{/* 使用图片处理器获取数据 */}}
+{{/* 使用图片处理器获取数据（单次调用） */}}
 {{- partial "content/image-processor.html" (dict
   "context" $pageContext
   "src" $dest
@@ -42,10 +42,10 @@
   )
 -}}
 
-{{/* 获取处理结果 */}}
 {{- $imageUrl := $pageContext.Store.Get "imageUrl" -}}
 {{- $width := $pageContext.Store.Get "imageWidth" | default 0 -}}
 {{- $height := $pageContext.Store.Get "imageHeight" | default 0 -}}
+{{- $srcset := $pageContext.Store.Get "imageSrcset" -}}
 
 {{/* 生成 figure 元素 */}}
 <figure
@@ -61,16 +61,19 @@
   data-image-src="{{ $imageUrl }}"
 >
   <div class="image-container">
-    {{/* 使用图片处理器生成图片HTML */}}
-    {{- partial "content/image-processor.html" (dict
-      "context" $pageContext
-      "src" $dest
-      "alt" $alt
-      "caption" $caption
-      "sizes" "(min-width: 768px) 720px, 100vw"
-      "outputType" "img"
-      )
-    -}}
+    <img
+      src="{{ $imageUrl }}"
+      alt="{{ $alt }}"
+      {{ with $srcset }}srcset="{{ . }}"{{ end }}
+      sizes="(min-width: 768px) 720px, 100vw"
+      {{ with $caption }}title="{{ . }}"{{ end }}
+      {{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
+      loading="lazy"
+      decoding="async"
+      data-gallery-src="{{ $imageUrl }}"
+      data-gallery-alt="{{ $alt }}"
+      data-gallery-title="{{ $caption }}"
+    />
   </div>
 
   {{/* 图片说明 */}}
