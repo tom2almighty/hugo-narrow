@@ -7,14 +7,7 @@
   {{ partial "layout/script.html" (dict "path" "js/toc.js") }}
 {{- end -}}
 
-{{/* Gallery JavaScript */}}
-{{ if .Store.Get "galleryEnabled" }}
-  <script
-    src="https://cdn.jsdelivr.net/npm/smart-gallery@latest/dist/smart-gallery.umd.js"
-    defer
-  ></script>
-{{ end }}
-
+{{/* Gallery JavaScript - smart-gallery 已 vendor 到 assets/js/vendor */}}
 {{ if or (.Store.Get "galleryEnabled") (.Store.Get "lightboxEnabled") }}
   {{ partial "layout/script.html" (dict "path" "js/gallery.js") }}
 {{ end }}

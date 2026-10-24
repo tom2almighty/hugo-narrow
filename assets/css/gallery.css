@@ -1,18 +1,9 @@
 /* Gallery Layout Switcher */
 .gallery-layout-switcher {
-  @apply mb-4 flex justify-end gap-2;
+  @apply mb-3 flex justify-end;
 }
 .gallery-layout-switcher .layout-btn {
-  @apply bg-card border-border text-muted-foreground flex cursor-pointer items-center justify-center rounded-md border p-2 transition-all duration-200;
-}
-.gallery-layout-switcher .layout-btn:hover {
-  @apply bg-accent border-primary text-primary;
-}
-.gallery-layout-switcher .layout-btn.active {
-  @apply bg-primary border-primary text-primary-foreground;
-}
-.gallery-layout-switcher .layout-btn svg {
-  @apply block;
+  @apply text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring/50 flex size-8 cursor-pointer items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:outline-none;
 }
 /* Smart Gallery Container */
 .smart-gallery-container {

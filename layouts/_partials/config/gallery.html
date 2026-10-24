@@ -2,13 +2,17 @@
 
   Site params expose only `enabled` and `defaultLayout`; the remaining layout
   values are theme defaults and can still be overridden per page.
+
+  Hugo lowercases every param key, so the merged values are read back by their
+  lowercase name and re-emitted in the camelCase form SmartGallery expects.
+  gallery.js can then pass them straight through without key fallbacks.
 */}}
 {{- $defaults := dict
-  "defaultLayout" "justified"
+  "defaultlayout" "justified"
   "gap" 10
-  "targetRowHeight" 200
-  "lastRowBehavior" "center"
-  "columnWidth" 200
+  "targetrowheight" 200
+  "lastrowbehavior" "center"
+  "columnwidth" 200
   "columns" 4
 -}}
 {{- $globalGallery := site.Params.gallery | default dict -}}
@@ -33,20 +37,19 @@
 {{- $pageHasImageFigure := .Store.Get "hasImageFigure" | default false -}}
 {{- $pageHasLightboxFigure := .Store.Get "hasLightboxFigure" | default false -}}
 
-{{- $galleryConfig := merge $defaults $globalGallery -}}
-{{- with $pageGallery -}}
-  {{- $galleryConfig = merge $galleryConfig . -}}
-{{- end -}}
+{{- $galleryConfig := merge $defaults $globalGallery $pageGallery -}}
 
-{{- $cleanGalleryConfig := dict -}}
-{{- range $key, $value := $galleryConfig -}}
-  {{- if ne $key "enabled" -}}
-    {{- $cleanGalleryConfig = merge $cleanGalleryConfig (dict $key $value) -}}
-  {{- end -}}
-{{- end -}}
+{{- $galleryOptions := dict
+  "defaultLayout" $galleryConfig.defaultlayout
+  "gap" $galleryConfig.gap
+  "targetRowHeight" $galleryConfig.targetrowheight
+  "lastRowBehavior" $galleryConfig.lastrowbehavior
+  "columnWidth" $galleryConfig.columnwidth
+  "columns" $galleryConfig.columns
+-}}
 
 {{- return dict
   "gallery" (and $galleryEnabled $pageHasImageFigure)
   "lightbox" (and $lightboxEnabled (or $pageHasImageFigure $pageHasLightboxFigure))
-  "galleryOptions" $cleanGalleryConfig
+  "galleryOptions" $galleryOptions
 -}}

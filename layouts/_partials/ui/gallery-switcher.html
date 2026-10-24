@@ -1,0 +1,17 @@
+{{/* 图库布局切换按钮。
+
+  只输出一个 <template>，由 gallery.js 克隆到每个图库分组前。
+  点击按钮会在 justified → masonry → grid 之间循环切换布局。
+*/}}
+<template id="gallery-layout-switcher">
+  <div class="gallery-layout-switcher">
+    <button
+      type="button"
+      class="layout-btn"
+      aria-label="{{ T `ui.galleryLayoutSwitch` }}"
+      title="{{ T `ui.galleryLayoutSwitch` }}"
+    >
+      {{ partial "features/icon.html" (dict "name" "layout" "size" "sm") }}
+    </button>
+  </div>
+</template>

@@ -1,373 +1,233 @@
-import GalleryLightbox from './gallery-lightbox.js';
+/**
+ * Runtime gallery: groups consecutive markdown images, drives smart-gallery
+ * layouts, and wires the lightbox. Layout switching is a single button that
+ * cycles justified → masonry → grid.
+ */
+import GalleryLightbox from "./gallery-lightbox.js";
+import SmartGallery from "./vendor/smart-gallery.js";
 
-function getPreviewSource(img) {
-  const srcset = img.getAttribute('srcset');
-  if (!srcset) {
-    return img.currentSrc || img.src;
+const LAYOUTS = ["justified", "masonry", "grid"];
+const SWITCHER_TEMPLATE_ID = "gallery-layout-switcher";
+
+function readJSONConfig(id) {
+  const element = document.getElementById(id);
+  if (!element?.textContent) return null;
+
+  try {
+    const parsed = JSON.parse(element.textContent);
+    return typeof parsed === "string" ? JSON.parse(parsed) : parsed;
+  } catch (_) {
+    return null;
   }
+}
+
+// 从 srcset 里挑一张略大于 480px 的缩略图，避免灯箱级别的大图进布局网格
+function getPreviewSource(img) {
+  const srcset = img.getAttribute("srcset");
+  if (!srcset) return img.currentSrc || img.src;
 
   const candidates = srcset
-    .split(',')
+    .split(",")
     .map((part) => {
-      const [url, descriptor = ''] = part.trim().split(/\s+/);
+      const [url, descriptor = ""] = part.trim().split(/\s+/);
       return { url, width: Number.parseInt(descriptor, 10) || 0 };
     })
     .filter((candidate) => candidate.url);
 
-  if (candidates.length === 0) {
-    return img.currentSrc || img.src;
-  }
+  if (candidates.length === 0) return img.currentSrc || img.src;
 
   candidates.sort((left, right) => left.width - right.width);
   const preferred = candidates.find((candidate) => candidate.width >= 480);
   return (preferred || candidates[candidates.length - 1]).url;
 }
 
-function readJSONConfig(id) {
-  const configElement = document.getElementById(id);
-  if (!configElement || !configElement.textContent) return null;
+function readFigure(figure) {
+  const img = figure.querySelector("img");
+  if (!img) return null;
 
-  try {
-    const parsed = JSON.parse(configElement.textContent);
-    return typeof parsed === 'string' ? JSON.parse(parsed) : parsed;
-  } catch (_) {
-    return null;
-  }
+  const caption = figure.querySelector(".image-caption");
+  const width = Number.parseInt(figure.dataset.imageWidth, 10) || img.naturalWidth || 800;
+  const height = Number.parseInt(figure.dataset.imageHeight, 10) || img.naturalHeight || 600;
+
+  return {
+    previewSrc: getPreviewSource(img),
+    fullSrc: figure.dataset.imageSrc || img.currentSrc || img.src,
+    width,
+    height,
+    alt: img.alt || "",
+    captionHTML: caption ? caption.innerHTML.trim() : "",
+  };
 }
 
-class SmartGalleryLayoutManager {
-  constructor(config = {}) {
-    this.config = config;
-    this.instances = new Map();
-  }
+function detectImageGroups(figures) {
+  const groups = [];
+  let currentGroup = [];
 
-  initialize(container, items, layout, onItemClick) {
-    if (typeof SmartGallery === 'undefined') {
-      console.error('SmartGallery is not available');
-      return null;
-    }
+  figures.forEach((figure, index) => {
+    currentGroup.push(figure);
 
-    const options = {
-      layout: layout || this.config.defaultLayout || this.config.defaultlayout || 'justified',
-      gap: this.config.gap !== undefined ? parseInt(this.config.gap, 10) : 10,
-      targetRowHeight: this.config.targetRowHeight !== undefined
-        ? parseInt(this.config.targetRowHeight, 10)
-        : (this.config.targetrowheight !== undefined ? parseInt(this.config.targetrowheight, 10) : 300),
-      lastRowBehavior: this.config.lastRowBehavior || this.config.lastrowbehavior || 'left',
-      columnWidth: this.config.columnWidth !== undefined
-        ? parseInt(this.config.columnWidth, 10)
-        : (this.config.columnwidth !== undefined ? parseInt(this.config.columnwidth, 10) : 300),
-      columns: this.config.columns !== undefined ? this.config.columns : 'auto',
-      placeholderColor: 'transparent',
-      onItemClick: ({ index, originalEvent }) => {
-        if (originalEvent && originalEvent.target && originalEvent.target.closest('.layout-btn')) {
-          return;
-        }
+    const nextFigure = figures[index + 1];
+    if (nextFigure && areConsecutive(figure, nextFigure)) return;
 
-        if (typeof onItemClick === 'function') {
-          onItemClick(index, originalEvent);
-        }
-      }
-    };
+    groups.push([...currentGroup]);
+    currentGroup = [];
+  });
 
-    const gallery = new SmartGallery(container, options);
-    gallery.setItems(items);
-
-    this.instances.set(container.id, {
-      gallery,
-      container,
-      items,
-      onItemClick
-    });
-
-    return gallery;
-  }
-
-  switchLayout(containerId, newLayout) {
-    const instance = this.instances.get(containerId);
-    if (!instance) {
-      return;
-    }
-
-    instance.gallery.setOptions({ layout: newLayout });
-  }
-
-  destroy() {
-    this.instances.forEach(({ gallery }) => {
-      if (gallery && gallery.destroy) {
-        gallery.destroy();
-      }
-    });
-
-    this.instances.clear();
-  }
+  return groups;
 }
 
-class ImageGallery {
-  constructor() {
-    const rawConfig = readJSONConfig('gallery-config') || {};
-    const galleryOptions = rawConfig.galleryOptions || {};
+// 只有中间隔空段落（<br> 或空元素）的相邻图片才算同一组
+function areConsecutive(figure, nextFigure) {
+  let current = figure.nextElementSibling;
 
-    this.config = {
-      gallery: rawConfig.gallery,
-      lightbox: rawConfig.lightbox,
-      galleryOptions
-    };
-
-    this.layoutManager = new SmartGalleryLayoutManager(galleryOptions);
-    this.lightbox = this.config.lightbox ? new GalleryLightbox() : null;
-    this.singleImageCount = 0;
-    this.init();
-  }
-
-  init() {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.setup(), { once: true });
-    } else {
-      this.setup();
-    }
-  }
-
-  setup() {
-    this.processImages();
-  }
-
-  processImages() {
-    const imageFigures = document.querySelectorAll('.image-figure[data-gallery-type="auto"]');
-    if (imageFigures.length === 0) {
-      return;
-    }
-
-    const groups = this.detectImageGroups(imageFigures);
-
-    groups.forEach((group, index) => {
-      if (group.length > 1 && this.config.gallery) {
-        this.createGalleryGroup(group, index);
-      } else {
-        this.processIndividualImages(group);
-      }
-    });
-  }
-
-  detectImageGroups(figures) {
-    const groups = [];
-    let currentGroup = [];
-
-    for (let i = 0; i < figures.length; i += 1) {
-      const figure = figures[i];
-      const nextFigure = figures[i + 1];
-
-      currentGroup.push(figure);
-
-      if (nextFigure && this.areConsecutiveByEmptyLine(figure, nextFigure)) {
+  while (current && current !== nextFigure) {
+    if (current.nodeType === Node.ELEMENT_NODE) {
+      if (current.matches(".image-figure, .gallery-layout-switcher, .smart-gallery-container")) {
+        current = current.nextElementSibling;
         continue;
       }
 
-      groups.push([...currentGroup]);
-      currentGroup = [];
-    }
+      const tagName = current.tagName.toLowerCase();
+      const text = current.textContent.trim();
 
-    return groups;
-  }
-
-  areConsecutiveByEmptyLine(figure1, figure2) {
-    let current = figure1.nextElementSibling;
-
-    while (current && current !== figure2) {
-      if (current.nodeType === Node.ELEMENT_NODE) {
-        if (current.matches('.image-figure, .gallery-layout-switcher, .smart-gallery-container')) {
-          current = current.nextElementSibling;
-          continue;
-        }
-
-        const tagName = current.tagName.toLowerCase();
-        const text = current.textContent.trim();
-
-        if (tagName === 'br') {
-          current = current.nextElementSibling;
-          continue;
-        }
-
-        if (tagName === 'p' && text === '') {
-          return false;
-        }
-
-        if (text !== '') {
-          return false;
-        }
+      if (tagName === "br") {
+        current = current.nextElementSibling;
+        continue;
       }
 
-      current = current.nextElementSibling;
+      if (tagName === "p" && text === "") return false;
+      if (text !== "") return false;
     }
 
-    return current === figure2;
+    current = current.nextElementSibling;
   }
 
-  createGalleryGroup(figures, groupIndex) {
-    const galleryContainer = document.createElement('div');
-    galleryContainer.className = 'smart-gallery-container';
-    galleryContainer.id = 'gallery-' + String(groupIndex);
-
-    const galleryInner = document.createElement('div');
-    galleryInner.className = 'smart-gallery';
-    galleryInner.id = 'gallery-inner-' + String(groupIndex);
-    galleryInner.dataset.lightboxEnabled = this.lightbox ? 'true' : 'false';
-
-    const layoutItems = [];
-    const lightboxItems = [];
-
-    figures.forEach((figure) => {
-      const img = figure.querySelector('img');
-      const caption = figure.querySelector('.image-caption');
-
-      if (!img) {
-        return;
-      }
-
-      const fullSizeSrc = figure.getAttribute('data-image-src') || img.currentSrc || img.src;
-      const previewSrc = getPreviewSource(img);
-      const width = parseInt(figure.getAttribute('data-image-width'), 10) || img.naturalWidth || 800;
-      const height = parseInt(figure.getAttribute('data-image-height'), 10) || img.naturalHeight || 600;
-
-      layoutItems.push({
-        src: previewSrc,
-        width,
-        height,
-        aspectRatio: width / height
-      });
-
-      lightboxItems.push({
-        src: fullSizeSrc,
-        width,
-        height,
-        alt: img.alt || '',
-        captionHTML: caption ? caption.innerHTML.trim() : ''
-      });
-    });
-
-    if (layoutItems.length === 0) {
-      return;
-    }
-
-    const defaultLayout = this.config.galleryOptions.defaultLayout || this.config.galleryOptions.defaultlayout || 'justified';
-    const switcher = this.createLayoutSwitcher(defaultLayout, (newLayout) => {
-      this.layoutManager.switchLayout(galleryInner.id, newLayout);
-    });
-
-    galleryContainer.appendChild(switcher);
-    galleryContainer.appendChild(galleryInner);
-
-    const firstFigure = figures[0];
-    firstFigure.parentNode.insertBefore(galleryContainer, firstFigure);
-    figures.forEach((figure) => figure.remove());
-
-    if (this.lightbox) {
-      this.lightbox.registerGallery(galleryContainer.id, lightboxItems);
-    }
-
-    this.layoutManager.initialize(galleryInner, layoutItems, defaultLayout, (index, originalEvent) => {
-      if (this.lightbox) {
-        const triggerElement = originalEvent && originalEvent.target
-          ? originalEvent.target.closest('.sg-item')
-          : null;
-        this.lightbox.open(galleryContainer.id, index, { triggerElement });
-      }
-    });
-  }
-
-  createLayoutSwitcher(defaultLayout, onSwitch) {
-    const switcher = document.createElement('div');
-    switcher.className = 'gallery-layout-switcher';
-    switcher.innerHTML = [
-      '<button class="layout-btn" data-layout="justified" title="Justified Layout" aria-label="Switch to justified gallery layout">',
-      '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">',
-      '    <rect x="3" y="4" width="18" height="5" rx="1"/>',
-      '    <rect x="3" y="11" width="8" height="9" rx="1"/>',
-      '    <rect x="13" y="11" width="8" height="9" rx="1"/>',
-      '  </svg>',
-      '</button>',
-      '<button class="layout-btn" data-layout="masonry" title="Masonry Layout" aria-label="Switch to masonry gallery layout">',
-      '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">',
-      '    <rect x="3" y="3" width="7" height="7" rx="1"/>',
-      '    <rect x="3" y="12" width="7" height="9" rx="1"/>',
-      '    <rect x="14" y="3" width="7" height="11" rx="1"/>',
-      '    <rect x="14" y="16" width="7" height="5" rx="1"/>',
-      '  </svg>',
-      '</button>',
-      '<button class="layout-btn" data-layout="grid" title="Grid Layout" aria-label="Switch to grid gallery layout">',
-      '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">',
-      '    <rect x="3" y="3" width="7" height="7" rx="1"/>',
-      '    <rect x="14" y="3" width="7" height="7" rx="1"/>',
-      '    <rect x="3" y="14" width="7" height="7" rx="1"/>',
-      '    <rect x="14" y="14" width="7" height="7" rx="1"/>',
-      '  </svg>',
-      '</button>'
-    ].join('');
-
-    switcher.querySelectorAll('.layout-btn').forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const layout = button.getAttribute('data-layout');
-        onSwitch(layout);
-
-        switcher.querySelectorAll('.layout-btn').forEach((item) => item.classList.remove('active'));
-        button.classList.add('active');
-      });
-    });
-
-    const activeButton = switcher.querySelector('[data-layout="' + defaultLayout + '"]');
-    if (activeButton) {
-      activeButton.classList.add('active');
-    }
-
-    return switcher;
-  }
-
-  processIndividualImages(figures) {
-    if (!this.lightbox) {
-      return;
-    }
-
-    figures.forEach((figure) => {
-      const img = figure.querySelector('img');
-      const caption = figure.querySelector('.image-caption');
-      if (!img) {
-        return;
-      }
-
-      const galleryId = 'single-image-' + String(this.singleImageCount);
-      this.singleImageCount += 1;
-
-      const src = figure.getAttribute('data-image-src') || img.currentSrc || img.src;
-      const width = parseInt(figure.getAttribute('data-image-width'), 10) || img.naturalWidth || 800;
-      const height = parseInt(figure.getAttribute('data-image-height'), 10) || img.naturalHeight || 600;
-
-      this.lightbox.registerGallery(galleryId, [{
-        src,
-        width,
-        height,
-        alt: img.alt || '',
-        captionHTML: caption ? caption.innerHTML.trim() : ''
-      }]);
-
-      figure.classList.add('single-image');
-      const trigger = figure.querySelector('.image-container') || img;
-      trigger.classList.add('lightbox-trigger');
-      trigger.addEventListener('click', () => {
-        this.lightbox.open(galleryId, 0, { triggerElement: trigger });
-      });
-    });
-  }
-
-  destroy() {
-    this.layoutManager.destroy();
-    if (this.lightbox) {
-      this.lightbox.destroy();
-    }
-  }
+  return current === nextFigure;
 }
 
-const imageGallery = new ImageGallery();
+function createLayoutSwitcher(template, layout, onSwitch) {
+  const switcher = template?.content?.firstElementChild?.cloneNode(true);
+  if (!switcher) return null;
 
-window.ImageGallery = ImageGallery;
-window.imageGallery = imageGallery;
+  let current = LAYOUTS.includes(layout) ? layout : LAYOUTS[0];
+  switcher.querySelector(".layout-btn")?.addEventListener("click", () => {
+    current = LAYOUTS[(LAYOUTS.indexOf(current) + 1) % LAYOUTS.length];
+    onSwitch(current);
+  });
+
+  return switcher;
+}
+
+function createGalleryGroup(figures, index, settings) {
+  const items = figures.map(readFigure).filter(Boolean);
+  if (items.length === 0) return;
+
+  const container = document.createElement("div");
+  container.className = "smart-gallery-container";
+  container.id = `gallery-${index}`;
+
+  const stage = document.createElement("div");
+  stage.className = "smart-gallery";
+  stage.id = `gallery-inner-${index}`;
+  stage.dataset.lightboxEnabled = String(Boolean(settings.lightbox));
+
+  let gallery = null;
+  const switcher = createLayoutSwitcher(
+    settings.switcherTemplate,
+    settings.defaultLayout,
+    (layout) => gallery?.setOptions({ layout })
+  );
+
+  if (switcher) container.append(switcher);
+  container.append(stage);
+
+  figures[0].parentNode.insertBefore(container, figures[0]);
+  figures.forEach((figure) => figure.remove());
+
+  if (settings.lightbox) {
+    settings.lightbox.registerGallery(
+      container.id,
+      items.map((item) => ({
+        src: item.fullSrc,
+        width: item.width,
+        height: item.height,
+        alt: item.alt,
+        captionHTML: item.captionHTML,
+      }))
+    );
+  }
+
+  gallery = new SmartGallery(stage, {
+    placeholderColor: "transparent",
+    ...settings.galleryOptions,
+    layout: settings.defaultLayout,
+    onItemClick: settings.lightbox
+      ? ({ index: itemIndex, element }) =>
+          settings.lightbox.open(container.id, itemIndex, { triggerElement: element })
+      : null,
+  });
+
+  gallery.setItems(
+    items.map((item) => ({
+      src: item.previewSrc,
+      width: item.width,
+      height: item.height,
+      aspectRatio: item.width / item.height,
+    }))
+  );
+}
+
+function openSingleImage(figure, lightbox, index) {
+  const item = readFigure(figure);
+  if (!item) return;
+
+  const galleryId = `single-image-${index}`;
+  lightbox.registerGallery(galleryId, [
+    {
+      src: item.fullSrc,
+      width: item.width,
+      height: item.height,
+      alt: item.alt,
+      captionHTML: item.captionHTML,
+    },
+  ]);
+
+  figure.classList.add("single-image");
+  const trigger = figure.querySelector(".image-container") || figure.querySelector("img");
+  trigger.classList.add("lightbox-trigger");
+  trigger.addEventListener("click", () => lightbox.open(galleryId, 0, { triggerElement: trigger }));
+}
+
+function initGallery() {
+  const figures = [...document.querySelectorAll('.image-figure[data-gallery-type="auto"]')];
+  if (figures.length === 0) return;
+
+  const config = readJSONConfig("gallery-config") || {};
+  const options = config.galleryOptions || {};
+  const { defaultLayout, ...galleryOptions } = options;
+  const initialLayout = LAYOUTS.includes(defaultLayout) ? defaultLayout : LAYOUTS[0];
+
+  const lightbox = config.lightbox ? new GalleryLightbox() : null;
+  const switcherTemplate = document.getElementById(SWITCHER_TEMPLATE_ID);
+  let singleImageCount = 0;
+
+  detectImageGroups(figures).forEach((group, index) => {
+    if (group.length > 1 && config.gallery) {
+      createGalleryGroup(group, index, {
+        defaultLayout: initialLayout,
+        galleryOptions,
+        lightbox,
+        switcherTemplate,
+      });
+      return;
+    }
+
+    if (!lightbox) return;
+    group.forEach((figure) => {
+      openSingleImage(figure, lightbox, singleImageCount);
+      singleImageCount += 1;
+    });
+  });
+}
+
+initGallery();

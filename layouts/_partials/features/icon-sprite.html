@@ -3,10 +3,11 @@
 {{- range resources.Match "icons/*.svg" -}}
   {{- $name := path.Base .Name | strings.TrimSuffix ".svg" -}}
   {{- $content := .Content -}}
-  {{- $content = replaceRE `\s+width="[^"]*"` "" $content -}}
-  {{- $content = replaceRE `\s+height="[^"]*"` "" $content -}}
   {{- $content = replaceRE `(?s)<svg(\s[^>]*)?>` (printf `<symbol id="icon-%s"$1>` $name) $content 1 -}}
   {{- $content = replaceRE `</svg>` "</symbol>" $content -}}
+  {{- /* 只去掉根节点上的宽高，图标内部的 rect / line 尺寸必须保留。 */ -}}
+  {{- $content = replaceRE `(<symbol id="icon-[^"]*"[^>]*?)\s+width="[^"]*"` "$1" $content -}}
+  {{- $content = replaceRE `(<symbol id="icon-[^"]*"[^>]*?)\s+height="[^"]*"` "$1" $content -}}
   {{- $symbols = $symbols | append $content -}}
 {{- end -}}
 {{- $sprite := printf `<svg xmlns="http://www.w3.org/2000/svg">%s</svg>` (delimit $symbols "") -}}

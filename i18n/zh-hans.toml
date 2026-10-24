@@ -53,6 +53,7 @@
     tocPin        = "固定目录"
     tocUnpin      = "取消固定目录"
     tocClose      = "关闭目录"
+    galleryLayoutSwitch = "切换图库布局"
 
     searchClear        = "清空"
     searchPlaceholder  = "搜索文章..."

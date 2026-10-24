@@ -49,6 +49,9 @@
     {{ partial "ui/dock.html" . }}
     {{ partial "ui/toc.html" . }}
     {{ partial "ui/search-modal.html" . }}
+    {{ if .Store.Get "galleryEnabled" }}
+      {{ partial "ui/gallery-switcher.html" . }}
+    {{ end }}
     {{ partial "features/katex.html" . }}
     {{ partial "features/mermaid.html" . }}
   </body>
