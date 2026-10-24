@@ -25,8 +25,8 @@ pnpm run build            # compile CSS + hugo --minify, output to exampleSite/p
 pnpm run check            # format:check + build — the closest thing to CI; run before pushing
 
 pnpm run compile          # build assets/css/compiled.css from assets/css/main.css (one-shot)
-pnpm run format:check     # prettier --check on all *.html (go-template parser)
-pnpm run format:write     # prettier --write on all *.html
+pnpm run format:check     # prettier --check on all *.html (go-template) and *.js
+pnpm run format:write     # prettier --write on all *.html and *.js
 ```
 
 There is **no test suite**. CI (`.github/workflows/github-pages.yml`) builds `exampleSite` and
@@ -44,9 +44,11 @@ can build independently. Release notes for a tag are read from
   fingerprints/minifies the already-built `compiled.css` (see `_partials/layout/head/css.html`).
 - **JS is bundled by Hugo** via `js.Build` (esbuild) at render time — no separate JS build step.
   `assets/js/main.js` is the always-on entry; it composes `announcement.js`, `appearance.js`,
-  `viewport.js`, `popovers.js`, `fold.js`, `dock.js`, `search.js`, `tabs.js`, and `codeblock.js`.
-  `toc.js` and `gallery.js` remain conditional. Shared storage, events, and breakpoints live in
-  `core.js` / `layout.js`; keep the matching CSS media queries in sync.
+  `viewport.js`, `popovers.js`, `fold.js`, `dock.js`, `tabs.js`, and `codeblock.js`. `search.js`, `toc.js`, and
+  `gallery.js` are separate entries loaded only when their feature is on the page, so nothing imports
+  them from `main.js`. Shared storage, events, and breakpoints live in `core.js` / `layout.js`; keep
+  the matching CSS media queries in sync. Third-party code (MiniSearch, smart-gallery) is vendored in
+  `assets/js/vendor/` and imported as ESM — never load a script from a CDN at runtime.
 
 Consequence: **if you add or change Tailwind utility classes in any `layouts/**/*.html`, you must
 recompile** (`pnpm run compile`, or use `pnpm run dev:parallel` which watches). Running plain
@@ -88,7 +90,9 @@ footer. The dock, TOC panel, search dialog, and KaTeX/Mermaid assets sit outside
   landscape viewports, a bottom capsule everywhere else. `dock.js` mirrors placement into
   `aria-orientation`, updates reading progress and back-to-top, and implements toolbar arrow keys.
 - The content width is `--content-width-base` (from `contentWidth`) overridable at runtime by
-  `--content-width` (40–90rem slider, `localStorage` key `contentWidth`).
+  `--content-width` (40–90rem slider, `localStorage` key `contentWidth`). On folded devices
+  `fold.js` reads `window.viewport.segments` (Chrome 138+) and sets `--fold-content-width` /
+  `--fold-margin-start`, which `base.css` applies to `#page-container`.
 - Popovers use native `popover` plus CSS anchor positioning with fixed-position fallbacks.
 - The appearance panel is always fully available; there are no appearance/language feature flags.
   Language selection is a secondary popover rendered by `ui/language-options.html`.
@@ -126,22 +130,27 @@ valid Hugo locales (`zh-Hans`, `zh-Hant`; `zh-CN` falls back to English).
 `render-image.html` calls `.Page.Store.Set "hasImageFigure" true` (and `hasLightboxFigure` when
 lightbox is on) as a side effect of rendering content. Later, `_partials/layout/head/js.html` reads
 those flags and **only loads the gallery/lightbox JS bundles on pages that actually contain images**.
-Image path resolution (page-resource vs. global-resource vs. static, external URLs, dimensions) is
-centralized in `_partials/content/image-processor.html`.
+`_partials/ui/gallery-switcher.html` emits a `<template>` for the single layout button; `gallery.js`
+clones it per gallery and cycles justified → masonry → grid. Image path resolution (page-resource vs.
+global-resource vs. static, external URLs, dimensions) is centralized in
+`_partials/content/image-processor.html`.
 
 ### Pluggable features (comments & analytics)
 
 `_partials/features/comments.html` and `features/analytics.html` are dispatchers. The comments
 dispatcher resolves the merged config and passes the selected provider's config to
 `features/comments/<system>.html` (giscus, disqus, utterances, waline, artalk, twikoo, comentario).
-Analytics supports google, baidu, clarity, and umami. Add a provider by adding a sub-partial and a
-params block.
+Providers that can follow light/dark mode delegate to `features/comments/theme-sync.html`, which
+listens for the `themeChanged` event instead of observing the DOM. Analytics supports google, baidu,
+clarity, and umami. Add a provider by adding a sub-partial and a params block.
 
 ### Output formats, search, and PWA
 
 `home` outputs `HTML, RSS, JSON, WebAppManifest` (see `hugo.yaml`). The **search index is the JSON
-output** rendered by `layouts/index.json`; client-side search lives in `assets/js/search.js` and
-the index content length is configurable via `search.indexContentLength`.
+output** rendered by `layouts/index.json`; client-side search lives in `assets/js/search.js` and the
+index content length is configurable via `search.indexContentLength`. `config/search.html` resolves
+`search.enabled` (default true) and feeds the dock button, the dialog, the script tag, and the index
+alike — turning search off drops all four.
 `layouts/index.webappmanifest` produces the PWA manifest; theme/background colors, orientation, and
 the optional Apple touch icon are configured under `params.pwa`.
 
@@ -162,8 +171,9 @@ the optional Apple touch icon are configured under `params.pwa`.
 
 ## Conventions
 
-- HTML/templates are formatted by Prettier with `prettier-plugin-go-template` and
+- HTML/templates and JS are formatted by Prettier with `prettier-plugin-go-template` and
   `prettier-plugin-tailwindcss` (2-space indent, double quotes, 100 col). Run `pnpm run format:write`.
+  `assets/js/vendor/`, `assets/js/theme-init.js` (Hugo-templated), and `refer/` are in `.prettierignore`.
 - Many template/JS comments are in Chinese — match the surrounding language when editing a file.
 - Do not reintroduce `header.*`, `dock`, `themes`, `timeFormat`, or the removed appearance flags.
 - Do not add separate light/dark code-block style parameters; use `markup.highlight.style`.
