@@ -1,13 +1,8 @@
 {{- $analytics := site.Params.analytics | default dict -}}
 {{- $provider := $analytics.provider | default "" -}}
 {{- if $provider -}}
-  {{- if eq $provider "baidu" -}}
-    {{ partial "features/analytics/baidu.html" . }}
-  {{- else if eq $provider "clarity" -}}
-    {{ partial "features/analytics/clarity.html" . }}
-  {{- else if eq $provider "google" -}}
-    {{ partial "features/analytics/google.html" . }}
-  {{- else if eq $provider "umami" -}}
-    {{ partial "features/analytics/umami.html" . }}
+  {{- $templatePath := printf "features/analytics/%s.html" $provider -}}
+  {{- if templates.Exists (printf "_partials/%s" $templatePath) -}}
+    {{ partial $templatePath . }}
   {{- end -}}
 {{- end -}}

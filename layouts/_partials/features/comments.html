@@ -25,22 +25,11 @@
       </h2>
 
       <div class="comments-container">
-        {{- if eq $commentSystem "giscus" -}}
-          {{ partial "features/comments/giscus.html" (dict "Site" $.Site "Page" $ "id" "giscus-comments" "config" $providerConfig) }}
-        {{- else if eq $commentSystem "disqus" -}}
-          {{ partial "features/comments/disqus.html" (dict "Site" $.Site "Page" $ "id" "disqus-comments" "config" $providerConfig) }}
-        {{- else if eq $commentSystem "utterances" -}}
-          {{ partial "features/comments/utterances.html" (dict "Site" $.Site "Page" $ "id" "utterances-comments" "config" $providerConfig) }}
-        {{- else if eq $commentSystem "waline" -}}
-          {{ partial "features/comments/waline.html" (dict "Site" $.Site "Page" $ "id" "waline-comments" "config" $providerConfig) }}
-        {{- else if eq $commentSystem "artalk" -}}
-          {{ partial "features/comments/artalk.html" (dict "Site" $.Site "Page" $ "id" "artalk-comments" "config" $providerConfig) }}
-        {{- else if eq $commentSystem "twikoo" -}}
-          {{ partial "features/comments/twikoo.html" (dict "Site" $.Site "Page" $ "id" "twikoo-comments" "config" $providerConfig) }}
-        {{- else if eq $commentSystem "comentario" -}}
-          {{ partial "features/comments/comentario.html" (dict "Site" $.Site "Page" $ "id" "comentario-comments" "config" $providerConfig) }}
+        {{- $templatePath := printf "features/comments/%s.html" $commentSystem -}}
+        {{- if templates.Exists (printf "_partials/%s" $templatePath) -}}
+          {{ partial $templatePath (dict "Site" $.Site "Page" $ "id" (printf "%s-comments" $commentSystem) "config" $providerConfig) }}
         {{- else -}}
-          {{- /* 不支持的评论系统 */ -}}
+          {{- /* 不支持或未找到对应评论系统模板 */ -}}
           {{ partial "features/comments/notice.html" (dict "icon" "alert-circle") }}
         {{- end -}}
       </div>
