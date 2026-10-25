@@ -4,5 +4,7 @@
   {{- $templatePath := printf "features/analytics/%s.html" $provider -}}
   {{- if templates.Exists (printf "_partials/%s" $templatePath) -}}
     {{ partial $templatePath . }}
+  {{- else -}}
+    {{- warnidf "analytics-provider" "analytics.provider %q has no matching partial: features/analytics/%s.html" $provider $provider -}}
   {{- end -}}
 {{- end -}}

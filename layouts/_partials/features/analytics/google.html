@@ -1,15 +1,17 @@
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.analytics.google.id }}"
-></script>
-<script data-pjax>
-  window.dataLayer = window.dataLayer || [];
+{{- $id := (site.Params.analytics.google | default dict).id -}}
+{{- with $id }}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+  <script data-pjax>
+    window.dataLayer = window.dataLayer || [];
 
-  function gtag() {
-    dataLayer.push(arguments);
-  }
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
-  gtag('js', new Date());
+    gtag('js', new Date());
 
-  gtag('config', '{{ .Site.Params.analytics.google.id }}');
-</script>
+    gtag('config', '{{ . }}');
+  </script>
+{{- else }}
+  {{- warnidf "analytics-google" "analytics.google.id is required when analytics.provider is google" -}}
+{{- end }}

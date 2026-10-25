@@ -1,6 +1,11 @@
-<script
-  defer
-  src="{{ .Site.Params.analytics.umami.src }}"
-  data-website-id="{{ .Site.Params.analytics.umami.id }}"
-  data-domains="{{ .Site.Params.analytics.umami.domains }}"
-></script>
+{{- $config := site.Params.analytics.umami | default dict -}}
+{{- if and $config.src $config.id }}
+  <script
+    defer
+    src="{{ $config.src }}"
+    data-website-id="{{ $config.id }}"
+    {{ with $config.domains }}data-domains="{{ . }}"{{ end }}
+  ></script>
+{{- else }}
+  {{- warnidf "analytics-umami" "analytics.umami.src and analytics.umami.id are required when analytics.provider is umami" -}}
+{{- end }}

@@ -1,5 +1,10 @@
-<script async src="https://hm.baidu.com/hm.js?{{ .Site.Params.analytics.baidu.id }}"></script>
-<script data-pjax>
-  var _hmt = _hmt || [];
-  _hmt.push(["_trackPageview", location.pathname]);
-</script>
+{{- $id := (site.Params.analytics.baidu | default dict).id -}}
+{{- with $id }}
+  <script async src="https://hm.baidu.com/hm.js?{{ . }}"></script>
+  <script data-pjax>
+    var _hmt = _hmt || [];
+    _hmt.push(["_trackPageview", location.pathname]);
+  </script>
+{{- else }}
+  {{- warnidf "analytics-baidu" "analytics.baidu.id is required when analytics.provider is baidu" -}}
+{{- end }}
