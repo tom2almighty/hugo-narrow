@@ -95,17 +95,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create GitHub Release
+      - name: Create or update GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           NOTES_FILE=".github/release-notes/${GITHUB_REF_NAME}.md"
-          if [ -f "$NOTES_FILE" ]; then
-            gh release create "$GITHUB_REF_NAME" \
-              --title "Hugo Narrow ${GITHUB_REF_NAME}" \
-              --notes-file "$NOTES_FILE"
+          TITLE="Hugo Narrow ${GITHUB_REF_NAME}"
+
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            if [ -f "$NOTES_FILE" ]; then
+              gh release edit "$GITHUB_REF_NAME" --title "$TITLE" --notes-file "$NOTES_FILE"
+            else
+              gh release edit "$GITHUB_REF_NAME" --title "$TITLE"
+            fi
+          elif [ -f "$NOTES_FILE" ]; then
+            gh release create "$GITHUB_REF_NAME" --title "$TITLE" --notes-file "$NOTES_FILE"
           else
-            gh release create "$GITHUB_REF_NAME" \
-              --title "Hugo Narrow ${GITHUB_REF_NAME}" \
-              --generate-notes
+            gh release create "$GITHUB_REF_NAME" --title "$TITLE" --generate-notes
           fi
