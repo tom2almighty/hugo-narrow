@@ -36,9 +36,6 @@
 {{- partial "content/image-processor.html" (dict
   "context" $pageContext
   "src" $dest
-  "alt" $alt
-  "caption" $caption
-  "outputType" "data"
   )
 -}}
 
@@ -46,6 +43,8 @@
 {{- $width := $pageContext.Store.Get "imageWidth" | default 0 -}}
 {{- $height := $pageContext.Store.Get "imageHeight" | default 0 -}}
 {{- $srcset := $pageContext.Store.Get "imageSrcset" -}}
+{{- $webpSrcset := $pageContext.Store.Get "imageWebpSrcset" -}}
+{{- $sizes := $pageContext.Store.Get "imageSizes" -}}
 
 {{/* 生成 figure 元素 */}}
 <figure
@@ -61,19 +60,24 @@
   data-image-src="{{ $imageUrl }}"
 >
   <div class="image-container">
-    <img
-      src="{{ $imageUrl }}"
-      alt="{{ $alt }}"
-      {{ with $srcset }}srcset="{{ . }}"{{ end }}
-      sizes="(min-width: 768px) 720px, 100vw"
-      {{ with $caption }}title="{{ . }}"{{ end }}
-      {{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
-      loading="lazy"
-      decoding="async"
-      data-gallery-src="{{ $imageUrl }}"
-      data-gallery-alt="{{ $alt }}"
-      data-gallery-title="{{ $caption }}"
-    />
+    <picture>
+      {{- with $webpSrcset }}
+        <source type="image/webp" srcset="{{ . }}" sizes="{{ $sizes }}" />
+      {{- end }}
+      <img
+        src="{{ $imageUrl }}"
+        alt="{{ $alt }}"
+        {{ with $srcset }}srcset="{{ . }}"{{ end }}
+        sizes="{{ $sizes }}"
+        {{ with $caption }}title="{{ . }}"{{ end }}
+        {{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
+        loading="lazy"
+        decoding="async"
+        data-gallery-src="{{ $imageUrl }}"
+        data-gallery-alt="{{ $alt }}"
+        data-gallery-title="{{ $caption }}"
+      />
+    </picture>
   </div>
 
   {{/* 图片说明 */}}

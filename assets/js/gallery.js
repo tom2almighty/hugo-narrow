@@ -21,9 +21,10 @@ function readJSONConfig(id) {
   }
 }
 
-// 从 srcset 里挑一张略大于 480px 的缩略图，避免灯箱级别的大图进布局网格
+// 网格里的缩略图不需要原图尺寸，优先用 WebP 变体
 function getPreviewSource(img) {
-  const srcset = img.getAttribute("srcset");
+  const webpSrcset = img.closest("picture")?.querySelector('source[type="image/webp"]')?.srcset;
+  const srcset = webpSrcset || img.getAttribute("srcset");
   if (!srcset) return img.currentSrc || img.src;
 
   const candidates = srcset

@@ -139,7 +139,9 @@ those flags and **only loads the gallery/lightbox JS bundles on pages that actua
 `_partials/ui/gallery-switcher.html` emits a `<template>` for the single layout button; `gallery.js`
 clones it per gallery and cycles justified → masonry → grid. Image path resolution (page-resource vs.
 global-resource vs. static, external URLs, dimensions) is centralized in
-`_partials/content/image-processor.html`.
+`_partials/content/image-processor.html`. The responsive width ladder and `sizes` are derived from
+`contentWidth` in `_partials/config/image.html`; JPEG/PNG sources also get a WebP `srcset`
+controlled by `params.image.webp` and `params.image.quality`.
 
 ### Pluggable features (comments & analytics)
 

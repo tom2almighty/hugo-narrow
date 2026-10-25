@@ -1,30 +1,24 @@
-{{/* 图片处理器
+{{/* Resolve responsive image data for Markdown images and covers.
 
-  统一处理页面资源、全局资源和外部图片，并按需生成响应式 srcset。
+  Local raster resources get a width ladder derived from `contentWidth` and,
+  for JPEG/PNG sources, a parallel WebP srcset. External and static images keep
+  their original URL and only receive the shared `sizes` value.
 
-  参数：
-  - context: 当前页面上下文
-  - src: 图片路径
-  - alt: 替代文本
-  - caption: 图片说明
-  - outputType: data | img | both
-  - sizes: img 的 sizes 属性
-  - loading: img 的 loading 属性，默认 lazy
-  - fetchpriority: img 的 fetchpriority 属性
+  Params:
+  - context: current page context
+  - src: image path or URL
+  - sizes: optional override for the sizes attribute
+
+  Stores: imageUrl, imageSrcset, imageWebpSrcset, imageSizes, imageWidth,
+  imageHeight
 */}}
 
 {{- $context := .context -}}
 {{- $src := .src | string -}}
-{{- $alt := .alt | default "" -}}
-{{- $caption := .caption | default "" -}}
-{{- $outputType := .outputType | default "both" -}}
-{{- $sizes := .sizes | default "" -}}
-{{- $loading := .loading | default "lazy" -}}
-{{- $fetchpriority := .fetchpriority | default "" -}}
+{{- $imageConfig := partialCached "config/image.html" $context "image" -}}
 
 {{/* 初始化核心变量 */}}
 {{- $resource := false -}}
-{{- $resourceType := "" -}}
 {{- $isExternal := false -}}
 {{- $finalUrl := "" -}}
 {{- $searchPath := $src -}}
@@ -32,6 +26,7 @@
 {{- $width := 0 -}}
 {{- $height := 0 -}}
 {{- $srcset := "" -}}
+{{- $webpSrcset := "" -}}
 
 {{/* 检查是否为外部URL */}}
 {{- if or
@@ -41,7 +36,6 @@
   (hasPrefix $src "blob:")
 -}}
   {{- $isExternal = true -}}
-  {{- $resourceType = "external" -}}
   {{- $finalUrl = $src -}}
 {{- else -}}
   {{/* 统一路径格式，避免带前导 / 的 relURL 在子路径站点下失效 */}}
@@ -55,7 +49,6 @@
   {{- if not $isRootRelative -}}
     {{- with $context.Resources.GetMatch $searchPath -}}
       {{- $resource = . -}}
-      {{- $resourceType = "page" -}}
       {{- $finalUrl = .RelPermalink -}}
     {{- end -}}
   {{- end -}}
@@ -63,16 +56,14 @@
   {{- if not $resource -}}
     {{- with resources.Get $searchPath -}}
       {{- $resource = . -}}
-      {{- $resourceType = "global" -}}
       {{- $finalUrl = .RelPermalink -}}
     {{- else -}}
-      {{- $resourceType = "static" -}}
       {{- $finalUrl = $searchPath | relURL -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 
-{{/* 读取尺寸，并为静态资源可处理的格式生成 srcset */}}
+{{/* 读取尺寸，并按内容宽度生成响应式宽度阶梯 */}}
 {{- if and $resource (not $isExternal) -}}
   {{- $mediaType := $resource.MediaType.SubType -}}
   {{- if in (slice "jpeg" "jpg" "png" "gif" "webp" "avif") $mediaType -}}
@@ -81,45 +72,43 @@
   {{- end -}}
 
   {{- if and (gt $width 0) (in (slice "jpeg" "jpg" "png" "webp" "avif") $mediaType) -}}
-    {{- $parts := slice -}}
-    {{- range (slice 480 768 1024 1440) -}}
-      {{- if lt . $width -}}
-        {{- $resized := $resource.Resize (printf "%dx" .) -}}
-        {{- $parts = $parts | append (printf "%s %dw" $resized.RelPermalink .) -}}
+    {{- $maxWidth := int (math.Min (float $width) (mul $imageConfig.contentWidthPx 2)) -}}
+    {{- $widths := slice -}}
+    {{- range $imageConfig.widthRatios -}}
+      {{- $candidate := int (math.Round (mul $imageConfig.contentWidthPx .)) -}}
+      {{- if and (gt $candidate 0) (lt $candidate $width) (le $candidate $maxWidth) -}}
+        {{- $widths = $widths | append $candidate -}}
       {{- end -}}
     {{- end -}}
-    {{- if gt (len $parts) 0 -}}
-      {{- $parts = $parts | append (printf "%s %dw" $finalUrl $width) -}}
-      {{- $srcset = delimit $parts ", " -}}
+    {{- $widths = $widths | append $maxWidth | uniq | sort -}}
+
+    {{- $convertWebp := and $imageConfig.webp (in (slice "jpeg" "jpg" "png") $mediaType) -}}
+    {{- $parts := slice -}}
+    {{- $webpParts := slice -}}
+    {{- range $widths -}}
+      {{- $url := $finalUrl -}}
+      {{- if lt . $width -}}
+        {{- $url = ($resource.Resize (printf "%dx" .)).RelPermalink -}}
+      {{- end -}}
+      {{- $parts = $parts | append (printf "%s %dw" $url .) -}}
+      {{- if $convertWebp -}}
+        {{- $webp := $resource.Process (printf "resize %dx webp q%d" . $imageConfig.quality) -}}
+        {{- $webpParts = $webpParts | append (printf "%s %dw" $webp.RelPermalink .) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $srcset = delimit $parts ", " -}}
+    {{- if gt (len $webpParts) 0 -}}
+      {{- $webpSrcset = delimit $webpParts ", " -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 
-{{/* 设置核心数据到上下文 */}}
-{{- if or (eq $outputType "data") (eq $outputType "both") -}}
-  {{- $context.Store.Set "imageResource" $resource -}}
-  {{- $context.Store.Set "imageUrl" $finalUrl -}}
-  {{- $context.Store.Set "imageSrcset" $srcset -}}
-  {{- $context.Store.Set "imageWidth" $width -}}
-  {{- $context.Store.Set "imageHeight" $height -}}
-  {{- $context.Store.Set "imageType" $resourceType -}}
-  {{- $context.Store.Set "isExternal" $isExternal -}}
-{{- end -}}
+{{- $sizes := .sizes | default $imageConfig.sizes -}}
 
-{{/* 生成图片HTML */}}
-{{- if or (eq $outputType "img") (eq $outputType "both") -}}
-  <img
-    src="{{ $finalUrl }}"
-    alt="{{ $alt }}"
-    {{ with $srcset }}srcset="{{ . }}"{{ end }}
-    {{ with $sizes }}sizes="{{ . }}"{{ end }}
-    {{ with $caption }}title="{{ . }}"{{ end }}
-    {{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
-    loading="{{ $loading }}"
-    decoding="async"
-    {{ with $fetchpriority }}fetchpriority="{{ . }}"{{ end }}
-    data-gallery-src="{{ $finalUrl }}"
-    data-gallery-alt="{{ $alt }}"
-    data-gallery-title="{{ $caption }}"
-  />
-{{- end -}}
+{{/* 设置核心数据到上下文 */}}
+{{- $context.Store.Set "imageUrl" $finalUrl -}}
+{{- $context.Store.Set "imageSrcset" $srcset -}}
+{{- $context.Store.Set "imageWebpSrcset" $webpSrcset -}}
+{{- $context.Store.Set "imageSizes" $sizes -}}
+{{- $context.Store.Set "imageWidth" $width -}}
+{{- $context.Store.Set "imageHeight" $height -}}

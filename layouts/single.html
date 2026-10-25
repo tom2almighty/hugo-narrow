@@ -3,27 +3,32 @@
     {{- partial "content/image-processor.html" (dict
       "context" $
       "src" .
-      "alt" $.Title
-      "outputType" "data"
       )
     -}}
     {{- $coverImage := $.Store.Get "imageUrl" -}}
     {{- $coverSrcset := $.Store.Get "imageSrcset" -}}
+    {{- $coverWebpSrcset := $.Store.Get "imageWebpSrcset" -}}
+    {{- $coverSizes := $.Store.Get "imageSizes" -}}
     {{- $coverWidth := $.Store.Get "imageWidth" | default 0 -}}
     {{- $coverHeight := $.Store.Get "imageHeight" | default 0 -}}
     {{- if $coverImage -}}
       <div class="border-border mb-8 overflow-hidden rounded-lg border">
-        <img
-          src="{{ $coverImage }}"
-          {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
-          sizes="(min-width: 768px) 720px, 100vw"
-          alt="{{ $.Title }}"
-          {{ if gt $coverWidth 0 }}width="{{ $coverWidth }}" height="{{ $coverHeight }}"{{ end }}
-          class="aspect-video max-h-96 w-full object-cover"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
+        <picture>
+          {{- with $coverWebpSrcset }}
+            <source type="image/webp" srcset="{{ . }}" sizes="{{ $coverSizes }}" />
+          {{- end }}
+          <img
+            src="{{ $coverImage }}"
+            {{ with $coverSrcset }}srcset="{{ . }}"{{ end }}
+            sizes="{{ $coverSizes }}"
+            alt="{{ $.Title }}"
+            {{ if gt $coverWidth 0 }}width="{{ $coverWidth }}" height="{{ $coverHeight }}"{{ end }}
+            class="aspect-video max-h-96 w-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
     {{- end -}}
   {{- end -}}

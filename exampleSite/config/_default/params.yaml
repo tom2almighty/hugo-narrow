@@ -50,6 +50,11 @@ search:
 # The centered content column. Users can adjust it at runtime with the
 # appearance panel slider (40-90rem); the value is stored in localStorage.
 contentWidth: "56rem"
+# Responsive image variants. Widths are derived from contentWidth, so no
+# per-image breakpoints are needed.
+image:
+  webp: true # Emit a WebP source for JPEG/PNG images
+  quality: 82 # WebP quality (1-100)
 # Default backdrop blur radius in px (0-24) for floating dock, popovers and context bar.
 backdropBlur: 12
 # Default background grain size (0-100, 0 disables the grain texture).

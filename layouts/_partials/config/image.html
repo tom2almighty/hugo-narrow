@@ -1,0 +1,54 @@
+{{/* Image processing configuration.
+
+  The responsive width ladder is derived from `contentWidth`, so changing the
+  reading width also changes the generated image sizes. `image.webp` and
+  `image.quality` control the WebP variants.
+
+  @context {page} .
+  @returns {dict} webp, quality, contentWidth, contentWidthPx, sizes, widthRatios
+*/}}
+{{- $params := site.Params.image | default dict -}}
+{{- if not (reflect.IsMap $params) -}}
+  {{- $params = dict -}}
+{{- end -}}
+
+{{- $webp := true -}}
+{{- if isset $params "webp" -}}
+  {{- $webp = $params.webp -}}
+{{- end -}}
+
+{{- $quality := 82 -}}
+{{- if isset $params "quality" -}}
+  {{- $quality = int $params.quality -}}
+{{- end -}}
+{{- if or (lt $quality 1) (gt $quality 100) -}}
+  {{- errorf "params.image.quality must be between 1 and 100 (got %v)" $quality -}}
+{{- end -}}
+
+{{/* `contentWidth` accepts rem, px, or a unitless number of pixels. */}}
+{{- $contentWidth := strings.TrimSpace (string (site.Params.contentWidth | default "56rem")) -}}
+{{- $contentWidthPx := 0.0 -}}
+{{- if hasSuffix $contentWidth "rem" -}}
+  {{- $contentWidthPx = mul (float (strings.TrimSuffix "rem" $contentWidth)) 16 -}}
+{{- else if hasSuffix $contentWidth "px" -}}
+  {{- $contentWidthPx = float (strings.TrimSuffix "px" $contentWidth) -}}
+{{- else -}}
+  {{- $contentWidthPx = float $contentWidth -}}
+{{- end -}}
+{{- if le $contentWidthPx 0 -}}
+  {{- errorf "params.contentWidth must be a positive rem/px length (got %q)" $contentWidth -}}
+{{- end -}}
+
+{{/* Fractions of the reading width; the browser picks a candidate from
+  `sizes`, so these are display-width steps rather than fixed pixels.
+*/}}
+{{- $widthRatios := slice 0.5 0.75 1 1.5 2 -}}
+
+{{- return dict
+  "webp" $webp
+  "quality" $quality
+  "contentWidth" $contentWidth
+  "contentWidthPx" $contentWidthPx
+  "sizes" (printf "(min-width: %s) %s, 100vw" $contentWidth $contentWidth)
+  "widthRatios" $widthRatios
+-}}
