@@ -22,7 +22,7 @@
       {{ if $config.path }}path: "{{ $config.path }}",{{ else }}path: "{{ .Page.RelPermalink }}",{{ end }}
       lang: "{{ $config.lang | default .Site.Language.Locale | default "zh-CN" }}",
     });
-  </script> {{ partial "features/comments/theme-sync.html" (dict "provider" "twikoo" "container" (printf "#%s" $id)) }}
+  </script> {{ partial "features/comments/theme-sync.html" (dict "provider" "twikoo" "container" (printf "#%s" $id) "initial" false) }}
 {{ else }}
   {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}
