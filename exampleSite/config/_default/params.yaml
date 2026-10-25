@@ -136,6 +136,11 @@ mermaid:
 gallery:
   enabled: true
   defaultLayout: justified # justified | masonry | grid
+  gap: 10 # px between items, all layouts
+  targetRowHeight: 200 # justified: target row height
+  lastRowBehavior: center # justified: left | center | right | fill | hide
+  columnWidth: 200 # masonry when columns is auto
+  columns: 4 # grid count; masonry accepts a number or auto
 
 # Lightbox
 lightbox:

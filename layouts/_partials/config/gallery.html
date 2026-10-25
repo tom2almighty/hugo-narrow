@@ -1,7 +1,7 @@
 {{/* Gallery configuration resolver.
 
-  Site params expose only `enabled` and `defaultLayout`; the remaining layout
-  values are theme defaults and can still be overridden per page.
+  All layout values can be set in `params.gallery` and overridden per page;
+  anything left unset falls back to the theme defaults below.
 
   Hugo lowercases every param key, so the merged values are read back by their
   lowercase name and re-emitted in the camelCase form SmartGallery expects.
