@@ -1,8 +1,9 @@
 {{/* Search configuration resolver.
 
   `search: true` keeps the default on, `search: false` or
-  `search.enabled: false` turns the feature off entirely: the dock button,
-  the dialog, and the search bundle are all skipped.
+  `search.enabled: false` turns the feature off: the dock button, the dialog,
+  the search bundle, and the config script are skipped, and `index.json` is
+  emitted empty.
 */}}
 {{- $enabled := true -}}
 {{- $contentLength := 2000 -}}

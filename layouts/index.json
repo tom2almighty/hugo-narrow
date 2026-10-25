@@ -1,25 +1,30 @@
-{{- $records := slice -}}
-{{- $mainSections := .Site.MainSections -}}
-{{- $contentLength := (partial "config/search.html" .).indexContentLength -}}
+{{- $search := partial "config/search.html" . -}}
+{{- if $search.enabled -}}
+  {{- $records := slice -}}
+  {{- $mainSections := .Site.MainSections -}}
+  {{- $contentLength := $search.indexContentLength -}}
 
-{{- range where .Site.RegularPages "Section" "in" $mainSections -}}
-  {{- $summary := .Summary | plainify | strings.TrimSpace -}}
-  {{- if not $summary -}}
-    {{- $summary = .Plain | truncate 180 -}}
+  {{- range where .Site.RegularPages "Section" "in" $mainSections -}}
+    {{- $summary := .Summary | plainify | strings.TrimSpace -}}
+    {{- if not $summary -}}
+      {{- $summary = .Plain | truncate 180 -}}
+    {{- end -}}
+
+    {{- $records = $records | append (dict
+      "title" .Title
+      "summary" $summary
+      "content" (.Plain | truncate $contentLength)
+      "permalink" .RelPermalink
+      "section" .Section
+      "date" (partial "helpers/date.html" (dict "date" .Date "variant" "long"))
+      "readingTime" .ReadingTime
+      "tags" (.Params.tags | default (slice))
+      "categories" (.Params.categories | default (slice))
+      )
+    -}}
   {{- end -}}
 
-  {{- $records = $records | append (dict
-    "title" .Title
-    "summary" $summary
-    "content" (.Plain | truncate $contentLength)
-    "permalink" .RelPermalink
-    "section" .Section
-    "date" (partial "helpers/date.html" (dict "date" .Date "variant" "long"))
-    "readingTime" .ReadingTime
-    "tags" (.Params.tags | default (slice))
-    "categories" (.Params.categories | default (slice))
-    )
-  -}}
+  {{- $records | jsonify -}}
+{{- else -}}
+  []
 {{- end -}}
-
-{{- $records | jsonify -}}
