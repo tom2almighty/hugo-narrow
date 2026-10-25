@@ -3,7 +3,7 @@
 :root {
   --dock-size: 3.5rem;
   --dock-clearance: calc(var(--dock-size) + env(safe-area-inset-bottom) + 2rem);
-  --page-gutter: clamp(1rem, 2vw, 1.5rem);
+  --page-gutter: max(clamp(1rem, 2vw, 1.5rem), env(safe-area-inset-left), env(safe-area-inset-right));
 
   /* Runtime appearance knobs, not theme colors. */
   --backdrop-blur: 12px;
@@ -60,6 +60,7 @@ body {
   font-family: var(--font-sans);
   font-size: 0.875rem;
   line-height: 1.5;
+  padding-top: env(safe-area-inset-top);
   padding-bottom: var(--dock-clearance);
   -webkit-font-smoothing: antialiased;
 }

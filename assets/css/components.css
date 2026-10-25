@@ -6,8 +6,8 @@
 
 .skip-link {
   position: fixed;
-  inset-block-start: 0.5rem;
-  inset-inline-start: 0.5rem;
+  inset-block-start: calc(env(safe-area-inset-top) + 0.5rem);
+  inset-inline-start: calc(max(env(safe-area-inset-left), env(safe-area-inset-right)) + 0.5rem);
   z-index: 100;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -40,7 +40,7 @@
    two separate boxes. */
 #context-bar {
   position: sticky;
-  top: 0.75rem;
+  top: calc(env(safe-area-inset-top) + 0.75rem);
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -362,7 +362,7 @@
 #reading-progress {
   position: fixed;
   inset-inline: 0;
-  top: 0;
+  top: env(safe-area-inset-top);
   z-index: 60;
   height: 2px;
   pointer-events: none;
@@ -621,8 +621,8 @@
 #series-popover {
   position: fixed;
   pointer-events: auto;
-  top: 1rem;
-  right: 0.5rem;
+  top: calc(env(safe-area-inset-top) + 1rem);
+  right: calc(env(safe-area-inset-right) + 0.5rem);
   left: auto;
   width: min(22rem, calc(100vw - 2rem));
   max-height: min(70dvh, 24rem);
@@ -893,6 +893,36 @@ summary.alert-header::-webkit-details-marker {
 
 .alert-content > :last-child {
   margin-bottom: 0;
+}
+
+/* Coarse pointers: raise small controls to a comfortable tap size. */
+@media (any-pointer: coarse) {
+  .dock-item {
+    @apply size-11;
+  }
+
+  .series-dot {
+    @apply size-7;
+  }
+
+  .series-step {
+    @apply size-8;
+  }
+
+  #search-clear,
+  #announcement-close {
+    @apply size-8;
+  }
+
+  /* Long series scroll sideways instead of overflowing the bar. */
+  .series-steps {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .series-steps::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* High contrast / forced colors ---------------------------------------- */
