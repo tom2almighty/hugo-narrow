@@ -2,14 +2,13 @@
 
   基于 GitHub Discussions 的评论系统
 
-  @context {page} . 当前文章页面对象
-  @param {string} id 评论容器的唯一 ID
+  @context {dict} 评论上下文：Page、Site、id、config
 */}}
 
 {{ $id := .id | default "giscus-comments" }}
 {{ $config := .config | default dict }}
 
-{{ if $config.repo }}
+{{ if and $config.repo $config.repoId $config.categoryId }}
   {{- $theme := $config.theme | default "preferred_color_scheme" -}}
   {{- $followSystem := eq $theme "preferred_color_scheme" -}}
   <div id="{{ $id }}" class="giscus-container">

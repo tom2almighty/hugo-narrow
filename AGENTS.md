@@ -146,11 +146,13 @@ controlled by `params.image.webp` and `params.image.quality`.
 ### Pluggable features (comments & analytics)
 
 `_partials/features/comments.html` and `features/analytics.html` are dispatchers. The comments
-dispatcher resolves the merged config and passes the selected provider's config to
-`features/comments/<system>.html` (giscus, disqus, utterances, waline, artalk, twikoo, comentario).
-Providers that can follow light/dark mode delegate to `features/comments/theme-sync.html`, which
-listens for the `themeChanged` event instead of observing the DOM. Analytics supports google, baidu,
-clarity, and umami. Add a provider by adding a sub-partial and a params block.
+dispatcher resolves `comments.provider` from the merged config and passes that provider's config to
+`features/comments/<provider>.html` (giscus, disqus, utterances, waline, artalk, twikoo,
+comentario). Providers that can follow light/dark mode delegate to
+`features/comments/theme-sync.html`, which listens for the `themeChanged` event instead of observing
+the DOM. Analytics supports google, baidu, clarity, and umami. Add a provider by adding a sub-partial
+and a params block; a site can do the same in its own `layouts/_partials/features/<kind>/` directory,
+which takes precedence over the theme.
 
 ### Output formats, search, and PWA
 

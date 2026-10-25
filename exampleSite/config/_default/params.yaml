@@ -83,10 +83,10 @@ post:
   license: "CC BY-NC-SA 4.0" # shown in the post meta line; empty to hide
 
 # Comments
-# Supported systems: giscus, disqus, utterances, waline, artalk, twikoo, comentario
+# Supported providers: giscus, disqus, utterances, waline, artalk, twikoo, comentario
 comments:
   enabled: false
-  system: "giscus"
+  provider: "giscus"
   giscus:
     repo: "tom2almighty/hugo-narrow-giscus"
     repoId: "R_kgDOO2gwLg"

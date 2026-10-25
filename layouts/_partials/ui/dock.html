@@ -2,7 +2,7 @@
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- $tocEnabled := and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
 {{- $commentsConfig := partial "config/comments.html" . -}}
-{{- $commentsEnabled := and $commentsConfig.enabled $commentsConfig.system -}}
+{{- $commentsEnabled := and $commentsConfig.enabled $commentsConfig.provider -}}
 {{- $searchEnabled := (partial "config/search.html" .).enabled -}}
 
 

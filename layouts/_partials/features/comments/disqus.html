@@ -2,8 +2,7 @@
 
   传统的评论系统，支持多种功能
 
-  @context {page} . 当前文章页面对象
-  @param {string} id 评论容器的唯一 ID
+  @context {dict} 评论上下文：Page、Site、id、config
 */}}
 
 {{ $id := .id | default "disqus-comments" }}
