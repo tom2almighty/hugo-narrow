@@ -109,9 +109,20 @@ function createLayoutSwitcher(template, layout, onSwitch) {
   const switcher = template?.content?.firstElementChild?.cloneNode(true);
   if (!switcher) return null;
 
+  const button = switcher.querySelector(".layout-btn");
+  const label = button?.getAttribute("aria-label") || "Switch gallery layout";
   let current = LAYOUTS.includes(layout) ? layout : LAYOUTS[0];
-  switcher.querySelector(".layout-btn")?.addEventListener("click", () => {
+
+  // Keep the accessible name in sync with the active layout.
+  const syncLabel = () => {
+    button?.setAttribute("aria-label", `${label}: ${current}`);
+    button?.setAttribute("title", `${label}: ${current}`);
+  };
+
+  syncLabel();
+  button?.addEventListener("click", () => {
     current = LAYOUTS[(LAYOUTS.indexOf(current) + 1) % LAYOUTS.length];
+    syncLabel();
     onSwitch(current);
   });
 
