@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "README.md"
+      - "README.zh-Hans.md"
+      - "AGENTS.md"
+      - "LICENSE"
+      - ".gitignore"
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "README.md"
+      - "README.zh-Hans.md"
+      - "AGENTS.md"
+      - "LICENSE"
+      - ".gitignore"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUGO_VERSION: "0.168.0"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm run format:check
+
+      - name: Compile Tailwind CSS
+        run: pnpm run compile
+
+      # compiled.css is committed so theme consumers can build without Node.
+      - name: Check compiled.css is up to date
+        run: git diff --exit-code -- assets/css/compiled.css
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Build site
+        run: hugo --source=exampleSite --themesDir=../.. --minify
