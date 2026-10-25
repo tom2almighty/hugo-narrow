@@ -102,11 +102,13 @@ jobs:
           NOTES_FILE=".github/release-notes/${GITHUB_REF_NAME}.md"
           TITLE="Hugo Narrow ${GITHUB_REF_NAME}"
 
+          # Deleting a tag can leave the release behind as a draft, so an existing
+          # release is always published here.
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             if [ -f "$NOTES_FILE" ]; then
-              gh release edit "$GITHUB_REF_NAME" --title "$TITLE" --notes-file "$NOTES_FILE"
+              gh release edit "$GITHUB_REF_NAME" --title "$TITLE" --draft=false --notes-file "$NOTES_FILE"
             else
-              gh release edit "$GITHUB_REF_NAME" --title "$TITLE"
+              gh release edit "$GITHUB_REF_NAME" --title "$TITLE" --draft=false
             fi
           elif [ -f "$NOTES_FILE" ]; then
             gh release create "$GITHUB_REF_NAME" --title "$TITLE" --notes-file "$NOTES_FILE"
