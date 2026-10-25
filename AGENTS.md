@@ -44,9 +44,10 @@ can build independently. Release notes for a tag are read from
   fingerprints/minifies the already-built `compiled.css` (see `_partials/layout/head/css.html`).
 - **JS is bundled by Hugo** via `js.Build` (esbuild) at render time — no separate JS build step.
   `assets/js/main.js` is the always-on entry; it composes `announcement.js`, `appearance.js`,
-  `viewport.js`, `popovers.js`, `fold.js`, `dock.js`, `tabs.js`, and `codeblock.js`. `search.js`, `toc.js`, and
-  `gallery.js` are separate entries loaded only when their feature is on the page, so nothing imports
-  them from `main.js`. Shared storage, events, and breakpoints live in `core.js` / `layout.js`; keep
+  `viewport.js`, `popovers.js`, `fold.js`, `context-bar.js`, `dock.js`, `tabs.js`, and
+  `codeblock.js`. `search.js`, `toc.js`, and `gallery.js` are separate entries loaded only when
+  their feature is on the page, so nothing imports them from `main.js`. Shared storage, events, and
+  breakpoints live in `core.js` / `layout.js`; keep
   the matching CSS media queries in sync. Third-party code (MiniSearch, smart-gallery) is vendored in
   `assets/js/vendor/` and imported as ESM — never load a script from a CDN at runtime.
 
@@ -84,6 +85,11 @@ footer. The dock, TOC panel, search dialog, and KaTeX/Mermaid assets sit outside
 - The context bar uses breadcrumbs and, for series posts, a second row with progress dots and
   previous/next controls that opens `navigation/series-popover.html`. Series data is resolved by
   `content/series-info.html`.
+- `context-bar.js` runs on article pages only. It hides the bar while scrolling down, reveals a
+  title capsule when scrolling up, and expands the capsule back into the same breadcrumb trail on
+  click. The trail and capsule share one surface in `components.css`, so the change animates the
+  surface width and radius rather than swapping two boxes. Other page kinds keep the static
+  breadcrumb.
 - `ui/dock.html` is the only page/function chrome: Home, Menu, Search, TOC (when present),
   Appearance, and a contextual Back-to-top.
 - Placement is CSS-first in `assets/css/components.css`: a floating capsule on the right for wide
@@ -149,8 +155,9 @@ clarity, and umami. Add a provider by adding a sub-partial and a params block.
 `home` outputs `HTML, RSS, JSON, WebAppManifest` (see `hugo.yaml`). The **search index is the JSON
 output** rendered by `layouts/index.json`; client-side search lives in `assets/js/search.js` and the
 index content length is configurable via `search.indexContentLength`. `config/search.html` resolves
-`search.enabled` (default true) and feeds the dock button, the dialog, the script tag, and the index
-alike — turning search off drops all four.
+`search.enabled` (default true) and feeds the dock button, the dialog, the config script, and the
+index URL. Turning search off drops the button, the dialog, and the script, and `layouts/index.json`
+emits `[]`; the home JSON output itself still exists.
 `layouts/index.webappmanifest` produces the PWA manifest; theme/background colors, orientation, and
 the optional Apple touch icon are configured under `params.pwa`.
 
