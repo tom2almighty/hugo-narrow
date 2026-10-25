@@ -1,4 +1,5 @@
 {{- $series := partial "content/series-info.html" . -}}
+{{- $collapsible := .IsPage -}}
 {{- $home := site.Home -}}
 {{- $ancestors := .Ancestors.Reverse -}}
 
@@ -17,39 +18,63 @@
   {{- $crumbs = $crumbs | append (dict "title" .Title "url" .RelPermalink "current" true) -}}
 
 
-  <header id="context-bar">
-    <nav aria-label="{{ T `nav.breadcrumb` }}" class="context-crumbs">
-      <ol class="crumb-trail">
-        {{- range $index, $item := $crumbs -}}
-          {{- if gt $index 0 -}}
-            <li class="crumb-sep" aria-hidden="true">
-              {{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") -}}
+  <header
+    id="context-bar"
+    data-collapsed="false"
+    data-visible="true"
+    {{ if $collapsible }}data-collapsible="true"{{ end }}
+  >
+    <div class="context-top">
+      <nav aria-label="{{ T `nav.breadcrumb` }}" class="context-crumbs">
+        <ol class="crumb-trail">
+          {{- range $index, $item := $crumbs -}}
+            {{- if gt $index 0 -}}
+              <li class="crumb-sep" aria-hidden="true">
+                {{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") -}}
+              </li>
+            {{- end -}}
+            <li class="crumb-node">
+              {{- if $item.current -}}
+                <span class="crumb crumb-current" aria-current="page" title="{{ $item.title }}">
+                  <span class="max-w-56 truncate sm:max-w-96">{{ $item.title }}</span>
+                </span>
+              {{- else -}}
+                <a
+                  href="{{ $item.url }}"
+                  class="crumb"
+                  title="{{ $item.title }}"
+                  {{ if eq $index 0 }}aria-label="{{ $item.title }}"{{ end }}
+                >
+                  {{- if eq $index 0 -}}
+                    {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+                    <span class="hidden max-w-32 truncate sm:inline">{{ $item.title }}</span>
+                  {{- else -}}
+                    <span class="max-w-40 truncate sm:max-w-56">{{ $item.title }}</span>
+                  {{- end -}}
+                </a>
+              {{- end -}}
             </li>
           {{- end -}}
-          <li class="crumb-node">
-            {{- if $item.current -}}
-              <span class="crumb crumb-current" aria-current="page" title="{{ $item.title }}">
-                <span class="max-w-56 truncate sm:max-w-96">{{ $item.title }}</span>
-              </span>
-            {{- else -}}
-              <a
-                href="{{ $item.url }}"
-                class="crumb"
-                title="{{ $item.title }}"
-                {{ if eq $index 0 }}aria-label="{{ $item.title }}"{{ end }}
-              >
-                {{- if eq $index 0 -}}
-                  {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-                  <span class="hidden max-w-32 truncate sm:inline">{{ $item.title }}</span>
-                {{- else -}}
-                  <span class="max-w-40 truncate sm:max-w-56">{{ $item.title }}</span>
-                {{- end -}}
-              </a>
-            {{- end -}}
-          </li>
-        {{- end -}}
-      </ol>
-    </nav>
+        </ol>
+      </nav>
+
+      {{- if $collapsible }}
+        <button
+          id="context-pill"
+          type="button"
+          class="context-pill"
+          aria-label="{{ T `nav.breadcrumb` }}: {{ .Title }}"
+          title="{{ .Title }}"
+        >
+          <span class="context-pill-title truncate">{{ .Title }}</span>
+          {{- if $series.has -}}
+            <span class="context-pill-badge tabular-nums"
+              >{{ $series.current }}/{{ $series.total }}</span
+            >
+          {{- end -}}
+        </button>
+      {{- end }}
+    </div>
 
     {{- if $series.has -}}
       {{- $pages := $series.pages -}}
