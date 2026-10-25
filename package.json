@@ -1,6 +1,6 @@
 {
   "name": "hugo-narrow",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A modern, clean Hugo theme built with Tailwind CSS 4.",
   "scripts": {
     "compile": "tailwindcss -i ./assets/css/main.css -o ./assets/css/compiled.css --minify",
