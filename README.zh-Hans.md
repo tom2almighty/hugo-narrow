@@ -8,7 +8,8 @@
 
 
 > [!NOTE]
-> v2.1.1 是 Hugo Narrow 2.x 的最终版本，v2 不再维护。Go template 布局的维护成本过高，现有 v2 站点请固定使用 v2.1.1。
+> v2.1.1 是 Hugo Narrow 的最后一个版本，v2 不再维护。在 AI 出现之前，Hugo 很适合做个人站点：单个 Go 二进制、构建快，通过 shortcode 做扩展也比较简单。但在 vibecoding 下，生成个人站点已经非常简单，前端生态里有很多优秀的开源库可以直接引入到其他框架。像 Astro 这样的框架通常没有“主题”的概念，但借助 AI，每个人的站点本身就是自己的主题。Hugo 在这个生态里并不占优势，也缺少通用且活跃的模板格式化工具，因此不再维护，后续只维护相关的 [astro-narrow](https://github.com/tom2almighty/astro-narrow) 主题。前端主题带有很强的主观性，也不保证稳定，欢迎使用 AI 维护自己的 fork。现有 v2 站点请固定使用 v2.1.1。
+>
 > v1 的最终版本为 v1.4.1，保留在 `v1` 分支。
 > 完整的破坏性变更与迁移说明见 [2.0.0 Release Notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0)。
 > v1 预览地址：https://tom2almighty.github.io/hugo-narrow/v1/。
