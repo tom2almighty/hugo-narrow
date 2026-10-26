@@ -1,8 +1,8 @@
 {{- $tabsId := printf "tabs-%d" .Ordinal -}}
 {{- $storeKey := printf "tabs-labels-%d" .Ordinal -}}
 {{- /* 子 shortcode 先于本模板执行，标签已经写进 Store，这里读出后立即清空，
-  保证同一页面被多次渲染（HTML / JSON 输出）时不会重复累积。 */
--}}
+  保证同一页面被多次渲染（HTML / JSON 输出）时不会重复累积。
+*/}}
 {{- $inner := .Inner -}}
 {{- $tabs := .Page.Store.Get $storeKey | default slice -}}
 {{- .Page.Store.Delete $storeKey -}}

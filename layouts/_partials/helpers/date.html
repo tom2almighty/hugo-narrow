@@ -16,8 +16,7 @@
 
   @context {time.Time} .date
   @context {string} .variant "long" | "short" | "month", default "long"
-  */
--}}
+*/}}
 {{- $date := .date -}}
 {{- $variant := .variant | default "long" -}}
 {{- $defaults := dict

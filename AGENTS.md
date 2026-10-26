@@ -186,6 +186,8 @@ the optional Apple touch icon are configured under `params.pwa`.
 - HTML/templates and JS are formatted by Prettier with `prettier-plugin-go-template` and
   `prettier-plugin-tailwindcss` (2-space indent, double quotes, 100 col). Run `pnpm run format:write`.
   `assets/js/lib/`, `assets/js/theme-init.js` (Hugo-templated), and `refer/` are in `.prettierignore`.
+  Multi-line comments must close with `*/}}`; Prettier splits `*/ -}}` onto its own line, and the
+  split form only parses with LF, breaking CRLF checkouts.
 - Many template/JS comments are in Chinese — match the surrounding language when editing a file.
 - Do not reintroduce `header.*`, `dock`, `themes`, `timeFormat`, or the removed appearance flags.
 - Do not add separate light/dark code-block style parameters; use `markup.highlight.style`.
