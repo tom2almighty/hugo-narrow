@@ -15,10 +15,12 @@
 ## 开发环境
 
 - Hugo Extended 0.165.0 或更高版本
+- Go 1.26 或更高版本（用于 `gotmplfmt`）
 - Node.js 18 或更高版本
 - pnpm 10
 
 ```bash
+go install github.com/gohugoio/gotmplfmt@v0.5.0
 pnpm install
 pnpm run dev:parallel
 ```
@@ -28,7 +30,7 @@ pnpm run dev:parallel
 ## 构建与部署
 
 ```bash
-pnpm run check   # prettier 检查 + 生产构建
+pnpm run check   # 格式检查 + 生产构建
 pnpm run build   # 编译 assets/css/compiled.css，再执行 hugo --minify
 ```
 

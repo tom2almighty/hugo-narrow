@@ -13,5 +13,5 @@
     gtag('config', '{{ . }}');
   </script>
 {{- else }}
-  {{- warnidf "analytics-google" "analytics.google.id is required when analytics.provider is google" -}}
+	{{- warnidf "analytics-google" "analytics.google.id is required when analytics.provider is google" -}}
 {{- end }}

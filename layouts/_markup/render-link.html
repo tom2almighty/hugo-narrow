@@ -1,20 +1,18 @@
 {{- $isExternal := or (strings.HasPrefix .Destination "http://") (strings.HasPrefix .Destination "https://") -}}
 {{- if $isExternal -}}
-  <a
-    href="{{ .Destination | safeURL }}"
-    {{- with .Title }}title="{{ . }}"{{ end -}}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="inline-flex items-center gap-1"
-  >
-    {{- with .Text | safeHTML }}{{ . }}{{ end -}}
-    {{ partial "features/icon.html" (dict "name" "external-link" "class" "text-muted-foreground h-3 w-3 flex-shrink-0" "hidden" true) }}
-  </a>
+	<a
+		href="{{ .Destination | safeURL }}"
+		{{- with .Title }}title="{{ . }}"{{ end -}}target="_blank"
+		rel="noopener noreferrer"
+		class="inline-flex items-center gap-1"
+	>
+		{{- with .Text | safeHTML }}{{ . }}{{ end -}}
+		{{ partial "features/icon.html" (dict "name" "external-link" "class" "text-muted-foreground h-3 w-3 flex-shrink-0" "hidden" true) }}
+	</a>
 {{- else -}}
-  <a
-    href="{{ .Destination | safeURL }}"
-    {{- with .Title }}title="{{ . }}"{{ end -}}
-  >
-    {{- with .Text | safeHTML }}{{ . }}{{ end -}}
-  </a>
+	<a
+		href="{{ .Destination | safeURL }}"
+		{{- with .Title }}title="{{ . }}"{{ end -}}>
+		{{- with .Text | safeHTML }}{{ . }}{{ end -}}
+	</a>
 {{- end -}}

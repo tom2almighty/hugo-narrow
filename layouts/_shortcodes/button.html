@@ -33,44 +33,44 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
 {{- $rel := .Get "rel" | default "" -}}
 
 {{- if not $text -}}
-  {{- errorf "The %q shortcode requires button text via 'text' parameter or inner content. See %s" .Name .Position -}}
+	{{- errorf "The %q shortcode requires button text via 'text' parameter or inner content. See %s" .Name .Position -}}
 {{- end -}}
 
 {{- if and $url (eq $target "_blank") (not $rel) -}}
-  {{- $rel = "noopener noreferrer" -}}
+	{{- $rel = "noopener noreferrer" -}}
 {{- end -}}
 
 {{- $isCustomColor := false -}}
 {{- $customColor := "" -}}
 {{- if hasPrefix $variant "#" -}}
-  {{- $isCustomColor = true -}}
-  {{- $customColor = $variant -}}
+	{{- $isCustomColor = true -}}
+	{{- $customColor = $variant -}}
 {{- end -}}
 
 {{- $baseClasses := "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50" -}}
 
 {{- $variantClasses := "" -}}
 {{- if $isCustomColor -}}
-  {{- $variantClasses = "" -}}
+	{{- $variantClasses = "" -}}
 {{- else if eq $variant "primary" -}}
-  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90" -}}
+	{{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90" -}}
 {{- else if eq $variant "secondary" -}}
-  {{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/80" -}}
+	{{- $variantClasses = "bg-secondary text-secondary-foreground hover:bg-secondary/80" -}}
 {{- else if eq $variant "outline" -}}
-  {{- $variantClasses = "border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground" -}}
+	{{- $variantClasses = "border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground" -}}
 {{- else -}}
-  {{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90" -}}
+	{{- $variantClasses = "bg-primary text-primary-foreground hover:bg-primary/90" -}}
 {{- end -}}
 
 {{- $sizeClasses := "" -}}
 {{- if eq $size "sm" -}}
-  {{- $sizeClasses = "h-8 px-3" -}}
+	{{- $sizeClasses = "h-8 px-3" -}}
 {{- else if eq $size "md" -}}
-  {{- $sizeClasses = "h-9 px-4" -}}
+	{{- $sizeClasses = "h-9 px-4" -}}
 {{- else if eq $size "lg" -}}
-  {{- $sizeClasses = "h-10 px-6 text-base" -}}
+	{{- $sizeClasses = "h-10 px-6 text-base" -}}
 {{- else -}}
-  {{- $sizeClasses = "h-9 px-4" -}}
+	{{- $sizeClasses = "h-9 px-4" -}}
 {{- end -}}
 
 {{- $allClasses := printf "%s %s %s" $baseClasses $variantClasses $sizeClasses -}}
@@ -78,47 +78,47 @@ colors - outline: Outlined button with transparent background - #RRGGBB: Custom 
 {{- $textColor := "white" -}}
 {{- $styleAttr := "" -}}
 {{- if $isCustomColor -}}
-  {{- $styleAttr = printf `style="background-color: %s; color: %s;"` $customColor $textColor -}}
+	{{- $styleAttr = printf `style="background-color: %s; color: %s;"` $customColor $textColor -}}
 {{- end -}}
 
 
 <span class="not-prose my-2 mr-2 inline-block">
-  {{- if $url -}}
-    {{- if eq $target "_blank" -}}
-      <a
-        href="{{ $url }}"
-        class="{{ $allClasses }}"
-        {{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
-        target="_blank"
-        {{- with $rel }}rel="{{ . }}"{{ end }}
-      >
-        {{- if $icon -}}
-          {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
-        {{- end -}}
-        <span>{{ $text }}</span>
-      </a>
-    {{- else -}}
-      <a
-        href="{{ $url }}"
-        class="{{ $allClasses }}"
-        {{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
-      >
-        {{- if $icon -}}
-          {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
-        {{- end -}}
-        <span>{{ $text }}</span>
-      </a>
-    {{- end -}}
-  {{- else -}}
-    <button
-      class="{{ $allClasses }}"
-      {{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
-      type="button"
-    >
-      {{- if $icon -}}
-        {{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
-      {{- end -}}
-      <span>{{ $text }}</span>
-    </button>
-  {{- end -}}
+	{{- if $url -}}
+		{{- if eq $target "_blank" -}}
+			<a
+				href="{{ $url }}"
+				class="{{ $allClasses }}"
+				{{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
+				target="_blank"
+				{{- with $rel }}rel="{{ . }}"{{ end }}
+			>
+				{{- if $icon -}}
+					{{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
+				{{- end -}}
+				<span>{{ $text }}</span>
+			</a>
+		{{- else -}}
+			<a
+				href="{{ $url }}"
+				class="{{ $allClasses }}"
+				{{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
+			>
+				{{- if $icon -}}
+					{{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
+				{{- end -}}
+				<span>{{ $text }}</span>
+			</a>
+		{{- end -}}
+	{{- else -}}
+		<button
+			class="{{ $allClasses }}"
+			{{- with $styleAttr }}{{ . | safeHTMLAttr }}{{ end }}
+			type="button"
+		>
+			{{- if $icon -}}
+				{{- partial "features/icon.html" (dict "name" $icon "size" "sm" "class" "shrink-0") -}}
+			{{- end -}}
+			<span>{{ $text }}</span>
+		</button>
+	{{- end -}}
 </span>

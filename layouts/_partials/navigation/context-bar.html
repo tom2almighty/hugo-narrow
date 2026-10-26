@@ -4,174 +4,174 @@
 {{- $ancestors := .Ancestors.Reverse -}}
 
 {{- if or $ancestors $series.term -}}
-  {{- $crumbs := slice (dict "title" (T "nav.home") "url" $home.RelPermalink "current" false) -}}
-  {{- range $ancestors -}}
-    {{- if ne .RelPermalink $home.RelPermalink -}}
-      {{- $crumbs = $crumbs | append (dict "title" .LinkTitle "url" .RelPermalink "current" false) -}}
-    {{- end -}}
-  {{- end -}}
-  {{- with $series.term -}}
-    {{- if ne .RelPermalink $.RelPermalink -}}
-      {{- $crumbs = $crumbs | append (dict "title" .LinkTitle "url" .RelPermalink "current" false) -}}
-    {{- end -}}
-  {{- end -}}
-  {{- $crumbs = $crumbs | append (dict "title" .Title "url" .RelPermalink "current" true) -}}
+	{{- $crumbs := slice (dict "title" (T "nav.home") "url" $home.RelPermalink "current" false) -}}
+	{{- range $ancestors -}}
+		{{- if ne .RelPermalink $home.RelPermalink -}}
+			{{- $crumbs = $crumbs | append (dict "title" .LinkTitle "url" .RelPermalink "current" false) -}}
+		{{- end -}}
+	{{- end -}}
+	{{- with $series.term -}}
+		{{- if ne .RelPermalink $.RelPermalink -}}
+			{{- $crumbs = $crumbs | append (dict "title" .LinkTitle "url" .RelPermalink "current" false) -}}
+		{{- end -}}
+	{{- end -}}
+	{{- $crumbs = $crumbs | append (dict "title" .Title "url" .RelPermalink "current" true) -}}
 
 
-  <header
-    id="context-bar"
-    data-collapsed="false"
-    data-visible="true"
-    {{ if $collapsible }}data-collapsible="true"{{ end }}
-  >
-    <div class="context-top">
-      <nav aria-label="{{ T `nav.breadcrumb` }}" class="context-crumbs">
-        <ol class="crumb-trail">
-          {{- range $index, $item := $crumbs -}}
-            {{- if gt $index 0 -}}
-              <li class="crumb-sep" aria-hidden="true">
-                {{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") -}}
-              </li>
-            {{- end -}}
-            <li class="crumb-node">
-              {{- if $item.current -}}
-                <span class="crumb crumb-current" aria-current="page" title="{{ $item.title }}">
-                  <span class="max-w-56 truncate sm:max-w-96">{{ $item.title }}</span>
-                </span>
-              {{- else -}}
-                <a
-                  href="{{ $item.url }}"
-                  class="crumb"
-                  title="{{ $item.title }}"
-                  {{ if eq $index 0 }}aria-label="{{ $item.title }}"{{ end }}
-                >
-                  {{- if eq $index 0 -}}
-                    {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-                    <span class="hidden max-w-32 truncate sm:inline">{{ $item.title }}</span>
-                  {{- else -}}
-                    <span class="max-w-40 truncate sm:max-w-56">{{ $item.title }}</span>
-                  {{- end -}}
-                </a>
-              {{- end -}}
-            </li>
-          {{- end -}}
-        </ol>
-      </nav>
+	<header
+		id="context-bar"
+		data-collapsed="false"
+		data-visible="true"
+		{{ if $collapsible }}data-collapsible="true"{{ end }}
+	>
+		<div class="context-top">
+			<nav aria-label="{{ T `nav.breadcrumb` }}" class="context-crumbs">
+				<ol class="crumb-trail">
+					{{- range $index, $item := $crumbs -}}
+						{{- if gt $index 0 -}}
+							<li class="crumb-sep" aria-hidden="true">
+								{{- partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") -}}
+							</li>
+						{{- end -}}
+						<li class="crumb-node">
+							{{- if $item.current -}}
+								<span class="crumb crumb-current" aria-current="page" title="{{ $item.title }}">
+									<span class="max-w-56 truncate sm:max-w-96">{{ $item.title }}</span>
+								</span>
+							{{- else -}}
+								<a
+									href="{{ $item.url }}"
+									class="crumb"
+									title="{{ $item.title }}"
+									{{ if eq $index 0 }}aria-label="{{ $item.title }}"{{ end }}
+								>
+									{{- if eq $index 0 -}}
+										{{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+										<span class="hidden max-w-32 truncate sm:inline">{{ $item.title }}</span>
+									{{- else -}}
+										<span class="max-w-40 truncate sm:max-w-56">{{ $item.title }}</span>
+									{{- end -}}
+								</a>
+							{{- end -}}
+						</li>
+					{{- end -}}
+				</ol>
+			</nav>
 
-      {{- if $collapsible }}
-        <button
-          id="context-pill"
-          type="button"
-          class="context-pill"
-          aria-label="{{ T `nav.breadcrumb` }}: {{ .Title }}"
-          title="{{ .Title }}"
-        >
-          <span class="context-pill-title truncate">{{ .Title }}</span>
-          {{- if $series.has -}}
-            <span class="context-pill-badge tabular-nums"
-              >{{ $series.current }}/{{ $series.total }}</span
-            >
-          {{- end -}}
-        </button>
-      {{- end }}
-    </div>
+			{{- if $collapsible }}
+				<button
+					id="context-pill"
+					type="button"
+					class="context-pill"
+					aria-label="{{ T `nav.breadcrumb` }}: {{ .Title }}"
+					title="{{ .Title }}"
+				>
+					<span class="context-pill-title truncate">{{ .Title }}</span>
+					{{- if $series.has -}}
+						<span class="context-pill-badge tabular-nums"
+						>{{ $series.current }}/{{ $series.total }}</span
+						>
+					{{- end -}}
+				</button>
+			{{- end }}
+		</div>
 
-    {{- if $series.has -}}
-      {{- $pages := $series.pages -}}
-      {{- $current := $series.current -}}
-      {{- $total := $series.total -}}
-      {{- $prev := false -}}
-      {{- $next := false -}}
-      {{- if gt $current 1 -}}{{- $prev = index $pages (sub $current 2) -}}{{- end -}}
-      {{- if lt $current $total -}}{{- $next = index $pages $current -}}{{- end -}}
+		{{- if $series.has -}}
+			{{- $pages := $series.pages -}}
+			{{- $current := $series.current -}}
+			{{- $total := $series.total -}}
+			{{- $prev := false -}}
+			{{- $next := false -}}
+			{{- if gt $current 1 -}}{{- $prev = index $pages (sub $current 2) -}}{{- end -}}
+			{{- if lt $current $total -}}{{- $next = index $pages $current -}}{{- end -}}
 
 
-      <div class="series-bar">
-        <button
-          id="series-progress"
-          type="button"
-          class="series-trigger"
-          popovertarget="series-popover"
-          aria-controls="series-popover"
-          aria-expanded="false"
-          aria-label="{{ T `context.seriesPartOf` (dict `current` $current `total` $total) }}"
-        >
-          <span class="text-primary shrink-0">
-            {{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
-          </span>
-          <span class="series-title truncate">{{ $series.term.LinkTitle }}</span>
-          <span class="series-badge tabular-nums">{{ $current }}/{{ $total }}</span>
-          <span class="series-chevron" aria-hidden="true">
-            {{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
-          </span>
-        </button>
+			<div class="series-bar">
+				<button
+					id="series-progress"
+					type="button"
+					class="series-trigger"
+					popovertarget="series-popover"
+					aria-controls="series-popover"
+					aria-expanded="false"
+					aria-label="{{ T `context.seriesPartOf` (dict `current` $current `total` $total) }}"
+				>
+					<span class="text-primary shrink-0">
+						{{ partial "features/icon.html" (dict "name" "layers" "size" "sm" "ariaLabel" "") }}
+					</span>
+					<span class="series-title truncate">{{ $series.term.LinkTitle }}</span>
+					<span class="series-badge tabular-nums">{{ $current }}/{{ $total }}</span>
+					<span class="series-chevron" aria-hidden="true">
+						{{ partial "features/icon.html" (dict "name" "chevron-down" "size" "sm" "ariaLabel" "") }}
+					</span>
+				</button>
 
-        <ol class="series-steps" aria-label="{{ $series.term.LinkTitle }}">
-          {{- range $index, $part := $pages -}}
-            {{- $step := add $index 1 -}}
-            {{- $isCurrent := eq $step $current -}}
-            {{- $isPast := lt $step $current -}}
-            {{- if gt $index 0 -}}
-              <li
-                class="series-step-line {{ if le $step $current }}series-step-line-active{{ end }}"
-                aria-hidden="true"
-              ></li>
-            {{- end -}}
-            <li class="series-step-item">
-              <a
-                href="{{ $part.RelPermalink }}"
-                class="series-dot {{ if $isCurrent }}
-                  series-dot-current
-                {{ else if $isPast }}
-                  series-dot-past
-                {{ end }}"
-                {{ if $isCurrent }}aria-current="page"{{ end }}
-                aria-label="{{ $step }}. {{ $part.LinkTitle }}"
-              >
-                <span>{{ $step }}</span>
-                <span class="series-dot-toast" role="tooltip">
-                  <span class="text-muted-foreground font-mono">{{ $step }}.</span>
-                  <span class="truncate">{{ $part.LinkTitle }}</span>
-                </span>
-              </a>
-            </li>
-          {{- end -}}
-        </ol>
+				<ol class="series-steps" aria-label="{{ $series.term.LinkTitle }}">
+					{{- range $index, $part := $pages -}}
+						{{- $step := add $index 1 -}}
+						{{- $isCurrent := eq $step $current -}}
+						{{- $isPast := lt $step $current -}}
+						{{- if gt $index 0 -}}
+							<li
+								class="series-step-line {{ if le $step $current }}series-step-line-active{{ end }}"
+								aria-hidden="true"
+							></li>
+						{{- end -}}
+						<li class="series-step-item">
+							<a
+								href="{{ $part.RelPermalink }}"
+								class="series-dot {{ if $isCurrent }}
+								series-dot-current
+{{ else if $isPast }}
+								series-dot-past
+{{ end }}"
+								{{ if $isCurrent }}aria-current="page"{{ end }}
+								aria-label="{{ $step }}. {{ $part.LinkTitle }}"
+							>
+								<span>{{ $step }}</span>
+								<span class="series-dot-toast" role="tooltip">
+									<span class="text-muted-foreground font-mono">{{ $step }}.</span>
+									<span class="truncate">{{ $part.LinkTitle }}</span>
+								</span>
+							</a>
+						</li>
+					{{- end -}}
+				</ol>
 
-        <div class="series-actions">
-          {{- if $prev -}}
-            <a
-              href="{{ $prev.RelPermalink }}"
-              class="series-step"
-              aria-label="{{ T `context.seriesPrev` }}"
-              title="{{ T `context.seriesPrev` }}: {{ $prev.LinkTitle }}"
-            >
-              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
-            </a>
-          {{- else -}}
-            <span class="series-step" aria-disabled="true">
-              {{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
-            </span>
-          {{- end -}}
+				<div class="series-actions">
+					{{- if $prev -}}
+						<a
+							href="{{ $prev.RelPermalink }}"
+							class="series-step"
+							aria-label="{{ T `context.seriesPrev` }}"
+							title="{{ T `context.seriesPrev` }}: {{ $prev.LinkTitle }}"
+						>
+							{{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
+						</a>
+					{{- else -}}
+						<span class="series-step" aria-disabled="true">
+							{{ partial "features/icon.html" (dict "name" "chevron-left" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
+						</span>
+					{{- end -}}
 
-          {{- if $next -}}
-            <a
-              href="{{ $next.RelPermalink }}"
-              class="series-step"
-              aria-label="{{ T `context.seriesNext` }}"
-              title="{{ T `context.seriesNext` }}: {{ $next.LinkTitle }}"
-            >
-              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
-            </a>
-          {{- else -}}
-            <span class="series-step" aria-disabled="true">
-              {{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
-            </span>
-          {{- end -}}
-        </div>
-      </div>
+					{{- if $next -}}
+						<a
+							href="{{ $next.RelPermalink }}"
+							class="series-step"
+							aria-label="{{ T `context.seriesNext` }}"
+							title="{{ T `context.seriesNext` }}: {{ $next.LinkTitle }}"
+						>
+							{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
+						</a>
+					{{- else -}}
+						<span class="series-step" aria-disabled="true">
+							{{ partial "features/icon.html" (dict "name" "chevron-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
+						</span>
+					{{- end -}}
+				</div>
+			</div>
 
-      {{ partial "navigation/series-popover.html" (dict "page" . "series" $series) }}
-    {{- end -}}
-  </header>
+			{{ partial "navigation/series-popover.html" (dict "page" . "series" $series) }}
+		{{- end -}}
+	</header>
 {{- end -}}

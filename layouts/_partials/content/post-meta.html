@@ -5,72 +5,72 @@
 {{- $title := .Title | strings.TrimSpace -}}
 {{- $license := "" -}}
 {{- with site.Params.post -}}
-  {{- with .license -}}
-    {{- if reflect.IsMap . -}}
-      {{- errorf "post.license must be a string (page %q)" $.RelPermalink -}}
-    {{- else -}}
-      {{- $license = . -}}
-    {{- end -}}
-  {{- end -}}
+	{{- with .license -}}
+		{{- if reflect.IsMap . -}}
+			{{- errorf "post.license must be a string (page %q)" $.RelPermalink -}}
+		{{- else -}}
+			{{- $license = . -}}
+		{{- end -}}
+	{{- end -}}
 {{- end -}}
 {{- if isset .Params "license" -}}
-  {{- if reflect.IsMap .Params.license -}}
-    {{- errorf "license front matter must be a string or false (page %q)" .RelPermalink -}}
-  {{- else if eq .Params.license false -}}
-    {{- $license = "" -}}
-  {{- else if ne .Params.license true -}}
-    {{- $license = .Params.license -}}
-  {{- end -}}
+	{{- if reflect.IsMap .Params.license -}}
+		{{- errorf "license front matter must be a string or false (page %q)" .RelPermalink -}}
+	{{- else if eq .Params.license false -}}
+		{{- $license = "" -}}
+	{{- else if ne .Params.license true -}}
+		{{- $license = .Params.license -}}
+	{{- end -}}
 {{- end -}}
 
 
 <div class="post-meta mb-8">
-  {{- with $title -}}
-    <h1 class="text-foreground text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
-      {{ . }}
-    </h1>
-  {{- end -}}
+	{{- with $title -}}
+		<h1 class="text-foreground text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
+			{{ . }}
+		</h1>
+	{{- end -}}
 
-  {{- $summary := .Params.summary | default .Description -}}
-  {{- with $summary -}}
-    <p class="text-muted-foreground mt-3 text-base leading-relaxed">
-      {{ . | plainify }}
-    </p>
-  {{- end -}}
+	{{- $summary := .Params.summary | default .Description -}}
+	{{- with $summary -}}
+		<p class="text-muted-foreground mt-3 text-base leading-relaxed">
+			{{ . | plainify }}
+		</p>
+	{{- end -}}
 
 
-  <div class="text-muted-foreground mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
-    {{- if not .Date.IsZero -}}
-      <time datetime="{{ .Date.Format `2006-01-02` }}">
-        {{ partial "helpers/date.html" (dict "date" .Date "variant" "long") }}
-      </time>
-    {{- end -}}
-    {{- with .ReadingTime -}}
-      <span>{{ T "article.readingTime" (dict "count" .) }}</span>
-    {{- end -}}
-    {{- with .WordCount -}}
-      <span>{{ T "article.wordCount" (dict "count" .) }}</span>
-    {{- end -}}
-    {{- with $license -}}
-      <span class="inline-flex items-center gap-1">
-        <span class="text-primary shrink-0">
-          {{ partial "features/icon.html" (dict "name" "license" "size" "xs" "ariaLabel" "") }}
-        </span>
-        <span>{{ . }}</span>
-      </span>
-    {{- end -}}
-  </div>
+	<div class="text-muted-foreground mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+		{{- if not .Date.IsZero -}}
+			<time datetime="{{ .Date.Format `2006-01-02` }}">
+				{{ partial "helpers/date.html" (dict "date" .Date "variant" "long") }}
+			</time>
+		{{- end -}}
+		{{- with .ReadingTime -}}
+			<span>{{ T "article.readingTime" (dict "count" .) }}</span>
+		{{- end -}}
+		{{- with .WordCount -}}
+			<span>{{ T "article.wordCount" (dict "count" .) }}</span>
+		{{- end -}}
+		{{- with $license -}}
+			<span class="inline-flex items-center gap-1">
+				<span class="text-primary shrink-0">
+					{{ partial "features/icon.html" (dict "name" "license" "size" "xs" "ariaLabel" "") }}
+				</span>
+				<span>{{ . }}</span>
+			</span>
+		{{- end -}}
+	</div>
 
-  {{- with .GetTerms "tags" -}}
-    <div class="mt-4 flex flex-wrap items-center gap-1.5">
-      {{- range . -}}
-        <a
-          href="{{ .RelPermalink }}"
-          class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-5 items-center rounded-md border px-1.5 text-xs transition-colors"
-        >
-          {{ .LinkTitle }}
-        </a>
-      {{- end -}}
-    </div>
-  {{- end -}}
+	{{- with .GetTerms "tags" -}}
+		<div class="mt-4 flex flex-wrap items-center gap-1.5">
+			{{- range . -}}
+				<a
+					href="{{ .RelPermalink }}"
+					class="border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-5 items-center rounded-md border px-1.5 text-xs transition-colors"
+				>
+					{{ .LinkTitle }}
+				</a>
+			{{- end -}}
+		</div>
+	{{- end -}}
 </div>

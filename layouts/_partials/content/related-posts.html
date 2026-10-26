@@ -7,29 +7,29 @@
 {{- $mainSections := .Site.MainSections | default (slice "posts") -}}
 {{- $related := slice -}}
 {{- if $showRelated -}}
-  {{- $related = where (.Site.RegularPages.Related .) "Section" "in" $mainSections | first $relatedCount -}}
+	{{- $related = where (.Site.RegularPages.Related .) "Section" "in" $mainSections | first $relatedCount -}}
 {{- end -}}
 
 {{- if $related -}}
-  <section class="related-posts border-border mt-10 border-t pt-6">
-    <h2 class="text-foreground mb-4 text-xl font-semibold tracking-tight">
-      {{ T "article.relatedContent" }}
-    </h2>
+	<section class="related-posts border-border mt-10 border-t pt-6">
+		<h2 class="text-foreground mb-4 text-xl font-semibold tracking-tight">
+			{{ T "article.relatedContent" }}
+		</h2>
 
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {{- range $related -}}
-        <a
-          href="{{ .RelPermalink }}"
-          class="border-border bg-card hover:bg-accent/30 hover:border-primary/30 flex min-h-24 flex-col justify-between rounded-lg border p-4 transition-colors"
-        >
-          <h3 class="text-foreground line-clamp-2 text-sm leading-snug font-semibold">
-            {{ .LinkTitle }}
-          </h3>
-          <span class="text-muted-foreground mt-2 text-xs">
-            {{ T "article.readingTime" (dict "count" .ReadingTime) }}
-          </span>
-        </a>
-      {{- end -}}
-    </div>
-  </section>
+		<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+			{{- range $related -}}
+				<a
+					href="{{ .RelPermalink }}"
+					class="border-border bg-card hover:bg-accent/30 hover:border-primary/30 flex min-h-24 flex-col justify-between rounded-lg border p-4 transition-colors"
+				>
+					<h3 class="text-foreground line-clamp-2 text-sm leading-snug font-semibold">
+						{{ .LinkTitle }}
+					</h3>
+					<span class="text-muted-foreground mt-2 text-xs">
+						{{ T "article.readingTime" (dict "count" .ReadingTime) }}
+					</span>
+				</a>
+			{{- end -}}
+		</div>
+	</section>
 {{- end -}}

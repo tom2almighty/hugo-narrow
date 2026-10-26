@@ -1,5 +1,5 @@
 {{- if not .Parent -}}
-  {{- errorf "The %q shortcode must be nested inside tabs. See %s" .Name .Position -}}
+	{{- errorf "The %q shortcode must be nested inside tabs. See %s" .Name .Position -}}
 {{- end -}}
 
 {{- $lang := .Get "lang" | default (.Get 0) | default "" -}}
@@ -16,16 +16,16 @@
 
 
 <section
-  id="{{ $panelId }}"
-  class="tabs-panel outline-none"
-  role="tabpanel"
-  aria-labelledby="{{ $panelId }}-tab"
-  data-tabs-panel
-  {{ if ne .Ordinal 0 }}hidden{{ end }}
+	id="{{ $panelId }}"
+	class="tabs-panel outline-none"
+	role="tabpanel"
+	aria-labelledby="{{ $panelId }}-tab"
+	data-tabs-panel
+	{{ if ne .Ordinal 0 }}hidden{{ end }}
 >
-  <div
-    class="tabs-panel-content px-4 pt-4 *:first:mt-0 *:last:mb-0 [&_.code-block-container:first-child]:mt-0 [&_.code-block-container:last-child]:mb-0"
-  >
-    {{ $content | safeHTML }}
-  </div>
+	<div
+		class="tabs-panel-content px-4 pt-4 *:first:mt-0 *:last:mb-0 [&_.code-block-container:first-child]:mt-0 [&_.code-block-container:last-child]:mb-0"
+	>
+		{{ $content | safeHTML }}
+	</div>
 </section>

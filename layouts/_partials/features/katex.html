@@ -1,52 +1,52 @@
 {{/* KaTeX support. Delimiters come from site params and can be overridden per page. */}}
 
 {{- $defaultDelimiters := slice
-  (dict "left" "$$" "right" "$$" "display" true)
-  (dict "left" "$" "right" "$" "display" false)
-  (dict "left" "\\(" "right" "\\)" "display" false)
-  (dict "left" "\\[" "right" "\\]" "display" true)
+	(dict "left" "$$" "right" "$$" "display" true)
+	(dict "left" "$" "right" "$" "display" false)
+	(dict "left" "\\(" "right" "\\)" "display" false)
+	(dict "left" "\\[" "right" "\\]" "display" true)
 -}}
 
 {{- $globalEnabled := false -}}
 {{- $delimiters := $defaultDelimiters -}}
 {{- with site.Params.katex -}}
-  {{- if eq (printf "%T" .) "bool" -}}
-    {{- $globalEnabled = . -}}
-  {{- else -}}
-    {{- $globalEnabled = .enabled | default false -}}
-    {{- with .delimiters -}}{{- $delimiters = . -}}{{- end -}}
-  {{- end -}}
+	{{- if eq (printf "%T" .) "bool" -}}
+		{{- $globalEnabled = . -}}
+	{{- else -}}
+		{{- $globalEnabled = .enabled | default false -}}
+		{{- with .delimiters -}}{{- $delimiters = . -}}{{- end -}}
+	{{- end -}}
 {{- end -}}
 
 {{- $featureEnabled := $globalEnabled -}}
 {{- if isset .Params "katex" -}}
-  {{- if eq (printf "%T" .Params.katex) "bool" -}}
-    {{- $featureEnabled = .Params.katex -}}
-  {{- else -}}
-    {{- $featureEnabled = .Params.katex.enabled | default false -}}
-    {{- with .Params.katex.delimiters -}}{{- $delimiters = . -}}{{- end -}}
-  {{- end -}}
+	{{- if eq (printf "%T" .Params.katex) "bool" -}}
+		{{- $featureEnabled = .Params.katex -}}
+	{{- else -}}
+		{{- $featureEnabled = .Params.katex.enabled | default false -}}
+		{{- with .Params.katex.delimiters -}}{{- $delimiters = . -}}{{- end -}}
+	{{- end -}}
 {{- end -}}
 {{- $contentToScan := .Content -}}
 {{- $hasMath := false -}}
 {{- range $delimiters -}}
-  {{- $left := printf "%v" .left -}}
-  {{- $right := printf "%v" .right -}}
-  {{- if eq $left $right -}}
-    {{- if ge (strings.Count $left $contentToScan) 2 -}}{{- $hasMath = true -}}{{- end -}}
-  {{- else if and (strings.Contains $contentToScan $left) (strings.Contains $contentToScan $right) -}}
-    {{- $hasMath = true -}}
-  {{- end -}}
+	{{- $left := printf "%v" .left -}}
+	{{- $right := printf "%v" .right -}}
+	{{- if eq $left $right -}}
+		{{- if ge (strings.Count $left $contentToScan) 2 -}}{{- $hasMath = true -}}{{- end -}}
+	{{- else if and (strings.Contains $contentToScan $left) (strings.Contains $contentToScan $right) -}}
+		{{- $hasMath = true -}}
+	{{- end -}}
 {{- end -}}
 {{- $shouldLoad := and $featureEnabled $hasMath -}}
 
 {{- if $shouldLoad -}}
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
-    integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"
-    crossorigin="anonymous"
-  />
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+		integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP"
+		crossorigin="anonymous"
+	/>
   <script
     defer
     src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"

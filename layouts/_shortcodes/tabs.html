@@ -9,35 +9,35 @@
 
 
 <div
-  class="tabs-wrapper border-border bg-card text-foreground my-6 rounded-lg border"
-  id="{{ $tabsId }}"
-  data-tabs
+	class="tabs-wrapper border-border bg-card text-foreground my-6 rounded-lg border"
+	id="{{ $tabsId }}"
+	data-tabs
 >
-  <div
-    class="tabs-nav-shell overflow-x-auto p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-  >
-    <div
-      class="tabs-nav border-border bg-muted text-muted-foreground inline-flex min-w-max items-center gap-0.5 rounded-md border p-0.5"
-      role="tablist"
-    >
-      {{- range $index, $tab := $tabs }}
-        <button
-          id="{{ $tab.panelId }}-tab"
-          type="button"
-          role="tab"
-          class="tabs-trigger focus-visible:ring-ring/50 inline-flex items-center justify-center rounded-sm px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none"
-          aria-controls="{{ $tab.panelId }}"
-          aria-selected="{{ cond (eq $index 0) "true" "false" }}"
-          tabindex="{{ cond (eq $index 0) 0 -1 }}"
-          data-tab-target="{{ $tab.panelId }}"
-        >
-          {{- $tab.label -}}
-        </button>
-      {{- end }}
-    </div>
-  </div>
+	<div
+		class="tabs-nav-shell overflow-x-auto p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+	>
+		<div
+			class="tabs-nav border-border bg-muted text-muted-foreground inline-flex min-w-max items-center gap-0.5 rounded-md border p-0.5"
+			role="tablist"
+		>
+			{{- range $index, $tab := $tabs }}
+				<button
+					id="{{ $tab.panelId }}-tab"
+					type="button"
+					role="tab"
+					class="tabs-trigger focus-visible:ring-ring/50 inline-flex items-center justify-center rounded-sm px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none"
+					aria-controls="{{ $tab.panelId }}"
+					aria-selected="{{ cond (eq $index 0) "true" "false" }}"
+					tabindex="{{ cond (eq $index 0) 0 -1 }}"
+					data-tab-target="{{ $tab.panelId }}"
+				>
+					{{- $tab.label -}}
+				</button>
+			{{- end }}
+		</div>
+	</div>
 
-  <div class="tabs-panels px-3 pb-3 sm:px-4 sm:pb-4">
-    {{- $inner -}}
-  </div>
+	<div class="tabs-panels px-3 pb-3 sm:px-4 sm:pb-4">
+		{{- $inner -}}
+	</div>
 </div>

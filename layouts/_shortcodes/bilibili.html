@@ -4,29 +4,29 @@
 {{ $basicQuery := querify "page" $videopage "high_quality" 1 "as_wide" 1 }}
 {{ $videoQuery := "" }}
 {{ if strings.HasPrefix (lower $vid) "av" }}
-  {{ $videoQuery = querify "aid" (strings.TrimPrefix "av" (lower $vid)) }}
+	{{ $videoQuery = querify "aid" (strings.TrimPrefix "av" (lower $vid)) }}
 {{ else if strings.HasPrefix (lower $vid) "bv" }}
-  {{ $videoQuery = querify "bvid" $vid }}
+	{{ $videoQuery = querify "bvid" $vid }}
 {{ else }}
-  <div class="bg-caution/10 border-caution/20 my-8 rounded-md border p-4">
-    <p class="text-caution font-medium">
-      Bilibili 视频av号或BV号错误！请检查视频av号或BV号是否正确
-    </p>
-    <p class="text-muted-foreground mt-2 text-sm">
-      当前视频av或BV号：{{ $vid }}，视频分P：{{ $videopage }}
-    </p>
-  </div>
+	<div class="bg-caution/10 border-caution/20 my-8 rounded-md border p-4">
+		<p class="text-caution font-medium">
+			Bilibili 视频av号或BV号错误！请检查视频av号或BV号是否正确
+		</p>
+		<p class="text-muted-foreground mt-2 text-sm">
+			当前视频av或BV号：{{ $vid }}，视频分P：{{ $videopage }}
+		</p>
+	</div>
 {{ end }}
 <div class="bg-card border-border my-8 overflow-hidden rounded-md border">
-  <div class="aspect-video">
-    <iframe
-      src="https://player.bilibili.com/player.html?{{ $basicQuery | safeURL }}&{{ $videoQuery | safeURL }}"
-      class="h-full w-full"
-      scrolling="no"
-      frameborder="no"
-      framespacing="0"
-      allowfullscreen="true"
-    >
-    </iframe>
-  </div>
+	<div class="aspect-video">
+		<iframe
+			src="https://player.bilibili.com/player.html?{{ $basicQuery | safeURL }}&{{ $videoQuery | safeURL }}"
+			class="h-full w-full"
+			scrolling="no"
+			frameborder="no"
+			framespacing="0"
+			allowfullscreen="true"
+		>
+		</iframe>
+	</div>
 </div>

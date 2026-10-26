@@ -14,10 +14,12 @@ A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shad
 ## Development environment
 
 - Hugo Extended 0.165.0 or newer
+- Go 1.26 or newer (for `gotmplfmt`)
 - Node.js 18 or newer
 - pnpm 10
 
 ```bash
+go install github.com/gohugoio/gotmplfmt@v0.5.0
 pnpm install
 pnpm run dev:parallel
 ```
@@ -27,7 +29,7 @@ pnpm run dev:parallel
 ## Build and deploy
 
 ```bash
-pnpm run check   # prettier check + production build
+pnpm run check   # format check + production build
 pnpm run build   # compile assets/css/compiled.css, then hugo --minify
 ```
 

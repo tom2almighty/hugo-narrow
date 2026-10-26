@@ -1,14 +1,14 @@
 {{ define "main" }}
-  {{- $order := site.Params.home.contentOrder -}}
-  {{- if not $order -}}
-    {{- $order = slice "author-section" "recent-posts" "featured-projects" -}}
-  {{- end -}}
+{{- $order := site.Params.home.contentOrder -}}
+{{- if not $order -}}
+	{{- $order = slice "author-section" "recent-posts" "featured-projects" -}}
+{{- end -}}
 
 
-  <div class="space-y-10">
-    {{- range $order -}}
-      {{- $name := strings.TrimSuffix ".html" . -}}
-      {{ partial (printf "home/%s.html" $name) $ }}
-    {{- end -}}
-  </div>
+<div class="space-y-10">
+	{{- range $order -}}
+		{{- $name := strings.TrimSuffix ".html" . -}}
+		{{ partial (printf "home/%s.html" $name) $ }}
+	{{- end -}}
+</div>
 {{ end }}

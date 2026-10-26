@@ -17,6 +17,7 @@ Branch layout:
 ## Commands
 
 ```bash
+go install github.com/gohugoio/gotmplfmt@v0.5.0   # template formatter (Go 1.26+)
 pnpm install              # install dev deps (pnpm is the package manager)
 
 pnpm run dev:parallel     # ← USE THIS for development: Tailwind --watch + hugo server together
@@ -25,8 +26,8 @@ pnpm run build            # compile CSS + hugo --minify, output to exampleSite/p
 pnpm run check            # format:check + build — the closest thing to CI; run before pushing
 
 pnpm run compile          # build assets/css/compiled.css from assets/css/main.css (one-shot)
-pnpm run format:check     # prettier --check on all *.html (go-template) and *.js
-pnpm run format:write     # prettier --write on all *.html and *.js
+pnpm run format:check     # gotmplfmt check on layouts + biome format check on JS
+pnpm run format:write     # gotmplfmt -w layouts + biome format --write
 ```
 
 There is **no test suite**. CI (`.github/workflows/github-pages.yml`) builds `exampleSite` and
@@ -183,11 +184,10 @@ the optional Apple touch icon are configured under `params.pwa`.
 
 ## Conventions
 
-- HTML/templates and JS are formatted by Prettier with `prettier-plugin-go-template` and
-  `prettier-plugin-tailwindcss` (2-space indent, double quotes, 100 col). Run `pnpm run format:write`.
-  `assets/js/lib/`, `assets/js/theme-init.js` (Hugo-templated), and `refer/` are in `.prettierignore`.
-  Multi-line comments must close with `*/}}`; Prettier splits `*/ -}}` onto its own line, and the
-  split form only parses with LF, breaking CRLF checkouts.
+- Templates are formatted by `gotmplfmt` (tabs, fixed style); JS by Biome (2 spaces, double quotes,
+  100 col). Run `pnpm run format:write`. `assets/js/lib/` and `assets/js/theme-init.js`
+  (Hugo-templated) are excluded in `biome.json`. Tailwind classes are no longer auto-sorted.
+  `.gitattributes` forces LF in the working tree so formatter checks behave the same on Windows.
 - Many template/JS comments are in Chinese — match the surrounding language when editing a file.
 - Do not reintroduce `header.*`, `dock`, `themes`, `timeFormat`, or the removed appearance flags.
 - Do not add separate light/dark code-block style parameters; use `markup.highlight.style`.

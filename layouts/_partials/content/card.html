@@ -21,102 +21,102 @@
 
 {{- $summary := "" -}}
 {{- if not $compact -}}
-  {{- if eq $variant "series" -}}
-    {{- $summary = $page.Description | default "" -}}
-  {{- else if $page.Params.summary -}}
-    {{- $summary = $page.Params.summary | plainify -}}
-  {{- else if $page.Params.description -}}
-    {{- $summary = $page.Params.description | plainify -}}
-  {{- else -}}
-    {{- $summary = $page.Summary | plainify | truncate 140 -}}
-  {{- end -}}
+	{{- if eq $variant "series" -}}
+		{{- $summary = $page.Description | default "" -}}
+	{{- else if $page.Params.summary -}}
+		{{- $summary = $page.Params.summary | plainify -}}
+	{{- else if $page.Params.description -}}
+		{{- $summary = $page.Params.description | plainify -}}
+	{{- else -}}
+		{{- $summary = $page.Summary | plainify | truncate 140 -}}
+	{{- end -}}
 {{- end -}}
 
 {{- $tags := slice -}}
 {{- if and (not $compact) (ne $variant "series") -}}
-  {{- $tags = $page.GetTerms "tags" -}}
+	{{- $tags = $page.GetTerms "tags" -}}
 {{- end -}}
 
 {{- $date := $page.Date -}}
 {{- if and (eq $variant "series") $latest -}}
-  {{- $date = $latest -}}
+	{{- $date = $latest -}}
 {{- end -}}
 
 {{- $hasMeta := or (not $date.IsZero) $tags (and (eq $variant "series") $count) -}}
 
 
 <article class="group relative h-full" data-card="{{ $variant }}">
-  <div
-    class="border-border bg-card hover:bg-accent/20 hover:border-primary/30 {{ if $compact }}
-      gap-2 p-4
-    {{ else }}
-      gap-3 p-5
-    {{ end }} flex h-full flex-col justify-between rounded-lg border transition-colors"
-  >
-    <div class="flex items-start justify-between gap-3">
-      <h3
-        class="text-foreground {{ if $compact }}
-          text-sm
-        {{ else }}
-          text-base
-        {{ end }} leading-snug font-semibold"
-      >
-        <a href="{{ $page.RelPermalink }}" class="after:absolute after:inset-0">
-          {{ $page.LinkTitle }}
-        </a>
-      </h3>
+	<div
+		class="border-border bg-card hover:bg-accent/20 hover:border-primary/30 {{ if $compact }}
+		gap-2 p-4
+{{ else }}
+		gap-3 p-5
+{{ end }} flex h-full flex-col justify-between rounded-lg border transition-colors"
+	>
+		<div class="flex items-start justify-between gap-3">
+			<h3
+				class="text-foreground {{ if $compact }}
+				text-sm
+{{ else }}
+				text-base
+{{ end }} leading-snug font-semibold"
+			>
+				<a href="{{ $page.RelPermalink }}" class="after:absolute after:inset-0">
+					{{ $page.LinkTitle }}
+				</a>
+			</h3>
 
-      {{- with $page.Params.link -}}
-        <a
-          href="{{ . }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="{{ $page.Title }}"
-          title="{{ $page.Title }}"
-          class="text-muted-foreground hover:text-foreground hover:bg-muted relative z-10 -mt-1 -mr-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md transition-colors"
-        >
-          {{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
-        </a>
-      {{- else -}}
-        <span
-          class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
-          aria-hidden="true"
-        >
-          {{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
-        </span>
-      {{- end -}}
-    </div>
+			{{- with $page.Params.link -}}
+				<a
+					href="{{ . }}"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="{{ $page.Title }}"
+					title="{{ $page.Title }}"
+					class="text-muted-foreground hover:text-foreground hover:bg-muted relative z-10 -mt-1 -mr-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md transition-colors"
+				>
+					{{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
+				</a>
+			{{- else -}}
+				<span
+					class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
+					aria-hidden="true"
+				>
+					{{ partial "features/icon.html" (dict "name" "arrow-right" "size" "sm" "ariaLabel" "" "class" "icon-directional") }}
+				</span>
+			{{- end -}}
+		</div>
 
-    {{- with $summary -}}
-      <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">{{ . }}</p>
-    {{- end -}}
+		{{- with $summary -}}
+			<p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">{{ . }}</p>
+		{{- end -}}
 
-    {{- if $hasMeta -}}
-      <div
-        class="text-muted-foreground mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 text-xs"
-      >
-        {{- if not $date.IsZero -}}
-          <time datetime="{{ $date.Format `2006-01-02` }}" class="tabular-nums">
-            {{ partial "helpers/date.html" (dict "date" $date "variant" "short") }}
-          </time>
-        {{- end -}}
+		{{- if $hasMeta -}}
+			<div
+				class="text-muted-foreground mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 text-xs"
+			>
+				{{- if not $date.IsZero -}}
+					<time datetime="{{ $date.Format `2006-01-02` }}" class="tabular-nums">
+						{{ partial "helpers/date.html" (dict "date" $date "variant" "short") }}
+					</time>
+				{{- end -}}
 
-        {{- with $count -}}
-          <span class="border-border bg-muted/40 rounded-sm border px-1.5 py-0.5 tabular-nums">
-            {{ T "list.pages" (dict "count" .) }}
-          </span>
-        {{- end -}}
+				{{- with $count -}}
+					<span class="border-border bg-muted/40 rounded-sm border px-1.5 py-0.5 tabular-nums">
+						{{ T "list.pages" (dict "count" .) }}
+					</span>
+				{{- end -}}
 
-        {{- with $tags -}}
-          <div class="flex flex-wrap items-center gap-1.5">
-            {{- range first 3 . -}}
-              <span class="border-border bg-muted/40 rounded-sm border px-1.5 py-0.5 text-xs">
-                {{ .LinkTitle }}
-              </span>
-            {{- end -}}
-          </div>
-        {{- end -}}
-      </div>
-    {{- end -}}
-  </div>
+				{{- with $tags -}}
+					<div class="flex flex-wrap items-center gap-1.5">
+						{{- range first 3 . -}}
+							<span class="border-border bg-muted/40 rounded-sm border px-1.5 py-0.5 text-xs">
+								{{ .LinkTitle }}
+							</span>
+						{{- end -}}
+					</div>
+				{{- end -}}
+			</div>
+		{{- end -}}
+	</div>
 </article>

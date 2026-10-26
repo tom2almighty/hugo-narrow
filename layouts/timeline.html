@@ -1,45 +1,45 @@
 {{ define "main" }}
-  {{ partial "content/page-header.html" (dict "page" .) }}
+{{ partial "content/page-header.html" (dict "page" .) }}
 
-  {{- $split := partial "content/split-sections.html" (dict "content" .Content) -}}
+{{- $split := partial "content/split-sections.html" (dict "content" .Content) -}}
 
-  {{- if $split.sections -}}
-    <div class="border-border border-l pl-5">
-      {{- if ne (trim $split.pre " \n\r\t") "" -}}
-        <div class="prose mb-8 max-w-none">{{ $split.pre | safeHTML }}</div>
-      {{- end -}}
+{{- if $split.sections -}}
+	<div class="border-border border-l pl-5">
+		{{- if ne (trim $split.pre " \n\r\t") "" -}}
+			<div class="prose mb-8 max-w-none">{{ $split.pre | safeHTML }}</div>
+		{{- end -}}
 
-      {{- range $split.sections -}}
-        <section class="relative mb-8">
-          <span
-            class="bg-muted-foreground absolute top-2 -left-6 size-1.5 rounded-full"
-            aria-hidden="true"
-          ></span>
-          <h2
-            {{ if .id }}id="{{ .id }}"{{ end }}
-            class="timeline-heading text-foreground m-0 scroll-m-20 text-base font-semibold"
-          >
-            <span class="timeline-heading-text">{{ .title | safeHTML }}</span>
-            {{- if .id -}}
-              <a
-                href="#{{ .id }}"
-                class="heading-anchor"
-                aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
-              >
-                {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
-              </a>
-            {{- end -}}
-          </h2>
+		{{- range $split.sections -}}
+			<section class="relative mb-8">
+				<span
+					class="bg-muted-foreground absolute top-2 -left-6 size-1.5 rounded-full"
+					aria-hidden="true"
+				></span>
+				<h2
+					{{ if .id }}id="{{ .id }}"{{ end }}
+					class="timeline-heading text-foreground m-0 scroll-m-20 text-base font-semibold"
+				>
+					<span class="timeline-heading-text">{{ .title | safeHTML }}</span>
+					{{- if .id -}}
+						<a
+							href="#{{ .id }}"
+							class="heading-anchor"
+							aria-label="{{ T `nav.anchor` | default `Link to this section` }}"
+						>
+							{{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+						</a>
+					{{- end -}}
+				</h2>
 
-          {{- if ne (trim .body " \n\r\t") "" -}}
-            <div class="prose mt-3 max-w-none">{{ .body | safeHTML }}</div>
-          {{- end -}}
-        </section>
-      {{- end -}}
-    </div>
-  {{- else -}}
-    <div class="prose max-w-none">{{ .Content }}</div>
-  {{- end -}}
+				{{- if ne (trim .body " \n\r\t") "" -}}
+					<div class="prose mt-3 max-w-none">{{ .body | safeHTML }}</div>
+				{{- end -}}
+			</section>
+		{{- end -}}
+	</div>
+{{- else -}}
+	<div class="prose max-w-none">{{ .Content }}</div>
+{{- end -}}
 
-  {{ partial "features/comments.html" . }}
+{{ partial "features/comments.html" . }}
 {{ end }}

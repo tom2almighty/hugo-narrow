@@ -1,60 +1,58 @@
 <!doctype html>
 <html
-  lang="{{ site.Language.Locale }}"
-  dir="{{ or site.Language.Direction `ltr` }}"
-  data-theme="{{ site.Params.colorScheme | default `default` }}"
-  data-toc-pinned="false"
+	lang="{{ site.Language.Locale }}"
+	dir="{{ or site.Language.Direction `ltr` }}"
+	data-theme="{{ site.Params.colorScheme | default `default` }}"
+	data-toc-pinned="false"
 >
-  <head>
-    {{ partial "layout/head.html" . }}
-    {{- $themeInit := resources.Get "js/theme-init.js"
-      | resources.ExecuteAsTemplate "js/theme-init.js" .
-      | js.Build (dict
-      "minify" (not hugo.IsDevelopment)
-      "targetPath" "js/theme-init.bundle.js"
-      )
-    -}}
+	<head>
+		{{ partial "layout/head.html" . }}
+		{{- $themeInit := resources.Get "js/theme-init.js" | resources.ExecuteAsTemplate "js/theme-init.js" . | js.Build (dict
+			"minify" (not hugo.IsDevelopment)
+			"targetPath" "js/theme-init.bundle.js"
+		)
+		-}}
     <script>{{ $themeInit.Content | safeJS }}</script>
-  </head>
+	</head>
 
-  {{- $contentWidth := .Site.Params.contentWidth | default `56rem` -}}
-  {{- $backdropBlur := .Site.Params.backdropBlur | default 12 -}}
-  {{- $grainSize := .Site.Params.grainSize | default 0 -}}
-  {{- $pageStyle := printf `--content-width-base: %s; --backdrop-blur-base: %vpx; --grain-size-base: %v;` $contentWidth $backdropBlur $grainSize -}}
-
-
-  <body class="min-h-screen">
-    <div id="bg-grain" aria-hidden="true"></div>
-    <a class="skip-link" href="#main-content">{{ T `ui.skipToContent` }}</a>
-    {{ partial "ui/reading-progress.html" . }}
+	{{- $contentWidth := .Site.Params.contentWidth | default `56rem` -}}
+	{{- $backdropBlur := .Site.Params.backdropBlur | default 12 -}}
+	{{- $grainSize := .Site.Params.grainSize | default 0 -}}
+	{{- $pageStyle := printf `--content-width-base: %s; --backdrop-blur-base: %vpx; --grain-size-base: %v;` $contentWidth $backdropBlur $grainSize -}}
 
 
-    <div id="page-container" {{ printf `style="%s"` $pageStyle | safeHTMLAttr }}>
-      {{ partial "features/announcement.html" . }}
-      {{- if and (not .IsHome) (ne .Kind "404") -}}
-        {{ partial "navigation/context-bar.html" . }}
-      {{- end -}}
+	<body class="min-h-screen">
+		<div id="bg-grain" aria-hidden="true"></div>
+		<a class="skip-link" href="#main-content">{{ T `ui.skipToContent` }}</a>
+		{{ partial "ui/reading-progress.html" . }}
 
 
-      <main id="main-content" tabindex="-1" class="page-main">
-        <div class="page-content">
-          {{ block "main" . }}{{ end }}
-        </div>
-      </main>
+		<div id="page-container" {{ printf `style="%s"` $pageStyle | safeHTMLAttr }}>
+			{{ partial "features/announcement.html" . }}
+			{{- if and (not .IsHome) (ne .Kind "404") -}}
+				{{ partial "navigation/context-bar.html" . }}
+			{{- end -}}
 
-      {{ partial "layout/footer.html" . }}
-    </div>
 
-    {{ partial "navigation/nav-popover.html" . }}
-    {{ partial "ui/dock.html" . }}
-    {{ partial "ui/toc.html" . }}
-    {{ if (partial "config/search.html" .).enabled }}
-      {{ partial "ui/search-modal.html" . }}
-    {{ end }}
-    {{ if .Store.Get "galleryEnabled" }}
-      {{ partial "ui/gallery-switcher.html" . }}
-    {{ end }}
-    {{ partial "features/katex.html" . }}
-    {{ partial "features/mermaid.html" . }}
-  </body>
+			<main id="main-content" tabindex="-1" class="page-main">
+				<div class="page-content">
+					{{ block "main" . }}{{ end }}
+				</div>
+			</main>
+
+			{{ partial "layout/footer.html" . }}
+		</div>
+
+		{{ partial "navigation/nav-popover.html" . }}
+		{{ partial "ui/dock.html" . }}
+		{{ partial "ui/toc.html" . }}
+		{{ if (partial "config/search.html" .).enabled }}
+			{{ partial "ui/search-modal.html" . }}
+		{{ end }}
+		{{ if .Store.Get "galleryEnabled" }}
+			{{ partial "ui/gallery-switcher.html" . }}
+		{{ end }}
+		{{ partial "features/katex.html" . }}
+		{{ partial "features/mermaid.html" . }}
+	</body>
 </html>

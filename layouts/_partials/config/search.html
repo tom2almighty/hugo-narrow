@@ -9,18 +9,18 @@
 {{- $contentLength := 2000 -}}
 {{- $params := site.Params.search -}}
 {{- if reflect.IsMap $params -}}
-  {{- if isset $params "enabled" -}}
-    {{- $enabled = $params.enabled -}}
-  {{- end -}}
-  {{- if isset $params "indexcontentlength" -}}
-    {{- $contentLength = $params.indexcontentlength -}}
-  {{- end -}}
+	{{- if isset $params "enabled" -}}
+		{{- $enabled = $params.enabled -}}
+	{{- end -}}
+	{{- if isset $params "indexcontentlength" -}}
+		{{- $contentLength = $params.indexcontentlength -}}
+	{{- end -}}
 {{- else if eq $params false -}}
-  {{- $enabled = false -}}
+	{{- $enabled = false -}}
 {{- end -}}
 
 {{- return dict
-  "enabled" $enabled
-  "indexContentLength" $contentLength
-  "searchIndexURL" (printf "%sindex.json" site.Home.RelPermalink)
+	"enabled" $enabled
+	"indexContentLength" $contentLength
+	"searchIndexURL" (printf "%sindex.json" site.Home.RelPermalink)
 -}}

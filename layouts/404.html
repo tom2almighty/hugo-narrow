@@ -1,17 +1,17 @@
 {{ define "main" }}
-  <div class="flex min-h-svh flex-col items-center justify-center text-center">
-    <p class="text-muted-foreground text-xs tabular-nums">404</p>
-    <h1 class="text-foreground mt-2 text-2xl font-semibold tracking-tight">
-      {{ T "notFound.title" }}
-    </h1>
-    <p class="text-muted-foreground mt-2 max-w-sm text-sm">
-      {{ T "notFound.message" }}
-    </p>
-    <a
-      href="{{ site.Home.RelPermalink }}"
-      class="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex h-9 items-center rounded-md px-4 text-sm font-medium transition-colors"
-    >
-      {{ T "nav.backHome" }}
-    </a>
-  </div>
+<div class="flex min-h-svh flex-col items-center justify-center text-center">
+	<p class="text-muted-foreground text-xs tabular-nums">404</p>
+	<h1 class="text-foreground mt-2 text-2xl font-semibold tracking-tight">
+		{{ T "notFound.title" }}
+	</h1>
+	<p class="text-muted-foreground mt-2 max-w-sm text-sm">
+		{{ T "notFound.message" }}
+	</p>
+	<a
+		href="{{ site.Home.RelPermalink }}"
+		class="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 inline-flex h-9 items-center rounded-md px-4 text-sm font-medium transition-colors"
+	>
+		{{ T "nav.backHome" }}
+	</a>
+</div>
 {{ end }}

@@ -4,29 +4,29 @@
 {{/* 搜索脚本 - 仅在搜索启用时加载，避免把索引引擎塞进全局包 */}}
 {{- $searchConfig := partial "config/search.html" . -}}
 {{- if $searchConfig.enabled -}}
-  {{ partial "layout/script.html" (dict "path" "js/search.js") }}
+	{{ partial "layout/script.html" (dict "path" "js/search.js") }}
 {{- end -}}
 
 {{/* 目录功能脚本 - TOC 启用且当前页面有标题时才加载 */}}
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- if and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
-  {{ partial "layout/script.html" (dict "path" "js/toc.js") }}
+	{{ partial "layout/script.html" (dict "path" "js/toc.js") }}
 {{- end -}}
 
 {{/* Gallery JavaScript - smart-gallery 已内置到 assets/js/lib */}}
 {{ if or (.Store.Get "galleryEnabled") (.Store.Get "lightboxEnabled") }}
-  {{ partial "layout/script.html" (dict "path" "js/gallery.js") }}
+	{{ partial "layout/script.html" (dict "path" "js/gallery.js") }}
 {{ end }}
 
 {{/* 自定义 JS 文件 */}}
 {{- range resources.Match "js/custom/*.js" }}
-  {{ partial "layout/script.html" (dict
-    "resource" .
-    "targetPath" (printf "js/custom/%s" .Name)
-    )
-  }}
+	{{ partial "layout/script.html" (dict
+		"resource" .
+		"targetPath" (printf "js/custom/%s" .Name)
+	)
+	}}
 {{- end }}
 
 {{ if .Site.Params.analytics.provider -}}
-  {{ partial "features/analytics.html" . }}
+	{{ partial "features/analytics.html" . }}
 {{- end }}

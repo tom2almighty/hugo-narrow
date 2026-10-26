@@ -4,8 +4,8 @@
   @context {bool} .compact
 */}}
 {{- partial "content/card.html" (dict
-  "page" .page
-  "variant" "post"
-  "compact" (.compact | default false)
-  )
+	"page" .page
+	"variant" "post"
+	"compact" (.compact | default false)
+)
 -}}

@@ -1,26 +1,26 @@
 {{ define "main" }}
-  {{- $pages := .Pages -}}
-  {{- if eq .Data.Singular "series" -}}
-    {{- $sorted := .Pages.ByParam "series_order" -}}
-    {{- $missingOrder := false -}}
-    {{- range $sorted -}}
-      {{- if not (isset .Params "series_order") -}}{{- $missingOrder = true -}}{{- end -}}
-    {{- end -}}
-    {{- if $missingOrder -}}{{- $sorted = .Pages.ByDate -}}{{- end -}}
-    {{- $pages = $sorted -}}
-  {{- end -}}
-  {{- $meta := T "list.pages" (dict "count" (len $pages)) -}}
+{{- $pages := .Pages -}}
+{{- if eq .Data.Singular "series" -}}
+	{{- $sorted := .Pages.ByParam "series_order" -}}
+	{{- $missingOrder := false -}}
+	{{- range $sorted -}}
+		{{- if not (isset .Params "series_order") -}}{{- $missingOrder = true -}}{{- end -}}
+	{{- end -}}
+	{{- if $missingOrder -}}{{- $sorted = .Pages.ByDate -}}{{- end -}}
+	{{- $pages = $sorted -}}
+{{- end -}}
+{{- $meta := T "list.pages" (dict "count" (len $pages)) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
+{{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  {{- if $pages -}}
-    {{ partial "content/card-grid.html" (dict
-      "items" $pages
-      "variant" "post"
-      "columns" .Params.columns
-      )
-    }}
-  {{- else -}}
-    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
-  {{- end -}}
+{{- if $pages -}}
+	{{ partial "content/card-grid.html" (dict
+		"items" $pages
+		"variant" "post"
+		"columns" .Params.columns
+	)
+	}}
+{{- else -}}
+	<p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}
 {{ end }}

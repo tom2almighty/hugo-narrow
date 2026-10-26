@@ -4,19 +4,19 @@
 
 {{/* Translation alternates */}}
 {{- with .AllTranslations -}}
-  {{- if gt (len .) 1 -}}
-    {{- range . -}}
-      <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}" />
-    {{- end -}}
-  {{- end -}}
+	{{- if gt (len .) 1 -}}
+		{{- range . -}}
+			<link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}" />
+		{{- end -}}
+	{{- end -}}
 {{- end -}}
 
 {{/* RSS Feed */}}
 {{ with .OutputFormats.Get "rss" }}
-  <link
-    rel="alternate"
-    type="application/rss+xml"
-    title="{{ site.Title }}"
-    href="{{ .Permalink }}"
-  />
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		title="{{ site.Title }}"
+		href="{{ .Permalink }}"
+	/>
 {{ end }}

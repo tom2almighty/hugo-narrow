@@ -1,24 +1,24 @@
 {{- $tocConfig := dict "enabled" false -}}
 
 {{- if .IsPage -}}
-  {{- $globalEnabled := true -}}
-  {{- $globalToc := .Site.Params.toc | default dict -}}
-  {{- if isset $globalToc "enabled" -}}
-    {{- $globalEnabled = $globalToc.enabled -}}
-  {{- end -}}
+	{{- $globalEnabled := true -}}
+	{{- $globalToc := .Site.Params.toc | default dict -}}
+	{{- if isset $globalToc "enabled" -}}
+		{{- $globalEnabled = $globalToc.enabled -}}
+	{{- end -}}
 
-  {{- $pageEnabled := $globalEnabled -}}
-  {{- if isset .Params "toc" -}}
-    {{- if reflect.IsMap .Params.toc -}}
-      {{- if isset .Params.toc "enabled" -}}
-        {{- $pageEnabled = .Params.toc.enabled -}}
-      {{- end -}}
-    {{- else -}}
-      {{- $pageEnabled = .Params.toc -}}
-    {{- end -}}
-  {{- end -}}
+	{{- $pageEnabled := $globalEnabled -}}
+	{{- if isset .Params "toc" -}}
+		{{- if reflect.IsMap .Params.toc -}}
+			{{- if isset .Params.toc "enabled" -}}
+				{{- $pageEnabled = .Params.toc.enabled -}}
+			{{- end -}}
+		{{- else -}}
+			{{- $pageEnabled = .Params.toc -}}
+		{{- end -}}
+	{{- end -}}
 
-  {{- $tocConfig = dict "enabled" $pageEnabled -}}
+	{{- $tocConfig = dict "enabled" $pageEnabled -}}
 {{- end -}}
 
 {{- return $tocConfig -}}

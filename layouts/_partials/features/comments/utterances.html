@@ -9,28 +9,28 @@
 {{ $config := .config | default dict }}
 
 {{ if $config.repo }}
-  {{- $theme := $config.theme | default "preferred-color-scheme" -}}
-  {{- $followSystem := eq $theme "preferred-color-scheme" -}}
-  <div id="{{ $id }}" class="utterances-container">
+	{{- $theme := $config.theme | default "preferred-color-scheme" -}}
+	{{- $followSystem := eq $theme "preferred-color-scheme" -}}
+	<div id="{{ $id }}" class="utterances-container">
     <script
-      src="https://utteranc.es/client.js"
-      repo="{{ $config.repo }}"
-      issue-term="{{ $config.issueTerm | default "pathname" }}"
-      label="{{ $config.label | default "comment" }}"
-      theme="{{ $theme }}"
-      crossorigin="anonymous"
-      async
-    ></script>
-  </div>
+			src="https://utteranc.es/client.js"
+			repo="{{ $config.repo }}"
+			issue-term="{{ $config.issueTerm | default "pathname" }}"
+			label="{{ $config.label | default "comment" }}"
+			theme="{{ $theme }}"
+			crossorigin="anonymous"
+			async
+		></script>
+	</div>
 
-  {{- if $followSystem }}
-    {{ partial "features/comments/theme-sync.html" (dict
-      "provider" "utterances"
-      "container" (printf "#%s" $id)
-      "initial" false
-      )
-    }}
-  {{- end }}
+	{{- if $followSystem }}
+		{{ partial "features/comments/theme-sync.html" (dict
+			"provider" "utterances"
+			"container" (printf "#%s" $id)
+			"initial" false
+		)
+		}}
+	{{- end }}
 {{ else }}
-  {{ partial "features/comments/notice.html" (dict "id" $id "icon" "github") }}
+	{{ partial "features/comments/notice.html" (dict "id" $id "icon" "github") }}
 {{ end }}

@@ -8,28 +8,28 @@
 {{- $resource := .resource -}}
 {{- $path := .path -}}
 {{- if and (not $resource) $path -}}
-  {{- $resource = resources.Get $path -}}
+	{{- $resource = resources.Get $path -}}
 {{- end -}}
 {{- $targetPath := .targetPath | default $path -}}
 
 {{- with $resource -}}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" $targetPath
-  -}}
-  {{- with . | js.Build $opts -}}
-    {{- if hugo.IsDevelopment -}}
+	{{- $opts := dict
+		"minify" (not hugo.IsDevelopment)
+		"sourceMap" (cond hugo.IsDevelopment "external" "")
+		"targetPath" $targetPath
+	-}}
+	{{- with . | js.Build $opts -}}
+		{{- if hugo.IsDevelopment -}}
       <script src="{{ .RelPermalink }}" defer></script>
-    {{- else -}}
-      {{- with . | fingerprint -}}
+		{{- else -}}
+			{{- with . | fingerprint -}}
         <script
-          src="{{ .RelPermalink }}"
-          integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"
-          defer
-        ></script>
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
+					src="{{ .RelPermalink }}"
+					integrity="{{ .Data.Integrity }}"
+					crossorigin="anonymous"
+					defer
+				></script>
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
 {{- end -}}
