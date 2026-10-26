@@ -7,7 +7,8 @@
 A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shadcn-style semantic tokens, and a centered content width that readers can adjust.
 
 > [!NOTE]
-> v2.1.1 is the final Hugo Narrow 2.x release. The v2 line is no longer maintained; the Go template layout became too costly to maintain. Existing v2 sites should pin v2.1.1.
+> v2.1.1 is the final Hugo Narrow release, and the v2 line is no longer maintained. Before AI-assisted development, Hugo was a strong choice for personal sites: one Go binary, fast builds, and shortcodes that made small extensions easy. With AI-assisted coding, generating a personal site has become much simpler, and the frontend ecosystem offers many mature libraries that other frameworks can import directly. Frameworks such as Astro usually have no theme concept, but with AI every site can become its own theme. Hugo is weaker in this ecosystem and also lacks a common, actively maintained template formatter, so maintenance is ending. Only the related [astro-narrow](https://github.com/tom2almighty/astro-narrow) theme will continue. Frontend themes are highly subjective and not guaranteed to be stable; you are welcome to use AI to maintain your own fork. Existing v2 sites should pin v2.1.1.
+>
 > The final v1 release is v1.4.1, preserved on the `v1` branch.
 > See the [2.0.0 release notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0) for the full list of breaking changes and migration notes. 
 > A v1 preview is available at https://tom2almighty.github.io/hugo-narrow/v1/.
