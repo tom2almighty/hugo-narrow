@@ -52,6 +52,15 @@ jobs:
       - name: Check formatting
         run: pnpm run format:check
 
+      - name: Check template comment delimiters
+        run: |
+          matches=$(grep -rlPz '\*/\r?\n\s*-?\}\}' layouts | tr '\0' '\n')
+          if [ -n "$matches" ]; then
+            echo "Template comment delimiters must stay on one line:"
+            echo "$matches"
+            exit 1
+          fi
+
       - name: Compile Tailwind CSS
         run: pnpm run compile
 

@@ -13,7 +13,7 @@
   {{ partial "layout/script.html" (dict "path" "js/toc.js") }}
 {{- end -}}
 
-{{/* Gallery JavaScript - smart-gallery 已 vendor 到 assets/js/vendor */}}
+{{/* Gallery JavaScript - smart-gallery 已内置到 assets/js/lib */}}
 {{ if or (.Store.Get "galleryEnabled") (.Store.Get "lightboxEnabled") }}
   {{ partial "layout/script.html" (dict "path" "js/gallery.js") }}
 {{ end }}
