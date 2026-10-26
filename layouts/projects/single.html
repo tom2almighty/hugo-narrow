@@ -1,32 +1,32 @@
 {{ define "main" }}
-  <header class="border-border mb-8 border-b pb-6">
-    <div class="flex items-start justify-between gap-4">
-      <h1 class="text-foreground text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
-        {{ .Title }}
-      </h1>
+<header class="border-border mb-8 border-b pb-6">
+	<div class="flex items-start justify-between gap-4">
+		<h1 class="text-foreground text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
+			{{ .Title }}
+		</h1>
 
-      {{- with .Params.link -}}
-        <a
-          href="{{ . }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border px-3 text-xs font-medium transition-colors"
-        >
-          {{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
-          <span>{{ T "projects.visit" | default "Open project" }}</span>
-        </a>
-      {{- end -}}
-    </div>
+		{{- with .Params.link -}}
+			<a
+				href="{{ . }}"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border px-3 text-xs font-medium transition-colors"
+			>
+				{{ partial "features/icon.html" (dict "name" "github" "size" "sm" "ariaLabel" "") }}
+				<span>{{ T "projects.visit" | default "Open project" }}</span>
+			</a>
+		{{- end -}}
+	</div>
 
-    {{- $summary := .Params.summary | default .Description -}}
-    {{- with $summary -}}
-      <p class="text-muted-foreground mt-3 text-base leading-relaxed">{{ . | plainify }}</p>
-    {{- end -}}
-  </header>
+	{{- $summary := .Params.summary | default .Description -}}
+	{{- with $summary -}}
+		<p class="text-muted-foreground mt-3 text-base leading-relaxed">{{ . | plainify }}</p>
+	{{- end -}}
+</header>
 
-  <article class="prose max-w-none">
-    {{ .Content }}
-  </article>
+<article class="prose max-w-none">
+	{{ .Content }}
+</article>
 
-  {{ partial "features/comments.html" . }}
+{{ partial "features/comments.html" . }}
 {{ end }}

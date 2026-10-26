@@ -9,36 +9,36 @@
 {{ $config := .config | default dict }}
 
 {{ if and $config.repo $config.repoId $config.categoryId }}
-  {{- $theme := $config.theme | default "preferred_color_scheme" -}}
-  {{- $followSystem := eq $theme "preferred_color_scheme" -}}
-  <div id="{{ $id }}" class="giscus-container">
+	{{- $theme := $config.theme | default "preferred_color_scheme" -}}
+	{{- $followSystem := eq $theme "preferred_color_scheme" -}}
+	<div id="{{ $id }}" class="giscus-container">
     <script
-      src="https://giscus.app/client.js"
-      data-repo="{{ $config.repo }}"
-      data-repo-id="{{ $config.repoId }}"
-      data-category="{{ $config.category | default "General" }}"
-      data-category-id="{{ $config.categoryId }}"
-      data-mapping="{{ $config.mapping | default "pathname" }}"
-      data-strict="{{ $config.strict | default "0" }}"
-      data-reactions-enabled="{{ $config.reactionsEnabled | default "1" }}"
-      data-emit-metadata="{{ $config.emitMetadata | default "0" }}"
-      data-input-position="{{ $config.inputPosition | default "bottom" }}"
-      data-theme="{{ $theme }}"
-      data-lang="{{ $config.lang | default .Site.Language.Locale | default "zh-CN" }}"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async
-    ></script>
-  </div>
+			src="https://giscus.app/client.js"
+			data-repo="{{ $config.repo }}"
+			data-repo-id="{{ $config.repoId }}"
+			data-category="{{ $config.category | default "General" }}"
+			data-category-id="{{ $config.categoryId }}"
+			data-mapping="{{ $config.mapping | default "pathname" }}"
+			data-strict="{{ $config.strict | default "0" }}"
+			data-reactions-enabled="{{ $config.reactionsEnabled | default "1" }}"
+			data-emit-metadata="{{ $config.emitMetadata | default "0" }}"
+			data-input-position="{{ $config.inputPosition | default "bottom" }}"
+			data-theme="{{ $theme }}"
+			data-lang="{{ $config.lang | default .Site.Language.Locale | default "zh-CN" }}"
+			data-loading="lazy"
+			crossorigin="anonymous"
+			async
+		></script>
+	</div>
 
-  {{- if $followSystem }}
-    {{ partial "features/comments/theme-sync.html" (dict
-      "provider" "giscus"
-      "container" (printf "#%s" $id)
-      "initial" false
-      )
-    }}
-  {{- end }}
+	{{- if $followSystem }}
+		{{ partial "features/comments/theme-sync.html" (dict
+			"provider" "giscus"
+			"container" (printf "#%s" $id)
+			"initial" false
+		)
+		}}
+	{{- end }}
 {{ else }}
-  {{ partial "features/comments/notice.html" (dict "id" $id "icon" "github") }}
+	{{ partial "features/comments/notice.html" (dict "id" $id "icon" "github") }}
 {{ end }}

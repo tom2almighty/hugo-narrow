@@ -20,27 +20,27 @@
 {{- $date := .date -}}
 {{- $variant := .variant | default "long" -}}
 {{- $defaults := dict
-  "long" ":date_long"
-  "short" ":date_short"
-  "month" "January 2006"
+	"long" ":date_long"
+	"short" ":date_short"
+	"month" "January 2006"
 -}}
 {{- $configured := site.Params.dateFormat | default dict -}}
 {{- $format := index $configured $variant -}}
 
 {{- if not $format -}}
-  {{- $locale := lower site.Language.Locale -}}
-  {{- $language := lower site.Language.Lang -}}
-  {{- $dateFormats := hugo.Data.dateFormats | default dict -}}
-  {{- $languageFormats := dict -}}
-  {{- with index $dateFormats $locale -}}{{- $languageFormats = . -}}{{- end -}}
-  {{- if not $languageFormats -}}
-    {{- $primary := index (split $locale "-") 0 -}}
-    {{- with index $dateFormats $primary -}}{{- $languageFormats = . -}}{{- end -}}
-  {{- end -}}
-  {{- if not $languageFormats -}}
-    {{- with index $dateFormats $language -}}{{- $languageFormats = . -}}{{- end -}}
-  {{- end -}}
-  {{- with $languageFormats -}}{{- $format = index . $variant -}}{{- end -}}
+	{{- $locale := lower site.Language.Locale -}}
+	{{- $language := lower site.Language.Lang -}}
+	{{- $dateFormats := hugo.Data.dateFormats | default dict -}}
+	{{- $languageFormats := dict -}}
+	{{- with index $dateFormats $locale -}}{{- $languageFormats = . -}}{{- end -}}
+	{{- if not $languageFormats -}}
+		{{- $primary := index (split $locale "-") 0 -}}
+		{{- with index $dateFormats $primary -}}{{- $languageFormats = . -}}{{- end -}}
+	{{- end -}}
+	{{- if not $languageFormats -}}
+		{{- with index $dateFormats $language -}}{{- $languageFormats = . -}}{{- end -}}
+	{{- end -}}
+	{{- with $languageFormats -}}{{- $format = index . $variant -}}{{- end -}}
 {{- end -}}
 
 {{- $format = $format | default (index $defaults $variant) -}}

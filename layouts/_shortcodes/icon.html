@@ -24,15 +24,15 @@ search, home, arrow-right, etc. */ -}}
 
 {{- /* Validate icon name */ -}}
 {{- if not $name -}}
-  {{- errorf "The %q shortcode requires an icon name. See %s" .Name .Position -}}
+	{{- errorf "The %q shortcode requires an icon name. See %s" .Name .Position -}}
 {{- end -}}
 
 
 <span class="mx-1 inline-flex items-center align-middle">
-  {{- partial "features/icon.html" (dict
-    "name" $name
-    "size" $size
-    "class" $class
-    )
-  -}}
+	{{- partial "features/icon.html" (dict
+		"name" $name
+		"size" $size
+		"class" $class
+	)
+	-}}
 </span>

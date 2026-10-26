@@ -9,10 +9,10 @@
 {{ $config := .config | default dict }}
 
 {{ if $config.server }}
-  {{- $darkMode := $config.darkMode | default "auto" -}}
-  {{- $followSystem := eq $darkMode "auto" -}}
-  <div id="{{ $id }}" class="artalk-container"></div>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
+	{{- $darkMode := $config.darkMode | default "auto" -}}
+	{{- $followSystem := eq $darkMode "auto" -}}
+	<div id="{{ $id }}" class="artalk-container"></div>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css" />
 
   <script type="module">
     import Artalk from "https://esm.sh/artalk@2.9.1";
@@ -33,14 +33,15 @@
         mirror: "{{ $config.gravatar.mirror | default "https://cravatar.cn/avatar/" }}"
       },
     });
-  </script> {{- if $followSystem }}
-    {{ partial "features/comments/theme-sync.html" (dict
-      "provider" "artalk"
-      "container" (printf "#%s" $id)
-      "initial" false
-      )
-    }}
-  {{- end }}
+  </script> 
+	{{- if $followSystem }}
+		{{ partial "features/comments/theme-sync.html" (dict
+			"provider" "artalk"
+			"container" (printf "#%s" $id)
+			"initial" false
+		)
+		}}
+	{{- end }}
 {{ else }}
-  {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
+	{{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}

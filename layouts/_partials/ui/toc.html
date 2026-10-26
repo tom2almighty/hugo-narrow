@@ -1,47 +1,47 @@
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- if and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
-  <aside
-    id="toc-panel"
-    class="toc-panel"
-    data-open="false"
-    aria-label="{{ T `ui.toc` }}"
-    aria-hidden="true"
-    inert
-  >
-    <div class="toc-panel-header">
-      <h2 class="text-muted-foreground truncate text-xs font-medium">{{ T "ui.toc" }}</h2>
-      <div class="flex shrink-0 items-center gap-0.5">
-        <button
-          id="toc-pin"
-          type="button"
-          class="dock-item"
-          aria-pressed="false"
-          aria-label="{{ T `ui.tocPin` }}"
-          title="{{ T `ui.tocPin` }}"
-          data-label-pin="{{ T `ui.tocPin` }}"
-          data-label-unpin="{{ T `ui.tocUnpin` }}"
-        >
-          <span id="toc-pin-on">
-            {{ partial "features/icon.html" (dict "name" "pin" "size" "sm" "ariaLabel" "") }}
-          </span>
-          <span id="toc-pin-off">
-            {{ partial "features/icon.html" (dict "name" "pin-off" "size" "sm" "ariaLabel" "") }}
-          </span>
-        </button>
-        <button
-          id="toc-close"
-          type="button"
-          class="dock-item"
-          aria-label="{{ T `ui.tocClose` }}"
-          title="{{ T `ui.tocClose` }}"
-        >
-          {{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
-        </button>
-      </div>
-    </div>
+	<aside
+		id="toc-panel"
+		class="toc-panel"
+		data-open="false"
+		aria-label="{{ T `ui.toc` }}"
+		aria-hidden="true"
+		inert
+	>
+		<div class="toc-panel-header">
+			<h2 class="text-muted-foreground truncate text-xs font-medium">{{ T "ui.toc" }}</h2>
+			<div class="flex shrink-0 items-center gap-0.5">
+				<button
+					id="toc-pin"
+					type="button"
+					class="dock-item"
+					aria-pressed="false"
+					aria-label="{{ T `ui.tocPin` }}"
+					title="{{ T `ui.tocPin` }}"
+					data-label-pin="{{ T `ui.tocPin` }}"
+					data-label-unpin="{{ T `ui.tocUnpin` }}"
+				>
+					<span id="toc-pin-on">
+						{{ partial "features/icon.html" (dict "name" "pin" "size" "sm" "ariaLabel" "") }}
+					</span>
+					<span id="toc-pin-off">
+						{{ partial "features/icon.html" (dict "name" "pin-off" "size" "sm" "ariaLabel" "") }}
+					</span>
+				</button>
+				<button
+					id="toc-close"
+					type="button"
+					class="dock-item"
+					aria-label="{{ T `ui.tocClose` }}"
+					title="{{ T `ui.tocClose` }}"
+				>
+					{{ partial "features/icon.html" (dict "name" "close" "size" "sm" "ariaLabel" "") }}
+				</button>
+			</div>
+		</div>
 
-    <div id="toc-content" class="toc-panel-content scrollbar-hide">
-      {{ .TableOfContents }}
-    </div>
-  </aside>
+		<div id="toc-content" class="toc-panel-content scrollbar-hide">
+			{{ .TableOfContents }}
+		</div>
+	</aside>
 {{- end -}}

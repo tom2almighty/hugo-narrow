@@ -1,25 +1,25 @@
 {{ define "main" }}
-  {{- $items := slice -}}
-  {{- range .Data.Terms.ByCount -}}
-    {{- $latest := false -}}
-    {{- with .Page.Pages.ByDate.Reverse -}}
-      {{- $latest = (index . 0).Date -}}
-    {{- end -}}
-    {{- $items = $items | append (dict "page" .Page "count" .Count "latest" $latest) -}}
-  {{- end -}}
-  {{- $items = sort $items "latest" "desc" -}}
-  {{- $meta := T "list.terms" (dict "count" (len $items)) -}}
+{{- $items := slice -}}
+{{- range .Data.Terms.ByCount -}}
+	{{- $latest := false -}}
+	{{- with .Page.Pages.ByDate.Reverse -}}
+		{{- $latest = (index . 0).Date -}}
+	{{- end -}}
+	{{- $items = $items | append (dict "page" .Page "count" .Count "latest" $latest) -}}
+{{- end -}}
+{{- $items = sort $items "latest" "desc" -}}
+{{- $meta := T "list.terms" (dict "count" (len $items)) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
+{{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  {{- if $items -}}
-    {{ partial "content/card-grid.html" (dict
-      "items" $items
-      "variant" "series"
-      "columns" .Params.columns
-      )
-    }}
-  {{- else -}}
-    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
-  {{- end -}}
+{{- if $items -}}
+	{{ partial "content/card-grid.html" (dict
+		"items" $items
+		"variant" "series"
+		"columns" .Params.columns
+	)
+	}}
+{{- else -}}
+	<p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}
 {{ end }}

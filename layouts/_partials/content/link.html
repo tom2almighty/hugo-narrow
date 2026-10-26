@@ -11,45 +11,45 @@
 {{- $icon := .icon -}}
 {{- $host := "" -}}
 {{- with urls.Parse $url -}}
-  {{- $host = .Host -}}
+	{{- $host = .Host -}}
 {{- end -}}
 {{- $isImage := and $icon (or (hasPrefix $icon "http") (hasPrefix $icon "/") (strings.Contains $icon ".")) -}}
 
 
 <a
-  href="{{ $url }}"
-  target="_blank"
-  rel="noopener noreferrer"
-  class="group border-border bg-card hover:border-primary/30 hover:bg-accent/20 flex h-full items-start gap-3 rounded-lg border p-4 transition-colors"
+	href="{{ $url }}"
+	target="_blank"
+	rel="noopener noreferrer"
+	class="group border-border bg-card hover:border-primary/30 hover:bg-accent/20 flex h-full items-start gap-3 rounded-lg border p-4 transition-colors"
 >
-  <span
-    class="bg-muted text-muted-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
-  >
-    {{- if $isImage -}}
-      <img src="{{ $icon }}" alt="" class="size-10 object-cover" loading="lazy" decoding="async" />
-    {{- else if $icon -}}
-      {{ partial "features/icon.html" (dict "name" $icon "size" "md" "ariaLabel" "") }}
-    {{- else -}}
-      {{ partial "features/icon.html" (dict "name" "link" "size" "md" "ariaLabel" "") }}
-    {{- end -}}
-  </span>
+	<span
+		class="bg-muted text-muted-foreground flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+	>
+		{{- if $isImage -}}
+			<img src="{{ $icon }}" alt="" class="size-10 object-cover" loading="lazy" decoding="async" />
+		{{- else if $icon -}}
+			{{ partial "features/icon.html" (dict "name" $icon "size" "md" "ariaLabel" "") }}
+		{{- else -}}
+			{{ partial "features/icon.html" (dict "name" "link" "size" "md" "ariaLabel" "") }}
+		{{- end -}}
+	</span>
 
-  <span class="min-w-0 flex-1">
-    <span class="text-foreground block truncate text-sm font-semibold">{{ $title }}</span>
-    {{- with $description -}}
-      <span class="text-muted-foreground mt-1 line-clamp-2 block text-xs leading-relaxed">
-        {{ . }}
-      </span>
-    {{- end -}}
-    {{- with $host -}}
-      <span class="text-muted-foreground/70 mt-2 block truncate font-mono text-xs">{{ . }}</span>
-    {{- end -}}
-  </span>
+	<span class="min-w-0 flex-1">
+		<span class="text-foreground block truncate text-sm font-semibold">{{ $title }}</span>
+		{{- with $description -}}
+			<span class="text-muted-foreground mt-1 line-clamp-2 block text-xs leading-relaxed">
+				{{ . }}
+			</span>
+		{{- end -}}
+		{{- with $host -}}
+			<span class="text-muted-foreground/70 mt-2 block truncate font-mono text-xs">{{ . }}</span>
+		{{- end -}}
+	</span>
 
-  <span
-    class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-transform group-hover:translate-x-0.5"
-    aria-hidden="true"
-  >
-    {{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "ariaLabel" "") }}
-  </span>
+	<span
+		class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+		aria-hidden="true"
+	>
+		{{ partial "features/icon.html" (dict "name" "external-link" "size" "sm" "ariaLabel" "") }}
+	</span>
 </a>

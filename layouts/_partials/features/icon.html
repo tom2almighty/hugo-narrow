@@ -20,21 +20,21 @@ every page. */}}
 
 {{/* Size presets */}}
 {{- $sizeClasses := dict
-  "xs" "h-3 w-3"
-  "sm" "h-4 w-4"
-  "md" "h-5 w-5"
-  "lg" "h-6 w-6"
-  "xl" "h-8 w-8"
-  "2xl" "h-10 w-10"
+	"xs" "h-3 w-3"
+	"sm" "h-4 w-4"
+	"md" "h-5 w-5"
+	"lg" "h-6 w-6"
+	"xl" "h-8 w-8"
+	"2xl" "h-10 w-10"
 -}}
 
 {{/* Build CSS classes */}}
 {{- $finalClass := $class -}}
 {{- if $size -}}
-  {{- $sizeClass := index $sizeClasses $size -}}
-  {{- if $sizeClass -}}
-    {{- $finalClass = printf "%s %s" $sizeClass $class -}}
-  {{- end -}}
+	{{- $sizeClass := index $sizeClasses $size -}}
+	{{- if $sizeClass -}}
+		{{- $finalClass = printf "%s %s" $sizeClass $class -}}
+	{{- end -}}
 {{- end -}}
 
 {{/* Get the SVG file */}}
@@ -42,46 +42,46 @@ every page. */}}
 {{- $icon := resources.Get $iconPath -}}
 
 {{- if $icon -}}
-  {{- $sprite := partialCached "features/icon-sprite.html" . -}}
+	{{- $sprite := partialCached "features/icon-sprite.html" . -}}
 
-  {{/* Build attributes to add to SVG tag */}}
-  {{- $attrs := "" -}}
-  {{- if $finalClass -}}
-    {{- $attrs = printf ` class="%s"` ($finalClass | strings.TrimSpace | htmlEscape) -}}
-  {{- end -}}
-  {{- if $id -}}
-    {{- $attrs = printf `%s id="%s"` $attrs ($id | htmlEscape) -}}
-  {{- end -}}
-  {{- if $hidden -}}
-    {{- $attrs = printf `%s aria-hidden="true"` $attrs -}}
-  {{- else if $ariaLabel -}}
-    {{- $attrs = printf `%s role="img" aria-label="%s"` $attrs ($ariaLabel | htmlEscape) -}}
-  {{- else -}}
-    {{- $attrs = printf `%s aria-hidden="true"` $attrs -}}
-  {{- end -}}
+	{{/* Build attributes to add to SVG tag */}}
+	{{- $attrs := "" -}}
+	{{- if $finalClass -}}
+		{{- $attrs = printf ` class="%s"` ($finalClass | strings.TrimSpace | htmlEscape) -}}
+	{{- end -}}
+	{{- if $id -}}
+		{{- $attrs = printf `%s id="%s"` $attrs ($id | htmlEscape) -}}
+	{{- end -}}
+	{{- if $hidden -}}
+		{{- $attrs = printf `%s aria-hidden="true"` $attrs -}}
+	{{- else if $ariaLabel -}}
+		{{- $attrs = printf `%s role="img" aria-label="%s"` $attrs ($ariaLabel | htmlEscape) -}}
+	{{- else -}}
+		{{- $attrs = printf `%s aria-hidden="true"` $attrs -}}
+	{{- end -}}
 
-  {{- $use := printf `<%s href="%s#icon-%s"></%s>` "use" $sprite.RelPermalink $name "use" -}}
-  {{- printf `<svg%s viewBox="0 0 24 24">%s</svg>` $attrs $use | safeHTML -}}
+	{{- $use := printf `<%s href="%s#icon-%s"></%s>` "use" $sprite.RelPermalink $name "use" -}}
+	{{- printf `<svg%s viewBox="0 0 24 24">%s</svg>` $attrs $use | safeHTML -}}
 {{- else -}}
-  {{/* Fallback if icon not found */}}
-  <svg
-    {{- if $id }}id="{{ $id }}"{{ end }}
-    {{- if $finalClass }}class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    {{- if and $ariaLabel (not $hidden) }}role="img" aria-label="{{ $ariaLabel }}"{{ end }}
-    {{- if or $hidden (not $ariaLabel) }}aria-hidden="true"{{ end }}
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-  {{/* Log warning in development */}}
-  {{- if hugo.IsDevelopment -}}
-    {{- warnf "Icon '%s' not found at %s" $name $iconPath -}}
-  {{- end -}}
+	{{/* Fallback if icon not found */}}
+	<svg
+		{{- if $id }}id="{{ $id }}"{{ end }}
+		{{- if $finalClass }}class="{{ $finalClass | strings.TrimSpace }}"{{ end }}
+		fill="none"
+		stroke="currentColor"
+		viewBox="0 0 24 24"
+		{{- if and $ariaLabel (not $hidden) }}role="img" aria-label="{{ $ariaLabel }}"{{ end }}
+		{{- if or $hidden (not $ariaLabel) }}aria-hidden="true"{{ end }}
+	>
+		<path
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			stroke-width="2"
+			d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+		/>
+	</svg>
+	{{/* Log warning in development */}}
+	{{- if hugo.IsDevelopment -}}
+		{{- warnf "Icon '%s' not found at %s" $name $iconPath -}}
+	{{- end -}}
 {{- end -}}

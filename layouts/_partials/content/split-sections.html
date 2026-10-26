@@ -17,22 +17,22 @@
 {{- $sections := slice -}}
 
 {{- range $index, $part := $parts -}}
-  {{- if gt $index 0 -}}
-    {{- $subparts := split $part $close -}}
-    {{- $tagAndTitle := index $subparts 0 -}}
-    {{- $body := "" -}}
-    {{- if gt (len $subparts) 1 -}}
-      {{- $body = index $subparts 1 -}}
-    {{- end -}}
-    {{- $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $tagAndTitle -}}
-    {{- $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title -}}
-    {{- $idMatch := findRE `id="([^"]*)"` $tagAndTitle -}}
-    {{- $id := "" -}}
-    {{- if $idMatch -}}
-      {{- $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) -}}
-    {{- end -}}
-    {{- $sections = $sections | append (dict "title" $titleContent "id" $id "body" $body) -}}
-  {{- end -}}
+	{{- if gt $index 0 -}}
+		{{- $subparts := split $part $close -}}
+		{{- $tagAndTitle := index $subparts 0 -}}
+		{{- $body := "" -}}
+		{{- if gt (len $subparts) 1 -}}
+			{{- $body = index $subparts 1 -}}
+		{{- end -}}
+		{{- $title := replaceRE `(?s)^[^>]*>(.*)` "$1" $tagAndTitle -}}
+		{{- $titleContent := replaceRE `(?s)<a[^>]*class="heading-anchor"[^>]*>.*?</a>` "" $title -}}
+		{{- $idMatch := findRE `id="([^"]*)"` $tagAndTitle -}}
+		{{- $id := "" -}}
+		{{- if $idMatch -}}
+			{{- $id = replaceRE `id="([^"]*)"` "$1" (index $idMatch 0) -}}
+		{{- end -}}
+		{{- $sections = $sections | append (dict "title" $titleContent "id" $id "body" $body) -}}
+	{{- end -}}
 {{- end -}}
 
 {{- return dict "pre" $pre "sections" $sections -}}

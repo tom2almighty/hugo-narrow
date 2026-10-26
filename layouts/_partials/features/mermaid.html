@@ -7,26 +7,26 @@
 {{- $globalEnabled := false -}}
 
 {{- if $globalMermaid -}}
-  {{- if eq (printf "%T" $globalMermaid) "bool" -}}
-    {{- $globalEnabled = $globalMermaid -}}
-  {{- else -}}
-    {{- $globalEnabled = $globalMermaid.enabled | default false -}}
-  {{- end -}}
+	{{- if eq (printf "%T" $globalMermaid) "bool" -}}
+		{{- $globalEnabled = $globalMermaid -}}
+	{{- else -}}
+		{{- $globalEnabled = $globalMermaid.enabled | default false -}}
+	{{- end -}}
 {{- end -}}
 
 {{/* 页面级配置覆盖全局配置；显式 false 可以关闭 */}}
 {{- $shouldLoad := $globalEnabled -}}
 {{- if isset .Params "mermaid" -}}
-  {{- if eq (printf "%T" .Params.mermaid) "bool" -}}
-    {{- $shouldLoad = .Params.mermaid -}}
-  {{- else -}}
-    {{- $shouldLoad = .Params.mermaid.enabled | default false -}}
-  {{- end -}}
+	{{- if eq (printf "%T" .Params.mermaid) "bool" -}}
+		{{- $shouldLoad = .Params.mermaid -}}
+	{{- else -}}
+		{{- $shouldLoad = .Params.mermaid.enabled | default false -}}
+	{{- end -}}
 {{- end -}}
 
 {{/* 如果页面包含 Mermaid 图表且配置允许，则加载库 */}}
 {{- if and $shouldLoad (.Store.Get "hasMermaid") -}}
-  <!-- Mermaid 图表支持 -->
+	<!-- Mermaid 图表支持 -->
   <style>
     /* Mermaid SVG 居中样式 */
     svg[id^="mermaid-"] {

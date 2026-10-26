@@ -1,45 +1,45 @@
 {{ define "main" }}
-  {{- $terms := .Data.Terms.ByCount -}}
-  {{- $meta := T "list.terms" (dict "count" (len $terms)) -}}
+{{- $terms := .Data.Terms.ByCount -}}
+{{- $meta := T "list.terms" (dict "count" (len $terms)) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
+{{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  {{- if $terms -}}
-    {{- $maxCount := 0 -}}
-    {{- range $terms -}}
-      {{- if gt .Count $maxCount -}}{{- $maxCount = .Count -}}{{- end -}}
-    {{- end -}}
-
-
-    <div class="flex flex-wrap gap-2.5">
-      {{- range $terms -}}
-        {{- $weight := add (div (mul .Count 4) $maxCount) 1 -}}
-        {{- $sizeClass := "text-sm" -}}
-        {{- if eq $weight 2 -}}
-          {{- $sizeClass = "text-base" -}}
-        {{- else if eq $weight 3 -}}
-          {{- $sizeClass = "text-lg" -}}
-        {{- else if eq $weight 4 -}}
-          {{- $sizeClass = "text-xl" -}}
-        {{- else if ge $weight 5 -}}
-          {{- $sizeClass = "text-2xl" -}}
-        {{- end -}}
+{{- if $terms -}}
+	{{- $maxCount := 0 -}}
+	{{- range $terms -}}
+		{{- if gt .Count $maxCount -}}{{- $maxCount = .Count -}}{{- end -}}
+	{{- end -}}
 
 
-        <a
-          href="{{ .Page.RelPermalink }}"
-          class="{{ $sizeClass }} border-border bg-card hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring/50 inline-flex items-center gap-2 rounded-md border px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-        >
-          <span class="text-foreground font-medium">{{ .Page.LinkTitle }}</span>
-          <span
-            class="bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 text-xs tabular-nums"
-          >
-            {{ .Count }}
-          </span>
-        </a>
-      {{- end -}}
-    </div>
-  {{- else -}}
-    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
-  {{- end -}}
+	<div class="flex flex-wrap gap-2.5">
+		{{- range $terms -}}
+			{{- $weight := add (div (mul .Count 4) $maxCount) 1 -}}
+			{{- $sizeClass := "text-sm" -}}
+			{{- if eq $weight 2 -}}
+				{{- $sizeClass = "text-base" -}}
+			{{- else if eq $weight 3 -}}
+				{{- $sizeClass = "text-lg" -}}
+			{{- else if eq $weight 4 -}}
+				{{- $sizeClass = "text-xl" -}}
+			{{- else if ge $weight 5 -}}
+				{{- $sizeClass = "text-2xl" -}}
+			{{- end -}}
+
+
+			<a
+				href="{{ .Page.RelPermalink }}"
+				class="{{ $sizeClass }} border-border bg-card hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring/50 inline-flex items-center gap-2 rounded-md border px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+			>
+				<span class="text-foreground font-medium">{{ .Page.LinkTitle }}</span>
+				<span
+					class="bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 text-xs tabular-nums"
+				>
+					{{ .Count }}
+				</span>
+			</a>
+		{{- end -}}
+	</div>
+{{- else -}}
+	<p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}
 {{ end }}

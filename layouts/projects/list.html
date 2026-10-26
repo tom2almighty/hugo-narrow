@@ -1,18 +1,18 @@
 {{ define "main" }}
-  {{- $projects := .Paginator.Pages -}}
-  {{- $meta := T "list.pages" (dict "count" .Paginator.TotalNumberOfElements) -}}
+{{- $projects := .Paginator.Pages -}}
+{{- $meta := T "list.pages" (dict "count" .Paginator.TotalNumberOfElements) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
+{{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  {{- if $projects -}}
-    {{ partial "content/card-grid.html" (dict
-      "items" $projects
-      "variant" "project"
-      "columns" .Params.columns
-      )
-    }}
-    {{ partial "navigation/pagination.html" . }}
-  {{- else -}}
-    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
-  {{- end -}}
+{{- if $projects -}}
+	{{ partial "content/card-grid.html" (dict
+		"items" $projects
+		"variant" "project"
+		"columns" .Params.columns
+	)
+	}}
+	{{ partial "navigation/pagination.html" . }}
+{{- else -}}
+	<p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}
 {{ end }}

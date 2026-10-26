@@ -1,63 +1,63 @@
 {{ define "main" }}
-  {{- $mainSections := .Site.MainSections -}}
-  {{- $allPosts := where .Site.RegularPages "Section" "in" $mainSections -}}
-  {{- $meta := T "list.pages" (dict "count" (len $allPosts)) -}}
+{{- $mainSections := .Site.MainSections -}}
+{{- $allPosts := where .Site.RegularPages "Section" "in" $mainSections -}}
+{{- $meta := T "list.pages" (dict "count" (len $allPosts)) -}}
 
-  {{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
+{{ partial "content/page-header.html" (dict "page" . "meta" $meta "showContent" true) }}
 
-  {{- if $allPosts -}}
-    <div class="relative">
-      <div class="bg-border absolute top-0 bottom-0 left-4 w-0.5" aria-hidden="true"></div>
+{{- if $allPosts -}}
+	<div class="relative">
+		<div class="bg-border absolute top-0 bottom-0 left-4 w-0.5" aria-hidden="true"></div>
 
-      {{- range $allPosts.GroupByDate "2006" -}}
-        <div class="relative mb-10">
-          <div class="relative mb-6 flex items-center">
-            <div
-              class="bg-primary text-primary-foreground absolute left-0 z-10 flex size-8 items-center justify-center rounded-full"
-            >
-              {{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
-            </div>
-            <div class="ml-12">
-              <h2 class="text-foreground text-xl font-semibold tracking-tight">{{ .Key }}</h2>
-              <p class="text-muted-foreground text-xs">
-                {{ T "list.pages" (dict "count" (len .Pages)) }}
-              </p>
-            </div>
-          </div>
+		{{- range $allPosts.GroupByDate "2006" -}}
+			<div class="relative mb-10">
+				<div class="relative mb-6 flex items-center">
+					<div
+						class="bg-primary text-primary-foreground absolute left-0 z-10 flex size-8 items-center justify-center rounded-full"
+					>
+						{{ partial "features/icon.html" (dict "name" "calendar" "size" "sm" "ariaLabel" "") }}
+					</div>
+					<div class="ml-12">
+						<h2 class="text-foreground text-xl font-semibold tracking-tight">{{ .Key }}</h2>
+						<p class="text-muted-foreground text-xs">
+							{{ T "list.pages" (dict "count" (len .Pages)) }}
+						</p>
+					</div>
+				</div>
 
-          {{- range .Pages.GroupByDate "2006-01" -}}
-            {{- $date := time (printf "%s-01" .Key) -}}
-            <div class="relative mb-6">
-              <div class="relative mb-3 flex items-center">
-                <div
-                  class="bg-accent border-background absolute left-2 z-10 size-4 rounded-full border-2"
-                  aria-hidden="true"
-                ></div>
-                <div class="ml-12">
-                  <h3 class="text-foreground text-base font-semibold">
-                    {{ partial "helpers/date.html" (dict "date" $date "variant" "month") }}
-                  </h3>
-                  <p class="text-muted-foreground text-xs">
-                    {{ T "list.pages" (dict "count" (len .Pages)) }}
-                  </p>
-                </div>
-              </div>
+				{{- range .Pages.GroupByDate "2006-01" -}}
+					{{- $date := time (printf "%s-01" .Key) -}}
+					<div class="relative mb-6">
+						<div class="relative mb-3 flex items-center">
+							<div
+								class="bg-accent border-background absolute left-2 z-10 size-4 rounded-full border-2"
+								aria-hidden="true"
+							></div>
+							<div class="ml-12">
+								<h3 class="text-foreground text-base font-semibold">
+									{{ partial "helpers/date.html" (dict "date" $date "variant" "month") }}
+								</h3>
+								<p class="text-muted-foreground text-xs">
+									{{ T "list.pages" (dict "count" (len .Pages)) }}
+								</p>
+							</div>
+						</div>
 
-              <div class="ml-12 space-y-3">
-                {{- range .Pages -}}
-                  {{ partial "content/post-card.html" (dict
-                    "page" .
-                    "compact" true
-                    )
-                  }}
-                {{- end -}}
-              </div>
-            </div>
-          {{- end -}}
-        </div>
-      {{- end -}}
-    </div>
-  {{- else -}}
-    <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
-  {{- end -}}
+						<div class="ml-12 space-y-3">
+							{{- range .Pages -}}
+								{{ partial "content/post-card.html" (dict
+									"page" .
+									"compact" true
+								)
+								}}
+							{{- end -}}
+						</div>
+					</div>
+				{{- end -}}
+			</div>
+		{{- end -}}
+	</div>
+{{- else -}}
+	<p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+{{- end -}}
 {{ end }}

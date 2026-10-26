@@ -10,21 +10,23 @@
     "dev:parallel": "concurrently \"pnpm run compile:watch\" \"pnpm run hugo:dev\"",
     "build": "pnpm run compile && hugo --source=exampleSite --themesDir=../.. --minify",
     "check": "pnpm run format:check && pnpm run build",
-    "format:check": "prettier --check \"**/*.{html,js}\"",
-    "format:write": "prettier --write \"**/*.{html,js}\""
+    "format:check": "pnpm run format:templates:check && pnpm run format:js:check",
+    "format:write": "pnpm run format:templates && pnpm run format:js",
+    "format:templates": "gotmplfmt -w layouts",
+    "format:templates:check": "files=$(gotmplfmt -l layouts) || exit 1; if [ -n \"$files\" ]; then echo \"$files\"; exit 1; fi",
+    "format:js": "biome format --write .",
+    "format:js:check": "biome format ."
   },
   "keywords": [],
   "author": "",
   "license": "AGPL-3.0-only",
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
+    "@biomejs/biome": "2.6.3",
     "@tailwindcss/cli": "^4.1.17",
     "@tailwindcss/typography": "^0.5.20",
     "concurrently": "^9.2.1",
     "minisearch": "^7.2.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-go-template": "^0.0.15",
-    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.17"
   }
 }

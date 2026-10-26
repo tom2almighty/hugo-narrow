@@ -1,58 +1,58 @@
 {{/* main css */}}
 {{ with resources.Get "css/compiled.css" }}
-  {{ if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" />
-  {{ else }}
-    {{ with . | minify | fingerprint }}
-      <link
-        rel="stylesheet"
-        href="{{ .RelPermalink }}"
-        integrity="{{ .Data.Integrity }}"
-        crossorigin="anonymous"
-      />
-    {{ end }}
-  {{ end }}
+	{{ if hugo.IsDevelopment }}
+		<link rel="stylesheet" href="{{ .RelPermalink }}" />
+	{{ else }}
+		{{ with . | minify | fingerprint }}
+			<link
+				rel="stylesheet"
+				href="{{ .RelPermalink }}"
+				integrity="{{ .Data.Integrity }}"
+				crossorigin="anonymous"
+			/>
+		{{ end }}
+	{{ end }}
 {{ end }}
 
 {{/* Chroma styles: use markup.highlight.style and its dark counterpart. */}}
 {{- $chromaLight := css.ChromaStyles (dict
-  "mode" "light"
-  "targetPath" "css/chroma-light.css"
-  )
+	"mode" "light"
+	"targetPath" "css/chroma-light.css"
+)
 -}}
 {{- $chromaDark := css.ChromaStyles (dict
-  "mode" "dark"
-  "modeSelector" true
-  "classDark" "dark"
-  "targetPath" "css/chroma-dark.css"
-  )
+	"mode" "dark"
+	"modeSelector" true
+	"classDark" "dark"
+	"targetPath" "css/chroma-dark.css"
+)
 -}}
 {{- $chroma := resources.Concat "css/chroma.css" (slice $chromaLight $chromaDark) -}}
 {{ if hugo.IsDevelopment }}
-  <link rel="stylesheet" href="{{ $chroma.RelPermalink }}" />
+	<link rel="stylesheet" href="{{ $chroma.RelPermalink }}" />
 {{ else }}
-  {{ with $chroma | minify | fingerprint }}
-    <link
-      rel="stylesheet"
-      href="{{ .RelPermalink }}"
-      integrity="{{ .Data.Integrity }}"
-      crossorigin="anonymous"
-    />
-  {{ end }}
+	{{ with $chroma | minify | fingerprint }}
+		<link
+			rel="stylesheet"
+			href="{{ .RelPermalink }}"
+			integrity="{{ .Data.Integrity }}"
+			crossorigin="anonymous"
+		/>
+	{{ end }}
 {{ end }}
 
 {{/* custom styles */}}
 {{ range (resources.Match "css/custom/*.css") }}
-  {{ if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" />
-  {{ else }}
-    {{ with . | minify | fingerprint }}
-      <link
-        rel="stylesheet"
-        href="{{ .RelPermalink }}"
-        integrity="{{ .Data.Integrity }}"
-        crossorigin="anonymous"
-      />
-    {{ end }}
-  {{ end }}
+	{{ if hugo.IsDevelopment }}
+		<link rel="stylesheet" href="{{ .RelPermalink }}" />
+	{{ else }}
+		{{ with . | minify | fingerprint }}
+			<link
+				rel="stylesheet"
+				href="{{ .RelPermalink }}"
+				integrity="{{ .Data.Integrity }}"
+				crossorigin="anonymous"
+			/>
+		{{ end }}
+	{{ end }}
 {{ end }}

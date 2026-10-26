@@ -9,8 +9,8 @@
 {{ $config := .config | default dict }}
 
 {{ if $config.shortname }}
-  <div id="{{ $id }}" class="disqus-container">
-    <div id="disqus_thread"></div>
+	<div id="{{ $id }}" class="disqus-container">
+		<div id="disqus_thread"></div>
 
     <script>
       (function() {
@@ -40,10 +40,10 @@
       })();
     </script>
 
-    <noscript>
-      {{ partial "features/comments/notice.html" (dict "icon" "message-circle") }}
-    </noscript>
-  </div>
+		<noscript>
+			{{ partial "features/comments/notice.html" (dict "icon" "message-circle") }}
+		</noscript>
+	</div>
 {{ else }}
-  {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
+	{{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}

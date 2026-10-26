@@ -11,19 +11,19 @@
 
 
 <header class="border-border mb-8 border-b pb-6">
-  <h1 class="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
-    {{ $page.Title }}
-  </h1>
+	<h1 class="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
+		{{ $page.Title }}
+	</h1>
 
-  {{- with $description -}}
-    <p class="text-muted-foreground mt-2 text-sm leading-relaxed">{{ . | plainify }}</p>
-  {{- end -}}
+	{{- with $description -}}
+		<p class="text-muted-foreground mt-2 text-sm leading-relaxed">{{ . | plainify }}</p>
+	{{- end -}}
 
-  {{- with $meta -}}
-    <p class="text-muted-foreground mt-3 text-xs">{{ . }}</p>
-  {{- end -}}
+	{{- with $meta -}}
+		<p class="text-muted-foreground mt-3 text-xs">{{ . }}</p>
+	{{- end -}}
 
-  {{- if and $showContent $page.Content -}}
-    <div class="prose mt-4">{{ $page.Content }}</div>
-  {{- end -}}
+	{{- if and $showContent $page.Content -}}
+		<div class="prose mt-4">{{ $page.Content }}</div>
+	{{- end -}}
 </header>

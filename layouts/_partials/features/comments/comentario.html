@@ -9,29 +9,29 @@
 {{ $config := .config | default dict }}
 
 {{ if $config.server }}
-  {{ $server := strings.TrimSuffix "/" $config.server }}
-  <div id="{{ $id }}" class="comentario-container">
+	{{ $server := strings.TrimSuffix "/" $config.server }}
+	<div id="{{ $id }}" class="comentario-container">
     <script defer src="{{ printf "%s/comentario.js" $server | safeURL }}"></script>
-    <comentario-comments
-      page-id="{{ .Page.RelPermalink }}"
-      {{ with $config.domainId }}domain-id="{{ . }}"{{ end }}
-      {{ with $config.lang }}lang="{{ . }}"{{ end }}
-      {{ with $config.theme }}theme="{{ . }}"{{ end }}
-      {{ with $config.cssOverride }}css-override="{{ . }}"{{ end }}
-      {{ if eq $config.liveUpdate false }}live-update="false"{{ end }}
-      {{ with $config.maxLevel }}max-level="{{ . }}"{{ end }}
-      {{ if $config.noFonts }}no-fonts="true"{{ end }}
-      {{ if eq $config.autoInit false }}auto-init="false"{{ end }}
-      {{ if $config.autoNonInteractiveSso }}auto-non-interactive-sso="true"{{ end }}
-    ></comentario-comments>
-    {{ if not $config.theme }}
-      {{ partial "features/comments/theme-sync.html" (dict
-        "provider" "comentario"
-        "container" (printf "#%s" $id)
-        )
-      }}
-    {{ end }}
-  </div>
+		<comentario-comments
+			page-id="{{ .Page.RelPermalink }}"
+			{{ with $config.domainId }}domain-id="{{ . }}"{{ end }}
+			{{ with $config.lang }}lang="{{ . }}"{{ end }}
+			{{ with $config.theme }}theme="{{ . }}"{{ end }}
+			{{ with $config.cssOverride }}css-override="{{ . }}"{{ end }}
+			{{ if eq $config.liveUpdate false }}live-update="false"{{ end }}
+			{{ with $config.maxLevel }}max-level="{{ . }}"{{ end }}
+			{{ if $config.noFonts }}no-fonts="true"{{ end }}
+			{{ if eq $config.autoInit false }}auto-init="false"{{ end }}
+			{{ if $config.autoNonInteractiveSso }}auto-non-interactive-sso="true"{{ end }}
+		></comentario-comments>
+		{{ if not $config.theme }}
+			{{ partial "features/comments/theme-sync.html" (dict
+				"provider" "comentario"
+				"container" (printf "#%s" $id)
+			)
+			}}
+		{{ end }}
+	</div>
 {{ else }}
-  {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
+	{{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}

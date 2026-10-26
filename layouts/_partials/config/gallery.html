@@ -8,28 +8,28 @@
   gallery.js can then pass them straight through without key fallbacks.
 */}}
 {{- $defaults := dict
-  "defaultlayout" "justified"
-  "gap" 10
-  "targetrowheight" 200
-  "lastrowbehavior" "center"
-  "columnwidth" 200
-  "columns" 4
+	"defaultlayout" "justified"
+	"gap" 10
+	"targetrowheight" 200
+	"lastrowbehavior" "center"
+	"columnwidth" 200
+	"columns" 4
 -}}
 {{- $globalGallery := site.Params.gallery | default dict -}}
 {{- $globalLightbox := site.Params.lightbox | default dict -}}
 {{- if not (reflect.IsMap $globalGallery) -}}
-  {{- $globalGallery = dict "enabled" $globalGallery -}}
+	{{- $globalGallery = dict "enabled" $globalGallery -}}
 {{- end -}}
 {{- if not (reflect.IsMap $globalLightbox) -}}
-  {{- $globalLightbox = dict "enabled" $globalLightbox -}}
+	{{- $globalLightbox = dict "enabled" $globalLightbox -}}
 {{- end -}}
 {{- $pageGallery := .Params.gallery | default dict -}}
 {{- $pageLightbox := .Params.lightbox | default dict -}}
 {{- if not (reflect.IsMap $pageGallery) -}}
-  {{- $pageGallery = dict "enabled" $pageGallery -}}
+	{{- $pageGallery = dict "enabled" $pageGallery -}}
 {{- end -}}
 {{- if not (reflect.IsMap $pageLightbox) -}}
-  {{- $pageLightbox = dict "enabled" $pageLightbox -}}
+	{{- $pageLightbox = dict "enabled" $pageLightbox -}}
 {{- end -}}
 
 {{- $galleryEnabled := cond (isset $pageGallery "enabled") $pageGallery.enabled ($globalGallery.enabled | default false) -}}
@@ -40,16 +40,16 @@
 {{- $galleryConfig := merge $defaults $globalGallery $pageGallery -}}
 
 {{- $galleryOptions := dict
-  "defaultLayout" $galleryConfig.defaultlayout
-  "gap" $galleryConfig.gap
-  "targetRowHeight" $galleryConfig.targetrowheight
-  "lastRowBehavior" $galleryConfig.lastrowbehavior
-  "columnWidth" $galleryConfig.columnwidth
-  "columns" $galleryConfig.columns
+	"defaultLayout" $galleryConfig.defaultlayout
+	"gap" $galleryConfig.gap
+	"targetRowHeight" $galleryConfig.targetrowheight
+	"lastRowBehavior" $galleryConfig.lastrowbehavior
+	"columnWidth" $galleryConfig.columnwidth
+	"columns" $galleryConfig.columns
 -}}
 
 {{- return dict
-  "gallery" (and $galleryEnabled $pageHasImageFigure)
-  "lightbox" (and $lightboxEnabled (or $pageHasImageFigure $pageHasLightboxFigure))
-  "galleryOptions" $galleryOptions
+	"gallery" (and $galleryEnabled $pageHasImageFigure)
+	"lightbox" (and $lightboxEnabled (or $pageHasImageFigure $pageHasLightboxFigure))
+	"galleryOptions" $galleryOptions
 -}}

@@ -2,17 +2,17 @@
 {{- $sections := site.MainSections | default (slice "posts") -}}
 {{- $count := 3 -}}
 {{- with site.Params.home -}}
-  {{- if isset . "recentPostsCount" -}}{{- $count = .recentPostsCount -}}{{- end -}}
+	{{- if isset . "recentPostsCount" -}}{{- $count = .recentPostsCount -}}{{- end -}}
 {{- end -}}
 {{- $posts := where site.RegularPages "Section" "in" $sections | first $count -}}
 {{- $allURL := printf "%s/" (index $sections 0) | relLangURL -}}
 
 {{ partial "content/post-list.html" (dict
-  "posts" $posts
-  "title" (T "home.recentPosts")
-  "showTitle" true
-  "showViewAll" true
-  "viewAllUrl" $allURL
-  "columns" 1
-  )
+	"posts" $posts
+	"title" (T "home.recentPosts")
+	"showTitle" true
+	"showViewAll" true
+	"viewAllUrl" $allURL
+	"columns" 1
+)
 }}

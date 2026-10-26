@@ -10,24 +10,24 @@
 {{- $total := 0 -}}
 
 {{- with $page.GetTerms "series" -}}
-  {{- $term = index . 0 -}}
-  {{- $candidate := $term.Pages.ByParam "series_order" -}}
-  {{- $missingOrder := false -}}
-  {{- range $candidate -}}
-    {{- if not (isset .Params "series_order") -}}
-      {{- $missingOrder = true -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if $missingOrder -}}
-    {{- $candidate = $term.Pages.ByDate -}}
-  {{- end -}}
-  {{- $pages = $candidate -}}
-  {{- $total = len $pages -}}
-  {{- range $index, $part := $pages -}}
-    {{- if eq $part.RelPermalink $page.RelPermalink -}}
-      {{- $current = add $index 1 -}}
-    {{- end -}}
-  {{- end -}}
+	{{- $term = index . 0 -}}
+	{{- $candidate := $term.Pages.ByParam "series_order" -}}
+	{{- $missingOrder := false -}}
+	{{- range $candidate -}}
+		{{- if not (isset .Params "series_order") -}}
+			{{- $missingOrder = true -}}
+		{{- end -}}
+	{{- end -}}
+	{{- if $missingOrder -}}
+		{{- $candidate = $term.Pages.ByDate -}}
+	{{- end -}}
+	{{- $pages = $candidate -}}
+	{{- $total = len $pages -}}
+	{{- range $index, $part := $pages -}}
+		{{- if eq $part.RelPermalink $page.RelPermalink -}}
+			{{- $current = add $index 1 -}}
+		{{- end -}}
+	{{- end -}}
 {{- end -}}
 
 {{- $has := and $term (gt $total 1) (gt $current 0) -}}

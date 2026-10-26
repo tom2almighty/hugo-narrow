@@ -7,92 +7,92 @@
 
 
 <div
-  id="dock"
-  role="toolbar"
-  aria-label="{{ T `ui.dockAriaLabel` }}"
-  aria-orientation="horizontal"
-  data-placement="bottom"
+	id="dock"
+	role="toolbar"
+	aria-label="{{ T `ui.dockAriaLabel` }}"
+	aria-orientation="horizontal"
+	data-placement="bottom"
 >
-  <div class="dock-shell">
-    <a
-      id="dock-home"
-      href="{{ site.Home.RelPermalink }}"
-      class="dock-item"
-      title="{{ T `nav.backHome` }}"
-      aria-label="{{ T `nav.backHome` }}"
-      {{ if .IsHome }}aria-current="page"{{ end }}
-    >
-      {{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
-    </a>
+	<div class="dock-shell">
+		<a
+			id="dock-home"
+			href="{{ site.Home.RelPermalink }}"
+			class="dock-item"
+			title="{{ T `nav.backHome` }}"
+			aria-label="{{ T `nav.backHome` }}"
+			{{ if .IsHome }}aria-current="page"{{ end }}
+		>
+			{{ partial "features/icon.html" (dict "name" "home" "size" "sm" "ariaLabel" "") }}
+		</a>
 
-    <button
-      id="dock-menu"
-      type="button"
-      class="dock-item"
-      aria-label="{{ T `nav.menu` }}"
-      title="{{ T `nav.menu` }}"
-      aria-controls="nav-menu-popover"
-      aria-expanded="false"
-      popovertarget="nav-menu-popover"
-    >
-      {{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
-    </button>
+		<button
+			id="dock-menu"
+			type="button"
+			class="dock-item"
+			aria-label="{{ T `nav.menu` }}"
+			title="{{ T `nav.menu` }}"
+			aria-controls="nav-menu-popover"
+			aria-expanded="false"
+			popovertarget="nav-menu-popover"
+		>
+			{{ partial "features/icon.html" (dict "name" "menu" "size" "sm" "ariaLabel" "") }}
+		</button>
 
-    {{- if $searchEnabled }}
-      <button
-        id="dock-search"
-        type="button"
-        class="dock-item"
-        title="{{ T `ui.dockSearch` }}"
-        aria-label="{{ T `ui.dockSearch` }}"
-      >
-        {{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
-      </button>
-    {{- end }}
+		{{- if $searchEnabled }}
+			<button
+				id="dock-search"
+				type="button"
+				class="dock-item"
+				title="{{ T `ui.dockSearch` }}"
+				aria-label="{{ T `ui.dockSearch` }}"
+			>
+				{{ partial "features/icon.html" (dict "name" "search" "size" "sm" "ariaLabel" "") }}
+			</button>
+		{{- end }}
 
-    {{- if $tocEnabled }}
-      <span class="dock-divider" aria-hidden="true"></span>
-      <button
-        id="dock-toc"
-        type="button"
-        class="dock-item"
-        title="{{ T `ui.toc` }}"
-        aria-label="{{ T `ui.toc` }}"
-        aria-controls="toc-panel"
-        aria-expanded="false"
-      >
-        {{ partial "features/icon.html" (dict "name" "toc" "size" "sm" "ariaLabel" "") }}
-      </button>
-    {{- end -}}
+		{{- if $tocEnabled }}
+			<span class="dock-divider" aria-hidden="true"></span>
+			<button
+				id="dock-toc"
+				type="button"
+				class="dock-item"
+				title="{{ T `ui.toc` }}"
+				aria-label="{{ T `ui.toc` }}"
+				aria-controls="toc-panel"
+				aria-expanded="false"
+			>
+				{{ partial "features/icon.html" (dict "name" "toc" "size" "sm" "ariaLabel" "") }}
+			</button>
+		{{- end -}}
 
-    {{- if $commentsEnabled }}
-      <span class="dock-divider" aria-hidden="true"></span>
-      <button
-        id="dock-comments"
-        type="button"
-        class="dock-item"
-        title="{{ T `ui.dockComments` }}"
-        aria-label="{{ T `ui.dockComments` }}"
-      >
-        {{ partial "features/icon.html" (dict "name" "message-circle" "size" "sm" "ariaLabel" "") }}
-      </button>
-    {{- end -}}
-
-
-    <span class="dock-divider" aria-hidden="true"></span>
-
-    {{ partial "ui/appearance-popover.html" . }}
+		{{- if $commentsEnabled }}
+			<span class="dock-divider" aria-hidden="true"></span>
+			<button
+				id="dock-comments"
+				type="button"
+				class="dock-item"
+				title="{{ T `ui.dockComments` }}"
+				aria-label="{{ T `ui.dockComments` }}"
+			>
+				{{ partial "features/icon.html" (dict "name" "message-circle" "size" "sm" "ariaLabel" "") }}
+			</button>
+		{{- end -}}
 
 
-    <button
-      id="dock-top"
-      type="button"
-      class="dock-item"
-      title="{{ T `ui.dockBackToTop` }}"
-      aria-label="{{ T `ui.dockBackToTop` }}"
-      hidden
-    >
-      {{ partial "features/icon.html" (dict "name" "arrow-up" "size" "sm" "ariaLabel" "") }}
-    </button>
-  </div>
+		<span class="dock-divider" aria-hidden="true"></span>
+
+		{{ partial "ui/appearance-popover.html" . }}
+
+
+		<button
+			id="dock-top"
+			type="button"
+			class="dock-item"
+			title="{{ T `ui.dockBackToTop` }}"
+			aria-label="{{ T `ui.dockBackToTop` }}"
+			hidden
+		>
+			{{ partial "features/icon.html" (dict "name" "arrow-up" "size" "sm" "ariaLabel" "") }}
+		</button>
+	</div>
 </div>

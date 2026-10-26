@@ -2,6 +2,6 @@
 {{- printf `<%s id="%s">` $tag .Anchor | safeHTML -}}
 {{- .Text | safeHTML -}}
 <a href="#{{ .Anchor }}" class="heading-anchor" aria-label="{{ T `nav.anchor` }}">
-  {{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
+	{{- partial "features/icon.html" (dict "name" "link" "size" "sm" "hidden" true) -}}
 </a>
 {{- printf `</%s>` $tag | safeHTML -}}

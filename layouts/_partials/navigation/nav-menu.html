@@ -3,11 +3,11 @@
 {{- $topLinks := slice -}}
 {{- $groups := slice -}}
 {{- range site.Menus.main -}}
-  {{- if .HasChildren -}}
-    {{- $groups = $groups | append . -}}
-  {{- else -}}
-    {{- $topLinks = $topLinks | append . -}}
-  {{- end -}}
+	{{- if .HasChildren -}}
+		{{- $groups = $groups | append . -}}
+	{{- else -}}
+		{{- $topLinks = $topLinks | append . -}}
+	{{- end -}}
 {{- end -}}
 
 {{- $inactive := "text-muted-foreground hover:bg-muted hover:text-foreground" -}}
@@ -16,87 +16,87 @@
 
 
 <nav class="space-y-3" aria-label="{{ T `nav.menu` }}">
-  {{- if $topLinks -}}
-    <fieldset>
-      <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
-        {{ T "nav.menu" }}
-      </legend>
-      <div class="grid grid-cols-2 gap-1">
-        {{- range $topLinks -}}
-          {{- $menuURL := .URL -}}
-          {{- if .PageRef -}}
-            {{- with site.GetPage .PageRef -}}
-              {{- $menuURL = .RelPermalink -}}
-            {{- else -}}
-              {{- $menuURL = strings.TrimPrefix "/" .URL | relLangURL -}}
-            {{- end -}}
-          {{- end -}}
-          {{- $isActive := eq $page.RelPermalink $menuURL -}}
-          {{- if and (not $isActive) $menuURL (ne $menuURL site.Home.RelPermalink) -}}
-            {{- $menuPath := $menuURL -}}
-            {{- if not (hasSuffix $menuPath "/") -}}
-              {{- $menuPath = printf "%s/" $menuPath -}}
-            {{- end -}}
-            {{- $isActive = hasPrefix $page.RelPermalink $menuPath -}}
-          {{- end -}}
-          <a
-            href="{{ $menuURL }}"
-            class="{{ $itemClass }} {{ if $isActive }}
-              {{ $active }}
-            {{ else }}
-              {{ $inactive }}
-            {{ end }}"
-            {{ if $isActive }}aria-current="page"{{ end }}
-          >
-            {{- with .Params.icon -}}
-              {{ partial "features/icon.html" (dict "name" . "size" "sm" "class" "shrink-0" "ariaLabel" "") }}
-            {{- end -}}
-            <span class="truncate">{{ .Name }}</span>
-          </a>
-        {{- end -}}
-      </div>
-    </fieldset>
-  {{- end -}}
+	{{- if $topLinks -}}
+		<fieldset>
+			<legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
+				{{ T "nav.menu" }}
+			</legend>
+			<div class="grid grid-cols-2 gap-1">
+				{{- range $topLinks -}}
+					{{- $menuURL := .URL -}}
+					{{- if .PageRef -}}
+						{{- with site.GetPage .PageRef -}}
+							{{- $menuURL = .RelPermalink -}}
+						{{- else -}}
+							{{- $menuURL = strings.TrimPrefix "/" .URL | relLangURL -}}
+						{{- end -}}
+					{{- end -}}
+					{{- $isActive := eq $page.RelPermalink $menuURL -}}
+					{{- if and (not $isActive) $menuURL (ne $menuURL site.Home.RelPermalink) -}}
+						{{- $menuPath := $menuURL -}}
+						{{- if not (hasSuffix $menuPath "/") -}}
+							{{- $menuPath = printf "%s/" $menuPath -}}
+						{{- end -}}
+						{{- $isActive = hasPrefix $page.RelPermalink $menuPath -}}
+					{{- end -}}
+					<a
+						href="{{ $menuURL }}"
+						class="{{ $itemClass }} {{ if $isActive }}
+					{{ $active }}
+{{ else }}
+					{{ $inactive }}
+{{ end }}"
+						{{ if $isActive }}aria-current="page"{{ end }}
+					>
+						{{- with .Params.icon -}}
+							{{ partial "features/icon.html" (dict "name" . "size" "sm" "class" "shrink-0" "ariaLabel" "") }}
+						{{- end -}}
+						<span class="truncate">{{ .Name }}</span>
+					</a>
+				{{- end -}}
+			</div>
+		</fieldset>
+	{{- end -}}
 
-  {{- range $index, $group := $groups -}}
-    <fieldset class="{{ if or $topLinks (gt $index 0) }}border-border border-t pt-3{{ end }}">
-      <legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
-        {{ $group.Name }}
-      </legend>
-      <div class="grid grid-cols-2 gap-1">
-        {{- range $group.Children -}}
-          {{- $childURL := .URL -}}
-          {{- if .PageRef -}}
-            {{- with site.GetPage .PageRef -}}
-              {{- $childURL = .RelPermalink -}}
-            {{- else -}}
-              {{- $childURL = strings.TrimPrefix "/" .URL | relLangURL -}}
-            {{- end -}}
-          {{- end -}}
-          {{- $isActive := eq $page.RelPermalink $childURL -}}
-          {{- if and (not $isActive) $childURL (ne $childURL site.Home.RelPermalink) -}}
-            {{- $childPath := $childURL -}}
-            {{- if not (hasSuffix $childPath "/") -}}
-              {{- $childPath = printf "%s/" $childPath -}}
-            {{- end -}}
-            {{- $isActive = hasPrefix $page.RelPermalink $childPath -}}
-          {{- end -}}
-          <a
-            href="{{ $childURL }}"
-            class="{{ $itemClass }} {{ if $isActive }}
-              {{ $active }}
-            {{ else }}
-              {{ $inactive }}
-            {{ end }}"
-            {{ if $isActive }}aria-current="page"{{ end }}
-          >
-            {{- with .Params.icon -}}
-              {{ partial "features/icon.html" (dict "name" . "size" "sm" "class" "shrink-0" "ariaLabel" "") }}
-            {{- end -}}
-            <span class="truncate">{{ .Name }}</span>
-          </a>
-        {{- end -}}
-      </div>
-    </fieldset>
-  {{- end -}}
+	{{- range $index, $group := $groups -}}
+		<fieldset class="{{ if or $topLinks (gt $index 0) }}border-border border-t pt-3{{ end }}">
+			<legend class="text-muted-foreground mb-1.5 px-1 text-xs font-medium">
+				{{ $group.Name }}
+			</legend>
+			<div class="grid grid-cols-2 gap-1">
+				{{- range $group.Children -}}
+					{{- $childURL := .URL -}}
+					{{- if .PageRef -}}
+						{{- with site.GetPage .PageRef -}}
+							{{- $childURL = .RelPermalink -}}
+						{{- else -}}
+							{{- $childURL = strings.TrimPrefix "/" .URL | relLangURL -}}
+						{{- end -}}
+					{{- end -}}
+					{{- $isActive := eq $page.RelPermalink $childURL -}}
+					{{- if and (not $isActive) $childURL (ne $childURL site.Home.RelPermalink) -}}
+						{{- $childPath := $childURL -}}
+						{{- if not (hasSuffix $childPath "/") -}}
+							{{- $childPath = printf "%s/" $childPath -}}
+						{{- end -}}
+						{{- $isActive = hasPrefix $page.RelPermalink $childPath -}}
+					{{- end -}}
+					<a
+						href="{{ $childURL }}"
+						class="{{ $itemClass }} {{ if $isActive }}
+					{{ $active }}
+{{ else }}
+					{{ $inactive }}
+{{ end }}"
+						{{ if $isActive }}aria-current="page"{{ end }}
+					>
+						{{- with .Params.icon -}}
+							{{ partial "features/icon.html" (dict "name" . "size" "sm" "class" "shrink-0" "ariaLabel" "") }}
+						{{- end -}}
+						<span class="truncate">{{ .Name }}</span>
+					</a>
+				{{- end -}}
+			</div>
+		</fieldset>
+	{{- end -}}
 </nav>

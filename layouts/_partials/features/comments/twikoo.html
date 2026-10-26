@@ -9,7 +9,7 @@
 {{ $config := .config | default dict }}
 
 {{ if $config.envId }}
-  <div id="{{ $id }}" class="twikoo-container"></div>
+	<div id="{{ $id }}" class="twikoo-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
 
@@ -23,5 +23,5 @@
     });
   </script> {{ partial "features/comments/theme-sync.html" (dict "provider" "twikoo" "container" (printf "#%s" $id) "initial" false) }}
 {{ else }}
-  {{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
+	{{ partial "features/comments/notice.html" (dict "id" $id "icon" "message-circle") }}
 {{ end }}

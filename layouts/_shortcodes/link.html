@@ -14,28 +14,28 @@ Group from data/links.yaml:
 {{- $group := .Get "group" -}}
 
 {{- if and $title $url -}}
-  <div class="not-prose my-4 max-w-lg">
-    {{ partial "content/link.html" (dict
-      "title" $title
-      "description" $description
-      "url" $url
-      "icon" $icon
-      )
-    }}
-  </div>
+	<div class="not-prose my-4 max-w-lg">
+		{{ partial "content/link.html" (dict
+			"title" $title
+			"description" $description
+			"url" $url
+			"icon" $icon
+		)
+		}}
+	</div>
 {{- else if $group -}}
-  {{- $links := where (hugo.Data.links | default slice) "group" $group -}}
-  {{- if not $links -}}
-    {{- errorf "link shortcode: no entries for group %q in data/links.yaml" $group -}}
-  {{- end -}}
-  <div class="not-prose my-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-    {{- range $index, $link := $links -}}
-      {{- if not (and $link.title $link.url) -}}
-        {{- errorf "link shortcode: entry %d in group %q needs title and url" $index $group -}}
-      {{- end -}}
-      {{ partial "content/link.html" $link }}
-    {{- end -}}
-  </div>
+	{{- $links := where (hugo.Data.links | default slice) "group" $group -}}
+	{{- if not $links -}}
+		{{- errorf "link shortcode: no entries for group %q in data/links.yaml" $group -}}
+	{{- end -}}
+	<div class="not-prose my-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+		{{- range $index, $link := $links -}}
+			{{- if not (and $link.title $link.url) -}}
+				{{- errorf "link shortcode: entry %d in group %q needs title and url" $index $group -}}
+			{{- end -}}
+			{{ partial "content/link.html" $link }}
+		{{- end -}}
+	</div>
 {{- else -}}
-  {{- errorf "link shortcode: pass title + url for one card, or group to render data/links.yaml" -}}
+	{{- errorf "link shortcode: pass title + url for one card, or group to render data/links.yaml" -}}
 {{- end -}}

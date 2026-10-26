@@ -8,5 +8,5 @@
     })(window, document, "clarity", "script", "{{ . }}");
   </script>
 {{- else }}
-  {{- warnidf "analytics-clarity" "analytics.clarity.id is required when analytics.provider is clarity" -}}
+	{{- warnidf "analytics-clarity" "analytics.clarity.id is required when analytics.provider is clarity" -}}
 {{- end }}

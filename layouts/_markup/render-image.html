@@ -11,10 +11,10 @@
 {{- $globalLightbox := site.Params.lightbox | default dict -}}
 {{- $pageLightbox := .Page.Params.lightbox | default dict -}}
 {{- if not (reflect.IsMap $globalLightbox) -}}
-  {{- $globalLightbox = dict "enabled" $globalLightbox -}}
+	{{- $globalLightbox = dict "enabled" $globalLightbox -}}
 {{- end -}}
 {{- if not (reflect.IsMap $pageLightbox) -}}
-  {{- $pageLightbox = dict "enabled" $pageLightbox -}}
+	{{- $pageLightbox = dict "enabled" $pageLightbox -}}
 {{- end -}}
 {{- $lightboxEnabled := false -}}
 {{- $pageContext.Store.Set "hasImageFigure" true -}}
@@ -22,21 +22,21 @@
 
 {{/* 优先使用页面级配置，然后是全局配置 */}}
 {{- if isset $pageLightbox "enabled" -}}
-  {{- $lightboxEnabled = $pageLightbox.enabled -}}
+	{{- $lightboxEnabled = $pageLightbox.enabled -}}
 {{- else if isset $globalLightbox "enabled" -}}
-  {{- $lightboxEnabled = $globalLightbox.enabled -}}
+	{{- $lightboxEnabled = $globalLightbox.enabled -}}
 {{- end -}}
 
 {{- if $lightboxEnabled -}}
-  {{- $pageContext.Store.Set "hasLightboxFigure" true -}}
-  {{- .Page.Store.Set "hasLightboxFigure" true -}}
+	{{- $pageContext.Store.Set "hasLightboxFigure" true -}}
+	{{- .Page.Store.Set "hasLightboxFigure" true -}}
 {{- end -}}
 
 {{/* 使用图片处理器获取数据（单次调用） */}}
 {{- partial "content/image-processor.html" (dict
-  "context" $pageContext
-  "src" $dest
-  )
+	"context" $pageContext
+	"src" $dest
+)
 -}}
 
 {{- $imageUrl := $pageContext.Store.Get "imageUrl" -}}
@@ -48,38 +48,38 @@
 
 {{/* 生成 figure 元素 */}}
 <figure
-  class="image-figure not-prose my-8"
-  data-lightbox-enabled="{{ cond $lightboxEnabled "true" "false" }}"
-  data-gallery-type="auto"
-  data-image-width="{{ $width }}"
-  data-image-height="{{ $height }}"
-  data-image-src="{{ $imageUrl }}"
+	class="image-figure not-prose my-8"
+	data-lightbox-enabled="{{ cond $lightboxEnabled "true" "false" }}"
+	data-gallery-type="auto"
+	data-image-width="{{ $width }}"
+	data-image-height="{{ $height }}"
+	data-image-src="{{ $imageUrl }}"
 >
-  <div class="image-container">
-    <picture>
-      {{- with $webpSrcset }}
-        <source type="image/webp" srcset="{{ . }}" sizes="{{ $sizes }}" />
-      {{- end }}
-      <img
-        src="{{ $imageUrl }}"
-        alt="{{ $alt }}"
-        {{ with $srcset }}srcset="{{ . }}"{{ end }}
-        sizes="{{ $sizes }}"
-        {{ with $caption }}title="{{ . }}"{{ end }}
-        {{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
-        loading="lazy"
-        decoding="async"
-        data-gallery-src="{{ $imageUrl }}"
-        data-gallery-alt="{{ $alt }}"
-        data-gallery-title="{{ $caption }}"
-      />
-    </picture>
-  </div>
+	<div class="image-container">
+		<picture>
+			{{- with $webpSrcset }}
+				<source type="image/webp" srcset="{{ . }}" sizes="{{ $sizes }}" />
+			{{- end }}
+			<img
+				src="{{ $imageUrl }}"
+				alt="{{ $alt }}"
+				{{ with $srcset }}srcset="{{ . }}"{{ end }}
+				sizes="{{ $sizes }}"
+				{{ with $caption }}title="{{ . }}"{{ end }}
+				{{ if gt $width 0 }}width="{{ $width }}" height="{{ $height }}"{{ end }}
+				loading="lazy"
+				decoding="async"
+				data-gallery-src="{{ $imageUrl }}"
+				data-gallery-alt="{{ $alt }}"
+				data-gallery-title="{{ $caption }}"
+			/>
+		</picture>
+	</div>
 
-  {{/* 图片说明 */}}
-  {{- if $caption -}}
-    <figcaption class="image-caption">
-      {{ $caption | .Page.RenderString }}
-    </figcaption>
-  {{- end -}}
+	{{/* 图片说明 */}}
+	{{- if $caption -}}
+		<figcaption class="image-caption">
+			{{ $caption | .Page.RenderString }}
+		</figcaption>
+	{{- end -}}
 </figure>

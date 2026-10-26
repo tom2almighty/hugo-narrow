@@ -17,24 +17,24 @@
 {{- $columns := .columns -}}
 
 {{- if $posts -}}
-  <section class="post-list">
-    {{- if and $showTitle $title -}}
-      {{ partial "content/section-header.html" (dict
-        "title" $title
-        "showViewAll" $showViewAll
-        "viewAllUrl" $viewAllUrl
-        )
-      }}
-    {{- end -}}
+	<section class="post-list">
+		{{- if and $showTitle $title -}}
+			{{ partial "content/section-header.html" (dict
+				"title" $title
+				"showViewAll" $showViewAll
+				"viewAllUrl" $viewAllUrl
+			)
+			}}
+		{{- end -}}
 
-    {{ partial "content/card-grid.html" (dict
-      "items" $posts
-      "variant" "post"
-      "columns" $columns
-      "compact" $compact
-      )
-    }}
-  </section>
+		{{ partial "content/card-grid.html" (dict
+			"items" $posts
+			"variant" "post"
+			"columns" $columns
+			"compact" $compact
+		)
+		}}
+	</section>
 {{- else -}}
-  <p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
+	<p class="text-muted-foreground py-8 text-sm">{{ T "article.empty" }}</p>
 {{- end -}}
