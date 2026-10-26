@@ -7,6 +7,7 @@
 A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shadcn-style semantic tokens, and a centered content width that readers can adjust.
 
 > [!NOTE]
+> v2.1.1 is the final Hugo Narrow 2.x release. The v2 line is no longer maintained; the Go template layout became too costly to maintain. Existing v2 sites should pin v2.1.1.
 > The final v1 release is v1.4.1, preserved on the `v1` branch.
 > See the [2.0.0 release notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0) for the full list of breaking changes and migration notes. 
 > A v1 preview is available at https://tom2almighty.github.io/hugo-narrow/v1/.

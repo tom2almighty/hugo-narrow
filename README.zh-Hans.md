@@ -8,6 +8,7 @@
 
 
 > [!NOTE]
+> v2.1.1 是 Hugo Narrow 2.x 的最终版本，v2 不再维护。Go template 布局的维护成本过高，现有 v2 站点请固定使用 v2.1.1。
 > v1 的最终版本为 v1.4.1，保留在 `v1` 分支。
 > 完整的破坏性变更与迁移说明见 [2.0.0 Release Notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0)。
 > v1 预览地址：https://tom2almighty.github.io/hugo-narrow/v1/。
