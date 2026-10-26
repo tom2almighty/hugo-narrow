@@ -4,7 +4,7 @@
  * cycles justified → masonry → grid.
  */
 import GalleryLightbox from "./gallery-lightbox.js";
-import SmartGallery from "./vendor/smart-gallery.js";
+import SmartGallery from "./lib/smart-gallery.js";
 
 const LAYOUTS = ["justified", "masonry", "grid"];
 const SWITCHER_TEMPLATE_ID = "gallery-layout-switcher";

@@ -2,7 +2,7 @@
  * Search indexing and scoring powered by MiniSearch and Intl.Segmenter.
  * DOM-free so it can be tested or reused.
  */
-import MiniSearch from "./vendor/minisearch.js";
+import MiniSearch from "./lib/minisearch.js";
 
 export const RESULT_LIMIT = 30;
 
