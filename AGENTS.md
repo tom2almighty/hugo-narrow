@@ -49,7 +49,8 @@ can build independently. Release notes for a tag are read from
   their feature is on the page, so nothing imports them from `main.js`. Shared storage, events, and
   breakpoints live in `core.js` / `layout.js`; keep
   the matching CSS media queries in sync. Third-party code (MiniSearch, smart-gallery) is vendored in
-  `assets/js/vendor/` and imported as ESM — never load a script from a CDN at runtime.
+  `assets/js/lib/` and imported as ESM — never load a script from a CDN at runtime.
+  Do not name this directory `vendor`: Go module archives exclude directories with that name.
 
 Consequence: **if you add or change Tailwind utility classes in any `layouts/**/*.html`, you must
 recompile** (`pnpm run compile`, or use `pnpm run dev:parallel` which watches). Running plain
@@ -184,7 +185,7 @@ the optional Apple touch icon are configured under `params.pwa`.
 
 - HTML/templates and JS are formatted by Prettier with `prettier-plugin-go-template` and
   `prettier-plugin-tailwindcss` (2-space indent, double quotes, 100 col). Run `pnpm run format:write`.
-  `assets/js/vendor/`, `assets/js/theme-init.js` (Hugo-templated), and `refer/` are in `.prettierignore`.
+  `assets/js/lib/`, `assets/js/theme-init.js` (Hugo-templated), and `refer/` are in `.prettierignore`.
 - Many template/JS comments are in Chinese — match the surrounding language when editing a file.
 - Do not reintroduce `header.*`, `dock`, `themes`, `timeFormat`, or the removed appearance flags.
 - Do not add separate light/dark code-block style parameters; use `markup.highlight.style`.
