@@ -49,11 +49,7 @@
 {{/* 生成 figure 元素 */}}
 <figure
   class="image-figure not-prose my-8"
-  data-lightbox-enabled="{{ if $lightboxEnabled }}
-    true
-  {{ else }}
-    false
-  {{ end }}"
+  data-lightbox-enabled="{{ cond $lightboxEnabled "true" "false" }}"
   data-gallery-type="auto"
   data-image-width="{{ $width }}"
   data-image-height="{{ $height }}"
