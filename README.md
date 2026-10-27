@@ -7,11 +7,11 @@
 A reading-first Hugo theme with an adaptive dock, a breadcrumb context bar, Shadcn-style semantic tokens, and a centered content width that readers can adjust.
 
 > [!NOTE]
-> v2.1.1 is the final Hugo Narrow release, and the v2 line is no longer maintained. Before AI coding tools became widespread, Hugo was a strong fit for personal sites: a single Go binary, fast builds, and shortcodes that made small extensions easy. Those tools have since made generating a personal site much simpler, and the frontend ecosystem offers mature libraries that other frameworks can import directly. Astro and similar frameworks do not treat themes as a core abstraction, but with AI every site can become its own theme. Hugo's theme ecosystem fits that workflow less well, and its template tooling still lacks a mature, widely adopted formatter, which makes maintenance costly.
+> Hugo Narrow is no longer maintained; v2 was the last version line. Before AI coding tools became widespread, Hugo was a strong fit for personal sites: a single Go binary, fast builds, and shortcodes that made small extensions easy. Those tools have since made generating a personal site much simpler, and the frontend ecosystem offers mature libraries that other frameworks can import directly. Astro and similar frameworks do not treat themes as a core abstraction, but with AI every site can become its own theme. Hugo's theme ecosystem fits that workflow less well, and its template tooling still lacks a mature, widely adopted formatter, which makes maintenance costly.
 >
-> Maintenance is therefore ending; only the related [astro-narrow](https://github.com/tom2almighty/astro-narrow) theme will continue. Frontend themes are opinionated by nature, so a fork is often a better fit than a shared upstream; you are welcome to use AI to maintain your own. Existing v2 sites should pin [v2.1.1](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.1.1).
+> Maintenance is therefore ending; only the related [astro-narrow](https://github.com/tom2almighty/astro-narrow) theme will continue. Frontend themes are opinionated by nature, so a fork is often a better fit than a shared upstream; you are welcome to use AI to maintain your own. Existing v2 sites should pin their current v2 release.
 >
-> The final v1 release is v1.4.1, preserved on the `v1` branch.
+> The v1 line is preserved on the `v1` branch.
 > See the [2.0.0 release notes](https://github.com/tom2almighty/hugo-narrow/releases/tag/v2.0.0) for the full list of breaking changes and migration notes. 
 > A v1 preview is available at https://tom2almighty.github.io/hugo-narrow/v1/.
 
