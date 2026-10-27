@@ -15,6 +15,21 @@
   content: none;
 }
 
+/* Legacy pre fallback */
+.prose pre:not(.chroma) {
+  margin: 0;
+  overflow-x: auto;
+  padding: 1rem;
+  background: transparent;
+}
+
+.prose pre:not(.chroma) code {
+  background: transparent;
+  padding: 0;
+  color: var(--tw-prose-pre-code);
+  font-weight: normal;
+}
+
 /* Code block shell */
 .code-block-container {
   margin: 1.5rem 0;
@@ -29,34 +44,64 @@
   background: color-mix(in oklab, var(--muted) 45%, transparent);
 }
 
-/* Chroma output */
-.code-block-content .chroma {
+/* Chroma output. `.highlight` is emitted in both class and noClasses modes,
+   so padding, scrolling, and typography live here rather than on `.chroma`. */
+.code-block-content .highlight {
   margin: 0;
   overflow-x: auto;
   padding: 1rem;
   background: transparent !important;
   font-family: var(--font-mono);
   font-size: 0.875rem;
+  line-height: 1.75;
 }
 
-.code-block-content pre,
-.code-block-content .chroma pre {
+.code-block-content .highlight pre,
+.code-block-content .highlight code {
   margin: 0;
   overflow: visible;
   border: none;
-  background: transparent;
-  padding: 0;
-}
-
-.code-block-content .chroma code {
-  background: transparent;
+  background: transparent !important;
   padding: 0;
   font-family: inherit;
+  font-size: inherit;
   font-weight: normal;
+  line-height: inherit;
+}
+
+/* noClasses renders the Chroma background on an inner wrapper as inline style. */
+.code-block-content .highlight > div,
+.code-block-content .chroma {
+  background: transparent !important;
 }
 
 .code-block-content .chroma .cl {
   flex: 1;
+}
+
+/* lineNumbersInTable: keep the number column narrow and align both columns. */
+.code-block-content .highlight table {
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.code-block-content .highlight table td:first-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* Chroma wraps a highlighted line number in an inline .hl; make it fill the row. */
+.code-block-content .highlight table td:first-child .hl {
+  display: block;
+}
+
+/* The generic prose table hover must not apply to the Chroma line-number table. */
+.code-block-content .highlight table tr:hover td {
+  background: transparent;
 }
 
 /* Collapse */
@@ -71,19 +116,4 @@
 .code-block-content {
   background: var(--card);
   transition: max-height 0.2s ease-out;
-}
-
-/* Legacy pre fallback */
-.prose pre:not(.chroma) {
-  margin: 0;
-  overflow-x: auto;
-  padding: 1rem;
-  background: transparent;
-}
-
-.prose pre:not(.chroma) code {
-  background: transparent;
-  padding: 0;
-  color: var(--tw-prose-pre-code);
-  font-weight: normal;
 }
