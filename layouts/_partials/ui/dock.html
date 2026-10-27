@@ -1,8 +1,7 @@
 {{/* Global dock: floating capsule on the right (wide landscape) or bottom. */}}
 {{- $tocConfig := partial "config/toc.html" . -}}
 {{- $tocEnabled := and $tocConfig.enabled (ne .TableOfContents `<nav id="TableOfContents"></nav>`) -}}
-{{- $commentsConfig := partial "config/comments.html" . -}}
-{{- $commentsEnabled := and $commentsConfig.enabled $commentsConfig.provider -}}
+{{- $commentsEnabled := .Store.Get "hasComments" | default false -}}
 {{- $searchEnabled := (partial "config/search.html" .).enabled -}}
 
 

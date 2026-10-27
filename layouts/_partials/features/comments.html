@@ -17,6 +17,7 @@
 
 {{/* Whether to load comments */}}
 {{- if and $commentsConfig.enabled $provider -}}
+	{{- .Store.Set "hasComments" true -}}
 	{{- $providerConfig := index $commentsConfig $provider | default dict -}}
 	<section id="comments" class="border-border mt-10 border-t pt-8">
 		<div>
