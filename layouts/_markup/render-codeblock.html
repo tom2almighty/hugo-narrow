@@ -94,7 +94,8 @@
 	{{/* Code content with Hugo Chroma highlighting */}}
 	<div class="code-block-content relative" id="{{ $codeId }}">
 		{{ $highlighted.Wrapped }}
-		<div hidden data-code-source>{{ .Inner }}</div>
+		{{/* Use <pre> so Hugo's HTML minifier keeps the indentation when copying. */}}
+		<pre hidden data-code-source>{{ .Inner }}</pre>
 		{{/* Collapse overlay (hidden by default) */}}
 		<div
 			class="collapse-overlay to-card/90 pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-transparent opacity-0 transition-opacity duration-300"
