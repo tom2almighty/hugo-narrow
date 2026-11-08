@@ -66,11 +66,8 @@ body {
 }
 
 #page-container {
-  max-width: min(
-    var(--content-width, var(--content-width-base, 56rem)),
-    var(--fold-content-width, 100vw)
-  );
-  margin-inline: var(--fold-margin-start, auto) auto;
+  max-width: var(--content-width, var(--content-width-base, 56rem));
+  margin-inline: auto;
 }
 
 .page-main {

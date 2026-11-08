@@ -473,9 +473,9 @@
   @apply surface-popover;
 }
 
-/* Floating side capsule: wide landscape or a horizontally folded viewport. */
+/* Floating side capsule: wide landscape viewport. */
 /* Keep in sync with SIDE_DOCK_QUERY in assets/js/layout.js. */
-@media (min-aspect-ratio: 4/3) and (min-width: 75rem), (horizontal-viewport-segments: 2) {
+@media (min-aspect-ratio: 4/3) and (min-width: 75rem) {
   body {
     padding-bottom: 0;
   }
@@ -568,47 +568,6 @@
       margin-inline-end: 0.5rem;
       position-try-fallbacks: flip-block, flip-inline;
     }
-  }
-}
-
-@media (horizontal-viewport-segments: 2) {
-  #dock {
-    right: calc(100vw - env(viewport-segment-right 1 0) + 1rem);
-  }
-}
-
-/* Vertical fold keeps the floating bottom capsule. Keep this rule last. */
-@media (vertical-viewport-segments: 2) {
-  body {
-    padding-bottom: var(--dock-clearance);
-  }
-
-  #dock {
-    top: auto;
-    right: auto;
-    bottom: calc(env(safe-area-inset-bottom) + 1rem);
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .dock-shell {
-    flex-direction: row;
-    border-radius: 9999px;
-    padding: 0.375rem;
-  }
-
-  .dock-divider {
-    width: 1px;
-    height: 1.25rem;
-  }
-
-  #appearance-panel,
-  .nav-popover {
-    left: 50%;
-    right: auto;
-    top: auto;
-    bottom: calc(env(safe-area-inset-bottom) + var(--dock-size) + 1.5rem);
-    transform: translateX(-50%);
   }
 }
 

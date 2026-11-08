@@ -45,9 +45,9 @@ can build independently. Release notes for a tag are read from
   fingerprints/minifies the already-built `compiled.css` (see `_partials/layout/head/css.html`).
 - **JS is bundled by Hugo** via `js.Build` (esbuild) at render time — no separate JS build step.
   `assets/js/main.js` is the always-on entry; it composes `announcement.js`, `appearance.js`,
-  `viewport.js`, `popovers.js`, `fold.js`, `context-bar.js`, `dock.js`, `tabs.js`, and
-  `codeblock.js`. `search.js`, `toc.js`, and `gallery.js` are separate entries loaded only when
-  their feature is on the page, so nothing imports them from `main.js`. Shared storage, events, and
+  `viewport.js`, `popovers.js`, `context-bar.js`, `dock.js`, `tabs.js`, and `codeblock.js`.
+  `search.js`, `toc.js`, and `gallery.js` are separate entries loaded only when their feature is on
+  the page, so nothing imports them from `main.js`. Shared storage, events, and
   breakpoints live in `core.js` / `layout.js`; keep
   the matching CSS media queries in sync. Third-party code (MiniSearch, smart-gallery) is vendored in
   `assets/js/lib/` and imported as ESM — never load a script from a CDN at runtime.
@@ -98,9 +98,7 @@ footer. The dock, TOC panel, search dialog, and KaTeX/Mermaid assets sit outside
   landscape viewports, a bottom capsule everywhere else. `dock.js` mirrors placement into
   `aria-orientation`, updates reading progress and back-to-top, and implements toolbar arrow keys.
 - The content width is `--content-width-base` (from `contentWidth`) overridable at runtime by
-  `--content-width` (40–90rem slider, `localStorage` key `contentWidth`). On folded devices
-  `fold.js` reads `window.viewport.segments` (Chrome 138+) and sets `--fold-content-width` /
-  `--fold-margin-start`, which `base.css` applies to `#page-container`.
+  `--content-width` (40–90rem slider, `localStorage` key `contentWidth`).
 - Popovers use native `popover` plus CSS anchor positioning with fixed-position fallbacks.
 - The appearance panel is always fully available; there are no appearance/language feature flags.
   Language selection is a secondary popover rendered by `ui/language-options.html`.
